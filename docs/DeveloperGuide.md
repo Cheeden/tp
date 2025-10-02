@@ -269,7 +269,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students. 
 
 
 ### User stories

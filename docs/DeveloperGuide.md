@@ -269,7 +269,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students. 
 
 
 ### User stories
@@ -493,15 +493,47 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  Should save data automatically after every change so that no progress is lost, even if the program is closed unexpectedly.
-5.  Should start up within 3 seconds on a modern computer.
-6.  The system should be able to run offline without requiring an internet connection.
+4.  Should start up within 3 seconds on a modern computer.
+5.  The system should be able to run offline without requiring an internet connection.
+6.  The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
+7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
+8.. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability 
+9. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
+10. Commands should complete within 2 seconds for typical operations
+11. UI should remain responsive during all operations (no freezing)
+
 *{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **AddressBook**: The in-memory data model that stores contacts as `Person` objects. 
+* **CLI (Command Line Interface)**: Primary interaction mode where users type commands to carry out actions
+* **JavaFX**: A Java toolkit for building client applications with support for FXML layouts and CSS styling used for the AddressBook UI.
+* **FXML**: XML layout files (e.g., MainWindow.fxml) that define JavaFX UI structure loaded by UI classes.
+* **JSON**: Javascript object notation, a lightweight text format for structured data, used to save and load the address book and user preferences.
+* **API**: Application Programming Interface is the public contract of a component (e.g., Model) that defines callable methods and expected behavior.
+* **JAR (Java Archive)**: Packaged, executable distribution format used to ship the desktop app.
+* **PlantUML**: Tool used to create and edit UML diagrams
+
+
+* **Prefix**: Command parameter identifiers (eg n/ for name, /p for phone)
+* **Command Word**: action keyword at the start of each command (eg add, delete)
+* **Index**: the position number of a person in the displayed list, used to reference persons in commands
+ 
+* **Person**: A contact entity stored in the address book with fields such as name and phone.  
+* **Tag**: A label attached to a person for categorisation or filtering.
+ 
+* **Parser**: Converts raw user input into specific `Command` objects.  
+* **Command**: An object created by the parser that encapsulates a user action to be executed by `Logic`.  
+* **CommandResult**: The outcome returned by a `Command` after execution, shown by the UI.   
+* **Logic**: Component that parses user input, constructs `Command` objects, and coordinates execution.  
+* **Model**: Component that holds domain data in memory, including user preferences.  
+* **Storage**: Component that reads and writes persisted data on disk.  
+* **UI**: Component that renders the application window and visuals using JavaFX.  
+* **LogicManager**: Concrete implementation of the Logic interface that parses commands and coordinates execution.
+* **ObservableList**: a javaFX list that notifies listeners when its contents change, used to update the UI automatically
 
 --------------------------------------------------------------------------------------------------------------------
 

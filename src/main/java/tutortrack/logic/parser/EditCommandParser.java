@@ -9,15 +9,19 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.logic.parser.exceptions.ParseException;
+import tutortrack.model.person.LessonProgress;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -61,6 +65,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+        parseLessonProgressForEdit(argMultimap.getAllValues(PREFIX_LESSON_PROGRESS))
+                .ifPresent(editPersonDescriptor::setLessonProgressList);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
@@ -84,4 +90,25 @@ public class EditCommandParser implements Parser<EditCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
+    private Optional<List<LessonProgress>> parseLessonProgressForEdit(Collection<String> progresses) throws ParseException {
+        if (progresses.isEmpty()) {
+            return Optional.empty();
+        }
+        List<LessonProgress> lessonProgressList = new ArrayList<>();
+        for (String progressStr : progresses) {
+            // 假设格式是 "yyyy-MM-dd Progress description"
+            String[] parts = progressStr.split(" ", 2);
+            if (parts.length < 2) {
+                throw new ParseException("Lesson progress must be in format: yyyy-MM-dd description");
+            }
+            LocalDate date;
+            try {
+                date = LocalDate.parse(parts[0]);
+            } catch (Exception e) {
+                throw new ParseException("Invalid date format for lesson progress: " + parts[0]);
+            }
+            lessonProgressList.add(new LessonProgress(date, parts[1]));
+        }
+        return Optional.of(lessonProgressList);
+    }
 }

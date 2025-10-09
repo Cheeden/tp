@@ -88,11 +88,13 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-        Set<LessonProgress> updatedLessonProgresses = editPersonDescriptor.getLessonProgresses()
-            .orElse(personToEdit.getLessonProgresses())
 
-        Person editedPerson = new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
-            updatedLessonProgresses);
+        Person editedPerson = new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+
+        editPersonDescriptor.getLessonProgressList().ifPresent(list -> {
+            editedPerson.getLessonProgressList().clear();
+            editedPerson.getLessonProgressList().addAll(list);
+        });
 
         return editedPerson;
     }
@@ -131,7 +133,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
-        private Set<LessonProgress> lessonProgresses;
+        private List<LessonProgress> lessonProgressList;
 
         public EditPersonDescriptor() {}
 
@@ -145,14 +147,15 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
-            setLessonProgresses(toCopy.lessonProgresses);
+            setLessonProgressList(toCopy.lessonProgressList);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags,
+                lessonProgressList);
         }
 
         public void setName(Name name) {
@@ -204,13 +207,12 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public Optional<Set<LessonProgress>> getLessonProgresses() {
-            return (lessonProgresses != null) ? Optional.of(Collections.unmodifiableSet(lessonProgresses))
-                           : Optional.empty();
+        public void setLessonProgressList(List<LessonProgress> lessonProgressList) {
+            this.lessonProgressList = (lessonProgressList != null) ? new ArrayList<>(lessonProgressList) : null;
         }
 
-        public void setLessonProgresses(Set<LessonProgress> lessonProgresses) {
-            this.lessonProgresses = (lessonProgresses != null) ? new HashSet<>(lessonProgresses) : null;
+        public Optional<List<LessonProgress>> getLessonProgressList() {
+            return (lessonProgressList != null) ? Optional.of(Collections.unmodifiableList(lessonProgressList)) : Optional.empty();
         }
 
         @Override
@@ -230,7 +232,7 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(lessonProgresses, otherEditPersonDescriptor.lessonProgresses);
+                    && Objects.equals(lessonProgressList, otherEditPersonDescriptor.lessonProgressList);
         }
 
         @Override
@@ -240,7 +242,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
-                    .add("tags", tags).add("lessonProgress", lessonProgresses)
+                    .add("tags", tags).add("lessonProgress", lessonProgressList)
                     .toString();
         }
     }

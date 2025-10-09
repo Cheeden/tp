@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tutortrack.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static tutortrack.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static tutortrack.testutil.TypicalPersons.ALICE;
+import static tutortrack.testutil.TypicalPersons.BENSON;
 import static tutortrack.testutil.TypicalPersons.CARL;
+import static tutortrack.testutil.TypicalPersons.DANIEL;
 import static tutortrack.testutil.TypicalPersons.ELLE;
 import static tutortrack.testutil.TypicalPersons.FIONA;
 import static tutortrack.testutil.TypicalPersons.getTypicalAddressBook;
@@ -19,6 +22,7 @@ import tutortrack.model.Model;
 import tutortrack.model.ModelManager;
 import tutortrack.model.UserPrefs;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
+import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -72,6 +76,16 @@ public class FindCommandTest {
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_singleTagKeyword_multiplePersonsFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
+        TagContainsKeywordsPredicate predicate = new TagContainsKeywordsPredicate(Arrays.asList("friends"));
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredPersonList(predicate);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
     }
 
     @Test

@@ -2,7 +2,12 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.model.tag.Tag;
@@ -77,7 +82,7 @@ public class Person {
         }
 
         return otherPerson != null
-                       && otherPerson.getName().equals(getName());
+                && otherPerson.getName().equals(getName());
     }
 
     /**
@@ -97,11 +102,11 @@ public class Person {
 
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name)
-                       && phone.equals(otherPerson.phone)
-                       && email.equals(otherPerson.email)
-                       && address.equals(otherPerson.address)
-                       && tags.equals(otherPerson.tags)
-                       && lessonProgressList.equals(otherPerson.lessonProgressList);
+                && phone.equals(otherPerson.phone)
+                && email.equals(otherPerson.email)
+                && address.equals(otherPerson.address)
+                && tags.equals(otherPerson.tags)
+                && lessonProgressList.equals(otherPerson.lessonProgressList);
     }
 
     @Override
@@ -113,13 +118,13 @@ public class Person {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                       .add("name", name)
-                       .add("phone", phone)
-                       .add("email", email)
-                       .add("address", address)
-                       .add("tags", tags)
-                       .add("lesson progress", lessonProgressList)
-                       .toString();
+                .add("name", name)
+                .add("phone", phone)
+                .add("email", email)
+                .add("address", address)
+                .add("tags", tags)
+                .add("lesson progress", lessonProgressList)
+                .toString();
     }
 
 }

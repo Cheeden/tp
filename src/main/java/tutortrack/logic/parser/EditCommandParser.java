@@ -4,18 +4,18 @@ import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditCommand;
@@ -90,7 +90,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
 
-    private Optional<List<LessonProgress>> parseLessonProgressForEdit(Collection<String> progresses) throws ParseException {
+    private Optional<List<LessonProgress>> parseLessonProgressForEdit(Collection<String> progresses)
+        throws ParseException {
         if (progresses.isEmpty()) {
             return Optional.empty();
         }

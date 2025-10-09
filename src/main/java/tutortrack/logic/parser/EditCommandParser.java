@@ -7,6 +7,7 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +33,8 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
+                    PREFIX_LESSON_PROGRESS);
 
         Index index;
 

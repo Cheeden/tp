@@ -1,19 +1,10 @@
 package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
+import static tutortrack.logic.parser.CliSyntax.*;
 import static tutortrack.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.CollectionUtil;
@@ -21,11 +12,7 @@ import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
-import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
-import tutortrack.model.person.Name;
-import tutortrack.model.person.Person;
-import tutortrack.model.person.Phone;
+import tutortrack.model.person.*;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -43,7 +30,8 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_TAG + "TAG]..."
+            + "[" + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -100,8 +88,13 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Set<LessonProgress> updatedLessonProgresses = editPersonDescriptor.getLessonProgresses()
+            .orElse(personToEdit.getLessonProgresses())
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        Person editedPerson = new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
+            updatedLessonProgresses);
+
+        return editedPerson;
     }
 
     @Override
@@ -138,6 +131,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private Set<LessonProgress> lessonProgresses;
 
         public EditPersonDescriptor() {}
 
@@ -151,6 +145,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setLessonProgresses(toCopy.lessonProgresses);
         }
 
         /**
@@ -209,6 +204,15 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public Optional<Set<LessonProgress>> getLessonProgresses() {
+            return (lessonProgresses != null) ? Optional.of(Collections.unmodifiableSet(lessonProgresses))
+                           : Optional.empty();
+        }
+
+        public void setLessonProgresses(Set<LessonProgress> lessonProgresses) {
+            this.lessonProgresses = (lessonProgresses != null) ? new HashSet<>(lessonProgresses) : null;
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -225,7 +229,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(lessonProgresses, otherEditPersonDescriptor.lessonProgresses);
         }
 
         @Override
@@ -235,7 +240,7 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
-                    .add("tags", tags)
+                    .add("tags", tags).add("lessonProgress", lessonProgresses)
                     .toString();
         }
     }

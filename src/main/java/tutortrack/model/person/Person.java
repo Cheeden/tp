@@ -2,12 +2,12 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.List;
-import java.util.Set;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.model.tag.Tag;

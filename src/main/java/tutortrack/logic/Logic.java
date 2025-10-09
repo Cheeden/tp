@@ -7,8 +7,8 @@ import tutortrack.commons.core.GuiSettings;
 import tutortrack.logic.commands.CommandResult;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.ReadOnlyAddressBook;
 import tutortrack.model.Model;
+import tutortrack.model.ReadOnlyAddressBook;
 import tutortrack.model.person.Person;
 
 /**

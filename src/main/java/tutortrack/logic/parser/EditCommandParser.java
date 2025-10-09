@@ -9,11 +9,11 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -91,7 +91,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     }
 
     private Optional<List<LessonProgress>> parseLessonProgressForEdit(Collection<String> progresses)
-        throws ParseException {
+            throws ParseException {
         if (progresses.isEmpty()) {
             return Optional.empty();
         }

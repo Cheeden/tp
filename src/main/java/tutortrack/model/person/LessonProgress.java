@@ -1,8 +1,10 @@
 package tutortrack.model.person;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
+/**
+ * Represents the lesson progress of a person in the address book.
+ */
 public class LessonProgress {
     private final LocalDate date;
     private final String progress;

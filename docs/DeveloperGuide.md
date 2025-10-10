@@ -155,6 +155,22 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Find feature
+
+The find feature allows users to search for persons by name (default) or by tags (with `t/` prefix).
+
+#### Implementation
+
+The find mechanism is implemented using predicates:
+* `NameContainsKeywordsPredicate` - filters persons whose names match the keywords
+* `TagContainsKeywordsPredicate` - filters persons whose tags match the keywords
+
+The `FindCommandParser` detects the presence of the `t/` prefix using `ArgumentTokenizer`:
+* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate`
+* If `t/` prefix is absent, it creates a `FindCommand` with `NameContainsKeywordsPredicate` (default behavior)
+
+Both predicates implement `Predicate<Person>` and use case-insensitive full-word matching via `StringUtil.containsWordIgnoreCase()`.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -269,7 +285,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students. 
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students.
 
 
 ### User stories
@@ -330,14 +346,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2b. Any parameter is missing or invalid
 
     * 2b1. TutorTrack shows specific error messages, e.g.:
-       * Missing subject → “Missing parameter: subject is required.” 
-       * Invalid subject → “Invalid subject format. Use <subject-level>, e.g., math-primary4.” 
-       * Missing name → “Missing parameter: name is required.” 
-       * Invalid name → “Name must not contain digits or special characters except hyphens.” 
-       * Duplicate parameter → “Duplicate parameter: <parameter-name> specified more than once.” 
+       * Missing subject → “Missing parameter: subject is required.”
+       * Invalid subject → “Invalid subject format. Use <subject-level>, e.g., math-primary4.”
+       * Missing name → “Missing parameter: name is required.”
+       * Invalid name → “Name must not contain digits or special characters except hyphens.”
+       * Duplicate parameter → “Duplicate parameter: <parameter-name> specified more than once.”
        * Missing contact → “Missing parameter: contact is required.”
-       * Invalid contact → “Contact must be an 8-digit number.” 
-       * Missing address → “Address cannot be empty.” 
+       * Invalid contact → “Contact must be an 8-digit number.”
+       * Missing address → “Address cannot be empty.”
        * Missing/invalid daytime → “Day must be full name (e.g., Tuesday).” or “Time must be between 0000 and 2359.”
 
       Use case ends.
@@ -379,7 +395,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-**Use case: find a student by name**
+**Use case: find a student by name or tag**
 
 **MSS**
 
@@ -434,7 +450,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2b. Subject format is invalid
 
     * 2b1. TutorTrack shows error message:
-      * Missing hyphen → “Invalid subject format. Use <subject-level>, e.g., Math-Primary4.” 
+      * Missing hyphen → “Invalid subject format. Use <subject-level>, e.g., Math-Primary4.”
       * Non-alphanumeric level → “Subject level must only contain letters/numbers.”
 
       Use case ends.
@@ -475,7 +491,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2c. Invalid date format
 
     * 2c1. TutorTrack shows error message:
-      * “Invalid date in from/: use dd-MM-yyyy, or dd/MM/yyyy.” 
+      * “Invalid date in from/: use dd-MM-yyyy, or dd/MM/yyyy.”
       * “Invalid date in to/: use dd-MM-yyyy, or dd/MM/yyyy.”
 
       Use case ends.
@@ -497,7 +513,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 5.  The system should be able to run offline without requiring an internet connection.
 6.  The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
 7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
-8.. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability 
+8.. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability
 9. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
 10. Commands should complete within 2 seconds for typical operations
 11. UI should remain responsive during all operations (no freezing)
@@ -508,7 +524,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
-* **AddressBook**: The in-memory data model that stores contacts as `Person` objects. 
+* **AddressBook**: The in-memory data model that stores contacts as `Person` objects.
 * **CLI (Command Line Interface)**: Primary interaction mode where users type commands to carry out actions
 * **JavaFX**: A Java toolkit for building client applications with support for FXML layouts and CSS styling used for the AddressBook UI.
 * **FXML**: XML layout files (e.g., MainWindow.fxml) that define JavaFX UI structure loaded by UI classes.
@@ -521,17 +537,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Prefix**: Command parameter identifiers (eg n/ for name, /p for phone)
 * **Command Word**: action keyword at the start of each command (eg add, delete)
 * **Index**: the position number of a person in the displayed list, used to reference persons in commands
- 
-* **Person**: A contact entity stored in the address book with fields such as name and phone.  
+
+* **Person**: A contact entity stored in the address book with fields such as name and phone.
 * **Tag**: A label attached to a person for categorisation or filtering.
- 
-* **Parser**: Converts raw user input into specific `Command` objects.  
-* **Command**: An object created by the parser that encapsulates a user action to be executed by `Logic`.  
-* **CommandResult**: The outcome returned by a `Command` after execution, shown by the UI.   
-* **Logic**: Component that parses user input, constructs `Command` objects, and coordinates execution.  
-* **Model**: Component that holds domain data in memory, including user preferences.  
-* **Storage**: Component that reads and writes persisted data on disk.  
-* **UI**: Component that renders the application window and visuals using JavaFX.  
+* **Predicate**: A functional interface that tests a condition on a `Person` object, used for filtering the person list.
+
+* **Parser**: Converts raw user input into specific `Command` objects.
+* **Command**: An object created by the parser that encapsulates a user action to be executed by `Logic`.
+* **CommandResult**: The outcome returned by a `Command` after execution, shown by the UI.
+* **Logic**: Component that parses user input, constructs `Command` objects, and coordinates execution.
+* **Model**: Component that holds domain data in memory, including user preferences.
+* **Storage**: Component that reads and writes persisted data on disk.
+* **UI**: Component that renders the application window and visuals using JavaFX.
 * **LogicManager**: Concrete implementation of the Logic interface that parses commands and coordinates execution.
 * **ObservableList**: a javaFX list that notifies listeners when its contents change, used to update the UI automatically
 

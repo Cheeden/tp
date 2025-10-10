@@ -24,19 +24,21 @@ public class Person {
     // Data fields
     private final String subjectLevel;
     private final String dayTime;
+    private final String cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, String subjectLevel, String dayTime, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, subjectLevel, dayTime, address, tags);
+    public Person(Name name, Phone phone, Email email, String subjectLevel, String dayTime, String cost, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, subjectLevel, dayTime, cost, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
+        this.cost = cost;
         this.address = address;
         this.tags.addAll(tags);
     }
@@ -60,6 +62,8 @@ public class Person {
     public String getDayTime() {
         return dayTime;
     }
+
+    public String getCost() { return cost; }
 
     public Address getAddress() {
         return address;
@@ -114,7 +118,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, subjectLevel, dayTime, address, tags);
+        return Objects.hash(name, phone, email, subjectLevel, dayTime, cost, address, tags);
     }
 
     @Override
@@ -125,6 +129,7 @@ public class Person {
                 .add("email", email)
                 .add("subjectLevel", subjectLevel)
                 .add("dayTime", dayTime)
+                .add("cost", cost)
                 .add("address", address)
                 .add("tags", tags)
                 .toString();

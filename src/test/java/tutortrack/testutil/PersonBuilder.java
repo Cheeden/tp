@@ -19,11 +19,15 @@ public class PersonBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
+    public static final String DEFAULT_SUBJECTLEVEL = "P4-Math";
+    public static final String DEFAULT_DAYTIME = "Monday 1200";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
 
     private Name name;
     private Phone phone;
     private Email email;
+    private String subjectLevel;
+    private String dayTime;
     private Address address;
     private Set<Tag> tags;
 
@@ -34,6 +38,8 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
+        subjectLevel = DEFAULT_SUBJECTLEVEL;
+        dayTime = DEFAULT_DAYTIME;
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
     }
@@ -45,6 +51,8 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
+        subjectLevel = personToCopy.getSubjectLevel();;
+        dayTime = personToCopy.getDayTime();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
     }
@@ -89,8 +97,18 @@ public class PersonBuilder {
         return this;
     }
 
+    public PersonBuilder withSubjectLevel(String subjectLevel) {
+        this.subjectLevel = subjectLevel;
+        return this;
+    }
+
+    public PersonBuilder withDayTime(String dayTime) {
+        this.dayTime = dayTime;
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, subjectLevel, dayTime, address, tags);
     }
 
 }

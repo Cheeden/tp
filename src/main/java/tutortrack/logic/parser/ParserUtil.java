@@ -96,6 +96,51 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String subjectLevel}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given subjectLevel is invalid.
+     */
+    public static String parseSubjectLevel(String subjectLevel) throws ParseException {
+        requireNonNull(subjectLevel);
+        String trimmedSubjectLevel = subjectLevel.trim();
+        if (!Name.isValidName(trimmedSubjectLevel)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return trimmedSubjectLevel;
+    }
+
+    /**
+     * Parses a {@code String dayTime}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given dayTime is invalid.
+     */
+    public static String parseDayTime(String dayTime) throws ParseException {
+        requireNonNull(dayTime);
+        String trimmedDayTime = dayTime.trim();
+        if (!Name.isValidName(trimmedDayTime)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return trimmedDayTime;
+    }
+
+    /**
+     * Parses a {@code String subjectLevel}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given subjectLevel is invalid.
+     */
+    public static String parseCost(String cost) throws ParseException {
+        requireNonNull(cost);
+        String trimmedCost = cost.trim();
+        if (!Name.isValidName(trimmedCost)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return trimmedCost;
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *

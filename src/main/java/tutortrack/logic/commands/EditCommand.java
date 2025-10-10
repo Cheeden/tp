@@ -2,9 +2,12 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -42,6 +45,9 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL] "
+            + "[" + PREFIX_DAYTIME + "DAYTIME] "
+            + "[" + PREFIX_COST + "COST] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -98,10 +104,14 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+        String updatedSubjectLevel = editPersonDescriptor.getSubjectLevel().orElse(personToEdit.getSubjectLevel());
+        String updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
+        String updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedSubjectLevel,
+                updatedDayTime, updatedCost, updatedAddress, updatedTags);
     }
 
     @Override
@@ -136,6 +146,9 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private Email email;
+        private String subjectLevel;
+        private String dayTime;
+        private String cost;
         private Address address;
         private Set<Tag> tags;
 
@@ -149,6 +162,9 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
+            setSubjectLevel(toCopy.subjectLevel);
+            setDayTime(toCopy.dayTime);
+            setCost(toCopy.cost);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
         }
@@ -157,7 +173,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, subjectLevel, dayTime, cost, address, tags);
         }
 
         public void setName(Name name) {
@@ -182,6 +198,26 @@ public class EditCommand extends Command {
 
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
+        }
+
+        public void setSubjectLevel(String subjectLevel) {
+            this.subjectLevel = subjectLevel;
+        }
+
+        public Optional<String> getSubjectLevel() { return Optional.ofNullable(subjectLevel); }
+
+        public void setDayTime(String dayTime) {
+            this.dayTime = dayTime;
+        }
+
+        public Optional<String> getDayTime() { return Optional.ofNullable(dayTime); }
+
+        public void setCost(String cost) {
+            this.cost = cost;
+        }
+
+        public Optional<String> getCost() {
+            return Optional.ofNullable(cost);
         }
 
         public void setAddress(Address address) {
@@ -224,6 +260,9 @@ public class EditCommand extends Command {
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
+                    && Objects.equals(subjectLevel, otherEditPersonDescriptor.subjectLevel)
+                    && Objects.equals(dayTime, otherEditPersonDescriptor.dayTime)
+                    && Objects.equals(cost, otherEditPersonDescriptor.cost)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
@@ -234,6 +273,9 @@ public class EditCommand extends Command {
                     .add("name", name)
                     .add("phone", phone)
                     .add("email", email)
+                    .add("subjectLevel", subjectLevel)
+                    .add("dayTime", dayTime)
+                    .add("cost", cost)
                     .add("address", address)
                     .add("tags", tags)
                     .toString();

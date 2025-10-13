@@ -101,16 +101,25 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code SubjectLevel} of the {@code Person} that we are building.
+     */
     public PersonBuilder withSubjectLevel(String subjectLevel) {
         this.subjectLevel = subjectLevel;
         return this;
     }
 
+    /**
+     * Sets the {@code DayTime} of the {@code Person} that we are building.
+     */
     public PersonBuilder withDayTime(String dayTime) {
         this.dayTime = dayTime;
         return this;
     }
 
+    /**
+     * Sets the {@code Cost} of the {@code Person} that we are building.
+     */
     public PersonBuilder withCost(String cost) {
         this.cost = cost;
         return this;

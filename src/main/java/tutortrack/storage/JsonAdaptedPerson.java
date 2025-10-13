@@ -39,8 +39,8 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("subjectLevel") String subjectLevel,
-            @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
+            @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -128,7 +128,8 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelSubjectLevel, modelDayTime, modelCost, modelAddress, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelSubjectLevel, modelDayTime,
+                modelCost, modelAddress, modelTags);
     }
 
 }

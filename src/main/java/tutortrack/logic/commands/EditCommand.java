@@ -115,7 +115,7 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         Person editedPerson = new Person(updatedName, updatedPhone, updatedEmail, updatedSubjectLevel,
-                updatedDayTime, updatedCost, updatedAddress, updatedTags);        
+                updatedDayTime, updatedCost, updatedAddress, updatedTags);
 
         editPersonDescriptor.getLessonProgressList().ifPresent(list -> {
             editedPerson.getLessonProgressList().clear();

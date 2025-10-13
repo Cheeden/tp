@@ -97,7 +97,6 @@ public class PersonTest {
                 + ", dayTime=" + ALICE.getDayTime() + ", cost=" + ALICE.getCost()
                 + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
                 + ", lesson progress=" + ALICE.getLessonProgressList() + "}";
-        
         assertEquals(expected, ALICE.toString());
     }
 }

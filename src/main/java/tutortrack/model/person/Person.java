@@ -2,8 +2,10 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,6 +29,7 @@ public class Person {
     private final String cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final List<LessonProgress> lessonProgressList = new ArrayList<>();
 
     /**
      * Every field must be present and not null.
@@ -77,6 +80,14 @@ public class Person {
         return Collections.unmodifiableSet(tags);
     }
 
+    public void addLessonProgress(LessonProgress lp) {
+        lessonProgressList.add(lp);
+    }
+
+    public List<LessonProgress> getLessonProgressList() {
+        return lessonProgressList;
+    }
+
     /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
@@ -112,13 +123,14 @@ public class Person {
                 && subjectLevel.equals(otherPerson.subjectLevel)
                 && dayTime.equals(otherPerson.dayTime)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && lessonProgressList.equals(otherPerson.lessonProgressList);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, subjectLevel, dayTime, cost, address, tags);
+        return Objects.hash(name, phone, email, subjectLevel, dayTime, cost, address, tags, lessonProgressList);
     }
 
     @Override
@@ -132,6 +144,7 @@ public class Person {
                 .add("cost", cost)
                 .add("address", address)
                 .add("tags", tags)
+                .add("lesson progress", lessonProgressList)
                 .toString();
     }
 

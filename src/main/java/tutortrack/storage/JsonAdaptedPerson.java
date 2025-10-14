@@ -27,6 +27,9 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String email;
+    private final String subjectLevel;
+    private final String dayTime;
+    private final String cost;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
@@ -35,11 +38,15 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("email") String email, @JsonProperty("subjectLevel") String subjectLevel,
+            @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
+            @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.subjectLevel = subjectLevel;
+        this.dayTime = dayTime;
+        this.cost = cost;
         this.address = address;
         if (tags != null) {
             this.tags.addAll(tags);
@@ -53,6 +60,9 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
+        subjectLevel = source.getSubjectLevel();
+        dayTime = source.getDayTime();
+        cost = source.getCost();
         address = source.getAddress().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -94,6 +104,21 @@ class JsonAdaptedPerson {
         }
         final Email modelEmail = new Email(email);
 
+        if (subjectLevel == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "SubjectLevel"));
+        }
+        final String modelSubjectLevel = subjectLevel;
+
+        if (dayTime == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "DayTime"));
+        }
+        final String modelDayTime = dayTime;
+
+        if (cost == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "cost"));
+        }
+        final String modelCost = cost;
+
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
         }
@@ -103,7 +128,8 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelSubjectLevel, modelDayTime,
+                modelCost, modelAddress, modelTags);
     }
 
 }

@@ -3,10 +3,13 @@ package tutortrack.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.time.LocalDate;
@@ -37,8 +40,8 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
-                    PREFIX_LESSON_PROGRESS);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_SUBJECTLEVEL,
+                        PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_LESSON_PROGRESS);
 
         Index index;
 
@@ -48,7 +51,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
@@ -60,6 +64,16 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
             editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+        }
+        if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
+            editPersonDescriptor.setSubjectLevel(ParserUtil.parseSubjectLevel(argMultimap
+                    .getValue(PREFIX_SUBJECTLEVEL).get()));
+        }
+        if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
+            editPersonDescriptor.setDayTime(ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get()));
+        }
+        if (argMultimap.getValue(PREFIX_COST).isPresent()) {
+            editPersonDescriptor.setCost(ParserUtil.parseCost(argMultimap.getValue(PREFIX_COST).get()));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));

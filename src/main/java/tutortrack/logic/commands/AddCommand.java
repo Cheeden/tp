@@ -2,9 +2,12 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import tutortrack.commons.util.ToStringBuilder;
@@ -25,12 +28,18 @@ public class AddCommand extends Command {
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
+            + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL "
+            + PREFIX_DAYTIME + "DAYTIME "
+            + PREFIX_COST + "COST "
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
+            + PREFIX_SUBJECTLEVEL + "p4-math "
+            + PREFIX_DAYTIME + "Tuesday 1200 "
+            + PREFIX_COST + "$50 "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";

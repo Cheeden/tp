@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tutortrack.logic.commands.CommandTestUtil.DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEl_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
@@ -52,6 +55,18 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
+        // different subjectLevel -> returns false
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withSubjectLevel(VALID_SUBJECTLEVEl_BOB).build();
+        assertFalse(DESC_AMY.equals(editedAmy));
+
+        // different dayTime -> returns false
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withDayTime(VALID_DAYTIME_BOB).build();
+        assertFalse(DESC_AMY.equals(editedAmy));
+
+        // different cost -> returns true
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withCost(VALID_COST_BOB).build();
+        assertTrue(DESC_AMY.equals(editedAmy));
+
         // different tags -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
@@ -63,7 +78,10 @@ public class EditPersonDescriptorTest {
         String expected = EditPersonDescriptor.class.getCanonicalName() + "{name="
                 + editPersonDescriptor.getName().orElse(null) + ", phone="
                 + editPersonDescriptor.getPhone().orElse(null) + ", email="
-                + editPersonDescriptor.getEmail().orElse(null) + ", address="
+                + editPersonDescriptor.getEmail().orElse(null) + ", subjectLevel="
+                + editPersonDescriptor.getSubjectLevel().orElse(null) + ", dayTime="
+                + editPersonDescriptor.getDayTime().orElse(null) + ", cost="
+                + editPersonDescriptor.getCost().orElse(null) + ", address="
                 + editPersonDescriptor.getAddress().orElse(null) + ", tags="
                 + editPersonDescriptor.getTags().orElse(null) + ", lessonProgress="
                 + editPersonDescriptor.getLessonProgressList().orElse(null) + "}";

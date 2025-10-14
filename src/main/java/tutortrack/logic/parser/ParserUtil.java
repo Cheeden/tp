@@ -96,6 +96,39 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String subjectLevel}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     */
+    public static String parseSubjectLevel(String subjectLevel) {
+        requireNonNull(subjectLevel);
+        String trimmedSubjectLevel = subjectLevel.trim();
+        return trimmedSubjectLevel;
+    }
+
+    /**
+     * Parses a {@code String dayTime}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     */
+    public static String parseDayTime(String dayTime) {
+        requireNonNull(dayTime);
+        String trimmedDayTime = dayTime.trim();
+        return trimmedDayTime;
+    }
+
+    /**
+     * Parses a {@code String subjectLevel}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     */
+    public static String parseCost(String cost) {
+        requireNonNull(cost);
+        String trimmedCost = cost.trim();
+        return trimmedCost;
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *

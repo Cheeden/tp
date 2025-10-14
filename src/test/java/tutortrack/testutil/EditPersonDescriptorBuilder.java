@@ -35,6 +35,9 @@ public class EditPersonDescriptorBuilder {
         descriptor.setName(person.getName());
         descriptor.setPhone(person.getPhone());
         descriptor.setEmail(person.getEmail());
+        descriptor.setSubjectLevel(person.getSubjectLevel());
+        descriptor.setDayTime(person.getDayTime());
+        descriptor.setCost(person.getCost());
         descriptor.setAddress(person.getAddress());
         descriptor.setTags(person.getTags());
     }
@@ -60,6 +63,30 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withEmail(String email) {
         descriptor.setEmail(new Email(email));
+        return this;
+    }
+
+    /**
+     * Sets the {@code SubjectLevel} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withSubjectLevel(String subjectLevel) {
+        descriptor.setSubjectLevel(subjectLevel);
+        return this;
+    }
+
+    /**
+     * Sets the {@code dayTime} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withDayTime(String dayTime) {
+        descriptor.setDayTime(dayTime);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Cost} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withCost(String cost) {
+        descriptor.setCost(cost);
         return this;
     }
 

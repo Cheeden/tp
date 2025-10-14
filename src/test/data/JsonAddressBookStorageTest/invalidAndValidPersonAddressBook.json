@@ -3,11 +3,17 @@
     "name": "Valid Person",
     "phone": "9482424",
     "email": "hans@example.com",
+    "subjectLevel": "P4-Math",
+    "dayTime": "Monday 1200",
+    "cost": "$50",
     "address": "4th street"
   }, {
     "name": "Person With Invalid Phone Field",
     "phone": "948asdf2424",
     "email": "hans@example.com",
+    "subjectLevel": "P5-Math",
+    "dayTime": "Tuesday 1300",
+    "cost": "$60",
     "address": "4th street"
   } ]
 }

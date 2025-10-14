@@ -54,7 +54,7 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
-        subjectLevel = personToCopy.getSubjectLevel();;
+        subjectLevel = personToCopy.getSubjectLevel();
         dayTime = personToCopy.getDayTime();
         cost = personToCopy.getCost();
         address = personToCopy.getAddress();

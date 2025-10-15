@@ -1,14 +1,14 @@
 package tutortrack.logic.parser;
 
+import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
+
 import java.util.stream.Stream;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.AddProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
-
-import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 
 /**
  * Parses input arguments and creates a new AddCommand object

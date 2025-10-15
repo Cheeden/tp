@@ -1,8 +1,7 @@
 {
   "persons": [ {
-    "name": "Hans Muster",
+    "name": "H!ans Muster",
     "phone": "9482424",
-    "email": "invalid@email!3e",
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
     "cost": "$50",

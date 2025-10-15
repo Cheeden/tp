@@ -2,7 +2,6 @@ package tutortrack.testutil;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;

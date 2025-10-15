@@ -8,7 +8,6 @@ import static tutortrack.logic.commands.CommandTestUtil.DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEl_BOB;
@@ -47,10 +46,6 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different email -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
-
         // different address -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
@@ -77,8 +72,7 @@ public class EditPersonDescriptorTest {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         String expected = EditPersonDescriptor.class.getCanonicalName() + "{name="
                 + editPersonDescriptor.getName().orElse(null) + ", phone="
-                + editPersonDescriptor.getPhone().orElse(null) + ", email="
-                + editPersonDescriptor.getEmail().orElse(null) + ", subjectLevel="
+                + editPersonDescriptor.getPhone().orElse(null) + ", subjectLevel="
                 + editPersonDescriptor.getSubjectLevel().orElse(null) + ", dayTime="
                 + editPersonDescriptor.getDayTime().orElse(null) + ", cost="
                 + editPersonDescriptor.getCost().orElse(null) + ", address="

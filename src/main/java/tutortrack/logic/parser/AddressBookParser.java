@@ -17,6 +17,7 @@ import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.commands.HelpCommand;
 import tutortrack.logic.commands.ListCommand;
+import tutortrack.logic.commands.ViewLessonProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 
 /**
@@ -76,6 +77,9 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+
+        case ViewLessonProgressCommand.COMMAND_WORD:
+            return new ViewLessonProgressCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

@@ -61,7 +61,9 @@ public class Person {
         return dayTime;
     }
 
-    public String getCost() { return cost; }
+    public String getCost() {
+        return cost;
+    }
 
     public Address getAddress() {
         return address;

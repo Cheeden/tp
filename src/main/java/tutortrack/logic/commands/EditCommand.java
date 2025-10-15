@@ -203,13 +203,17 @@ public class EditCommand extends Command {
             this.subjectLevel = subjectLevel;
         }
 
-        public Optional<String> getSubjectLevel() { return Optional.ofNullable(subjectLevel); }
+        public Optional<String> getSubjectLevel() {
+            return Optional.ofNullable(subjectLevel);
+        }
 
         public void setDayTime(String dayTime) {
             this.dayTime = dayTime;
         }
 
-        public Optional<String> getDayTime() { return Optional.ofNullable(dayTime); }
+        public Optional<String> getDayTime() {
+            return Optional.ofNullable(dayTime);
+        }
 
         public void setCost(String cost) {
             this.cost = cost;

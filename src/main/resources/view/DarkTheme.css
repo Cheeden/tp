@@ -121,13 +121,27 @@
 }
 
 .cell_big_label {
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Inter";
     -fx-font-size: 16px;
     -fx-text-fill: #010504;
 }
 
 .cell_small_label {
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-text-fill: #010504;
+}
+
+.field_label {
+    -fx-font-family: "Inter";
+    -fx-font-size: 13px;
+    -fx-text-fill: #6b7280;
+    -fx-opacity: 0.9;
+    -fx-padding: 0 5 0 20;
+}
+
+.field_value {
+    -fx-font-family: "Inter";
     -fx-font-size: 13px;
     -fx-text-fill: #010504;
 }
@@ -318,14 +332,17 @@
 }
 
 #commandTextField {
-    -fx-background-color: transparent #383838 transparent #383838;
+    -fx-background-color: #2d2d2d;
     -fx-background-insets: 0;
     -fx-border-color: #383838 #383838 #ffffff #383838;
     -fx-border-insets: 0;
-    -fx-border-width: 1;
-    -fx-font-family: "Segoe UI Light";
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
+    -fx-padding: 6;
 }
 
 #filterField, #personListPanel, #personWebpage {
@@ -345,8 +362,8 @@
 #tags .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
+    -fx-padding: 2 7 2 7;
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
     -fx-font-size: 11;
 }

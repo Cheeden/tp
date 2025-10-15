@@ -49,6 +49,24 @@ public class AddProgressCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
+        Person personToEdit = lastShownList.get(index.getZeroBased());
+
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getSubjectLevel(),
+                personToEdit.getDayTime(),
+                personToEdit.getCost(),
+                personToEdit.getAddress(),
+                personToEdit.getTags()
+        );
+
+        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
+
+        editedPerson.getLessonProgressList().add(toAdd);
+
+        model.setPerson(personToEdit, editedPerson);
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

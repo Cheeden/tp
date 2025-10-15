@@ -23,7 +23,7 @@ import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.person.LessonProgress;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.tag.Tag;
 
 /**

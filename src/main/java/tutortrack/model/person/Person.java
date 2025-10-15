@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import tutortrack.commons.util.ToStringBuilder;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.tag.Tag;
 
 /**

@@ -17,6 +17,7 @@ import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.commands.HelpCommand;
 import tutortrack.logic.commands.ListCommand;
+import tutortrack.logic.commands.AddProgressCommand;
 import tutortrack.logic.commands.ViewLessonProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 

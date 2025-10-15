@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tutortrack.commons.exceptions.IllegalValueException;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
@@ -30,6 +31,7 @@ class JsonAdaptedPerson {
     private final String cost;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedLessonProgress> lessonProgressList = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -38,7 +40,8 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("subjectLevel") String subjectLevel,
             @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
-            @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags,
+                             @JsonProperty("lessonProgressList") List<JsonAdaptedLessonProgress> lessonProgressList) {
         this.name = name;
         this.phone = phone;
         this.subjectLevel = subjectLevel;
@@ -47,6 +50,9 @@ class JsonAdaptedPerson {
         this.address = address;
         if (tags != null) {
             this.tags.addAll(tags);
+        }
+        if (lessonProgressList != null) {
+            this.lessonProgressList.addAll(lessonProgressList);
         }
     }
 
@@ -63,6 +69,9 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        lessonProgressList.addAll(source.getLessonProgressList().stream()
+                .map(JsonAdaptedLessonProgress::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -74,6 +83,11 @@ class JsonAdaptedPerson {
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
             personTags.add(tag.toModelType());
+        }
+
+        final List<LessonProgress> modelLessonProgress = new ArrayList<>();
+        for (JsonAdaptedLessonProgress lp : lessonProgressList) {
+            modelLessonProgress.add(lp.toModelType());
         }
 
         if (name == null) {
@@ -116,8 +130,13 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelSubjectLevel, modelDayTime,
+
+        Person person = new Person(modelName, modelPhone, modelSubjectLevel, modelDayTime,
                 modelCost, modelAddress, modelTags);
+
+        person.getLessonProgressList().addAll(modelLessonProgress);
+
+        return person;
     }
 
 }

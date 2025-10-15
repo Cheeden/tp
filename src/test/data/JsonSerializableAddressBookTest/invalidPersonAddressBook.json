@@ -5,6 +5,7 @@
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
     "cost": "$50",
-    "address": "4th street"
+    "address": "4th street",
+    "lessonProgress" : "2025-10-16|Covered chapter 1"
   } ]
 }

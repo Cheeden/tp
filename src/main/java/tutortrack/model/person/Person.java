@@ -120,14 +120,13 @@ public class Person {
                 && subjectLevel.equals(otherPerson.subjectLevel)
                 && dayTime.equals(otherPerson.dayTime)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags)
-                && lessonProgressList.equals(otherPerson.lessonProgressList);
+                && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags, lessonProgressList);
+        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags);
     }
 
     @Override

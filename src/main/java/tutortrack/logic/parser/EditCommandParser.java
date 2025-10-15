@@ -108,9 +108,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         List<LessonProgress> lessonProgressList = new ArrayList<>();
         for (String progressStr : progresses) {
             // 假设格式是 "yyyy-MM-dd Progress description"
-            String[] parts = progressStr.split(" ", 2);
+            String[] parts = progressStr.split("\\|", 2);
             if (parts.length < 2) {
-                throw new ParseException("Lesson progress must be in format: yyyy-MM-dd description");
+                throw new ParseException("Lesson progress must be in format: yyyy-MM-dd|description");
             }
             LocalDate date;
             try {

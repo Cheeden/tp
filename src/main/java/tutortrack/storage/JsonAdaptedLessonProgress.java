@@ -3,6 +3,7 @@ package tutortrack.storage;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.lesson.LessonProgress;
@@ -21,7 +22,7 @@ public class JsonAdaptedLessonProgress {
      * Constructs a {@code JsonAdaptedLessonProgress} with the given {@code date and progress}.
      */
     @JsonCreator
-    public JsonAdaptedLessonProgress(String date, String progress) {
+    public JsonAdaptedLessonProgress(@JsonProperty("date") String date, @JsonProperty("progress") String progress) {
         this.date = date;
         this.progress = progress;
     }

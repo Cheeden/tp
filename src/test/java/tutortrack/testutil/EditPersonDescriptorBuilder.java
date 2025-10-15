@@ -103,7 +103,7 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
-     * Parses the {@code lesson progresses} into a arraylist and set it to the {@code EditPersonDescriptor}
+     * Parses the {@code lesson progresses} into an arraylist and set it to the {@code EditPersonDescriptor}
      * that we are building.
      */
     public EditPersonDescriptorBuilder withLessonProgresses(LessonProgress... lessonProgresses) {

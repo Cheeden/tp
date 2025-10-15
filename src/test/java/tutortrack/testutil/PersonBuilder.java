@@ -55,6 +55,7 @@ public class PersonBuilder {
             String desc = parts[1].trim();
             lessonProgressList.add(new LessonProgress(date, desc));
         } catch (Exception e) {
+            System.err.println("Warning: failed to parse default lesson progress. Using empty list.");
         }
     }
 
@@ -69,7 +70,10 @@ public class PersonBuilder {
         cost = personToCopy.getCost();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
-        lessonProgressList = null;
+        lessonProgressList = new ArrayList<>();
+        if (personToCopy.getLessonProgressList() != null) {
+            lessonProgressList.addAll(personToCopy.getLessonProgressList());
+        }
     }
 
     /**
@@ -151,5 +155,4 @@ public class PersonBuilder {
         person.getLessonProgressList().addAll(lessonProgressList);
         return person;
     }
-
 }

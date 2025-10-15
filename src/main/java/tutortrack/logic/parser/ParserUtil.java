@@ -144,7 +144,7 @@ public class ParserUtil {
      * Parses a {@code String lesson progress}.
      * Leading and trailing whitespaces will be trimmed.
      */
-    public static LessonProgress parseLessonProgress(String input) throws ParseException{
+    public static LessonProgress parseLessonProgress(String input) throws ParseException {
         requireNonNull(input);
         String[] parts = input.split("\\|", 2);
 

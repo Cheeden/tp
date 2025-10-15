@@ -2,7 +2,6 @@
   "persons": [ {
     "name": "Person with invalid name field: Ha!ns Mu@ster",
     "phone": "9482424",
-    "email": "hans@example.com",
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
     "cost": "$50",

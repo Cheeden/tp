@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,13 +29,38 @@
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
       </HBox>
-      <FlowPane fx:id="tags" />
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
-      <Label fx:id="subjectLevel" styleClass="cell_small_label" />
-      <Label fx:id="dayTime" styleClass="cell_small_label" />
-      <Label fx:id="cost" styleClass="cell_small_label" />
+      <HBox spacing="0" alignment="CENTER_LEFT">
+        <Label text="Contact:" styleClass="field_label" />
+        <Label fx:id="phone" styleClass="field_value" text="\$phone" />
+      </HBox>
+      <HBox spacing="0" alignment="CENTER_LEFT">
+        <Label text="Time:" styleClass="field_label" />
+        <Label fx:id="dayTime" styleClass="field_value" />
+      </HBox>
+      <HBox spacing="0" alignment="CENTER_LEFT">
+        <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+          <image>
+            <Image url="@../images/house.png" />
+          </image>
+          <HBox.margin>
+            <Insets left="20" right="5" />
+          </HBox.margin>
+        </ImageView>
+        <Label fx:id="address" styleClass="field_value" text="\$address" />
+      </HBox>
+       <HBox spacing="0" alignment="CENTER_LEFT">
+        <Label text="Subject:" styleClass="field_label" />
+        <Label fx:id="subjectLevel" styleClass="field_value" />
+      </HBox>
+      <HBox spacing="0" alignment="CENTER_LEFT">
+        <Label text="Cost:" styleClass="field_label" />
+        <Label fx:id="cost" styleClass="field_value" />
+      </HBox>
+      <FlowPane fx:id="tags">
+        <padding>
+          <Insets top="5" left="18" bottom="5" />
+        </padding>
+      </FlowPane>
     </VBox>
   </GridPane>
 </HBox>

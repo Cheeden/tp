@@ -31,7 +31,8 @@ public class JsonAdaptedPersonTest {
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
-    private static final List<JsonAdaptedLessonProgress> VALID_LESSONPROGRESSES = BENSON.getLessonProgressList().stream()
+    private static final List<JsonAdaptedLessonProgress> VALID_LESSONPROGRESSES = BENSON
+            .getLessonProgressList().stream()
             .map(JsonAdaptedLessonProgress::new)
             .collect(Collectors.toList());
 
@@ -62,7 +63,8 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, INVALID_PHONE,
-                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS, VALID_LESSONPROGRESSES);
+                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS,
+                        VALID_LESSONPROGRESSES);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -79,7 +81,8 @@ public class JsonAdaptedPersonTest {
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
-                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, INVALID_ADDRESS, VALID_TAGS, VALID_LESSONPROGRESSES);
+                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, INVALID_ADDRESS, VALID_TAGS,
+                        VALID_LESSONPROGRESSES);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -98,7 +101,8 @@ public class JsonAdaptedPersonTest {
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
-                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, invalidTags, VALID_LESSONPROGRESSES);
+                        VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, invalidTags,
+                        VALID_LESSONPROGRESSES);
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 

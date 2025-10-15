@@ -134,6 +134,9 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Builds a person.
+     */
     public Person build() {
         Person person = new Person(name, phone, subjectLevel, dayTime, cost, address, tags);
         if (lessonProgress != null) {

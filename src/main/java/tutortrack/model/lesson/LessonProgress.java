@@ -8,6 +8,9 @@ import java.util.Objects;
  * Guarantees: immutable; date and progress are valid as declared in their respective classes
  */
 public class LessonProgress {
+
+    public static final String MESSAGE_CONSTRAINTS = "Lesson Progress should take two fields, date and description";
+
     private final LocalDate date;
     private final String progress;
 

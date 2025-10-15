@@ -2,6 +2,7 @@ package tutortrack.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,11 +10,9 @@ import java.util.Set;
 import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.StringUtil;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
-import tutortrack.model.person.Name;
-import tutortrack.model.person.Phone;
+import tutortrack.model.person.*;
 import tutortrack.model.tag.Tag;
+import tutortrack.model.lesson.LessonProgress;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -153,5 +152,25 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String lesson progress}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static tutortrack.model.lesson.LessonProgress parseLessonProgress(String input) throws ParseException{
+        requireNonNull(input);
+        String[] parts = input.split("\\|", 2);
+
+        if (parts.length < 2) {
+            throw new ParseException(tutortrack.model.lesson.LessonProgress.MESSAGE_CONSTRAINTS);
+        }
+
+        LocalDate date = LocalDate.parse(parts[0].trim());
+        String progress = parts[1].trim();
+        if (progress.isEmpty()) {
+            throw new ParseException("Progress cannot be empty.");
+        }
+        return new LessonProgress(date, progress);
     }
 }

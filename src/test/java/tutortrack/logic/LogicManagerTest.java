@@ -6,7 +6,6 @@ import static tutortrack.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_AMY;
-import static tutortrack.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.SUBJECTLEVEL_DESC_AMY;
@@ -169,7 +168,7 @@ public class LogicManagerTest {
 
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY
+                + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY
                 + COST_DESC_AMY + ADDRESS_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();

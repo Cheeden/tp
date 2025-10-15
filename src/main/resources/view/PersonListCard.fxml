@@ -56,10 +56,6 @@
         <Label text="Cost:" styleClass="field_label" />
         <Label fx:id="cost" styleClass="field_value" />
       </HBox>
-            <HBox spacing="0" alignment="CENTER_LEFT">
-        <Label text="Email:" styleClass="field_label" />
-        <Label fx:id="email" styleClass="field_value" text="\$email" />
-      </HBox>
       <FlowPane fx:id="tags">
         <padding>
           <Insets top="5" left="18" bottom="5" />

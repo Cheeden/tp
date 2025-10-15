@@ -2,7 +2,6 @@
   "persons": [ {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "email": "alice@example.com",
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
     "cost": "$50",
@@ -11,7 +10,6 @@
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "email": "pauline@example.com",
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
     "cost": "$50",

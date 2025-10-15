@@ -10,7 +10,6 @@ import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.StringUtil;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
 import tutortrack.model.tag.Tag;
@@ -78,21 +77,6 @@ public class ParserUtil {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
         return new Address(trimmedAddress);
-    }
-
-    /**
-     * Parses a {@code String email} into an {@code Email}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code email} is invalid.
-     */
-    public static Email parseEmail(String email) throws ParseException {
-        requireNonNull(email);
-        String trimmedEmail = email.trim();
-        if (!Email.isValidEmail(trimmedEmail)) {
-            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
-        }
-        return new Email(trimmedEmail);
     }
 
     /**

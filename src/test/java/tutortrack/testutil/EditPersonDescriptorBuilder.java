@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -34,7 +33,6 @@ public class EditPersonDescriptorBuilder {
         descriptor = new EditPersonDescriptor();
         descriptor.setName(person.getName());
         descriptor.setPhone(person.getPhone());
-        descriptor.setEmail(person.getEmail());
         descriptor.setSubjectLevel(person.getSubjectLevel());
         descriptor.setDayTime(person.getDayTime());
         descriptor.setCost(person.getCost());
@@ -58,13 +56,6 @@ public class EditPersonDescriptorBuilder {
         return this;
     }
 
-    /**
-     * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(new Email(email));
-        return this;
-    }
 
     /**
      * Sets the {@code SubjectLevel} of the {@code EditPersonDescriptor} that we are building.

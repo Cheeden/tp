@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -26,7 +25,6 @@ class JsonAdaptedPerson {
 
     private final String name;
     private final String phone;
-    private final String email;
     private final String subjectLevel;
     private final String dayTime;
     private final String cost;
@@ -38,12 +36,11 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("subjectLevel") String subjectLevel,
+            @JsonProperty("subjectLevel") String subjectLevel,
             @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
             @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
         this.cost = cost;
@@ -59,7 +56,6 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
         phone = source.getPhone().value;
-        email = source.getEmail().value;
         subjectLevel = source.getSubjectLevel();
         dayTime = source.getDayTime();
         cost = source.getCost();
@@ -96,14 +92,6 @@ class JsonAdaptedPerson {
         }
         final Phone modelPhone = new Phone(phone);
 
-        if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
-            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
-        }
-        final Email modelEmail = new Email(email);
-
         if (subjectLevel == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "SubjectLevel"));
         }
@@ -128,7 +116,7 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelSubjectLevel, modelDayTime,
+        return new Person(modelName, modelPhone, modelSubjectLevel, modelDayTime,
                 modelCost, modelAddress, modelTags);
     }
 

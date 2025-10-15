@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -27,7 +26,6 @@ import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Email;
 import tutortrack.model.person.LessonProgress;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
@@ -47,7 +45,6 @@ public class EditCommand extends Command {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL] "
             + "[" + PREFIX_DAYTIME + "DAYTIME] "
             + "[" + PREFIX_COST + "COST] "
@@ -55,8 +52,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]..."
             + "[" + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_PHONE + "91234567 ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -107,14 +103,13 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         String updatedSubjectLevel = editPersonDescriptor.getSubjectLevel().orElse(personToEdit.getSubjectLevel());
         String updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
         String updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        Person editedPerson = new Person(updatedName, updatedPhone, updatedEmail, updatedSubjectLevel,
+        Person editedPerson = new Person(updatedName, updatedPhone, updatedSubjectLevel,
                 updatedDayTime, updatedCost, updatedAddress, updatedTags);
 
         editPersonDescriptor.getLessonProgressList().ifPresent(list -> {
@@ -156,7 +151,6 @@ public class EditCommand extends Command {
     public static class EditPersonDescriptor {
         private Name name;
         private Phone phone;
-        private Email email;
         private String subjectLevel;
         private String dayTime;
         private String cost;
@@ -173,7 +167,6 @@ public class EditCommand extends Command {
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
             setPhone(toCopy.phone);
-            setEmail(toCopy.email);
             setSubjectLevel(toCopy.subjectLevel);
             setDayTime(toCopy.dayTime);
             setCost(toCopy.cost);
@@ -186,7 +179,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, subjectLevel, dayTime, cost,
+            return CollectionUtil.isAnyNonNull(name, phone, subjectLevel, dayTime, cost,
                     address, tags, lessonProgressList);
         }
 
@@ -204,14 +197,6 @@ public class EditCommand extends Command {
 
         public Optional<Phone> getPhone() {
             return Optional.ofNullable(phone);
-        }
-
-        public void setEmail(Email email) {
-            this.email = email;
-        }
-
-        public Optional<Email> getEmail() {
-            return Optional.ofNullable(email);
         }
 
         public void setSubjectLevel(String subjectLevel) {
@@ -282,7 +267,6 @@ public class EditCommand extends Command {
             EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
-                    && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(subjectLevel, otherEditPersonDescriptor.subjectLevel)
                     && Objects.equals(dayTime, otherEditPersonDescriptor.dayTime)
                     && Objects.equals(cost, otherEditPersonDescriptor.cost)
@@ -296,7 +280,6 @@ public class EditCommand extends Command {
             return new ToStringBuilder(this)
                     .add("name", name)
                     .add("phone", phone)
-                    .add("email", email)
                     .add("subjectLevel", subjectLevel)
                     .add("dayTime", dayTime)
                     .add("cost", cost)

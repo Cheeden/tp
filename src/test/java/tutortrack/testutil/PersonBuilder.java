@@ -55,7 +55,6 @@ public class PersonBuilder {
             String desc = parts[1].trim();
             lessonProgressList.add(new LessonProgress(date, desc));
         } catch (Exception e) {
-            lessonProgressList = null;
         }
     }
 

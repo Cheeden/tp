@@ -16,7 +16,7 @@ import tutortrack.model.person.Person;
  * Adds a lesson progress entry to a person identified by the displayed index.
  */
 public class AddProgressCommand extends Command {
-    public static final String COMMAND_WORD = "add progress";
+    public static final String COMMAND_WORD = "addprogress";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson progress of the person identified "
             + "by the index number used in the displayed person list. "

@@ -1,8 +1,8 @@
 package tutortrack.testutil;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
@@ -32,7 +32,7 @@ public class PersonBuilder {
     private String cost;
     private Address address;
     private Set<Tag> tags;
-    private LessonProgress lessonProgress;
+    private List<LessonProgress> lessonProgressList = new ArrayList<>();
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -49,10 +49,9 @@ public class PersonBuilder {
             String[] parts = DEFAULT_LESSON_PROGRESS.split("\\|", 2);
             LocalDate date = LocalDate.parse(parts[0].trim());
             String desc = parts[1].trim();
-            lessonProgress = new LessonProgress(date, desc);
+            lessonProgressList.add(new LessonProgress(date, desc));
         } catch (Exception e) {
-            // If parsing fails, leave lessonProgress null (safe for tests)
-            lessonProgress = null;
+            lessonProgressList = null;
         }
     }
 
@@ -67,7 +66,7 @@ public class PersonBuilder {
         cost = personToCopy.getCost();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
-        lessonProgress = null;
+        lessonProgressList = null;
     }
 
     /**
@@ -129,8 +128,15 @@ public class PersonBuilder {
     /**
      * Sets the {@code Lesson Progress} of the {@code Person} that we are building.
      */
-    public PersonBuilder withLessonProgress(LessonProgress lessonProgress) {
-        this.lessonProgress = lessonProgress;
+    public PersonBuilder withLessonProgress(String... progresses) {
+        this.lessonProgressList = Arrays.stream(progresses)
+                .map(s -> {
+                    String[] parts = s.split("\\|", 2);
+                    LocalDate date = LocalDate.parse(parts[0].trim());
+                    String desc = parts[1].trim();
+                    return new LessonProgress(date, desc);
+                })
+                .collect(Collectors.toList());
         return this;
     }
 
@@ -139,9 +145,7 @@ public class PersonBuilder {
      */
     public Person build() {
         Person person = new Person(name, phone, subjectLevel, dayTime, cost, address, tags);
-        if (lessonProgress != null) {
-            person.addLessonProgress(lessonProgress);
-        }
+        person.getLessonProgressList().addAll(lessonProgressList);
         return person;
     }
 

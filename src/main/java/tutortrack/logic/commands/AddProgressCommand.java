@@ -2,7 +2,9 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
+
 import java.util.List;
+
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
@@ -29,6 +31,9 @@ public class AddProgressCommand extends Command {
     private final Index index;
     private final LessonProgress toAdd;
 
+    /**
+     * The constructor of the class.
+     */
     public AddProgressCommand(Index index, LessonProgress toAdd) {
         this.index = index;
         this.toAdd = toAdd;

@@ -13,7 +13,7 @@ import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Person;
 
 /**
- * Edits the details of an existing lesson in the address book.
+ * Adds a lesson progress entry to a person identified by the displayed index.
  */
 public class AddProgressCommand extends Command {
     public static final String COMMAND_WORD = "add progress";

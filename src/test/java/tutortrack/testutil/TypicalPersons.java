@@ -11,7 +11,7 @@ import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_AMY;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEl_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -64,7 +64,7 @@ public class TypicalPersons {
             .withSubjectLevel(VALID_SUBJECTLEVEL_AMY).withDayTime(VALID_DAYTIME_AMY)
             .withCost(VALID_COST_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
     public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-            .withSubjectLevel(VALID_SUBJECTLEVEl_BOB).withDayTime(VALID_DAYTIME_BOB)
+            .withSubjectLevel(VALID_SUBJECTLEVEL_BOB).withDayTime(VALID_DAYTIME_BOB)
             .withCost(VALID_COST_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
             .build();
 

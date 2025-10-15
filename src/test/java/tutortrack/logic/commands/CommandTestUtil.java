@@ -32,7 +32,7 @@ public class CommandTestUtil {
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
     public static final String VALID_PHONE_BOB = "22222222";
-    public static final String VALID_SUBJECTLEVEl_BOB = "P4-Math";
+    public static final String VALID_SUBJECTLEVEL_BOB = "P4-Math";
     public static final String VALID_SUBJECTLEVEL_AMY = "P5-English";
     public static final String VALID_DAYTIME_BOB = "Monday 1200";
     public static final String VALID_DAYTIME_AMY = "Tuesday 1300";
@@ -48,7 +48,7 @@ public class CommandTestUtil {
     public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_AMY;
     public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
     public static final String SUBJECTLEVEL_DESC_AMY = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEL_AMY;
-    public static final String SUBJECTLEVEL_DESC_BOB = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEl_BOB;
+    public static final String SUBJECTLEVEL_DESC_BOB = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEL_BOB;
     public static final String DAYTIME_DESC_AMY = " " + PREFIX_DAYTIME + VALID_DAYTIME_AMY;
     public static final String DAYTIME_DESC_BOB = " " + PREFIX_DAYTIME + VALID_DAYTIME_BOB;
     public static final String COST_DESC_AMY = " " + PREFIX_COST + VALID_COST_AMY;
@@ -75,7 +75,7 @@ public class CommandTestUtil {
                 .withDayTime(VALID_DAYTIME_AMY).withCost(VALID_COST_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withSubjectLevel(VALID_SUBJECTLEVEl_BOB)
+                .withPhone(VALID_PHONE_BOB).withSubjectLevel(VALID_SUBJECTLEVEL_BOB)
                 .withDayTime(VALID_DAYTIME_BOB).withCost(VALID_COST_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }

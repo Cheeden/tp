@@ -10,7 +10,7 @@ import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEl_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ public class EditPersonDescriptorTest {
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different subjectLevel -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withSubjectLevel(VALID_SUBJECTLEVEl_BOB).build();
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withSubjectLevel(VALID_SUBJECTLEVEL_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different dayTime -> returns false

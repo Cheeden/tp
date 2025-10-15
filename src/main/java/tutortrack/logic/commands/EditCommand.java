@@ -3,7 +3,7 @@ package tutortrack.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;  
+import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;

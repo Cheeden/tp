@@ -53,8 +53,8 @@ public class AddCommandParserTest {
         Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
 
         // whitespace only preamble
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB +
-                SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB
+                + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
                 new AddCommand(expectedPerson));
 
 
@@ -62,7 +62,7 @@ public class AddCommandParserTest {
         Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         assertParseSuccess(parser,
-                NAME_DESC_BOB + PHONE_DESC_BOB 
+                NAME_DESC_BOB + PHONE_DESC_BOB
                         + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 new AddCommand(expectedPersonMultipleTags));
@@ -70,7 +70,7 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_repeatedNonTagValue_failure() {
-        String validExpectedPersonString = NAME_DESC_BOB + PHONE_DESC_BOB 
+        String validExpectedPersonString = NAME_DESC_BOB + PHONE_DESC_BOB
                 + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND;
 
@@ -124,7 +124,7 @@ public class AddCommandParserTest {
     public void parse_optionalFieldsMissing_success() {
         // zero tags
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
-        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY 
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY
                 + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY + COST_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedPerson));
     }
@@ -134,11 +134,11 @@ public class AddCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
         // missing name prefix
-        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB  + ADDRESS_DESC_BOB,
+        assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing phone prefix
-        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB  + ADDRESS_DESC_BOB,
+        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
 

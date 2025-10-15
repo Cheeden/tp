@@ -21,7 +21,6 @@ public class Person {
     // Identity fields
     private final Name name;
     private final Phone phone;
-    private final Email email;
 
     // Data fields
     private final String subjectLevel;
@@ -34,12 +33,11 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, String subjectLevel,
+    public Person(Name name, Phone phone, String subjectLevel,
                   String dayTime, String cost, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, subjectLevel, dayTime, cost, address, tags);
+        requireAllNonNull(name, phone, subjectLevel, dayTime, cost, address, tags);
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
         this.cost = cost;
@@ -53,10 +51,6 @@ public class Person {
 
     public Phone getPhone() {
         return phone;
-    }
-
-    public Email getEmail() {
-        return email;
     }
 
     public String getSubjectLevel() {
@@ -120,7 +114,6 @@ public class Person {
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
                 && subjectLevel.equals(otherPerson.subjectLevel)
                 && dayTime.equals(otherPerson.dayTime)
                 && address.equals(otherPerson.address)
@@ -131,7 +124,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, subjectLevel, dayTime, cost, address, tags, lessonProgressList);
+        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags, lessonProgressList);
     }
 
     @Override
@@ -139,7 +132,6 @@ public class Person {
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("phone", phone)
-                .add("email", email)
                 .add("subjectLevel", subjectLevel)
                 .add("dayTime", dayTime)
                 .add("cost", cost)

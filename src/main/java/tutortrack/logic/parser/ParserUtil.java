@@ -9,6 +9,7 @@ import java.util.Set;
 import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.StringUtil;
 import tutortrack.logic.parser.exceptions.ParseException;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
@@ -137,5 +138,25 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String lesson progress}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static LessonProgress parseLessonProgress(String input) throws ParseException {
+        requireNonNull(input);
+        String[] parts = input.split("\\|", 2);
+
+        if (parts.length < 2) {
+            throw new ParseException(tutortrack.model.lesson.LessonProgress.MESSAGE_CONSTRAINTS);
+        }
+
+        String date = parts[1].trim();
+        String progress = parts[2].trim();
+        if (progress.isEmpty()) {
+            throw new ParseException("Progress cannot be empty.");
+        }
+        return null;
     }
 }

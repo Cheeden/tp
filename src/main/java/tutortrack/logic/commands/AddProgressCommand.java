@@ -22,9 +22,9 @@ public class AddProgressCommand extends Command {
             + "by the index number used in the displayed person list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS]...\n"
+            + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_LESSON_PROGRESS + "2025-10-15 \"Covered Chapter 5\"\n";
+            + PREFIX_LESSON_PROGRESS + "2025-10-15|Covered Chapter 5\n";
 
     public static final String MESSAGE_SUCCESS = "New lesson progress added: %1$s";
 

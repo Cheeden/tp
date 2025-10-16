@@ -72,9 +72,9 @@ public class PersonUtil {
                 sb.append(PREFIX_LESSON_PROGRESS);
             } else {
                 progresses.forEach(progress ->
-                                           sb.append(PREFIX_LESSON_PROGRESS)
-                                                   .append(progress.getDate()).append("|")
-                                                   .append(progress.getProgress()).append(" "));
+                        sb.append(PREFIX_LESSON_PROGRESS)
+                                .append(progress.getDate()).append("|")
+                                .append(progress.getProgress()).append(" "));
             }
         }
 

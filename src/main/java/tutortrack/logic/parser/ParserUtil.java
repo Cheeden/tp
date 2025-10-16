@@ -153,20 +153,17 @@ public class ParserUtil {
             throw new ParseException(tutortrack.model.lesson.LessonProgress.MESSAGE_CONSTRAINTS);
         }
 
-        String dateStr = parts[0].trim();
+        String dateString = parts[0].trim();
         String progress = parts[1].trim();
-
         if (progress.isEmpty()) {
             throw new ParseException("Progress cannot be empty.");
         }
 
-        LocalDate date;
         try {
-            date = LocalDate.parse(dateStr);
-        } catch (Exception e) {
-            throw new ParseException("Invalid date format for lesson progress: " + dateStr);
+            LocalDate date = LocalDate.parse(dateString);
+            return new LessonProgress(date, progress);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
         }
-
-        return new LessonProgress(date, progress);
     }
 }

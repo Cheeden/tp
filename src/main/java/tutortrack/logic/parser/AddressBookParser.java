@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.logic.commands.AddCommand;
+import tutortrack.logic.commands.AddProgressCommand;
 import tutortrack.logic.commands.ClearCommand;
 import tutortrack.logic.commands.Command;
 import tutortrack.logic.commands.DeleteCommand;
@@ -56,6 +57,9 @@ public class AddressBookParser {
 
         case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
+
+        case AddProgressCommand.COMMAND_WORD:
+            return new AddProgressCommandParser().parse(arguments);
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);

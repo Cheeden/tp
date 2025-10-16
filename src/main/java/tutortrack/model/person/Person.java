@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import tutortrack.commons.util.ToStringBuilder;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -119,14 +120,13 @@ public class Person {
                 && subjectLevel.equals(otherPerson.subjectLevel)
                 && dayTime.equals(otherPerson.dayTime)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags)
-                && lessonProgressList.equals(otherPerson.lessonProgressList);
+                && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags, lessonProgressList);
+        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags);
     }
 
     @Override

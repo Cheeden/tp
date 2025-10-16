@@ -16,7 +16,7 @@ import tutortrack.model.person.Person;
  * Adds a lesson progress entry to a person identified by the displayed index.
  */
 public class AddProgressCommand extends Command {
-    public static final String COMMAND_WORD = "add progress";
+    public static final String COMMAND_WORD = "addprogress";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson progress of the person identified "
             + "by the index number used in the displayed person list. "
@@ -48,6 +48,24 @@ public class AddProgressCommand extends Command {
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
+
+        Person personToEdit = lastShownList.get(index.getZeroBased());
+
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getSubjectLevel(),
+                personToEdit.getDayTime(),
+                personToEdit.getCost(),
+                personToEdit.getAddress(),
+                personToEdit.getTags()
+        );
+
+        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
+
+        editedPerson.getLessonProgressList().add(toAdd);
+
+        model.setPerson(personToEdit, editedPerson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

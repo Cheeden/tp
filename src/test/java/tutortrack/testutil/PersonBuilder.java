@@ -1,8 +1,14 @@
 package tutortrack.testutil;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
@@ -21,6 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_DAYTIME = "Monday 1200";
     public static final String DEFAULT_COST = "$50";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_LESSON_PROGRESS = "2025-10-15|Covered Chapter 1";
 
     private Name name;
     private Phone phone;
@@ -29,6 +36,7 @@ public class PersonBuilder {
     private String cost;
     private Address address;
     private Set<Tag> tags;
+    private List<LessonProgress> lessonProgressList = new ArrayList<>();
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -41,6 +49,14 @@ public class PersonBuilder {
         cost = DEFAULT_COST;
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
+        try {
+            String[] parts = DEFAULT_LESSON_PROGRESS.split("\\|", 2);
+            LocalDate date = LocalDate.parse(parts[0].trim());
+            String desc = parts[1].trim();
+            lessonProgressList.add(new LessonProgress(date, desc));
+        } catch (Exception e) {
+            System.err.println("Warning: failed to parse default lesson progress. Using empty list.");
+        }
     }
 
     /**
@@ -54,6 +70,10 @@ public class PersonBuilder {
         cost = personToCopy.getCost();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
+        lessonProgressList = new ArrayList<>();
+        if (personToCopy.getLessonProgressList() != null) {
+            lessonProgressList.addAll(personToCopy.getLessonProgressList());
+        }
     }
 
     /**
@@ -112,8 +132,27 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build() {
-        return new Person(name, phone, subjectLevel, dayTime, cost, address, tags);
+    /**
+     * Sets the {@code Lesson Progress} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withLessonProgress(String... progresses) {
+        this.lessonProgressList = Arrays.stream(progresses)
+                .map(s -> {
+                    String[] parts = s.split("\\|", 2);
+                    LocalDate date = LocalDate.parse(parts[0].trim());
+                    String desc = parts[1].trim();
+                    return new LessonProgress(date, desc);
+                })
+                .collect(Collectors.toList());
+        return this;
     }
 
+    /**
+     * Builds a person.
+     */
+    public Person build() {
+        Person person = new Person(name, phone, subjectLevel, dayTime, cost, address, tags);
+        person.getLessonProgressList().addAll(lessonProgressList);
+        return person;
+    }
 }

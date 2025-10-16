@@ -26,7 +26,7 @@ public class AddProgressCommandParser implements Parser<AddProgressCommand> {
 
 
         if (!arePrefixesPresent(argMultimap, PREFIX_LESSON_PROGRESS)
-                || !argMultimap.getPreamble().isEmpty()) {
+                || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddProgressCommand.MESSAGE_USAGE));
         }
 

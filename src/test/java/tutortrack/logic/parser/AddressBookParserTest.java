@@ -13,10 +13,15 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import tutortrack.logic.commands.*;
-import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
+import tutortrack.logic.commands.AddCommand;
+import tutortrack.logic.commands.ClearCommand;
+import tutortrack.logic.commands.DeleteCommand;
+import tutortrack.logic.commands.EditCommand;
+import tutortrack.logic.commands.ExitCommand;
+import tutortrack.logic.commands.FindCommand;
+import tutortrack.logic.commands.HelpCommand;
+import tutortrack.logic.commands.ListCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
 import tutortrack.model.person.Person;
 import tutortrack.testutil.EditPersonDescriptorBuilder;
@@ -50,7 +55,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_edit() throws Exception {
         Person person = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand)
             parser.parseCommand(EditCommand.COMMAND_WORD + " "
             + INDEX_FIRST_PERSON.getOneBased() + " " +

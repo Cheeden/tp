@@ -9,7 +9,14 @@ import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Person;
 import tutortrack.model.tag.Tag;
 
-import static tutortrack.logic.parser.CliSyntax.*;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 /**
  * A utility class for Person.

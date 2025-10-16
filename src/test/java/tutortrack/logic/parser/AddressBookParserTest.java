@@ -21,6 +21,7 @@ import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.commands.HelpCommand;
 import tutortrack.logic.commands.ListCommand;
+import tutortrack.logic.commands.ViewLessonProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
@@ -90,6 +91,13 @@ public class AddressBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_viewLessonProgress() throws Exception {
+        ViewLessonProgressCommand command = (ViewLessonProgressCommand) parser.parseCommand(
+                ViewLessonProgressCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new ViewLessonProgressCommand(INDEX_FIRST_PERSON), command);
     }
 
     @Test

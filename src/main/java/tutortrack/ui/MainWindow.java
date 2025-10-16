@@ -153,10 +153,12 @@ public class MainWindow extends UiPart<Stage> {
      * Opens the lesson progress window or focuses on it if it's already opened.
      */
     @FXML
-    public void handleShowLessonProgress() {
+    public void handleShowLessonProgress(tutortrack.model.person.Person person) {
         if (!lessonProgressWindow.isShowing()) {
+            lessonProgressWindow.setPerson(person);
             lessonProgressWindow.show();
         } else {
+            lessonProgressWindow.setPerson(person);
             lessonProgressWindow.focus();
         }
     }
@@ -198,7 +200,7 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             if (commandResult.isShowLessonProgress()) {
-                handleShowLessonProgress();
+                handleShowLessonProgress(commandResult.getPerson());
             }
 
             if (commandResult.isExit()) {

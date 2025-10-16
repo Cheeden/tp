@@ -2,13 +2,14 @@ package tutortrack.ui;
 
 import java.util.logging.Logger;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.model.lesson.LessonProgress;
+import tutortrack.model.person.Person;
 
 /**
  * Controller for the lesson progress window.
@@ -35,9 +36,11 @@ public class LessonProgressWindow extends UiPart<Stage> {
     public LessonProgressWindow(Stage root) {
         super(FXML, root);
 
-        // Set up table columns
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        progressColumn.setCellValueFactory(new PropertyValueFactory<>("progress"));
+        // Set up table columns with custom cell value factories
+        dateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        progressColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getProgress()));
     }
 
     /**
@@ -45,6 +48,17 @@ public class LessonProgressWindow extends UiPart<Stage> {
      */
     public LessonProgressWindow() {
         this(new Stage());
+    }
+
+    /**
+     * Sets the person whose lesson progress should be displayed.
+     *
+     * @param person The person whose lesson progress to display.
+     */
+    public void setPerson(Person person) {
+        logger.fine("Loading lesson progress for: " + person.getName());
+        lessonProgressTable.getItems().clear();
+        lessonProgressTable.getItems().addAll(person.getLessonProgressList());
     }
 
     /**

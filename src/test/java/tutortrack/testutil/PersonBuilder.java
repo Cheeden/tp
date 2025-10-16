@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import tutortrack.logic.parser.ParserUtil;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Name;
@@ -53,7 +54,7 @@ public class PersonBuilder {
             String[] parts = DEFAULT_LESSON_PROGRESS.split("\\|", 2);
             LocalDate date = LocalDate.parse(parts[0].trim());
             String desc = parts[1].trim();
-            lessonProgressList.add(new LessonProgress(date, desc));
+            lessonProgressList.add(ParserUtil.parseLessonProgress(DEFAULT_LESSON_PROGRESS));
         } catch (Exception e) {
             System.err.println("Warning: failed to parse default lesson progress. Using empty list.");
         }

@@ -55,7 +55,7 @@ public class PersonUtil {
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
         descriptor.getSubjectLevel().ifPresent(subjectLevel ->
-                sb.append(PREFIX_SUBJECTLEVEL).append(subjectLevel).append(" "));
+                                                       sb.append(PREFIX_SUBJECTLEVEL).append(subjectLevel).append(" "));
         descriptor.getDayTime().ifPresent(dayTime -> sb.append(PREFIX_DAYTIME).append(dayTime).append(" "));
         descriptor.getCost().ifPresent(cost -> sb.append(PREFIX_COST).append(cost).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));

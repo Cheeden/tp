@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import tutortrack.commons.util.ToStringBuilder;
+import tutortrack.model.person.Person;
 
 /**
  * Represents the result of a command execution.
@@ -22,21 +23,33 @@ public class CommandResult {
     /** Lesson progress window should be shown to the user. */
     private final boolean showLessonProgress;
 
+    /** The person whose lesson progress should be displayed (optional). */
+    private final Person person;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showLessonProgress) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit,
+                         boolean showLessonProgress, Person person) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
         this.showLessonProgress = showLessonProgress;
+        this.person = person;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showLessonProgress) {
+        this(feedbackToUser, showHelp, exit, showLessonProgress, null);
     }
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, false);
+        this(feedbackToUser, showHelp, exit, false, null);
     }
 
     /**
@@ -44,7 +57,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false);
+        this(feedbackToUser, false, false, false, null);
     }
 
     public String getFeedbackToUser() {
@@ -63,6 +76,10 @@ public class CommandResult {
         return showLessonProgress;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -78,12 +95,13 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
-                && showLessonProgress == otherCommandResult.showLessonProgress;
+                && showLessonProgress == otherCommandResult.showLessonProgress
+                && Objects.equals(person, otherCommandResult.person);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, showLessonProgress);
+        return Objects.hash(feedbackToUser, showHelp, exit, showLessonProgress, person);
     }
 
     @Override
@@ -93,6 +111,7 @@ public class CommandResult {
                 .add("showHelp", showHelp)
                 .add("exit", exit)
                 .add("showLessonProgress", showLessonProgress)
+                .add("person", person)
                 .toString();
     }
 

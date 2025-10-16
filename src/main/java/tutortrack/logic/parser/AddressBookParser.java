@@ -83,7 +83,7 @@ public class AddressBookParser {
             return new HelpCommand();
 
         case ViewLessonProgressCommand.COMMAND_WORD:
-            return new ViewLessonProgressCommand();
+            return new ViewLessonProgressCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

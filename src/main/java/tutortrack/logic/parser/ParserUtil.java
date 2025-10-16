@@ -2,6 +2,7 @@ package tutortrack.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -152,11 +153,20 @@ public class ParserUtil {
             throw new ParseException(tutortrack.model.lesson.LessonProgress.MESSAGE_CONSTRAINTS);
         }
 
-        String date = parts[1].trim();
-        String progress = parts[2].trim();
+        String dateStr = parts[0].trim();
+        String progress = parts[1].trim();
+
         if (progress.isEmpty()) {
             throw new ParseException("Progress cannot be empty.");
         }
-        return null;
+
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateStr);
+        } catch (Exception e) {
+            throw new ParseException("Invalid date format for lesson progress: " + dateStr);
+        }
+
+        return new LessonProgress(date, progress);
     }
 }

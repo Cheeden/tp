@@ -42,10 +42,12 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(new TagContainsKeywordsPredicate(tagKeywords));
         }
 
-        // Otherwise, search by name (default behavior)
+        // Otherwise, search by name with ranking (default behavior)
         String[] nameKeywords = trimmedArgs.split("\\s+");
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
 
-        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+        // Use the predicate's comparator for ranked results
+        return new FindCommand(predicate, predicate.getComparator());
     }
 
 }

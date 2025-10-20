@@ -161,15 +161,48 @@ The find feature allows users to search for persons by name (default) or by tags
 
 #### Implementation
 
-The find mechanism is implemented using predicates:
-* `NameContainsKeywordsPredicate` - filters persons whose names match the keywords
-* `TagContainsKeywordsPredicate` - filters persons whose tags match the keywords
+The find mechanism is implemented using predicates and comparators:
+* `NameContainsKeywordsPredicate` - filters persons whose names match the keywords using prefix matching
+* `TagContainsKeywordsPredicate` - filters persons whose tags match the keywords using full-word matching
 
 The `FindCommandParser` detects the presence of the `t/` prefix using `ArgumentTokenizer`:
-* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate`
-* If `t/` prefix is absent, it creates a `FindCommand` with `NameContainsKeywordsPredicate` (default behavior)
+* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no ranking)
+* If `t/` prefix is absent, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its comparator (with ranking)
 
-Both predicates implement `Predicate<Person>` and use case-insensitive full-word matching via `StringUtil.containsWordIgnoreCase()`.
+**Prefix Matching:**
+Name searches use `StringUtil.containsPrefixIgnoreCase()` which checks if any word token starts with the search keyword, enabling partial name matching (e.g., "Jo" matches "John").
+
+**Ranking System:**
+Search results are ranked by relevance using a comparator returned by `NameContainsKeywordsPredicate.getComparator()`:
+1. **Rank 1** (Highest): First name token matches (e.g., "John Doe" for query "Jo")
+2. **Rank 2**: Other name tokens match (e.g., "Mary Joe" for query "Jo")
+3. **Alphabetical**: Tiebreaker for same-rank results
+
+The ranking is implemented using JavaFX's `SortedList` wrapper:
+* `ModelManager` wraps the `FilteredList` with a `SortedList`
+* When `FindCommand.execute()` is called with a comparator, it uses `Model.updateFilteredPersonList(predicate, comparator)`
+* When other commands (e.g., `list`, `edit`) call `Model.updateFilteredPersonList(predicate)`, the sorting is cleared
+
+This approach ensures:
+- Search results appear in order of relevance
+- Sorting is temporary and specific to the current search
+- Other commands maintain the original contact order
+
+#### Example Usage Scenario
+
+Given below is an example usage scenario of the find feature with ranking:
+
+Step 1. The user launches the application. The `ModelManager` initializes with a `FilteredList` wrapped in a `SortedList` with no comparator set (no sorting).
+
+Step 2. The user executes `find Jo` to search for persons whose names start with "Jo". The `FindCommandParser` parses this and creates a `NameContainsKeywordsPredicate` with keyword "Jo", then creates a `FindCommand` with both the predicate and the predicate's comparator.
+
+Step 3. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate, comparator)`, which:
+   * Sets the predicate on the `FilteredList` (filters to only matching persons)
+   * Sets the comparator on the `SortedList` (sorts the filtered results)
+
+Step 4. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
+
+Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
 
 ### \[Proposed\] Undo/redo feature
 

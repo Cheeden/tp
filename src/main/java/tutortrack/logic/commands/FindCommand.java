@@ -2,6 +2,8 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import tutortrack.commons.util.ToStringBuilder;
@@ -10,30 +12,48 @@ import tutortrack.model.Model;
 import tutortrack.model.person.Person;
 
 /**
- * Finds and lists all persons in address book whose name or tags contain any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all persons in address book whose name or tags match any of the argument keywords.
+ * Keyword matching is case insensitive and uses prefix matching for names.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tags contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names start with any of "
+            + "the specified keywords (case-insensitive prefix matching) or whose tags contain the specified keywords, "
+            + "and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]... OR t/TAG_KEYWORD [MORE_TAG_KEYWORDS]...\n"
             + "Examples:\n"
-            + COMMAND_WORD + " alice bob charlie (searches by name)\n"
+            + COMMAND_WORD + " alice bob charlie (searches by name prefix)\n"
             + COMMAND_WORD + " t/friend (searches by tag)";
 
-    private final Predicate<Person> predicate;
+    private final Predicate<Person> searchPredicate;
+    private final Optional<Comparator<Person>> comparator;
 
-    public FindCommand(Predicate<Person> predicate) {
-        this.predicate = predicate;
+    /**
+     * Creates a FindCommand with the specified predicate (no sorting).
+     */
+    public FindCommand(Predicate<Person> searchPredicate) {
+        this.searchPredicate = searchPredicate;
+        this.comparator = Optional.empty();
+    }
+
+    /**
+     * Creates a FindCommand with the specified predicate and comparator (with sorting).
+     */
+    public FindCommand(Predicate<Person> searchPredicate, Comparator<Person> comparator) {
+        this.searchPredicate = searchPredicate;
+        this.comparator = Optional.of(comparator);
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
+        if (comparator.isPresent()) {
+            model.updateFilteredPersonList(searchPredicate, comparator.get());
+        } else {
+            model.updateFilteredPersonList(searchPredicate);
+        }
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }
@@ -50,13 +70,17 @@ public class FindCommand extends Command {
         }
 
         FindCommand otherFindCommand = (FindCommand) other;
-        return predicate.equals(otherFindCommand.predicate);
+
+        // Check if both have comparators or both don't
+        return searchPredicate.equals(otherFindCommand.searchPredicate)
+                && comparator.isPresent() == otherFindCommand.comparator.isPresent();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("predicate", predicate)
+                .add("predicate", searchPredicate)
+                .add("comparator", comparator)
                 .toString();
     }
 }

@@ -5,17 +5,13 @@ import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,7 +19,6 @@ import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -40,7 +35,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_SUBJECTLEVEL,
-                        PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_LESSON_PROGRESS);
+                        PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG);
 
         Index index;
 
@@ -75,8 +70,6 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
-        parseLessonProgressForEdit(argMultimap.getAllValues(PREFIX_LESSON_PROGRESS))
-                .ifPresent(editPersonDescriptor::setLessonProgressList);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
@@ -98,27 +91,5 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
-    }
-
-    private Optional<List<LessonProgress>> parseLessonProgressForEdit(Collection<String> progresses)
-            throws ParseException {
-        if (progresses.isEmpty()) {
-            return Optional.empty();
-        }
-        List<LessonProgress> lessonProgressList = new ArrayList<>();
-        for (String progressStr : progresses) {
-            String[] parts = progressStr.split("\\|", 2);
-            if (parts.length < 2) {
-                throw new ParseException("Lesson progress must be in format: yyyy-MM-dd|description");
-            }
-            LocalDate date;
-            try {
-                date = LocalDate.parse(parts[0]);
-            } catch (Exception e) {
-                throw new ParseException("Invalid date format for lesson progress: " + parts[0]);
-            }
-            lessonProgressList.add(new LessonProgress(date, parts[1]));
-        }
-        return Optional.of(lessonProgressList);
     }
 }

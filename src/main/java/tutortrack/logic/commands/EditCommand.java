@@ -4,14 +4,12 @@ import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +23,6 @@ import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
-import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
@@ -52,8 +49,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_DAYTIME + "DAYTIME] "
             + "[" + PREFIX_COST + "COST] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]..."
-            + "[" + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS]...\n"
+            + "[" + PREFIX_TAG + "TAG]...\\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 ";
 
@@ -107,7 +103,7 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel()
-                .orElse(personToEdit.getSubjectLevel());
+                                                   .orElse(personToEdit.getSubjectLevel());
         DayTime updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
         Cost updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
@@ -115,11 +111,6 @@ public class EditCommand extends Command {
 
         Person editedPerson = new Person(updatedName, updatedPhone, updatedSubjectLevel,
                 updatedDayTime, updatedCost, updatedAddress, updatedTags);
-
-        editPersonDescriptor.getLessonProgressList().ifPresent(list -> {
-            editedPerson.getLessonProgressList().clear();
-            editedPerson.getLessonProgressList().addAll(list);
-        });
 
         return editedPerson;
     }
@@ -160,7 +151,6 @@ public class EditCommand extends Command {
         private Cost cost;
         private Address address;
         private Set<Tag> tags;
-        private List<LessonProgress> lessonProgressList;
 
         public EditPersonDescriptor() {}
 
@@ -176,7 +166,6 @@ public class EditCommand extends Command {
             setCost(toCopy.cost);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
-            setLessonProgressList(toCopy.lessonProgressList);
         }
 
         /**
@@ -184,7 +173,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, subjectLevel, dayTime, cost,
-                    address, tags, lessonProgressList);
+                    address, tags);
         }
 
         public void setName(Name name) {
@@ -252,15 +241,6 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
-        public void setLessonProgressList(List<LessonProgress> lessonProgressList) {
-            this.lessonProgressList = (lessonProgressList != null) ? new ArrayList<>(lessonProgressList) : null;
-        }
-
-        public Optional<List<LessonProgress>> getLessonProgressList() {
-            return (lessonProgressList != null) ? Optional.of(Collections.unmodifiableList(lessonProgressList))
-                : Optional.empty();
-        }
-
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -279,8 +259,7 @@ public class EditCommand extends Command {
                     && Objects.equals(dayTime, otherEditPersonDescriptor.dayTime)
                     && Objects.equals(cost, otherEditPersonDescriptor.cost)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(lessonProgressList, otherEditPersonDescriptor.lessonProgressList);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 
         @Override
@@ -292,7 +271,7 @@ public class EditCommand extends Command {
                     .add("dayTime", dayTime)
                     .add("cost", cost)
                     .add("address", address)
-                    .add("tags", tags).add("lessonProgress", lessonProgressList)
+                    .add("tags", tags)
                     .toString();
         }
     }

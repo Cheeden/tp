@@ -14,6 +14,7 @@ import tutortrack.logic.commands.ClearCommand;
 import tutortrack.logic.commands.Command;
 import tutortrack.logic.commands.DeleteCommand;
 import tutortrack.logic.commands.EditCommand;
+import tutortrack.logic.commands.EditProgressCommand;
 import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.commands.HelpCommand;
@@ -63,6 +64,9 @@ public class AddressBookParser {
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
+
+        case EditProgressCommand.COMMAND_WORD:
+            return new EditProgressCommandParser().parse(arguments);
 
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);

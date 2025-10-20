@@ -1,11 +1,12 @@
 package tutortrack.storage;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.lesson.LessonPlan;
-
-import java.time.LocalDate;
 
 public class JsonAdaptedLessonPlan {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "LessonPlan's %s field is missing!";

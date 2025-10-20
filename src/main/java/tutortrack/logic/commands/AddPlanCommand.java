@@ -12,7 +12,10 @@ import tutortrack.model.Model;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.person.Person;
 
-public class AddPlanCommand extends Command{
+/**
+ * Adds a lesson plan entry to a person identified by the displayed index.
+ */
+public class AddPlanCommand extends Command {
     public static final String COMMAND_WORD = "addplan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson plan of the person identified "

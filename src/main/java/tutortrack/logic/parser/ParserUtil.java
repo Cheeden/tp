@@ -184,6 +184,10 @@ public class ParserUtil {
         }
     }
 
+    /**
+     * Parses a {@code String lesson plan}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
     public static LessonPlan parseLessonPlan(String input) throws ParseException {
         requireNonNull(input);
         String[] parts = input.split("\\|", 2);

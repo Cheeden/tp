@@ -1,15 +1,18 @@
 package tutortrack.logic.parser;
 
+import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PLAN;
+
+import java.util.stream.Stream;
+
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.AddPlanCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonPlan;
 
-import java.util.stream.Stream;
-
-import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PLAN;
-
+/**
+ * Parses input arguments and creates a new AddPlanCommand object.
+ */
 public class AddPlanCommandParser implements Parser<AddPlanCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand

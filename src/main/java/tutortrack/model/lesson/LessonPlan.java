@@ -3,6 +3,10 @@ package tutortrack.model.lesson;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Represents a lesson plan entry in TutorTrack.
+ * Guarantees: immutable; date and plan are valid as declared in their respective classes
+ */
 public class LessonPlan {
     public static final String MESSAGE_CONSTRAINTS = "Lesson Plan should take two fields, date and description";
 

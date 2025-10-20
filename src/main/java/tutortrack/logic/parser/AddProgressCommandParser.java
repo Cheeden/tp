@@ -11,7 +11,7 @@ import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates a new AddProgressCommand object.
  */
 public class AddProgressCommandParser implements Parser<AddProgressCommand> {
 

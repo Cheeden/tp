@@ -1,0 +1,44 @@
+package tutortrack.logic.parser;
+
+import tutortrack.commons.core.index.Index;
+import tutortrack.logic.commands.AddPlanCommand;
+import tutortrack.logic.parser.exceptions.ParseException;
+import tutortrack.model.lesson.LessonPlan;
+
+import java.util.stream.Stream;
+
+import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PLAN;
+
+public class AddPlanCommandParser implements Parser<AddPlanCommand> {
+    /**
+     * Parses the given {@code String} of arguments in the context of the AddCommand
+     * and returns an AddCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public AddPlanCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_LESSON_PLAN);
+
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_LESSON_PLAN)
+                || argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPlanCommand.MESSAGE_USAGE));
+        }
+
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
+
+        String lpString = argMultimap.getValue(PREFIX_LESSON_PLAN).get();
+        LessonPlan ll = ParserUtil.parseLessonPlan(lpString);
+
+        return new AddPlanCommand(index, ll);
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+}

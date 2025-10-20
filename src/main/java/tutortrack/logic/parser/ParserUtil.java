@@ -11,6 +11,7 @@ import java.util.Set;
 import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.StringUtil;
 import tutortrack.logic.parser.exceptions.ParseException;
+import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
@@ -178,6 +179,28 @@ public class ParserUtil {
         try {
             LocalDate date = LocalDate.parse(dateString);
             return new LessonProgress(date, progress);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
+        }
+    }
+
+    public static LessonPlan parseLessonPlan(String input) throws ParseException {
+        requireNonNull(input);
+        String[] parts = input.split("\\|", 2);
+
+        if (parts.length < 2) {
+            throw new ParseException(tutortrack.model.lesson.LessonPlan.MESSAGE_CONSTRAINTS);
+        }
+
+        String dateString = parts[0].trim();
+        String plan = parts[1].trim();
+        if (plan.isEmpty()) {
+            throw new ParseException("Plan cannot be empty.");
+        }
+
+        try {
+            LocalDate date = LocalDate.parse(dateString);
+            return new LessonPlan(date, plan);
         } catch (DateTimeParseException e) {
             throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
         }

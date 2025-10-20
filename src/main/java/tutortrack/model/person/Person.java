@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import tutortrack.commons.util.ToStringBuilder;
+import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.tag.Tag;
 
@@ -30,6 +31,7 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final List<LessonProgress> lessonProgressList = new ArrayList<>();
+    private final List<LessonPlan> lessonPlanList = new ArrayList<>();
 
     /**
      * Every field must be present and not null.
@@ -84,6 +86,10 @@ public class Person {
 
     public List<LessonProgress> getLessonProgressList() {
         return lessonProgressList;
+    }
+
+    public List<LessonPlan> getLessonPlanList() {
+        return lessonPlanList;
     }
 
     /**

@@ -3,18 +3,15 @@ package tutortrack.testutil;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.List;
 import java.util.Set;
 
 import tutortrack.logic.commands.AddCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
-import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Person;
 import tutortrack.model.tag.Tag;
 

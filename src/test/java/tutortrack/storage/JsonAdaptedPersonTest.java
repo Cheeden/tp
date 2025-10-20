@@ -104,7 +104,7 @@ public class JsonAdaptedPersonTest {
     public void toModelType_nullSubjectLevel_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
-                        null, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS,VALID_LESSONPLANS,
+                        null, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS, VALID_LESSONPLANS,
                         VALID_LESSONPROGRESSES);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, SubjectLevel.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);

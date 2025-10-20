@@ -131,7 +131,7 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
         // Clear any existing sorting
-        sortedPersons.setComparator(null); 
+        sortedPersons.setComparator(null);
     }
 
     @Override

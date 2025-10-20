@@ -70,7 +70,7 @@ public class FindCommand extends Command {
         }
 
         FindCommand otherFindCommand = (FindCommand) other;
-        
+
         // Check if both have comparators or both don't
         return searchPredicate.equals(otherFindCommand.searchPredicate)
                 && comparator.isPresent() == otherFindCommand.comparator.isPresent();

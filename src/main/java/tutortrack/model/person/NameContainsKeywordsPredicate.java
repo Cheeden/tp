@@ -35,7 +35,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         String[] tokens = fullName.split("\\s+");
 
         if (tokens.length == 0) {
-            return 3; 
+            return 3;
         }
 
         // Check if first token matches any keyword
@@ -45,7 +45,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
             String keywordLowerCase = keyword.toLowerCase();
 
             if (firstTokenLowerCase.startsWith(keywordLowerCase)) {
-                return 1; 
+                return 1;
             }
         }
 
@@ -53,7 +53,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         for (int i = 1; i < tokens.length; i++) {
             for (String keyword : keywords) {
                 if (tokens[i].toLowerCase().startsWith(keyword.toLowerCase())) {
-                    return 2; 
+                    return 2;
                 }
             }
         }
@@ -62,7 +62,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         return 3;
     }
 
-        /**
+    /**
      * Returns a comparator that ranks persons by match quality.
      * Ranking from highest to lowest priority:
      * 1. First token prefix match
@@ -76,7 +76,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
 
             if (rank1 != rank2) {
                 // Lower rank means higher priority
-                return Integer.compare(rank1, rank2); 
+                return Integer.compare(rank1, rank2);
             }
 
             // Tiebreaker done through alphabetical ordering by name

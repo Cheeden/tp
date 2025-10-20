@@ -66,18 +66,6 @@ public class PersonUtil {
             }
         }
 
-        if (descriptor.getLessonProgressList().isPresent()) {
-            List<LessonProgress> progresses = descriptor.getLessonProgressList().get();
-            if (progresses.isEmpty()) {
-                sb.append(PREFIX_LESSON_PROGRESS);
-            } else {
-                progresses.forEach(progress ->
-                        sb.append(PREFIX_LESSON_PROGRESS)
-                                .append(progress.getDate()).append("|")
-                                .append(progress.getProgress()).append(" "));
-            }
-        }
-
         return sb.toString();
     }
 }

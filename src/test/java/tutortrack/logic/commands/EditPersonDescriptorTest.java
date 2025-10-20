@@ -77,8 +77,7 @@ public class EditPersonDescriptorTest {
                 + editPersonDescriptor.getDayTime().orElse(null) + ", cost="
                 + editPersonDescriptor.getCost().orElse(null) + ", address="
                 + editPersonDescriptor.getAddress().orElse(null) + ", tags="
-                + editPersonDescriptor.getTags().orElse(null) + ", lessonProgress="
-                + editPersonDescriptor.getLessonProgressList().orElse(null) + "}";
+                + editPersonDescriptor.getTags().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());
     }
 }

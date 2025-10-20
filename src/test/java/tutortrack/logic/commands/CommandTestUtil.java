@@ -60,6 +60,9 @@ public class CommandTestUtil {
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
+    public static final String INVALID_SUBJECTLEVEL_DESC = " " + PREFIX_SUBJECTLEVEL + "p4 math"; // '-' must be present
+    public static final String INVALID_DAYTIME_DESC = " " + PREFIX_DAYTIME + "Monday 2500"; // invalid time
+    public static final String INVALID_COST_DESC = " " + PREFIX_COST + "50"; // '$' must be present
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 

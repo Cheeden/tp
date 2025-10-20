@@ -55,9 +55,9 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
-        subjectLevel.setText(person.getSubjectLevel());
-        dayTime.setText(person.getDayTime());
-        cost.setText(person.getCost());
+        subjectLevel.setText(person.getSubjectLevel().value);
+        dayTime.setText(person.getDayTime().value);
+        cost.setText(person.getCost().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 import tutortrack.logic.parser.ParserUtil;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 import tutortrack.model.util.SampleDataUtil;
 
@@ -32,9 +35,9 @@ public class PersonBuilder {
 
     private Name name;
     private Phone phone;
-    private String subjectLevel;
-    private String dayTime;
-    private String cost;
+    private SubjectLevel subjectLevel;
+    private DayTime dayTime;
+    private Cost cost;
     private Address address;
     private Set<Tag> tags;
     private List<LessonProgress> lessonProgressList = new ArrayList<>();
@@ -45,9 +48,9 @@ public class PersonBuilder {
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
-        subjectLevel = DEFAULT_SUBJECTLEVEL;
-        dayTime = DEFAULT_DAYTIME;
-        cost = DEFAULT_COST;
+        subjectLevel = new SubjectLevel(DEFAULT_SUBJECTLEVEL);
+        dayTime = new DayTime(DEFAULT_DAYTIME);
+        cost = new Cost(DEFAULT_COST);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         try {
@@ -113,7 +116,7 @@ public class PersonBuilder {
      * Sets the {@code SubjectLevel} of the {@code Person} that we are building.
      */
     public PersonBuilder withSubjectLevel(String subjectLevel) {
-        this.subjectLevel = subjectLevel;
+        this.subjectLevel = new SubjectLevel(subjectLevel);
         return this;
     }
 
@@ -121,7 +124,7 @@ public class PersonBuilder {
      * Sets the {@code DayTime} of the {@code Person} that we are building.
      */
     public PersonBuilder withDayTime(String dayTime) {
-        this.dayTime = dayTime;
+        this.dayTime = new DayTime(dayTime);
         return this;
     }
 
@@ -129,7 +132,7 @@ public class PersonBuilder {
      * Sets the {@code Cost} of the {@code Person} that we are building.
      */
     public PersonBuilder withCost(String cost) {
-        this.cost = cost;
+        this.cost = new Cost(cost);
         return this;
     }
 

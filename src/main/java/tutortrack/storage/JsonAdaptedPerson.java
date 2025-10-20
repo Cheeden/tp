@@ -12,9 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -62,9 +65,9 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
         phone = source.getPhone().value;
-        subjectLevel = source.getSubjectLevel();
-        dayTime = source.getDayTime();
-        cost = source.getCost();
+        subjectLevel = source.getSubjectLevel().value;
+        dayTime = source.getDayTime().value;
+        cost = source.getCost().value;
         address = source.getAddress().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -107,19 +110,30 @@ class JsonAdaptedPerson {
         final Phone modelPhone = new Phone(phone);
 
         if (subjectLevel == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "SubjectLevel"));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    SubjectLevel.class.getSimpleName()));
         }
-        final String modelSubjectLevel = subjectLevel;
+        if (!SubjectLevel.isValidSubjectLevel(subjectLevel)) {
+            throw new IllegalValueException(SubjectLevel.MESSAGE_CONSTRAINTS);
+        }
+        final SubjectLevel modelSubjectLevel = new SubjectLevel(subjectLevel);
 
         if (dayTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "DayTime"));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DayTime.class.getSimpleName()));
         }
-        final String modelDayTime = dayTime;
+        if (!DayTime.isValidDayTime(dayTime)) {
+            throw new IllegalValueException(DayTime.MESSAGE_CONSTRAINTS);
+        }
+        final DayTime modelDayTime = new DayTime(dayTime);
 
         if (cost == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "cost"));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Cost.class.getSimpleName()));
         }
-        final String modelCost = cost;
+        if (!Cost.isValidCost(cost)) {
+            throw new IllegalValueException(Cost.MESSAGE_CONSTRAINTS);
+        }
+        final Cost modelCost = new Cost(cost);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));

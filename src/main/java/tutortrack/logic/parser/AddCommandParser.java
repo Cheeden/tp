@@ -15,9 +15,12 @@ import java.util.stream.Stream;
 import tutortrack.logic.commands.AddCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -45,9 +48,9 @@ public class AddCommandParser implements Parser<AddCommand> {
                 PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        String subjectLevel = argMultimap.getValue(PREFIX_SUBJECTLEVEL).get();
-        String dayTime = argMultimap.getValue(PREFIX_DAYTIME).get();
-        String cost = argMultimap.getValue(PREFIX_COST).get();
+        SubjectLevel subjectLevel = ParserUtil.parseSubjectLevel(argMultimap.getValue(PREFIX_SUBJECTLEVEL).get());
+        DayTime dayTime = ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get());
+        Cost cost = ParserUtil.parseCost(argMultimap.getValue(PREFIX_COST).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 

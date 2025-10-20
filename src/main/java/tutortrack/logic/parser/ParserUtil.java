@@ -13,8 +13,11 @@ import tutortrack.commons.util.StringUtil;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -86,33 +89,45 @@ public class ParserUtil {
      * Parses a {@code String subjectLevel}.
      * Leading and trailing whitespaces will be trimmed.
      *
+     * @throws ParseException if the given {@code subjectLevel} is invalid.
      */
-    public static String parseSubjectLevel(String subjectLevel) {
+    public static SubjectLevel parseSubjectLevel(String subjectLevel) throws ParseException {
         requireNonNull(subjectLevel);
         String trimmedSubjectLevel = subjectLevel.trim();
-        return trimmedSubjectLevel;
+        if (!SubjectLevel.isValidSubjectLevel(trimmedSubjectLevel)) {
+            throw new ParseException(SubjectLevel.MESSAGE_CONSTRAINTS);
+        }
+        return new SubjectLevel(trimmedSubjectLevel);
     }
 
     /**
      * Parses a {@code String dayTime}.
      * Leading and trailing whitespaces will be trimmed.
      *
+     * @throws ParseException if the given {@code dayTime} is invalid.
      */
-    public static String parseDayTime(String dayTime) {
+    public static DayTime parseDayTime(String dayTime) throws ParseException {
         requireNonNull(dayTime);
         String trimmedDayTime = dayTime.trim();
-        return trimmedDayTime;
+        if (!DayTime.isValidDayTime(trimmedDayTime)) {
+            throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
+        }
+        return new DayTime(trimmedDayTime);
     }
 
     /**
      * Parses a {@code String subjectLevel}.
      * Leading and trailing whitespaces will be trimmed.
      *
+     * @throws ParseException if the given {@code cost} is invalid.
      */
-    public static String parseCost(String cost) {
+    public static Cost parseCost(String cost) throws ParseException {
         requireNonNull(cost);
         String trimmedCost = cost.trim();
-        return trimmedCost;
+        if (!Cost.isValidCost(trimmedCost)) {
+            throw new ParseException(Cost.MESSAGE_CONSTRAINTS);
+        }
+        return new Cost(trimmedCost);
     }
 
     /**

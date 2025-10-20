@@ -15,19 +15,28 @@ import org.junit.jupiter.api.Test;
 
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
+    private static final String INVALID_SUBJECTLEVEL = "P4Math";
+    private static final String INVALID_DAYTIME = "Monday 2500";
+    private static final String INVALID_COST = "50";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
+    private static final String VALID_SUBJECTLEVEL = "P4-Math";
+    private static final String VALID_COST = "$50";
+    private static final String VALID_DAYTIME = "Monday 1200";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -97,6 +106,75 @@ public class ParserUtilTest {
         String phoneWithWhitespace = WHITESPACE + VALID_PHONE + WHITESPACE;
         Phone expectedPhone = new Phone(VALID_PHONE);
         assertEquals(expectedPhone, ParserUtil.parsePhone(phoneWithWhitespace));
+    }
+
+    @Test
+    public void parseSubjectLevel_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseSubjectLevel((String) null));
+    }
+
+    @Test
+    public void parseSubjectLevel_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseSubjectLevel(INVALID_SUBJECTLEVEL)); // missing dash
+    }
+
+    @Test
+    public void parseSubjectLevel_validValueWithoutWhitespace_returnsSubjectLevel() throws Exception {
+        SubjectLevel expectedSubjectLevel = new SubjectLevel(VALID_SUBJECTLEVEL);
+        assertEquals(expectedSubjectLevel, ParserUtil.parseSubjectLevel(VALID_SUBJECTLEVEL));
+    }
+
+    @Test
+    public void parseSubjectLevel_validValueWithWhitespace_returnsTrimmedSubjectLevel() throws Exception {
+        String subjectLevelWithWhitespace = WHITESPACE + VALID_SUBJECTLEVEL + WHITESPACE;
+        SubjectLevel expectedSubjectLevel = new SubjectLevel(VALID_SUBJECTLEVEL);
+        assertEquals(expectedSubjectLevel, ParserUtil.parseSubjectLevel(subjectLevelWithWhitespace));
+    }
+
+    @Test
+    public void parseDayTime_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDayTime((String) null));
+    }
+
+    @Test
+    public void parseDayTime_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDayTime(INVALID_DAYTIME));
+    }
+
+    @Test
+    public void parseDayTime_validValueWithoutWhitespace_returnsDayTime() throws Exception {
+        DayTime expectedDayTime = new DayTime(VALID_DAYTIME);
+        assertEquals(expectedDayTime, ParserUtil.parseDayTime(VALID_DAYTIME));
+    }
+
+    @Test
+    public void parseDayTime_validValueWithWhitespace_returnsTrimmedDayTime() throws Exception {
+        String dayTimeWithWhitespace = WHITESPACE + VALID_DAYTIME + WHITESPACE;
+        DayTime expectedDayTime = new DayTime(VALID_DAYTIME);
+        assertEquals(expectedDayTime, ParserUtil.parseDayTime(dayTimeWithWhitespace));
+    }
+
+    @Test
+    public void parseCost_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseCost((String) null));
+    }
+
+    @Test
+    public void parseCost_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseCost(INVALID_COST)); // missing $
+    }
+
+    @Test
+    public void parseCost_validValueWithoutWhitespace_returnsCost() throws Exception {
+        Cost expectedCost = new Cost(VALID_COST);
+        assertEquals(expectedCost, ParserUtil.parseCost(VALID_COST));
+    }
+
+    @Test
+    public void parseCost_validValueWithWhitespace_returnsTrimmedCost() throws Exception {
+        String costWithWhitespace = WHITESPACE + VALID_COST + WHITESPACE;
+        Cost expectedCost = new Cost(VALID_COST);
+        assertEquals(expectedCost, ParserUtil.parseCost(costWithWhitespace));
     }
 
     @Test

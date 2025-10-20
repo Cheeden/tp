@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.lesson.LessonPlan;
 
+/**
+ * Jackson-friendly version of {@link LessonPlan}.
+ */
 public class JsonAdaptedLessonPlan {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "LessonPlan's %s field is missing!";
 

@@ -193,7 +193,7 @@ The View Lesson Progress mechanism involves coordination across multiple compone
 
 **Storage Component:**
 * `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
-
+<!-- 
 The following sequence diagram shows how the viewprogress operation works:
 
 ```
@@ -211,7 +211,7 @@ UI -> UI: handleShowLessonProgress(person)
 UI -> LessonProgressWindow: setPerson(person)
 LessonProgressWindow -> LessonProgressWindow: load lesson progress into TableView
 LessonProgressWindow -> UI: show window
-```
+``` -->
 
 Given below is an example usage scenario:
 

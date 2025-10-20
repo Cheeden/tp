@@ -148,6 +148,33 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Viewing lesson progress : `viewprogress`
+
+Shows the lesson progress history for a specific student in a separate window.
+
+Format: `viewprogress INDEX`
+
+* Views the lesson progress of the student at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* Opens a new window displaying all recorded lesson progress entries.
+* Each entry shows the date and progress description.
+* Entries can be sorted by Date
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Add lesson progress using the `addprogress` command before viewing.
+</div>
+
+Examples:
+* `list` followed by `viewprogress 1` opens a window showing the lesson progress for the 1st student.
+* `find John` followed by `viewprogress 1` shows progress for the 1st person in the filtered results.
+
+Expected output:<br>
+![View Progress Window](images/viewProgressWindow.png)
+* A new window titled "Lesson Progress" will appear.
+* The window contains a table with two columns: **Date** and **Progress**.
+* If the student has no lesson progress recorded, an empty table is shown.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -204,3 +231,4 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]`<br> e.g., `find James Jake`, `find t/friends`
 **List** | `list`
 **Help** | `help`
+**View Progress** | `viewprogress INDEX`<br> e.g., `viewprogress 1`

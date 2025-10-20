@@ -34,6 +34,11 @@ public class EditProgressCommand extends Command {
     private final Index index;
     private final LessonProgress toEdit;
 
+    /**
+     * The constructor of the class.
+     * @param index the index of the person in the displayed list to be edited
+     * @param toEdit the new lesson progress
+     */
     public EditProgressCommand(Index index, LessonProgress toEdit) {
         this.index = index;
         this.toEdit = toEdit;

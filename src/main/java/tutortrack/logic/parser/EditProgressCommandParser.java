@@ -6,10 +6,10 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
-import tutortrack.commons.core.index.Index;
 
 /**
  * Parses input arguments and creates a new EditProgressCommand object

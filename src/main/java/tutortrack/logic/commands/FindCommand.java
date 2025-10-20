@@ -10,18 +10,19 @@ import tutortrack.model.Model;
 import tutortrack.model.person.Person;
 
 /**
- * Finds and lists all persons in address book whose name or tags contain any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all persons in address book whose name or tags match any of the argument keywords.
+ * Keyword matching is case insensitive and uses prefix matching for names.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tags contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names start with any of "
+            + "the specified keywords (case-insensitive prefix matching) or whose tags contain the specified keywords, "
+            + "and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]... OR t/TAG_KEYWORD [MORE_TAG_KEYWORDS]...\n"
             + "Examples:\n"
-            + COMMAND_WORD + " alice bob charlie (searches by name)\n"
+            + COMMAND_WORD + " alice bob charlie (searches by name prefix)\n"
             + COMMAND_WORD + " t/friend (searches by tag)";
 
     private final Predicate<Person> predicate;

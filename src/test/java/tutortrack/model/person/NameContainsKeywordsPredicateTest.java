@@ -41,12 +41,20 @@ public class NameContainsKeywordsPredicateTest {
 
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
-        // One keyword
+        // One keyword - full match
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Alice"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // One keyword - prefix match
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Ali"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
         // Multiple keywords
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Multiple keywords - prefix match
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Al", "Bo"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
         // Only one matching keyword
@@ -55,6 +63,14 @@ public class NameContainsKeywordsPredicateTest {
 
         // Mixed-case keywords
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Mixed-case prefix match
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLI", "bO"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Prefix matches second name token
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Bo"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
     }
 
@@ -66,6 +82,14 @@ public class NameContainsKeywordsPredicateTest {
 
         // Non-matching keyword
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("Carol"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Keyword is substring but not a prefix of any token
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("lice"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+
+        // Keyword is substring but not a prefix of any token
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("ice"));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
 
         // Keywords match phone and address, but does not match name

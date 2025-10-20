@@ -112,20 +112,22 @@ Examples:
 
 ### Locating persons: `find`
 
-Finds persons whose names or tags contain any of the given keywords.
+Finds persons whose names or tags match any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* By default (without `t/` prefix), only the name is searched.
+* By default (without `t/` prefix), only the name is searched using prefix matching.
 * With `t/` prefix, only tags are searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* For name searches, any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
+* For tag searches, only full words will be matched.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
 * `find John` returns `john` and `John Doe`
+* `find Jo` returns `John Doe` and `Joseph Tan`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find t/friends` returns all persons tagged with `friends`

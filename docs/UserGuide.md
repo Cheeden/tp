@@ -122,12 +122,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS
 * With `t/` prefix, only tags are searched.
 * For name searches, any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
 * For tag searches, only full words will be matched.
+* **Name search results are ranked by relevance**: First name matches appear first, followed by last name matches, then alphabetically.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find Jo` returns `John Doe` and `Joseph Tan`
+* `find John` returns `john` and `John Doe` (first names starting with "John" ranked higher)
+* `find Jo` returns `John Doe` and `Joseph Tan` (both match first name, alphabetically sorted)
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find t/friends` returns all persons tagged with `friends`

@@ -91,7 +91,7 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code subjectLevel} is invalid.
      */
-    public static SubjectLevel parseSubjectLevel(String subjectLevel) throws ParseException{
+    public static SubjectLevel parseSubjectLevel(String subjectLevel) throws ParseException {
         requireNonNull(subjectLevel);
         String trimmedSubjectLevel = subjectLevel.trim();
         if (!SubjectLevel.isValidSubjectLevel(trimmedSubjectLevel)) {
@@ -106,7 +106,7 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code dayTime} is invalid.
      */
-    public static DayTime parseDayTime(String dayTime) throws ParseException{
+    public static DayTime parseDayTime(String dayTime) throws ParseException {
         requireNonNull(dayTime);
         String trimmedDayTime = dayTime.trim();
         if (!DayTime.isValidDayTime(trimmedDayTime)) {
@@ -121,7 +121,7 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code cost} is invalid.
      */
-    public static Cost parseCost(String cost) throws ParseException{
+    public static Cost parseCost(String cost) throws ParseException {
         requireNonNull(cost);
         String trimmedCost = cost.trim();
         if (!Cost.isValidCost(trimmedCost)) {

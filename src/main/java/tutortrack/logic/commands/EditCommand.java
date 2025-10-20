@@ -106,7 +106,8 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel().orElse(personToEdit.getSubjectLevel());
+        SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel()
+                .orElse(personToEdit.getSubjectLevel());
         DayTime updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
         Cost updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());

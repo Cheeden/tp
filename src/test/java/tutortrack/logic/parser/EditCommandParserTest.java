@@ -3,19 +3,28 @@ package tutortrack.logic.parser;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_COST_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_DAYTIME_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_SUBJECTLEVEL_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.SUBJECTLEVEL_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -34,8 +43,11 @@ import tutortrack.logic.Messages;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 import tutortrack.testutil.EditPersonDescriptorBuilder;
 
@@ -85,6 +97,15 @@ public class EditCommandParserTest {
         // invalid phone
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
 
+        // invalid subject level
+        assertParseFailure(parser, "1" + INVALID_SUBJECTLEVEL_DESC, SubjectLevel.MESSAGE_CONSTRAINTS);
+
+        // invalid day time
+        assertParseFailure(parser, "1" + INVALID_DAYTIME_DESC, DayTime.MESSAGE_CONSTRAINTS);
+
+        // invalid cost
+        assertParseFailure(parser, "1" + INVALID_COST_DESC, Cost.MESSAGE_CONSTRAINTS);
+
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Person} being edited,
         // parsing it together with a valid tag results in error
         assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
@@ -99,12 +120,21 @@ public class EditCommandParserTest {
     @Test
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
-                + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = targetIndex.getOneBased()
+                + PHONE_DESC_BOB + TAG_DESC_HUSBAND
+                + ADDRESS_DESC_AMY + NAME_DESC_AMY
+                + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY + COST_DESC_AMY
+                + TAG_DESC_FRIEND;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_BOB)
+                .withAddress(VALID_ADDRESS_AMY)
+                .withSubjectLevel(VALID_SUBJECTLEVEL_AMY)
+                .withDayTime(VALID_DAYTIME_AMY)
+                .withCost(VALID_COST_AMY)
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+                .build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -134,6 +164,24 @@ public class EditCommandParserTest {
         // phone
         userInput = targetIndex.getOneBased() + PHONE_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        //subjectLevel
+        userInput = targetIndex.getOneBased() + SUBJECTLEVEL_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder().withSubjectLevel(VALID_SUBJECTLEVEL_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // day time
+        userInput = targetIndex.getOneBased() + DAYTIME_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder().withDayTime(VALID_DAYTIME_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // cost
+        userInput = targetIndex.getOneBased() + COST_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder().withCost(VALID_COST_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 

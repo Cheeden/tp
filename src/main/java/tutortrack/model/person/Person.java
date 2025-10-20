@@ -24,9 +24,9 @@ public class Person {
     private final Phone phone;
 
     // Data fields
-    private final String subjectLevel;
-    private final String dayTime;
-    private final String cost;
+    private final SubjectLevel subjectLevel;
+    private final DayTime dayTime;
+    private final Cost cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final List<LessonProgress> lessonProgressList = new ArrayList<>();
@@ -34,8 +34,8 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, String subjectLevel,
-                  String dayTime, String cost, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, SubjectLevel subjectLevel,
+                  DayTime dayTime, Cost cost, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, subjectLevel, dayTime, cost, address, tags);
         this.name = name;
         this.phone = phone;
@@ -54,15 +54,15 @@ public class Person {
         return phone;
     }
 
-    public String getSubjectLevel() {
+    public SubjectLevel getSubjectLevel() {
         return subjectLevel;
     }
 
-    public String getDayTime() {
+    public DayTime getDayTime() {
         return dayTime;
     }
 
-    public String getCost() {
+    public Cost getCost() {
         return cost;
     }
 

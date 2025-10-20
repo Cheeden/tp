@@ -8,9 +8,12 @@ import java.util.stream.Stream;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -64,7 +67,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code SubjectLevel} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withSubjectLevel(String subjectLevel) {
-        descriptor.setSubjectLevel(subjectLevel);
+        descriptor.setSubjectLevel(new SubjectLevel(subjectLevel));
         return this;
     }
 
@@ -72,7 +75,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code dayTime} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withDayTime(String dayTime) {
-        descriptor.setDayTime(dayTime);
+        descriptor.setDayTime(new DayTime(dayTime));
         return this;
     }
 
@@ -80,7 +83,7 @@ public class EditPersonDescriptorBuilder {
      * Sets the {@code Cost} of the {@code EditPersonDescriptor} that we are building.
      */
     public EditPersonDescriptorBuilder withCost(String cost) {
-        descriptor.setCost(cost);
+        descriptor.setCost(new Cost(cost));
         return this;
     }
 

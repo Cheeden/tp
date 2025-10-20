@@ -27,9 +27,12 @@ import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
+import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.tag.Tag;
 
 /**
@@ -103,9 +106,9 @@ public class EditCommand extends Command {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        String updatedSubjectLevel = editPersonDescriptor.getSubjectLevel().orElse(personToEdit.getSubjectLevel());
-        String updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
-        String updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
+        SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel().orElse(personToEdit.getSubjectLevel());
+        DayTime updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
+        Cost updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
@@ -151,9 +154,9 @@ public class EditCommand extends Command {
     public static class EditPersonDescriptor {
         private Name name;
         private Phone phone;
-        private String subjectLevel;
-        private String dayTime;
-        private String cost;
+        private SubjectLevel subjectLevel;
+        private DayTime dayTime;
+        private Cost cost;
         private Address address;
         private Set<Tag> tags;
         private List<LessonProgress> lessonProgressList;
@@ -199,27 +202,27 @@ public class EditCommand extends Command {
             return Optional.ofNullable(phone);
         }
 
-        public void setSubjectLevel(String subjectLevel) {
+        public void setSubjectLevel(SubjectLevel subjectLevel) {
             this.subjectLevel = subjectLevel;
         }
 
-        public Optional<String> getSubjectLevel() {
+        public Optional<SubjectLevel> getSubjectLevel() {
             return Optional.ofNullable(subjectLevel);
         }
 
-        public void setDayTime(String dayTime) {
+        public void setDayTime(DayTime dayTime) {
             this.dayTime = dayTime;
         }
 
-        public Optional<String> getDayTime() {
+        public Optional<DayTime> getDayTime() {
             return Optional.ofNullable(dayTime);
         }
 
-        public void setCost(String cost) {
+        public void setCost(Cost cost) {
             this.cost = cost;
         }
 
-        public Optional<String> getCost() {
+        public Optional<Cost> getCost() {
             return Optional.ofNullable(cost);
         }
 

@@ -37,9 +37,9 @@ public class PersonUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + person.getName().fullName + " ");
         sb.append(PREFIX_PHONE + person.getPhone().value + " ");
-        sb.append(PREFIX_SUBJECTLEVEL + person.getSubjectLevel() + " ");
-        sb.append(PREFIX_DAYTIME + person.getDayTime() + " ");
-        sb.append(PREFIX_COST + person.getCost() + " ");
+        sb.append(PREFIX_SUBJECTLEVEL + person.getSubjectLevel().value + " ");
+        sb.append(PREFIX_DAYTIME + person.getDayTime().value + " ");
+        sb.append(PREFIX_COST + person.getCost().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         person.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")

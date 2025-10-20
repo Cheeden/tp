@@ -171,6 +171,92 @@ The `FindCommandParser` detects the presence of the `t/` prefix using `ArgumentT
 
 Both predicates implement `Predicate<Person>` and use case-insensitive full-word matching via `StringUtil.containsWordIgnoreCase()`.
 
+### View Lesson Progress feature
+
+The View Lesson Progress feature allows tutors to view a student's lesson progress records in a popup window, displaying the date and remarks for each lesson conducted.
+
+#### Implementation
+
+The View Lesson Progress mechanism involves coordination across multiple components:
+
+**Logic Component:**
+* `ViewLessonProgressCommand` - Retrieves the specified person from the model and returns them in the `CommandResult`
+* `ViewLessonProgressCommandParser` - Parses the student index from user input using `ParserUtil.parseIndex()`
+
+**UI Component:**
+* `LessonProgressWindow` - A popup window that displays lesson progress in a TableView
+* `MainWindow` - Handles the command result and passes the person data to the popup window
+
+**Model Component:**
+* `Person` - Contains a list of `LessonProgress` objects
+* `LessonProgress` - Stores the date and remarks for each lesson
+
+**Storage Component:**
+* `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
+
+The following sequence diagram shows how the viewprogress operation works:
+
+```
+User -> UI: viewprogress 1
+UI -> Logic: execute("viewprogress 1")
+Logic -> AddressBookParser: parseCommand("viewprogress 1")
+AddressBookParser -> ViewLessonProgressCommandParser: parse("1")
+ViewLessonProgressCommandParser -> ViewLessonProgressCommand: new ViewLessonProgressCommand(index)
+ViewLessonProgressCommand -> Model: getFilteredPersonList()
+Model -> ViewLessonProgressCommand: personList
+ViewLessonProgressCommand -> ViewLessonProgressCommand: get person at index
+ViewLessonProgressCommand -> Logic: new CommandResult(message, person)
+Logic -> UI: commandResult
+UI -> UI: handleShowLessonProgress(person)
+UI -> LessonProgressWindow: setPerson(person)
+LessonProgressWindow -> LessonProgressWindow: load lesson progress into TableView
+LessonProgressWindow -> UI: show window
+```
+
+Given below is an example usage scenario:
+
+Step 1. The user executes `viewprogress 1` to view the lesson progress of the 1st student in the list.
+
+Step 2. `ViewLessonProgressCommandParser` parses the index "1" and creates a `ViewLessonProgressCommand` with index 1.
+
+Step 3. `ViewLessonProgressCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
+
+Step 4. The command returns a `CommandResult` containing the person object.
+
+Step 5. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
+
+Step 6. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson progress window.
+
+Step 7. `LessonProgressWindow` receives the person via `setPerson(person)` and populates the TableView with the person's lesson progress data.
+
+Step 8. The lesson progress window is displayed to the user showing the date and remarks for each lesson.
+
+#### Design considerations
+
+**Aspect: How to pass data from Command to UI**
+
+* **Alternative 1 (current choice):** Add a `Person` field to `CommandResult`
+  * Pros: Clean separation of concerns - the command returns domain data, and the UI decides how to display it
+  * Pros: Reusable pattern for other commands that need to pass data to UI
+  * Cons: Requires modification to the `CommandResult` class
+
+* **Alternative 2:** Store the person in the Model and have UI retrieve it
+  * Pros: Doesn't require changes to `CommandResult`
+  * Cons: Creates tight coupling between UI and Model
+  * Cons: Requires additional state management in Model
+
+**Aspect: How to display LocalDate in TableView**
+
+* **Alternative 1 (current choice):** Use custom CellValueFactory with SimpleStringProperty
+  * Pros: Full control over date formatting
+  * Pros: Can easily change date format in one place
+  * Cons: More code required compared to direct property binding
+
+* **Alternative 2:** Use PropertyValueFactory directly with LocalDate
+  * Pros: Less code required
+  * Cons: Default LocalDate toString() format is not user-friendly
+  * Cons: Cannot customize date formatting
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -594,6 +680,36 @@ testers are expected to do more *exploratory* testing.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
+
+1. _{ more test cases …​ }_
+
+### Viewing lesson progress
+
+1. Viewing lesson progress for a student
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least one person has lesson progress records.
+
+   1. Test case: `viewprogress 1`<br>
+      Expected: A popup window appears showing the lesson progress for the 1st student. The window displays a table with columns "Date" and "Remarks". If the student has lesson progress records, they are shown in the table. Success message shown in the status message.
+
+   1. Test case: `viewprogress 0`<br>
+      Expected: No window is shown. Error details shown in the status message: "Invalid command format! ...". Status bar remains the same.
+
+   1. Test case: `viewprogress`<br>
+      Expected: Similar to previous - error message about invalid command format.
+
+   1. Test case: `viewprogress x` (where x is larger than the list size)<br>
+      Expected: No window is shown. Error message: "The student index provided is invalid."
+
+   1. Other incorrect viewprogress commands to try: `viewprogress -1`, `viewprogress abc`<br>
+      Expected: Similar error messages about invalid format or index.
+
+1. Viewing lesson progress when student has no records
+
+   1. Prerequisites: Ensure a student in the list has no lesson progress records (newly added student).
+
+   1. Test case: `viewprogress 1` (assuming 1st student has no lesson progress)<br>
+      Expected: Popup window appears but the table is empty. Success message shown.
 
 1. _{ more test cases …​ }_
 

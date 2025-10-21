@@ -779,7 +779,7 @@ testers are expected to do more *exploratory* testing.
 ### Adding lesson progress
 
 1. Adding lesson progress for a student 
-    1. Prerequisites: List all persons using the list command. Multiple persons in the list. 
+   1. Prerequisites: List all persons using the list command. Multiple persons in the list. 
    2. Test case: `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`<br>
    Expected: A success message is shown in the status message confirming that the lesson progress has been added. 
    Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts 

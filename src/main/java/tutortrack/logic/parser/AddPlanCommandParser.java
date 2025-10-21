@@ -1,41 +1,40 @@
 package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PLAN;
 
 import java.util.stream.Stream;
 
 import tutortrack.commons.core.index.Index;
-import tutortrack.logic.commands.AddProgressCommand;
+import tutortrack.logic.commands.AddPlanCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.lesson.LessonProgress;
+import tutortrack.model.lesson.LessonPlan;
 
 /**
- * Parses input arguments and creates a new AddProgressCommand object.
+ * Parses input arguments and creates a new AddPlanCommand object.
  */
-public class AddProgressCommandParser implements Parser<AddProgressCommand> {
-
+public class AddPlanCommandParser implements Parser<AddPlanCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public AddProgressCommand parse(String args) throws ParseException {
+    public AddPlanCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_LESSON_PROGRESS);
+                ArgumentTokenizer.tokenize(args, PREFIX_LESSON_PLAN);
 
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_LESSON_PROGRESS)
+        if (!arePrefixesPresent(argMultimap, PREFIX_LESSON_PLAN)
                 || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddProgressCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPlanCommand.MESSAGE_USAGE));
         }
 
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
-        String lpString = argMultimap.getValue(PREFIX_LESSON_PROGRESS).get();
-        LessonProgress lp = ParserUtil.parseLessonProgress(lpString);
+        String lpString = argMultimap.getValue(PREFIX_LESSON_PLAN).get();
+        LessonPlan ll = ParserUtil.parseLessonPlan(lpString);
 
-        return new AddProgressCommand(index, lp);
+        return new AddPlanCommand(index, ll);
     }
 
     /**

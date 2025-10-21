@@ -204,6 +204,66 @@ Step 4. The results appear ranked: "John Doe" (first name match) appears before 
 
 Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
 
+### Add Lesson Progress feature
+
+The Add Lesson Progress feature allows tutors to record new lesson progress entries for a specific student, capturing the date and description of what was covered during a lesson.
+
+#### Implementation
+
+The Add Lesson Progress mechanism involves coordination across multiple components:
+
+**Logic Component:**
+
+* AddProgressCommand – Adds a new LessonProgress entry to a specified student. 
+* AddProgressCommandParser – Parses the student index and lesson progress details from user input. 
+* Expects the format: addprogress INDEX lp/DATE|PROGRESS 
+* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter. 
+* Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
+
+**Model Component:**
+
+* Person – Contains a List<LessonProgress> representing all past lesson progress entries. 
+* LessonProgress – Stores two fields: LocalDate date and String description. 
+* The AddProgressCommand retrieves the target Person, creates a new LessonProgress object, and appends it to the person’s lesson progress list. 
+* A new Person object is created with the updated lesson progress list (immutability principle), replacing the original person in the model.
+
+**Storage Component:**
+
+* JsonAdaptedLessonProgress – Handles JSON serialization and deserialization of LessonProgress data when saving or loading from storage. 
+* Each LessonProgress entry is stored as an object with date and progress fields in the JSON file.
+
+**UI Component:**
+
+* The result of a successful addprogress command is displayed in the Result Display panel. 
+* The updated progress list can then be viewed using the viewprogress command, which opens the LessonProgressWindow.
+
+**Example Usage Scenario**
+
+Given below is an example usage scenario of the Add Lesson Progress feature:
+
+Step 1. The user executes `addprogress 1 lp/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
+
+Step 2. `AddProgressCommandParser` parses:
+
+Index = 1
+
+Date = 2025-10-21
+
+Progress = "Introduced new algebra concepts"
+
+Step 3. `AddProgressCommandParser` creates a new `LessonProgress` object with the parsed values and constructs an `AddProgressCommand` with the index and lesson progress.
+
+Step 4. `AddProgressCommand.execute()` retrieves the student at index 1 from the filtered person list in the model.
+
+Step 5. The command creates a new Person with the additional lesson progress entry appended to their existing list of progress records.
+
+Step 6. `Model.setPerson(targetPerson, updatedPerson)` is called to update the model with the modified person.
+
+Step 7. The command returns a `CommandResult` confirming the addition, e.g.
+New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
+
+Step 8. The user may then execute `viewprogress 1` to view the updated list of progress entries in the Lesson Progress window.
+
 ### View Lesson Progress feature
 
 The View Lesson Progress feature allows tutors to view a student's lesson progress records in a popup window, displaying the date and remarks for each lesson conducted.
@@ -715,6 +775,33 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Adding lesson progress
+
+1. Adding lesson progress for a student 
+    1. Prerequisites: List all persons using the list command. Multiple persons in the list. 
+   2. Test case: `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`<br>
+   Expected: A success message is shown in the status message confirming that the lesson progress has been added. 
+   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts 
+   The student’s lesson progress list is updated. Timestamp in the status bar is updated.
+   3. Test case: `addprogress 0 lp/2025-10-21|Introduced new algebra concepts`<br>
+   Expected: No lesson progress is added. Error details shown in the status message:
+   “Invalid command format! …”. Status bar remains the same. 
+   4. Test case: `addprogress 1 lp/invalid-date|Introduced new algebra concepts`<br>
+   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged. 
+   5. Test case: `addprogress 1 lp/2025-10-21|`<br>
+   Expected: No lesson progress is added. Error details shown in the status message: progress description missing. 
+   6. Test case: `addprogress x lp/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
+   Expected: No lesson progress is added. Error message: “The student index provided is invalid.” Status bar remains the same. 
+   7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
+   Expected: Similar error messages about invalid command format or index.
+
+2. Viewing after addition 
+      1. Prerequisites: Successfully add at least one lesson progress record to a student. 
+   2. Test case: viewprogress 1<br>
+   Expected: Popup window appears showing the newly added lesson progress entry in the table under “Date” and “Remarks” columns.
+
+3. { more test cases … }
 
 ### Viewing lesson progress
 

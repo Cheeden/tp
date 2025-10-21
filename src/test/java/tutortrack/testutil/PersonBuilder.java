@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import tutortrack.logic.parser.ParserUtil;
-import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.lesson.LessonPlan;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;

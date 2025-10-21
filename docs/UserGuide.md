@@ -148,6 +148,69 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Adding lesson plan : addplan
+
+Adds a new lesson plan entry for a specific student.
+
+Format:
+`addplan INDEX ll/DATE|PLAN`
+
+* Adds a lesson plan to the student at the specified `INDEX`. 
+* The index refers to the index number shown in the displayed person list. 
+* The index must be a positive integer 1, 2, 3, … 
+* `DATE` must be in the format YYYY-MM-DD. 
+* `PLAN` is a short description of the topics or activities planned for that lesson. 
+* Each new entry will be added to the student’s lesson plan list. 
+* Entries can later be viewed with the view command.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addplan` command to schedule and keep track of upcoming lessons for each student. </div>
+
+Examples:
+
+`addplan 1 ll/2025-10-25|Introduce quadratic equations`
+Adds a lesson plan on 25 Oct 2025 for the 1st student.
+
+`addplan 2 ll/2025-10-23|Essay writing techniques and structure`
+Adds a lesson plan on 23 Oct 2025 for the 2nd student.
+
+Expected outcome:<br>
+
+* A success message will be displayed in the result box confirming that the lesson plan has been added. 
+* The new entry will appear in the student’s lesson plan list, viewable using view.
+* ![Add Plan Success](images/addPlanSuccess.png)
+
+### Add Lesson Progress : `addprogress`
+
+Adds a lesson progress to a student.
+
+Format: `addprogress INDEX Date|Description`
+
+* Adds a lesson progress entry to the student at the specified INDEX. 
+* The index refers to the index number shown in the displayed person list. 
+* The index must be a positive integer 1, 2, 3, … 
+* `DATE` must be in the format YYYY-MM-DD. 
+* `PROGRESS` is a short description of what was covered or achieved in that lesson. 
+* Each new entry will be added to the student’s lesson progress history. 
+* Entries can later be viewed with the view command.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addprogress` command regularly to keep an updated record of each student’s learning progress. </div>
+
+Examples:
+
+* `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`
+Adds a progress entry on 21 Oct 2025 for the 1st student.
+
+* `addprogress 2 lp/2025-10-15|Reviewed essay structure and grammar`
+Adds a progress entry on 15 Oct 2025 for the 2nd student.
+
+Expected outcome:<br>
+
+* A success message will be displayed in the result box confirming that the lesson progress has been added. 
+* The new entry will appear in the student’s lesson progress list, viewable using viewprogress. 
+* ![Add Progress Success](images/addProgressSuccess.png)
+
 ### Viewing lesson progress : `viewprogress`
 
 Shows the lesson progress history for a specific student in a separate window.
@@ -231,4 +294,6 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]`<br> e.g., `find James Jake`, `find t/friends`
 **List** | `list`
 **Help** | `help`
+**Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21 Introduce essay writing skills`
+**Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21 Introduced new algebra concepts`
 **View Progress** | `viewprogress INDEX`<br> e.g., `viewprogress 1`

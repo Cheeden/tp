@@ -27,6 +27,8 @@ public class AddPlanCommand extends Command {
             + PREFIX_LESSON_PLAN + "2025-10-15|Cover Chapter 5\n";
 
     public static final String MESSAGE_SUCCESS = "New lesson plan added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PLAN =
+            "You already has a plan for the student on %s. Try edit the plan using editplan.";
 
     private final Index index;
     private final LessonPlan toAdd;
@@ -50,6 +52,12 @@ public class AddPlanCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+
+        if (personToEdit.hasPlanOnDate(toAdd.getDate())) {
+            throw new CommandException(String.format(
+                    MESSAGE_DUPLICATE_PLAN,
+                    toAdd.getDate()));
+        }
 
         personToEdit.addLessonPlan(toAdd);
 

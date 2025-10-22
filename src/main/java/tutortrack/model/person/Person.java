@@ -2,6 +2,7 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -94,6 +95,28 @@ public class Person {
 
     public ObservableList<LessonPlan> getLessonPlanList() {
         return lessonPlanList;
+    }
+
+    /**
+     * Checks whether this person already has a lesson progress entry on the specified date.
+     *
+     * @param date the date to check for an existing lesson progress entry
+     * @return {@code true} if there is a lesson progress with the same date, {@code false} otherwise
+     */
+    public boolean hasProgressOnDate(LocalDate date) {
+        return lessonProgressList.stream()
+                .anyMatch(lessonProgress -> lessonProgress.getDate().equals(date));
+    }
+
+    /**
+     * Checks whether this person already has a lesson plan entry on the specified date.
+     *
+     * @param date the date to check for an existing lesson plan entry
+     * @return {@code true} if there is a lesson plan with the same date, {@code false} otherwise
+     */
+    public boolean hasPlanOnDate(LocalDate date) {
+        return lessonPlanList.stream()
+                .anyMatch(lessonPlan -> lessonPlan.getDate().equals(date));
     }
 
     /**

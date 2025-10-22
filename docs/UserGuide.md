@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -148,7 +148,7 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Adding lesson plan : addplan
+### Adding lesson plan : `addplan`
 
 Adds a new lesson plan entry for a specific student.
 
@@ -294,6 +294,6 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]`<br> e.g., `find James Jake`, `find t/friends`
 **List** | `list`
 **Help** | `help`
-**Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21 Introduce essay writing skills`
-**Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21 Introduced new algebra concepts`
+**Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
+**Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
 **View Progress** | `viewprogress INDEX`<br> e.g., `viewprogress 1`

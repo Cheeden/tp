@@ -10,6 +10,7 @@ import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.person.Person;
+import tutortrack.ui.LessonProgressWindow;
 
 /**
  * Shows lesson progress in a separate window.
@@ -44,6 +45,7 @@ public class ViewLessonProgressCommand extends Command {
         }
 
         Person personToView = lastShownList.get(targetIndex.getZeroBased());
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, personToView.getName()),
                 false, false, true, personToView);
     }

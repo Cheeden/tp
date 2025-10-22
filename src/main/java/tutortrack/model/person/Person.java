@@ -2,12 +2,12 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.model.lesson.LessonPlan;
@@ -30,8 +30,8 @@ public class Person {
     private final Cost cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-    private final List<LessonProgress> lessonProgressList = new ArrayList<>();
-    private final List<LessonPlan> lessonPlanList = new ArrayList<>();
+    private final ObservableList<LessonProgress> lessonProgressList = FXCollections.observableArrayList();
+    private final ObservableList<LessonPlan> lessonPlanList = FXCollections.observableArrayList();
 
     /**
      * Every field must be present and not null.
@@ -84,11 +84,11 @@ public class Person {
         lessonProgressList.add(lp);
     }
 
-    public List<LessonProgress> getLessonProgressList() {
+    public ObservableList<LessonProgress> getLessonProgressList() {
         return lessonProgressList;
     }
 
-    public List<LessonPlan> getLessonPlanList() {
+    public ObservableList<LessonPlan> getLessonPlanList() {
         return lessonPlanList;
     }
 
@@ -145,6 +145,7 @@ public class Person {
                 .add("cost", cost)
                 .add("address", address)
                 .add("tags", tags)
+                .add("lesson plan", lessonPlanList)
                 .add("lesson progress", lessonProgressList)
                 .toString();
     }

@@ -51,21 +51,7 @@ public class AddPlanCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getSubjectLevel(),
-                personToEdit.getDayTime(),
-                personToEdit.getCost(),
-                personToEdit.getAddress(),
-                personToEdit.getTags()
-        );
-
-        editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
-
-        editedPerson.getLessonPlanList().add(toAdd);
-
-        model.setPerson(personToEdit, editedPerson);
+        personToEdit.addLessonPlan(toAdd);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

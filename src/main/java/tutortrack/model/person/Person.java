@@ -84,6 +84,10 @@ public class Person {
         lessonProgressList.add(lp);
     }
 
+    public void addLessonPlan(LessonPlan ll) {
+        lessonPlanList.add(ll);
+    }
+
     public ObservableList<LessonProgress> getLessonProgressList() {
         return lessonProgressList;
     }

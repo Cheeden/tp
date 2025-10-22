@@ -36,11 +36,11 @@ public class AddPlanCommandTest {
     void execute_addDuplicatePlan_throwsCommandException() {
         Person validPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         LessonPlan existingLl = new LessonPlan(
-                LocalDate.of(2025, 10, 21), "Introduced new algebra concepts");
+                LocalDate.of(2025, 10, 22), "Introduced new algebra concepts");
         validPerson.addLessonPlan(existingLl);
 
         LessonPlan duplicateLl = new LessonPlan(
-                LocalDate.of(2025, 10, 21), "Repeated entry");
+                LocalDate.of(2025, 10, 22), "Repeated entry");
         AddPlanCommand command = new AddPlanCommand(Index.fromOneBased(1), duplicateLl);
 
         String expectedMessage = String.format(AddPlanCommand.MESSAGE_DUPLICATE_PLAN,

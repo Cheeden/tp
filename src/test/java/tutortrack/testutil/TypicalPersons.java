@@ -30,35 +30,51 @@ public class TypicalPersons {
     public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111")
             .withPhone("94351253").withSubjectLevel("P4-Math").withDayTime("Monday 1200").withCost("$50")
-            .withTags("friends").withLessonProgress("2025-10-16|Covered chapter 1").build();
+            .withTags("friends")
+            .withLessonPlan("2025-10-16|Cover chapter 1")
+            .withLessonProgress("2025-10-16|Covered chapter 1").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withPhone("98765432")
             .withSubjectLevel("P5-Math").withDayTime("Monday 1300").withCost("$60")
-            .withTags("owesMoney", "friends").withLessonProgress("2025-10-16|Covered chapter 2").build();
+            .withTags("owesMoney", "friends")
+            .withLessonPlan("2025-10-16|Cover chapter 2")
+            .withLessonProgress("2025-10-16|Covered chapter 2").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withSubjectLevel("P1-Chinese").withDayTime("Tuesday 1200").withCost("$40")
-            .withAddress("wall street").withLessonProgress("2025-10-16|Covered chapter 3").build();
+            .withAddress("wall street")
+            .withLessonPlan("2025-10-16|Cover chapter 3")
+            .withLessonProgress("2025-10-16|Covered chapter 3").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
             .withSubjectLevel("Sec1-Math").withDayTime("Friday 1400").withCost("$70")
             .withAddress("10th street").withTags("friends")
+            .withLessonPlan("2025-10-16|Cover chapter 4")
             .withLessonProgress("2025-10-16|Covered chapter 4").build();
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
             .withSubjectLevel("P6-English").withDayTime("Thursday 1000").withCost("$55")
-            .withAddress("michegan ave").withLessonProgress("2025-10-16|Covered chapter 5").build();
+            .withAddress("michegan ave")
+            .withLessonPlan("2025-10-16|Cover chapter 5")
+            .withLessonProgress("2025-10-16|Covered chapter 5").build();
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withSubjectLevel("P3-Science").withDayTime("Sunday 1200").withCost("$60")
-            .withAddress("little tokyo").withLessonProgress("2025-10-16|Covered chapter 6").build();
+            .withAddress("little tokyo")
+            .withLessonPlan("2025-10-16|Cover chapter 6")
+            .withLessonProgress("2025-10-16|Covered chapter 6").build();
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
             .withSubjectLevel("P1-Math").withDayTime("Monday 1800").withCost("$40")
-            .withAddress("4th street").withLessonProgress("2025-10-16|Covered chapter 7").build();
+            .withAddress("4th street").withLessonPlan("2025-10-16|Cover chapter 1")
+            .withLessonProgress("2025-10-16|Covered chapter 7").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("8482424")
             .withSubjectLevel("P2-Math").withDayTime("Monday 1000").withCost("$50")
-            .withAddress("little india").withLessonProgress("2025-10-16|Covered chapter 8").build();
+            .withAddress("little india")
+            .withLessonPlan("2025-10-16|Cover chapter 8")
+            .withLessonProgress("2025-10-16|Covered chapter 8").build();
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
             .withSubjectLevel("P4-English").withDayTime("Saturday 1200").withCost("$50")
-            .withAddress("chicago ave").withLessonProgress("2025-10-16|Covered chapter 9").build();
+            .withAddress("chicago ave")
+            .withLessonPlan("2025-10-16|Cover chapter 9")
+            .withLessonProgress("2025-10-16|Covered chapter 9").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)

@@ -91,6 +91,7 @@ public class PersonTest {
                 + ", subjectLevel=" + ALICE.getSubjectLevel()
                 + ", dayTime=" + ALICE.getDayTime() + ", cost=" + ALICE.getCost()
                 + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+                + ", lesson plan=" + ALICE.getLessonPlanList()
                 + ", lesson progress=" + ALICE.getLessonProgressList() + "}";
         assertEquals(expected, ALICE.toString());
     }

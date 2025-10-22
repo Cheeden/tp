@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
@@ -149,5 +149,4 @@ public class Person {
                 .add("lesson progress", lessonProgressList)
                 .toString();
     }
-
 }

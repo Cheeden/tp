@@ -23,6 +23,15 @@ public class LessonDayPredicateTest {
     }
 
     @Test
+    public void equals_differentValue_returnsFalse() {
+        LessonDayPredicate mondayPredicate = new LessonDayPredicate("Monday");
+        LessonDayPredicate tuesdayPredicate = new LessonDayPredicate("Tuesday");
+
+        // Different value -> returns false
+        assertFalse(mondayPredicate.equals(tuesdayPredicate));
+    }
+
+    @Test
     public void equals_null_returnsFalse() {
         LessonDayPredicate mondayPredicate = new LessonDayPredicate("Monday");
 
@@ -121,3 +130,4 @@ public class LessonDayPredicateTest {
         assertEquals(0, predicate.getComparator().compare(alice, alice));
     }
 }
+

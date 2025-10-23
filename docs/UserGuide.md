@@ -112,19 +112,31 @@ Examples:
 
 ### Locating persons: `find`
 
-Finds persons whose names or tags match any of the given keywords.
+Finds persons whose names, tags, or lesson days match any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]`
+Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
+**Search by Name:**
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* By default (without `t/` prefix), only the name is searched using prefix matching.
-* With `t/` prefix, only tags are searched.
-* For name searches, any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
-* For tag searches, only full words will be matched.
-* **Name search results are ranked by relevance**: First name matches appear first, followed by last name matches, then alphabetically.
+* By default (without prefix eg t/), the name of the student is searched using prefix matching.
+* Any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
+* **Results are ranked by relevance**: First name matches appear first, followed by last name matches, then alphabetically.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+**Search by Tag (with `t/` prefix):**
+* Only tags are searched.
+* Only full words will be matched.
+* The search is case-insensitive.
+* Persons matching at least one tag keyword will be returned.
+
+**Search by Lesson Day (with `d/` prefix):**
+* Only searches by the lesson day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
+* The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
+* **Results are automatically sorted by lesson time** (earliest to latest).
+* If multiple lessons have the same time, they are sorted alphabetically by name.
+* Only one day can be searched at a time.
 
 Examples:
 * `find John` returns `john` and `John Doe` (first names starting with "John" ranked higher)
@@ -133,6 +145,8 @@ Examples:
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find t/friends` returns all persons tagged with `friends`
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
+* `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
+* `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
 
 ### Deleting a person : `delete`
 

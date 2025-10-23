@@ -157,26 +157,48 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Find feature
 
-The find feature allows users to search for persons by name (default) or by tags (with `t/` prefix).
+The find feature allows users to search for persons by name (default), tags (with `t/` prefix), or lesson day (with `d/` prefix).
 
 #### Implementation
 
 The find mechanism is implemented using predicates and comparators:
 * `NameContainsKeywordsPredicate` - filters persons whose names match the keywords using prefix matching
 * `TagContainsKeywordsPredicate` - filters persons whose tags match the keywords using full-word matching
+* `LessonDayPredicate` - filters persons whose lesson day matches the specified day
 
-The `FindCommandParser` detects the presence of the `t/` prefix using `ArgumentTokenizer`:
-* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no ranking)
-* If `t/` prefix is absent, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its comparator (with ranking)
+The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
+* If `d/` prefix is present, it creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
+* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
+* If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
 
-**Prefix Matching:**
-Name searches use `StringUtil.containsPrefixIgnoreCase()` which checks if any word token starts with the search keyword, enabling partial name matching (e.g., "Jo" matches "John").
+**Search Types:**
 
-**Ranking System:**
+1. **Prefix Matching (Name Search):**
+   * Uses `StringUtil.containsPrefixIgnoreCase()` to check if any word token starts with the search keyword
+   * Enables partial name matching (e.g "Jo" matches "John")
+   * Results are ranked by relevance (see below)
+
+2. **Full-word Matching (Tag Search):**
+   * Matches complete tag names only
+   * Case-insensitive
+   * No sorting applied
+
+3. **Day Matching (Lesson Day Search):**
+   * Filters by the day component of `DayTime` field (e.g., "Monday 1200" → "Monday")
+   * Case-insensitive (e.g., "monday", "Monday", "MONDAY" all match)
+   * **Important:** Time is used for sorting only, not for filtering
+   * Results are automatically sorted by lesson time (earliest to latest)
+
+**Ranking System for Name Search:**
 Search results are ranked by relevance using a comparator returned by `NameContainsKeywordsPredicate.getComparator()`:
 1. **Rank 1** (Highest): First name token matches (e.g., "John Doe" for query "Jo")
 2. **Rank 2**: Other name tokens match (e.g., "Mary Joe" for query "Jo")
 3. **Alphabetical**: Tiebreaker for same-rank results
+
+**Sorting System for Day Search:**
+Search results are sorted chronologically using a comparator returned by `LessonDayPredicate.getComparator()`:
+1. **Primary sort**: Lesson time in ascending order (0900 before 1400)
+2. **Secondary sort**: Alphabetical by name (case-insensitive) when timing are equal
 
 The ranking is implemented using JavaFX's `SortedList` wrapper:
 * `ModelManager` wraps the `FilteredList` with a `SortedList`
@@ -184,7 +206,7 @@ The ranking is implemented using JavaFX's `SortedList` wrapper:
 * When other commands (e.g., `list`, `edit`) call `Model.updateFilteredPersonList(predicate)`, the sorting is cleared
 
 This approach ensures:
-- Search results appear in order of relevance
+- Search results appear in order of relevance (name) or chronologically (day)
 - Sorting is temporary and specific to the current search
 - Other commands maintain the original contact order
 

@@ -124,13 +124,16 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code selfContact} of the {@code Person} that we are building.
      */
     public PersonBuilder withSelfContact(String phone) {
         this.selfContact = new Phone(phone);
         return this;
     }
 
+    /**
+     * Sets the {@code nokContact} of the {@code Person} that we are building.
+     */
     public PersonBuilder withNokContact(String phone) {
         this.nokContact = new Phone(phone);
         return this;

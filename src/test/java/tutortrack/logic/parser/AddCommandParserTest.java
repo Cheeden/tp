@@ -1,10 +1,42 @@
 package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static tutortrack.logic.commands.CommandTestUtil.*;
+import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.CONTACT_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.CONTACT_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_COST_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_DAYTIME_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_SUBJECTLEVEL_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.NAME_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.NOK_CONTACT_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.NOK_CONTACT_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
+import static tutortrack.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static tutortrack.logic.commands.CommandTestUtil.SUBJECTLEVEL_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.SUBJECTLEVEL_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
+import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_NOK_CONTACT_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -172,23 +204,24 @@ public class AddCommandParserTest {
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + INVALID_ADDRESS_DESC
-                                           + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_CONSTRAINTS);
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + INVALID_ADDRESS_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                                           Address.MESSAGE_CONSTRAINTS);
 
         // invalid subject level
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + INVALID_SUBJECTLEVEL_DESC + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
-                                           + TAG_DESC_HUSBAND, SubjectLevel.MESSAGE_CONSTRAINTS);
+                                           + INVALID_SUBJECTLEVEL_DESC + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND, SubjectLevel.MESSAGE_CONSTRAINTS);
 
         // invalid day/time (e.g. invalid format or invalid hour)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + INVALID_DAYTIME_DESC + COST_DESC_BOB + ADDRESS_DESC_BOB,
-                DayTime.MESSAGE_CONSTRAINTS);
+                                           + SUBJECTLEVEL_DESC_BOB + INVALID_DAYTIME_DESC + COST_DESC_BOB
+                                           + ADDRESS_DESC_BOB, DayTime.MESSAGE_CONSTRAINTS);
 
         // invalid cost (missing $ sign)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + INVALID_COST_DESC + ADDRESS_DESC_BOB,
-                Cost.MESSAGE_CONSTRAINTS);
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + INVALID_COST_DESC
+                                           + ADDRESS_DESC_BOB, Cost.MESSAGE_CONSTRAINTS);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
@@ -197,8 +230,8 @@ public class AddCommandParserTest {
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + INVALID_ADDRESS_DESC,
-                Name.MESSAGE_CONSTRAINTS);
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + INVALID_ADDRESS_DESC, Name.MESSAGE_CONSTRAINTS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB

@@ -1,9 +1,16 @@
 package tutortrack.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.CONTACT_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.NOK_CONTACT_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.SUBJECTLEVEL_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_AMY;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static tutortrack.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static tutortrack.logic.commands.CommandTestUtil.*;
 import static tutortrack.testutil.Assert.assertThrows;
 import static tutortrack.testutil.TypicalPersons.AMY;
 

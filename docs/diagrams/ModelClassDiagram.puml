@@ -17,6 +17,9 @@ Class Person
 Class Address
 Class Name
 Class Phone
+Class SubjectLevel
+Class DayTime
+Class Cost
 Class Tag
 
 Class I #FFFFFF
@@ -39,6 +42,9 @@ UniquePersonList --> "~* all" Person
 Person *--> Name
 Person *--> Phone
 Person *--> Address
+Person *--> SubjectLevel
+Person *--> DayTime
+Person *--> Cost
 Person *--> "*" Tag
 
 Person -[hidden]up--> I
@@ -46,7 +52,9 @@ UniquePersonList -[hidden]right-> I
 
 Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Address -[hidden]right-> SubjectLevel
+SubjectLevel -[hidden]right-> DayTime
+DayTime -[hidden]right-> Cost
 
 ModelManager --> "~* filtered" Person
 @enduml

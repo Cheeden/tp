@@ -17,4 +17,7 @@ Person -up-> "*" Tag
 Person *--> Name
 Person *--> Phone
 Person *--> Address
+Person *--> SubjectLevel
+Person *--> DayTime
+Person *--> Cost
 @enduml

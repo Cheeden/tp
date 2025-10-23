@@ -207,6 +207,11 @@ public class MainWindow extends UiPart<Stage> {
                 handleExit();
             }
 
+            // Refresh the lesson window if it's showing to reflect any changes
+            if (lessonWindow.isShowing()) {
+                lessonWindow.refresh(logic.getFilteredPersonList());
+            }
+
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);

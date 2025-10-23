@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -41,6 +40,7 @@ public class LessonWindow extends UiPart<Stage> {
     private TableColumn<LessonDisplay, String> planColumn;
 
     private final ObservableList<LessonDisplay> lessonData = FXCollections.observableArrayList();
+    private Person currentPerson; // Track the person being displayed
 
     /**
      * Creates a new LessonWindow.
@@ -76,6 +76,7 @@ public class LessonWindow extends UiPart<Stage> {
      * @param person The person whose lessons to display.
      */
     public void setPerson(Person person) {
+        this.currentPerson = person;
         getRoot().setTitle("Lessons - " + person.getName().fullName);
         logger.fine("Loading lessons summary for: " + person.getName());
 
@@ -110,29 +111,28 @@ public class LessonWindow extends UiPart<Stage> {
         lessonData.addAll(lessonList);
         lessonTable.setItems(lessonData);
 
-        person.getLessonProgressList().addListener(
-                (ListChangeListener<? super LessonProgress>) change -> {
-                    while (change.next()) {
-                        if (change.wasAdded()) {
-                            for (LessonProgress progress : change.getAddedSubList()) {
-                                addOrEditUpdateLessonDisplay(progress.getDate(), progress.getProgress(), null);
-                            }
-                        }
-                    }
-                });
-
-        person.getLessonPlanList().addListener(
-                (ListChangeListener<? super LessonPlan>) change -> {
-                    while (change.next()) {
-                        if (change.wasAdded()) {
-                            for (LessonPlan plan : change.getAddedSubList()) {
-                                addOrEditUpdateLessonDisplay(plan.getDate(), null, plan.getPlan());
-                            }
-                        }
-                    }
-                });
-
         logger.fine("Loaded " + lessonList.size() + " lesson entries for: " + person.getName().fullName);
+    }
+
+    /**
+     * Refreshes the lesson window with updated person data from the model.
+     *
+     * @param updatedPersonList The updated list of persons from the model.
+     */
+    public void refresh(ObservableList<Person> updatedPersonList) {
+        if (currentPerson == null || !isShowing()) {
+            return;
+        }
+
+        // Find the updated person by matching the name (since person objects are immutable)
+        Person updatedPerson = updatedPersonList.stream()
+                                .filter(p -> p.isSamePerson(currentPerson))
+                                .findFirst()
+                                .orElse(null);
+
+        if (updatedPerson != null) {
+            setPerson(updatedPerson);
+        }
     }
 
     /**
@@ -163,21 +163,6 @@ public class LessonWindow extends UiPart<Stage> {
      */
     public void focus() {
         getRoot().requestFocus();
-    }
-
-    private void addOrEditUpdateLessonDisplay(LocalDate date, String progress, String plan) {
-        for (LessonDisplay ld : lessonData) {
-            if (ld.getDate().equals(date)) {
-                if (progress != null) {
-                    ld.setProgress(progress);
-                }
-                if (plan != null) {
-                    ld.setPlan(plan);
-                }
-                return;
-            }
-        }
-        lessonData.add(new LessonDisplay(date, progress == null ? "" : progress, plan == null ? "" : plan));
     }
 
     /**

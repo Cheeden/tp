@@ -1,5 +1,7 @@
 package tutortrack.model.lesson;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -20,8 +22,8 @@ public class LessonPlan {
      * @param plan A valid plan description.
      */
     public LessonPlan(LocalDate date, String plan) {
-        this.date = date;
-        this.plan = plan;
+        this.date = requireNonNull(date, "Date cannot be null");
+        this.plan = requireNonNull(plan, "Plan cannot be null");
     }
 
     public LocalDate getDate() {

@@ -1,5 +1,7 @@
 package tutortrack.model.lesson;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -21,8 +23,8 @@ public class LessonProgress {
      * @param progress A valid progress description.
      */
     public LessonProgress(LocalDate date, String progress) {
-        this.date = date;
-        this.progress = progress;
+        this.date = requireNonNull(date, "Date cannot be null");
+        this.progress = requireNonNull(progress, "Progress cannot be null");
     }
 
     public LocalDate getDate() {

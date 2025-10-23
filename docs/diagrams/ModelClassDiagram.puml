@@ -18,6 +18,8 @@ Class Address
 Class Name
 Class Phone
 Class Tag
+Class "<<interface>>\nPredicate<Person>" as Predicate
+note right of Predicate: Used by FindCommand\nto filter persons by\nname, tag, or lesson day
 
 Class I #FFFFFF
 }

@@ -14,9 +14,17 @@ Class UserPrefs
 
 Class UniquePersonList
 Class Person
+note right
+{At least one of Contact or
+NOKContact must be non-null}
+end note
 Class Address
 Class Name
-Class Phone
+Class Contact
+Class NOKContact
+Class SubjectLevel
+Class DayTime
+Class Cost
 Class Tag
 Class "<<interface>>\nPredicate<Person>" as Predicate
 note right of Predicate: Used by FindCommand\nto filter persons by\nname, tag, or lesson day
@@ -39,16 +47,23 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
 Person *--> Name
-Person *--> Phone
+Person *--> "0..1" Contact
+Person *--> "0..1" NOKContact
 Person *--> Address
+Person *--> SubjectLevel
+Person *--> DayTime
+Person *--> Cost
 Person *--> "*" Tag
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Name -[hidden]right-> Contact
+Contact -[hidden]right-> NOKContact
+NOKContact -[hidden]right-> Address
+Address -[hidden]right-> SubjectLevel
+SubjectLevel -[hidden]right-> DayTime
+DayTime -[hidden]right-> Cost
 
 ModelManager --> "~* filtered" Person
 @enduml

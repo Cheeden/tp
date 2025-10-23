@@ -22,7 +22,10 @@ public class Person {
 
     // Identity fields
     private final Name name;
-    private final Phone phone;
+
+    //Contact fields
+    private final Phone selfContact;
+    private final Phone nokContact;
 
     // Data fields
     private final SubjectLevel subjectLevel;
@@ -34,13 +37,19 @@ public class Person {
     private final List<LessonPlan> lessonPlanList = new ArrayList<>();
 
     /**
-     * Every field must be present and not null.
+     * All other fields and at least one of contacts must be present and not null.
      */
-    public Person(Name name, Phone phone, SubjectLevel subjectLevel,
-                  DayTime dayTime, Cost cost, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, subjectLevel, dayTime, cost, address, tags);
+    public Person(Name name, Phone selfContact, Phone nokContact,
+                  SubjectLevel subjectLevel, DayTime dayTime, Cost cost,
+                  Address address, Set<Tag> tags) {
+        requireAllNonNull(name, subjectLevel, dayTime, cost, address, tags);
+
+        if (selfContact == null && nokContact == null) {
+            throw new IllegalArgumentException("At least one of the contact should be provided.");
+        }
         this.name = name;
-        this.phone = phone;
+        this.selfContact = selfContact;
+        this.nokContact = nokContact;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
         this.cost = cost;
@@ -52,8 +61,16 @@ public class Person {
         return name;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public Phone getSelfContact() {
+        return selfContact;
+    }
+
+    public Phone getNokContact() {
+        return nokContact;
+    }
+
+    public Phone getPrimaryContact() {
+        return selfContact != null ? selfContact : nokContact;
     }
 
     public SubjectLevel getSubjectLevel() {
@@ -115,31 +132,31 @@ public class Person {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
 
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && subjectLevel.equals(otherPerson.subjectLevel)
-                && dayTime.equals(otherPerson.dayTime)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                       && Objects.equals(selfContact, otherPerson.selfContact)
+                       && Objects.equals(nokContact, otherPerson.nokContact)
+                       && subjectLevel.equals(otherPerson.subjectLevel)
+                       && dayTime.equals(otherPerson.dayTime)
+                       && address.equals(otherPerson.address)
+                       && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, subjectLevel, dayTime, cost, address, tags);
+        return Objects.hash(name, selfContact, nokContact, subjectLevel, dayTime, cost, address, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("name", name)
-                .add("phone", phone)
+                .add("selfContact", selfContact)
+                .add("nokContact", nokContact)
                 .add("subjectLevel", subjectLevel)
                 .add("dayTime", dayTime)
                 .add("cost", cost)

@@ -5,7 +5,8 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -25,7 +26,8 @@ public class AddCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
+            + PREFIX_SELF_CONTACT + "SELF_CONTACT "
+            + PREFIX_NOK_CONTACT + "NOK_CONTACT "
             + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL "
             + PREFIX_DAYTIME + "DAYTIME "
             + PREFIX_COST + "COST "
@@ -33,7 +35,8 @@ public class AddCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
+            + PREFIX_SELF_CONTACT + "98765432 "
+            + PREFIX_NOK_CONTACT + "87438807 "
             + PREFIX_SUBJECTLEVEL + "p4-math "
             + PREFIX_DAYTIME + "Tuesday 1200 "
             + PREFIX_COST + "$50 "

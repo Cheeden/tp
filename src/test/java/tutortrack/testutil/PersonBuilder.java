@@ -26,7 +26,8 @@ import tutortrack.model.util.SampleDataUtil;
 public class PersonBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
-    public static final String DEFAULT_PHONE = "85355255";
+    public static final String DEFAULT_SELF_CONTACT = "98765432";
+    public static final String DEFAULT_NOK_CONTACT = "87438807";
     public static final String DEFAULT_SUBJECTLEVEL = "P4-Math";
     public static final String DEFAULT_DAYTIME = "Monday 1200";
     public static final String DEFAULT_COST = "$50";
@@ -34,7 +35,8 @@ public class PersonBuilder {
     public static final String DEFAULT_LESSON_PROGRESS = "2025-10-15|Covered Chapter 1";
 
     private Name name;
-    private Phone phone;
+    private Phone selfContact;
+    private Phone nokContact;
     private SubjectLevel subjectLevel;
     private DayTime dayTime;
     private Cost cost;
@@ -47,7 +49,8 @@ public class PersonBuilder {
      */
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
-        phone = new Phone(DEFAULT_PHONE);
+        selfContact = new Phone(DEFAULT_SELF_CONTACT);
+        nokContact = new Phone(DEFAULT_NOK_CONTACT);
         subjectLevel = new SubjectLevel(DEFAULT_SUBJECTLEVEL);
         dayTime = new DayTime(DEFAULT_DAYTIME);
         cost = new Cost(DEFAULT_COST);
@@ -68,7 +71,8 @@ public class PersonBuilder {
      */
     public PersonBuilder(Person personToCopy) {
         name = personToCopy.getName();
-        phone = personToCopy.getPhone();
+        selfContact = personToCopy.getSelfContact();
+        nokContact = personToCopy.getNokContact();
         subjectLevel = personToCopy.getSubjectLevel();;
         dayTime = personToCopy.getDayTime();
         cost = personToCopy.getCost();
@@ -107,8 +111,13 @@ public class PersonBuilder {
     /**
      * Sets the {@code Phone} of the {@code Person} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+    public PersonBuilder withSelfContact(String phone) {
+        this.selfContact = new Phone(phone);
+        return this;
+    }
+
+    public PersonBuilder withNokContact(String phone) {
+        this.nokContact = new Phone(phone);
         return this;
     }
 
@@ -155,7 +164,7 @@ public class PersonBuilder {
      * Builds a person.
      */
     public Person build() {
-        Person person = new Person(name, phone, subjectLevel, dayTime, cost, address, tags);
+        Person person = new Person(name, selfContact, nokContact, subjectLevel, dayTime, cost, address, tags);
         person.getLessonProgressList().addAll(lessonProgressList);
         return person;
     }

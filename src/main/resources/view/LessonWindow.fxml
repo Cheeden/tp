@@ -10,22 +10,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root resizable="true" title="Lesson Progress" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root resizable="true" title="Lessons" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <icons>
     <Image url="@/images/help_icon.png" />
   </icons>
   <scene>
     <Scene>
-      <VBox prefHeight="400.0" prefWidth="600.0" spacing="10.0">
+      <VBox prefHeight="500.0" prefWidth="900.0" spacing="10.0">
         <padding>
           <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
         </padding>
         <children>
-          <Label styleClass="label-header" text="Lesson Progress" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
-          <TableView fx:id="lessonProgressTable" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+          <Label styleClass="label-header" text="Lessons" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+          <TableView fx:id="lessonTable" prefHeight="450.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
             <columns>
-              <TableColumn fx:id="dateColumn" prefWidth="200.0" text="Date" />
-              <TableColumn fx:id="progressColumn" prefWidth="400.0" text="Progress" />
+              <TableColumn fx:id="dateColumn" prefWidth="150.0" text="Date" />
+              <TableColumn fx:id="planColumn" prefWidth="400.0" text="Lesson Plan" />
+              <TableColumn fx:id="progressColumn" prefWidth="350.0" text="Progress" />
             </columns>
           </TableView>
           <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" text="Close" />

@@ -16,10 +16,10 @@ import tutortrack.model.person.Person;
  */
 public class ViewLessonProgressCommand extends Command {
 
-    public static final String COMMAND_WORD = "viewprogress";
-    public static final String MESSAGE_SUCCESS = "Opened lesson progress window for %1$s.";
+    public static final String COMMAND_WORD = "viewlessons";
+    public static final String MESSAGE_SUCCESS = "Opened lesson summary window for %1$s.";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Shows the lesson progress of the person identified by the index number used in the displayed "
+            + ": Shows the lesson summary of the person identified by the index number used in the displayed "
             + "person list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";

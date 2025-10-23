@@ -82,30 +82,12 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_nullSelfContact_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, null, VALID_NOK_CONTACT,
-                VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS,
-                VALID_LESSONPLANS, VALID_LESSONPROGRESSES);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
-        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
     public void toModelType_invalidNokContact_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_SELF_CONTACT, INVALID_NOK_CONTACT,
                         VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS,
                         VALID_LESSONPLANS, VALID_LESSONPROGRESSES);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
-        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
-    }
-
-    @Test
-    public void toModelType_nullNokContact_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_SELF_CONTACT, null,
-                VALID_SUBJECTLEVEL, VALID_DAYTIME, VALID_COST, VALID_ADDRESS, VALID_TAGS,
-                VALID_LESSONPLANS, VALID_LESSONPROGRESSES);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

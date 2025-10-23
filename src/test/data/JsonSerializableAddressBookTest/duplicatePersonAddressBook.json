@@ -1,20 +1,26 @@
 {
-  "persons": [ {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "subjectLevel": "P4-Math",
-    "dayTime": "Monday 1200",
-    "cost": "$50",
-    "address": "123, Jurong West Ave 6, #08-111",
-    "tags": [ "friends" ],
-    "lessonProgress" : "2025-10-16|Covered chapter 1"
-  }, {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "subjectLevel": "P4-Math",
-    "dayTime": "Monday 1200",
-    "cost": "$50",
-    "address": "4th street",
-    "lessonProgress" : "2025-10-16|Covered chapter 1"
-  } ]
+  "persons": [
+    {
+      "name": "Alice Pauline",
+      "selfContact": "94351253",
+      "nokContact": "81234567",
+      "subjectLevel": "P4-Math",
+      "dayTime": "Monday 1200",
+      "cost": "$50",
+      "address": "123, Jurong West Ave 6, #08-111",
+      "tags": ["friends"],
+      "lessonProgress": "2025-10-16|Covered chapter 1"
+    },
+    {
+      "name": "Alice Pauline",
+      "selfContact": "94351253",
+      "nokContact": "81234567",
+      "subjectLevel": "P4-Math",
+      "dayTime": "Monday 1200",
+      "cost": "$50",
+      "address": "4th street",
+      "tags": ["friends"],
+      "lessonProgress": "2025-10-16|Covered chapter 1"
+    }
+  ]
 }

@@ -66,6 +66,7 @@ public class EditPlanCommand extends Command {
         );
 
         editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
+        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
 
         List<LessonPlan> sameDateList = editedPerson.getLessonPlanList().stream()
                                                 .filter(lp -> lp.getDate().equals(toEdit.getDate()))

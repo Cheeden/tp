@@ -34,7 +34,7 @@ public class SampleDataUtil {
                     getTagSet("colleagues", "friends")),
 
             // with only nokContact
-            new Person(new Name("Charlotte Oliveiro"), new Phone(null), new Phone("98765432"),
+            new Person(new Name("Charlotte Oliveiro"), null, new Phone("98765432"),
                     new SubjectLevel("P6-Science"), new DayTime("Wednesday 1400"), new Cost("$50"),
                     new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
                     getTagSet("neighbours")),
@@ -52,7 +52,7 @@ public class SampleDataUtil {
                     getTagSet("classmates")),
 
             // with only nokContact
-            new Person(new Name("Roy Balakrishnan"), new Phone(null), new Phone("91122334"),
+            new Person(new Name("Roy Balakrishnan"), null, new Phone("91122334"),
                     new SubjectLevel("P4-Math"), new DayTime("Saturday 1300"), new Cost("$55"),
                     new Address("Blk 45 Aljunied Street 85, #11-31"),
                     getTagSet("colleagues"))

@@ -26,7 +26,7 @@
             <columns>
               <TableColumn fx:id="dateColumn" prefWidth="150.0" text="Date" />
               <TableColumn fx:id="planColumn" prefWidth="400.0" text="Lesson Plan" />
-              <TableColumn fx:id="progressColumn" prefWidth="350.0" text="Progress" />
+              <TableColumn fx:id="progressColumn" prefWidth="350.0" text="Lesson Progress" />
             </columns>
           </TableView>
           <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" text="Close" />

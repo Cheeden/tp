@@ -4,6 +4,7 @@ import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.commands.CommandTestUtil.*;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -69,7 +70,7 @@ public class AddCommandParserTest {
         // multiple fields repeated
         assertParseFailure(parser,
                 CONTACT_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS, PREFIX_SELF_CONTACT));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_SELF_CONTACT, PREFIX_ADDRESS));
 
         // invalid value followed by valid value
 

@@ -5,9 +5,17 @@ import java.util.function.Predicate;
 
 import tutortrack.commons.util.ToStringBuilder;
 
+/**
+ * Tests that a Person's lesson day matches the given day keyword.
+ */
 public class LessonDayPredicate implements Predicate<Person> {
     private final String dayKeyword;
 
+    /**
+     * Constructs a LessonDayPredicate with the specified day keyword.
+     *
+     * @param dayKeyword The day to filter by (e.g., "Monday", "Tuesday").
+     */
     public LessonDayPredicate(String dayKeyword) {
         assert dayKeyword != null : "Day keyword cannot be null";
         assert !dayKeyword.trim().isEmpty() : "Day keyword cannot be empty";
@@ -18,11 +26,11 @@ public class LessonDayPredicate implements Predicate<Person> {
     public boolean test(Person person) {
         assert person != null : "Person cannot be null";
         assert person.getDayTime() != null : "Person's dayTime cannot be null";
-        
+
         String dayTime = person.getDayTime().value;
         // Extract day from "Monday 1200" format
         String day = dayTime.split("\\s+")[0];
-        
+
         return day.equalsIgnoreCase(dayKeyword);
     }
 
@@ -51,22 +59,22 @@ public class LessonDayPredicate implements Predicate<Person> {
         };
     }
 
-        @Override
-        public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-
-            if (!(other instanceof LessonDayPredicate)) {
-                return false;
-            }
-
-            LessonDayPredicate otherLessonDayPredicate = (LessonDayPredicate) other;
-            return dayKeyword.equals(otherLessonDayPredicate.dayKeyword);
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
 
-        @Override
-        public String toString() {
-            return new ToStringBuilder(this).add("dayKeyword", dayKeyword).toString();
+        if (!(other instanceof LessonDayPredicate)) {
+            return false;
         }
+
+        LessonDayPredicate otherLessonDayPredicate = (LessonDayPredicate) other;
+        return dayKeyword.equals(otherLessonDayPredicate.dayKeyword);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).add("dayKeyword", dayKeyword).toString();
+    }
 }

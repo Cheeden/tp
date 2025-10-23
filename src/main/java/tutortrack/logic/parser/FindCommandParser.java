@@ -1,16 +1,16 @@
 package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.List;
 
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.model.person.NameContainsKeywordsPredicate;
 import tutortrack.model.person.LessonDayPredicate;
+import tutortrack.model.person.NameContainsKeywordsPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
@@ -18,7 +18,7 @@ import tutortrack.model.person.TagContainsKeywordsPredicate;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-       /**
+    /**
      * Extracts the value associated with a prefix from the argument multimap.
      * @throws ParseException if the value is empty or contains only whitespace
      */
@@ -30,7 +30,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
         return value;
     }
-    
+
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
@@ -38,7 +38,7 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     public FindCommand parse(String args) throws ParseException {
         assert args != null : "Arguments cannot be null";
-        
+
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
             throw new ParseException(
@@ -54,7 +54,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             LessonDayPredicate predicate = new LessonDayPredicate(dayKeyword);
             return new FindCommand(predicate, predicate.getComparator());
         }
-        
+
         // If tag prefix is present and has values, search by tags
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             String tagKeywordsString = extractNonEmptyValue(argMultimap, PREFIX_TAG);

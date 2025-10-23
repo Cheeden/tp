@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_NOK_CONTACT_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static tutortrack.testutil.Assert.assertThrows;
 import static tutortrack.testutil.TypicalPersons.ALICE;
@@ -32,8 +33,12 @@ public class PersonTest {
         assertFalse(ALICE.isSamePerson(null));
 
         // same name, all other attributes different -> returns true
-        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+        Person editedAlice = new PersonBuilder(ALICE)
+                                     .withSelfContact(VALID_CONTACT_BOB)
+                                     .withNokContact(VALID_NOK_CONTACT_BOB)
+                                     .withAddress(VALID_ADDRESS_BOB)
+                                     .withTags(VALID_TAG_HUSBAND)
+                                     .build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
@@ -72,8 +77,12 @@ public class PersonTest {
         Person editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different phone -> returns false
-        editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
+        // different selfContact -> returns false
+        editedAlice = new PersonBuilder(ALICE).withSelfContact(VALID_CONTACT_BOB).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different nokContact -> returns false
+        editedAlice = new PersonBuilder(ALICE).withNokContact(VALID_NOK_CONTACT_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different address -> returns false
@@ -87,12 +96,17 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
-        String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", subjectLevel=" + ALICE.getSubjectLevel()
-                + ", dayTime=" + ALICE.getDayTime() + ", cost=" + ALICE.getCost()
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
-                + ", lesson plan=" + ALICE.getLessonPlanList()
-                + ", lesson progress=" + ALICE.getLessonProgressList() + "}";
+        String expected = Person.class.getCanonicalName()
+                                  + "{name=" + ALICE.getName()
+                                  + ", selfContact=" + ALICE.getSelfContact()
+                                  + ", nokContact=" + ALICE.getNokContact()
+                                  + ", subjectLevel=" + ALICE.getSubjectLevel()
+                                  + ", dayTime=" + ALICE.getDayTime()
+                                  + ", cost=" + ALICE.getCost()
+                                  + ", address=" + ALICE.getAddress()
+                                  + ", tags=" + ALICE.getTags()
+                                  + ", lesson plan=" + ALICE.getLessonPlanList()
+                                  + ", lesson progress=" + ALICE.getLessonProgressList() + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

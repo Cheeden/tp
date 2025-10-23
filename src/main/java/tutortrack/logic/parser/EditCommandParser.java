@@ -6,7 +6,8 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -29,23 +30,23 @@ public class EditCommandParser implements Parser<EditCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
      * and returns an EditCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform to the expected format
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_SUBJECTLEVEL,
-                        PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_SELF_CONTACT, PREFIX_NOK_CONTACT,
+                        PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG);
 
         Index index;
-
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE,
+        argMultimap.verifyNoDuplicatePrefixesFor(
+                PREFIX_NAME, PREFIX_SELF_CONTACT, PREFIX_NOK_CONTACT,
                 PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
@@ -53,12 +54,20 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+
+        Optional<String> selfContactStr = argMultimap.getValue(PREFIX_SELF_CONTACT);
+        if (selfContactStr.isPresent()) {
+            editPersonDescriptor.setSelfContact(ParserUtil.parsePhone(selfContactStr.get()));
         }
+
+        Optional<String> nokContactStr = argMultimap.getValue(PREFIX_NOK_CONTACT);
+        if (nokContactStr.isPresent()) {
+            editPersonDescriptor.setNokContact(ParserUtil.parsePhone(nokContactStr.get()));
+        }
+
         if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
-            editPersonDescriptor.setSubjectLevel(ParserUtil.parseSubjectLevel(argMultimap
-                    .getValue(PREFIX_SUBJECTLEVEL).get()));
+            editPersonDescriptor.setSubjectLevel(
+                    ParserUtil.parseSubjectLevel(argMultimap.getValue(PREFIX_SUBJECTLEVEL).get()));
         }
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             editPersonDescriptor.setDayTime(ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get()));
@@ -69,6 +78,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {

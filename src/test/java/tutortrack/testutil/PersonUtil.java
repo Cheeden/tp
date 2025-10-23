@@ -4,7 +4,8 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -33,13 +34,16 @@ public class PersonUtil {
     public static String getPersonDetails(Person person) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + person.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + person.getPhone().value + " ");
+        sb.append(PREFIX_SELF_CONTACT + person.getSelfContact().value + " ");
+        if (person.getNokContact() != null) {
+            sb.append(PREFIX_NOK_CONTACT + person.getNokContact().value + " ");
+        }
         sb.append(PREFIX_SUBJECTLEVEL + person.getSubjectLevel().value + " ");
         sb.append(PREFIX_DAYTIME + person.getDayTime().value + " ");
         sb.append(PREFIX_COST + person.getCost().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         person.getTags().stream().forEach(
-            s -> sb.append(PREFIX_TAG + s.tagName + " ")
+                s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
         return sb.toString();
     }
@@ -50,12 +54,16 @@ public class PersonUtil {
     public static String getEditPersonDescriptorDetails(EditPersonDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
-        descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
+        descriptor.getSelfContact().ifPresent(contact -> sb.append(PREFIX_SELF_CONTACT)
+                .append(contact.value).append(" "));
+        descriptor.getNokContact().ifPresent(contact -> sb.append(PREFIX_NOK_CONTACT)
+                .append(contact.value).append(" "));
         descriptor.getSubjectLevel().ifPresent(subjectLevel ->
                                                        sb.append(PREFIX_SUBJECTLEVEL).append(subjectLevel).append(" "));
         descriptor.getDayTime().ifPresent(dayTime -> sb.append(PREFIX_DAYTIME).append(dayTime).append(" "));
         descriptor.getCost().ifPresent(cost -> sb.append(PREFIX_COST).append(cost).append(" "));
-        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
+        descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value)
+                .append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (!tags.isEmpty()) {

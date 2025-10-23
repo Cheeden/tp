@@ -29,7 +29,8 @@ class JsonAdaptedPerson {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
 
     private final String name;
-    private final String phone;
+    private final String selfContact;
+    private final String nokContact;
     private final String subjectLevel;
     private final String dayTime;
     private final String cost;
@@ -42,14 +43,16 @@ class JsonAdaptedPerson {
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
+    public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("selfContact") String selfContact,
+            @JsonProperty("nokContact") String nokContact,
             @JsonProperty("subjectLevel") String subjectLevel,
             @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
             @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("lessonPlanList") List<JsonAdaptedLessonPlan> lessonPlanList,
                              @JsonProperty("lessonProgressList") List<JsonAdaptedLessonProgress> lessonProgressList) {
         this.name = name;
-        this.phone = phone;
+        this.selfContact = selfContact;
+        this.nokContact = nokContact;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
         this.cost = cost;
@@ -70,7 +73,8 @@ class JsonAdaptedPerson {
      */
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
-        phone = source.getPhone().value;
+        selfContact = source.getSelfContact().value;
+        nokContact = source.getNokContact().value;
         subjectLevel = source.getSubjectLevel().value;
         dayTime = source.getDayTime().value;
         cost = source.getCost().value;
@@ -115,13 +119,30 @@ class JsonAdaptedPerson {
         }
         final Name modelName = new Name(name);
 
-        if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        if ((selfContact == null || selfContact.isBlank()) && (nokContact == null || nokContact.isBlank())) {
+            throw new IllegalValueException("At least one contact (selfContact or nokContact) must be provided!");
         }
-        if (!Phone.isValidPhone(phone)) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+
+        final Phone modelSelfContact;
+        final Phone modelNokContact;
+
+        if (selfContact != null && !selfContact.isBlank()) {
+            if (!Phone.isValidPhone(selfContact)) {
+                throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+            }
+            modelSelfContact = new Phone(selfContact);
+        } else {
+            modelSelfContact = null;
         }
-        final Phone modelPhone = new Phone(phone);
+
+        if (nokContact != null && !nokContact.isBlank()) {
+            if (!Phone.isValidPhone(nokContact)) {
+                throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+            }
+            modelNokContact = new Phone(nokContact);
+        } else {
+            modelNokContact = null;
+        }
 
         if (subjectLevel == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -159,11 +180,10 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
-        Person person = new Person(modelName, modelPhone, modelSubjectLevel, modelDayTime,
-                modelCost, modelAddress, modelTags);
+        Person person = new Person(modelName, modelSelfContact, modelNokContact,
+                modelSubjectLevel, modelDayTime, modelCost, modelAddress, modelTags);
 
         person.getLessonPlanList().addAll(modelLessonPlan);
-
         person.getLessonProgressList().addAll(modelLessonProgress);
 
         return person;

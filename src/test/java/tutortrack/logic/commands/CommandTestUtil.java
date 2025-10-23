@@ -6,7 +6,8 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.testutil.Assert.assertThrows;
@@ -30,8 +31,10 @@ public class CommandTestUtil {
 
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
-    public static final String VALID_PHONE_AMY = "11111111";
-    public static final String VALID_PHONE_BOB = "22222222";
+    public static final String VALID_CONTACT_AMY = "12345678";
+    public static final String VALID_NOK_CONTACT_AMY = "87654321";
+    public static final String VALID_CONTACT_BOB = "23456789";
+    public static final String VALID_NOK_CONTACT_BOB = "98765432";
     public static final String VALID_SUBJECTLEVEL_BOB = "P4-Math";
     public static final String VALID_SUBJECTLEVEL_AMY = "P5-English";
     public static final String VALID_DAYTIME_BOB = "Monday 1200";
@@ -45,8 +48,10 @@ public class CommandTestUtil {
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
-    public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_AMY;
-    public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
+    public static final String CONTACT_DESC_AMY = " " + PREFIX_SELF_CONTACT + VALID_CONTACT_AMY;
+    public static final String NOK_CONTACT_DESC_AMY = " " + PREFIX_NOK_CONTACT + VALID_NOK_CONTACT_AMY;
+    public static final String CONTACT_DESC_BOB = " " + PREFIX_SELF_CONTACT + VALID_CONTACT_BOB;
+    public static final String NOK_CONTACT_DESC_BOB = " " + PREFIX_NOK_CONTACT + VALID_NOK_CONTACT_BOB;
     public static final String SUBJECTLEVEL_DESC_AMY = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEL_AMY;
     public static final String SUBJECTLEVEL_DESC_BOB = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEL_BOB;
     public static final String DAYTIME_DESC_AMY = " " + PREFIX_DAYTIME + VALID_DAYTIME_AMY;
@@ -59,7 +64,7 @@ public class CommandTestUtil {
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
-    public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
+    public static final String INVALID_PHONE_DESC = " " + PREFIX_SELF_CONTACT + "911a"; // 'a' not allowed in phones
     public static final String INVALID_SUBJECTLEVEL_DESC = " " + PREFIX_SUBJECTLEVEL + "p4 math"; // '-' must be present
     public static final String INVALID_DAYTIME_DESC = " " + PREFIX_DAYTIME + "Monday 2500"; // invalid time
     public static final String INVALID_COST_DESC = " " + PREFIX_COST + "50"; // '$' must be present
@@ -74,11 +79,13 @@ public class CommandTestUtil {
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withSubjectLevel(VALID_SUBJECTLEVEL_AMY)
+                .withSelfContact(VALID_CONTACT_AMY)
+                .withNokContact(VALID_NOK_CONTACT_AMY).withSubjectLevel(VALID_SUBJECTLEVEL_AMY)
                 .withDayTime(VALID_DAYTIME_AMY).withCost(VALID_COST_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withSubjectLevel(VALID_SUBJECTLEVEL_BOB)
+                .withSelfContact(VALID_CONTACT_BOB)
+                .withNokContact(VALID_NOK_CONTACT_BOB).withSubjectLevel(VALID_SUBJECTLEVEL_BOB)
                 .withDayTime(VALID_DAYTIME_BOB).withCost(VALID_COST_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }

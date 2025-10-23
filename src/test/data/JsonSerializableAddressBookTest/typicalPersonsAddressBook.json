@@ -1,67 +1,82 @@
 {
   "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
-  "persons" : [ {
-    "name" : "Alice Pauline",
-    "phone" : "94351253",
-    "subjectLevel": "P4-Math",
-    "dayTime": "Monday 1200",
-    "cost": "$50",
-    "address" : "123, Jurong West Ave 6, #08-111",
-    "tags" : [ "friends"],
-    "lessonProgress" : "2025-10-16|Covered chapter 1"
-  }, {
-    "name" : "Benson Meier",
-    "phone" : "98765432",
-    "subjectLevel": "P5-Math",
-    "dayTime": "Monday 1300",
-    "cost": "$60",
-    "address" : "311, Clementi Ave 2, #02-25",
-    "tags" : [ "owesMoney", "friends" ],
-    "lessonProgress" : "2025-10-16|Covered chapter 2"
-  }, {
-    "name" : "Carl Kurz",
-    "phone" : "95352563",
-    "address" : "wall street",
-    "subjectLevel": "P1-Chinese",
-    "dayTime": "Tuesday 1200",
-    "cost": "$40",
-    "tags" : [ ],
-    "lessonProgress" : "2025-10-16|Covered chapter 3"
-  }, {
-    "name" : "Daniel Meier",
-    "phone" : "87652533",
-    "subjectLevel": "Sec1-Math",
-    "dayTime": "Friday 1400",
-    "cost": "$70",
-    "address" : "10th street",
-    "tags" : [ "friends" ],
-    "lessonProgress" : "2025-10-16|Covered chapter 4"
-  }, {
-    "name" : "Elle Meyer",
-    "phone" : "9482224",
-    "subjectLevel": "P6-English",
-    "dayTime": "Thursday 1000",
-    "cost": "$55",
-    "address" : "michegan ave",
-    "tags" : [ ],
-    "lessonProgress" : "2025-10-16|Covered chapter 5"
-  }, {
-    "name" : "Fiona Kunz",
-    "phone" : "9482427",
-    "subjectLevel": "P3-Science",
-    "dayTime": "Sunday 1200",
-    "cost": "$60",
-    "address" : "little tokyo",
-    "tags" : [ ],
-    "lessonProgress" : "2025-10-16|Covered chapter 6"
-  }, {
-    "name" : "George Best",
-    "phone" : "9482442",
-    "subjectLevel": "P1-Math",
-    "dayTime": "Monday 1800",
-    "cost": "$40",
-    "address" : "4th street",
-    "tags" : [ ],
-    "lessonProgress" : "2025-10-16|Covered chapter 7"
-  } ]
+  "persons" : [
+    {
+      "name" : "Alice Pauline",
+      "selfContact" : "94351253",
+      "nokContact" : "81234567",
+      "subjectLevel": "P4-Math",
+      "dayTime": "Monday 1200",
+      "cost": "$50",
+      "address" : "123, Jurong West Ave 6, #08-111",
+      "tags" : [ "friends" ],
+      "lessonProgress" : "2025-10-16|Covered chapter 1"
+    },
+    {
+      "name" : "Benson Meier",
+      "selfContact" : "98765432",
+      "nokContact" : "87654321",
+      "subjectLevel": "P5-Math",
+      "dayTime": "Monday 1300",
+      "cost": "$60",
+      "address" : "311, Clementi Ave 2, #02-25",
+      "tags" : [ "owesMoney", "friends" ],
+      "lessonProgress" : "2025-10-16|Covered chapter 2"
+    },
+    {
+      "name" : "Carl Kurz",
+      "selfContact" : "95352563",
+      "nokContact" : "90001234",
+      "subjectLevel": "P1-Chinese",
+      "dayTime": "Tuesday 1200",
+      "cost": "$40",
+      "address" : "wall street",
+      "tags" : [ ],
+      "lessonProgress" : "2025-10-16|Covered chapter 3"
+    },
+    {
+      "name" : "Daniel Meier",
+      "selfContact" : "87652533",
+      "nokContact" : "83334444",
+      "subjectLevel": "Sec1-Math",
+      "dayTime": "Friday 1400",
+      "cost": "$70",
+      "address" : "10th street",
+      "tags" : [ "friends" ],
+      "lessonProgress" : "2025-10-16|Covered chapter 4"
+    },
+    {
+      "name" : "Elle Meyer",
+      "selfContact" : "9482224",
+      "nokContact" : "81112222",
+      "subjectLevel": "P6-English",
+      "dayTime": "Thursday 1000",
+      "cost": "$55",
+      "address" : "michegan ave",
+      "tags" : [ ],
+      "lessonProgress" : "2025-10-16|Covered chapter 5"
+    },
+    {
+      "name" : "Fiona Kunz",
+      "selfContact" : "9482427",
+      "nokContact" : "82223333",
+      "subjectLevel": "P3-Science",
+      "dayTime": "Sunday 1200",
+      "cost": "$60",
+      "address" : "little tokyo",
+      "tags" : [ ],
+      "lessonProgress" : "2025-10-16|Covered chapter 6"
+    },
+    {
+      "name" : "George Best",
+      "selfContact" : "9482442",
+      "nokContact" : "89998888",
+      "subjectLevel": "P1-Math",
+      "dayTime": "Monday 1800",
+      "cost": "$40",
+      "address" : "4th street",
+      "tags" : [ ],
+      "lessonProgress" : "2025-10-16|Covered chapter 7"
+    }
+  ]
 }

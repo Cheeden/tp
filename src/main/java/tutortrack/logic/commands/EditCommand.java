@@ -5,7 +5,8 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_PHONE;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -44,14 +45,15 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_SELF_CONTACT + "SELF_CONTACT] "
+            + "[" + PREFIX_NOK_CONTACT + "NOK_CONTACT] "
             + "[" + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL] "
             + "[" + PREFIX_DAYTIME + "DAYTIME] "
             + "[" + PREFIX_COST + "COST] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 ";
+            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 ";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -101,7 +103,8 @@ public class EditCommand extends Command {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+        Phone updatedSelfContact = editPersonDescriptor.getSelfContact().orElse(personToEdit.getSelfContact());
+        Phone updatedNokContact = editPersonDescriptor.getNokContact().orElse(personToEdit.getNokContact());
         SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel()
                                                    .orElse(personToEdit.getSubjectLevel());
         DayTime updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
@@ -109,7 +112,7 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        Person editedPerson = new Person(updatedName, updatedPhone, updatedSubjectLevel,
+        Person editedPerson = new Person(updatedName, updatedSelfContact, updatedNokContact, updatedSubjectLevel,
                 updatedDayTime, updatedCost, updatedAddress, updatedTags);
 
         return editedPerson;
@@ -145,7 +148,8 @@ public class EditCommand extends Command {
      */
     public static class EditPersonDescriptor {
         private Name name;
-        private Phone phone;
+        private Phone selfContact;
+        private Phone nokContact;
         private SubjectLevel subjectLevel;
         private DayTime dayTime;
         private Cost cost;
@@ -160,7 +164,8 @@ public class EditCommand extends Command {
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
-            setPhone(toCopy.phone);
+            setSelfContact(toCopy.selfContact);
+            setNokContact(toCopy.nokContact);
             setSubjectLevel(toCopy.subjectLevel);
             setDayTime(toCopy.dayTime);
             setCost(toCopy.cost);
@@ -172,7 +177,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, subjectLevel, dayTime, cost,
+            return CollectionUtil.isAnyNonNull(name, selfContact, nokContact, subjectLevel, dayTime, cost,
                     address, tags);
         }
 
@@ -184,12 +189,18 @@ public class EditCommand extends Command {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(Phone phone) {
-            this.phone = phone;
+        public void setSelfContact(Phone selfContact) {
+            this.selfContact = selfContact;
+        }
+        public Optional<Phone> getSelfContact() {
+            return Optional.ofNullable(selfContact);
         }
 
-        public Optional<Phone> getPhone() {
-            return Optional.ofNullable(phone);
+        public void setNokContact(Phone nokContact) {
+            this.nokContact = nokContact;
+        }
+        public Optional<Phone> getNokContact() {
+            return Optional.ofNullable(nokContact);
         }
 
         public void setSubjectLevel(SubjectLevel subjectLevel) {
@@ -254,7 +265,8 @@ public class EditCommand extends Command {
 
             EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
             return Objects.equals(name, otherEditPersonDescriptor.name)
-                    && Objects.equals(phone, otherEditPersonDescriptor.phone)
+                    && Objects.equals(selfContact, otherEditPersonDescriptor.selfContact)
+                    && Objects.equals(nokContact, otherEditPersonDescriptor.nokContact)
                     && Objects.equals(subjectLevel, otherEditPersonDescriptor.subjectLevel)
                     && Objects.equals(dayTime, otherEditPersonDescriptor.dayTime)
                     && Objects.equals(cost, otherEditPersonDescriptor.cost)
@@ -266,7 +278,8 @@ public class EditCommand extends Command {
         public String toString() {
             return new ToStringBuilder(this)
                     .add("name", name)
-                    .add("phone", phone)
+                    .add("selfContact", selfContact)
+                    .add("nokContact", nokContact)
                     .add("subjectLevel", subjectLevel)
                     .add("dayTime", dayTime)
                     .add("cost", cost)

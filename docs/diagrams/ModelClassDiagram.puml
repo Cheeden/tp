@@ -14,9 +14,14 @@ Class UserPrefs
 
 Class UniquePersonList
 Class Person
+note right
+{At least one of Contact or
+NOKContact must be non-null}
+end note
 Class Address
 Class Name
-Class Phone
+Class Contact
+Class NOKContact
 Class SubjectLevel
 Class DayTime
 Class Cost
@@ -40,7 +45,8 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
 Person *--> Name
-Person *--> Phone
+Person *--> "0..1" Contact
+Person *--> "0..1" NOKContact
 Person *--> Address
 Person *--> SubjectLevel
 Person *--> DayTime
@@ -50,8 +56,9 @@ Person *--> "*" Tag
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
+Name -[hidden]right-> Contact
+Contact -[hidden]right-> NOKContact
+NOKContact -[hidden]right-> Address
 Address -[hidden]right-> SubjectLevel
 SubjectLevel -[hidden]right-> DayTime
 DayTime -[hidden]right-> Cost

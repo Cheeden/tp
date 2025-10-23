@@ -168,8 +168,12 @@ public class LessonWindow extends UiPart<Stage> {
     private void addOrEditUpdateLessonDisplay(LocalDate date, String progress, String plan) {
         for (LessonDisplay ld : lessonData) {
             if (ld.getDate().equals(date)) {
-                if (progress != null) { ld.setProgress(progress); }
-                if (plan != null) { ld.setPlan(plan); }
+                if (progress != null) {
+                    ld.setProgress(progress);
+                }
+                if (plan != null) {
+                    ld.setPlan(plan);
+                }
                 return;
             }
         }

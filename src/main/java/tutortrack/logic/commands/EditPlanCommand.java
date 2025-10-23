@@ -1,7 +1,7 @@
 package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PLAN;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,36 +10,36 @@ import tutortrack.commons.core.index.Index;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
-import tutortrack.model.lesson.LessonProgress;
+import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.person.Person;
 
 /**
- * Edits a lesson progress entry of a person identified by the displayed index.
+ * Edits a lesson plan entry of a person identified by the displayed index.
  */
-public class EditProgressCommand extends Command {
-    public static final String COMMAND_WORD = "editprogress";
+public class EditPlanCommand extends Command {
+    public static final String COMMAND_WORD = "editplan";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit lesson progress of the person identified "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit lesson plan of the person identified "
                                                        + "by the index number used in the displayed person list. "
-                                                       + "If the date does not exist, add new lesson progress.\n"
+                                                       + "If the date does not exist, add new lesson plan.\n"
                                                        + "Parameters: INDEX (must be a positive integer) "
-                                                       + PREFIX_LESSON_PROGRESS + "DATE|NEW_PROGRESS\n"
+                                                       + PREFIX_LESSON_PLAN + "DATE|NEW_PLAN\n"
                                                        + "Example: " + COMMAND_WORD + " 1 "
-                                                       + PREFIX_LESSON_PROGRESS + "2025-10-15|Reviewed Chapter 5\n";
+                                                       + PREFIX_LESSON_PLAN + "2025-10-15|Cover Chapter 6\n";
 
-    public static final String MESSAGE_SUCCESS_EDIT = "Lesson progress on %1$s updated: %2$s";
-    public static final String MESSAGE_SUCCESS_ADD = "No progress on %1$s existed. Added new progress: %2$s";
-    public static final String MESSAGE_DUPLICATE_DATE = "Multiple progress entries exist on %1$s. Cannot edit.";
+    public static final String MESSAGE_SUCCESS_EDIT = "Lesson plan on %1$s updated: %2$s";
+    public static final String MESSAGE_SUCCESS_ADD = "No lesson plan on %1$s existed. Added new plan: %2$s";
+    public static final String MESSAGE_DUPLICATE_DATE = "Multiple lesson plans exist on %1$s. Cannot edit.";
 
     private final Index index;
-    private final LessonProgress toEdit;
+    private final LessonPlan toEdit;
 
     /**
      * The constructor of the class.
      * @param index the index of the person in the displayed list to be edited
-     * @param toEdit the new lesson progress
+     * @param toEdit the new lesson plan
      */
-    public EditProgressCommand(Index index, LessonProgress toEdit) {
+    public EditPlanCommand(Index index, LessonPlan toEdit) {
         this.index = index;
         this.toEdit = toEdit;
     }
@@ -65,25 +65,25 @@ public class EditProgressCommand extends Command {
                 personToEdit.getTags()
         );
 
-        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
         editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
+        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
 
-        List<LessonProgress> sameDateList = editedPerson.getLessonProgressList().stream()
-                                                    .filter(lp -> lp.getDate().equals(toEdit.getDate()))
-                                                    .collect(Collectors.toList());
+        List<LessonPlan> sameDateList = editedPerson.getLessonPlanList().stream()
+                                                .filter(lp -> lp.getDate().equals(toEdit.getDate()))
+                                                .collect(Collectors.toList());
 
         if (sameDateList.size() > 1) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_DATE, toEdit.getDate()));
         } else if (sameDateList.size() == 1) {
-            LessonProgress oldProgress = sameDateList.get(0);
-            editedPerson.getLessonProgressList().remove(oldProgress);
-            editedPerson.getLessonProgressList().add(toEdit);
+            LessonPlan oldPlan = sameDateList.get(0);
+            editedPerson.getLessonPlanList().remove(oldPlan);
+            editedPerson.getLessonPlanList().add(toEdit);
             model.setPerson(personToEdit, editedPerson);
-            return new CommandResult(String.format(MESSAGE_SUCCESS_EDIT, toEdit.getDate(), toEdit.getProgress()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS_EDIT, toEdit.getDate(), toEdit.getPlan()));
         } else {
-            editedPerson.getLessonProgressList().add(toEdit);
+            editedPerson.getLessonPlanList().add(toEdit);
             model.setPerson(personToEdit, editedPerson);
-            return new CommandResult(String.format(MESSAGE_SUCCESS_ADD, toEdit.getDate(), toEdit.getProgress()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS_ADD, toEdit.getDate(), toEdit.getPlan()));
         }
     }
 }

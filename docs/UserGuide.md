@@ -222,14 +222,14 @@ Adds a progress entry on 15 Oct 2025 for the 2nd student.
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added. 
-* The new entry will appear in the student’s lesson progress list, viewable using viewprogress. 
+* The new entry will appear in the student's lesson progress list, viewable using viewlessons. 
 * ![Add Progress Success](images/addProgressSuccess.png)
 
-### Viewing lesson progress : `viewprogress`
+### Viewing lesson progress : `viewlessons`
 
 Shows the lesson progress history for a specific student in a separate window.
 
-Format: `viewprogress INDEX`
+Format: `viewlessons INDEX`
 
 * Views the lesson progress of the student at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
@@ -243,8 +243,8 @@ Add lesson progress using the `addprogress` command before viewing.
 </div>
 
 Examples:
-* `list` followed by `viewprogress 1` opens a window showing the lesson progress for the 1st student.
-* `find John` followed by `viewprogress 1` shows progress for the 1st person in the filtered results.
+* `list` followed by `viewlessons 1` opens a window showing the lesson progress for the 1st student.
+* `find John` followed by `viewlessons 1` shows progress for the 1st person in the filtered results.
 
 Expected output:<br>
 ![View Progress Window](images/viewProgressWindow.png)
@@ -310,4 +310,4 @@ Action | Format, Examples
 **Help** | `help`
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
 **Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
-**View Progress** | `viewprogress INDEX`<br> e.g., `viewprogress 1`
+**View Lessons** | `viewlessons INDEX`<br> e.g., `viewlessons 1`

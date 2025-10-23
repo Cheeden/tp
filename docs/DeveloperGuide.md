@@ -257,7 +257,7 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 **UI Component:**
 
 * The result of a successful addprogress command is displayed in the Result Display panel. 
-* The updated progress list can then be viewed using the viewprogress command, which opens the LessonProgressWindow.
+* The updated progress list can then be viewed using the viewlessons command, which opens the LessonProgressWindow.
 
 **Example Usage Scenario**
 
@@ -284,7 +284,7 @@ Step 6. `Model.setPerson(targetPerson, updatedPerson)` is called to update the m
 Step 7. The command returns a `CommandResult` confirming the addition, e.g.
 New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
 
-Step 8. The user may then execute `viewprogress 1` to view the updated list of progress entries in the Lesson Progress window.
+Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
 ### View Lesson Progress feature
 
@@ -309,12 +309,12 @@ The View Lesson Progress mechanism involves coordination across multiple compone
 **Storage Component:**
 * `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
 <!-- 
-The following sequence diagram shows how the viewprogress operation works:
+The following sequence diagram shows how the viewlessons operation works:
 
 ```
-User -> UI: viewprogress 1
-UI -> Logic: execute("viewprogress 1")
-Logic -> AddressBookParser: parseCommand("viewprogress 1")
+User -> UI: viewlessons 1
+UI -> Logic: execute("viewlessons 1")
+Logic -> AddressBookParser: parseCommand("viewlessons 1")
 AddressBookParser -> ViewLessonProgressCommandParser: parse("1")
 ViewLessonProgressCommandParser -> ViewLessonProgressCommand: new ViewLessonProgressCommand(index)
 ViewLessonProgressCommand -> Model: getFilteredPersonList()
@@ -330,7 +330,7 @@ LessonProgressWindow -> UI: show window
 
 Given below is an example usage scenario:
 
-Step 1. The user executes `viewprogress 1` to view the lesson progress of the 1st student in the list.
+Step 1. The user executes `viewlessons 1` to view the lesson progress of the 1st student in the list.
 
 Step 2. `ViewLessonProgressCommandParser` parses the index "1" and creates a `ViewLessonProgressCommand` with index 1.
 
@@ -814,14 +814,14 @@ testers are expected to do more *exploratory* testing.
    5. Test case: `addprogress 1 lp/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing. 
    6. Test case: `addprogress x lp/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
-   Expected: No lesson progress is added. Error message: “The student index provided is invalid.” Status bar remains the same. 
+   Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same. 
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition 
       1. Prerequisites: Successfully add at least one lesson progress record to a student. 
-   2. Test case: viewprogress 1<br>
-   Expected: Popup window appears showing the newly added lesson progress entry in the table under “Date” and “Remarks” columns.
+   2. Test case: viewlessons 1<br>
+   Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 
 3. { more test cases … }
 
@@ -831,29 +831,27 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least one person has lesson progress records.
 
-   1. Test case: `viewprogress 1`<br>
-      Expected: A popup window appears showing the lesson progress for the 1st student. The window displays a table with columns "Date" and "Remarks". If the student has lesson progress records, they are shown in the table. Success message shown in the status message.
+   1. Test case: `viewlessons 1`<br>
+      Expected: A popup window appears showing the lesson plan and progress for the 1st student. The window displays a table with columns "Date", "Plan" and "Progress. If the student has lesson plan/progress records, they are shown in the table. Success message shown in the status message.
 
-   1. Test case: `viewprogress 0`<br>
+   1. Test case: `viewlessons 0`<br>
       Expected: No window is shown. Error details shown in the status message: "Invalid command format! ...". Status bar remains the same.
 
-   1. Test case: `viewprogress`<br>
+   1. Test case: `viewlessons`<br>
       Expected: Similar to previous - error message about invalid command format.
 
-   1. Test case: `viewprogress x` (where x is larger than the list size)<br>
+   1. Test case: `viewlessons x` (where x is larger than the list size)<br>
       Expected: No window is shown. Error message: "The student index provided is invalid."
 
-   1. Other incorrect viewprogress commands to try: `viewprogress -1`, `viewprogress abc`<br>
+   1. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
       Expected: Similar error messages about invalid format or index.
 
 1. Viewing lesson progress when student has no records
 
    1. Prerequisites: Ensure a student in the list has no lesson progress records (newly added student).
 
-   1. Test case: `viewprogress 1` (assuming 1st student has no lesson progress)<br>
+   1. Test case: `viewlessons 1` (assuming 1st student has no lesson progress)<br>
       Expected: Popup window appears but the table is empty. Success message shown.
-
-1. _{ more test cases …​ }_
 
 ### Saving data
 

@@ -38,7 +38,7 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append("; Contact: ")
-                .append(person.getSelfContact() )
+                .append(person.getSelfContact())
                 .append("; NOK Contact: ")
                 .append(person.getNokContact())
                 .append(", SubjectLevel: ")

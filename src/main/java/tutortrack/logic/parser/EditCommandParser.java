@@ -66,7 +66,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
-            editPersonDescriptor.setSubjectLevel(ParserUtil.parseSubjectLevel(argMultimap.getValue(PREFIX_SUBJECTLEVEL).get()));
+            editPersonDescriptor.setSubjectLevel(
+                    ParserUtil.parseSubjectLevel(argMultimap.getValue(PREFIX_SUBJECTLEVEL).get()));
         }
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             editPersonDescriptor.setDayTime(ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get()));

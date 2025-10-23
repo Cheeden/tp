@@ -18,7 +18,7 @@ public class DayTime {
     // (0[0-9]|1[0-9]|2[0-3])[0-5][0-9]) - time in HHMM (00:00–23:59)
     // $ - end
     public static final String VALIDATION_REGEX =
-            "^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s((0[0-9]|1[0-9]|2[0-3])[0-5][0-9])$";
+            "^(?i)(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\s((0[0-9]|1[0-9]|2[0-3])[0-5][0-9])$";
 
     public final String value;
 

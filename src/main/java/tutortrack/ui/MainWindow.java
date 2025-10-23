@@ -34,7 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
-    private LessonProgressWindow lessonProgressWindow;
+    private LessonWindow lessonWindow;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -67,7 +67,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
-        lessonProgressWindow = new LessonProgressWindow();
+        lessonWindow = new LessonWindow();
     }
 
     public Stage getPrimaryStage() {
@@ -154,12 +154,12 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleShowLessonProgress(tutortrack.model.person.Person person) {
-        if (!lessonProgressWindow.isShowing()) {
-            lessonProgressWindow.setPerson(person);
-            lessonProgressWindow.show();
+        if (!lessonWindow.isShowing()) {
+            lessonWindow.setPerson(person);
+            lessonWindow.show();
         } else {
-            lessonProgressWindow.setPerson(person);
-            lessonProgressWindow.focus();
+            lessonWindow.setPerson(person);
+            lessonWindow.focus();
         }
     }
 
@@ -176,7 +176,7 @@ public class MainWindow extends UiPart<Stage> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
-        lessonProgressWindow.hide();
+        lessonWindow.hide();
         primaryStage.hide();
     }
 

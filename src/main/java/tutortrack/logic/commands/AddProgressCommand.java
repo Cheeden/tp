@@ -27,6 +27,8 @@ public class AddProgressCommand extends Command {
             + PREFIX_LESSON_PROGRESS + "2025-10-15|Covered Chapter 5\n";
 
     public static final String MESSAGE_SUCCESS = "New lesson progress added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PROGRESS =
+            "This student already has a progress on %s. Try edit the progress using editprogress.";
 
     private final Index index;
     private final LessonProgress toAdd;
@@ -66,7 +68,7 @@ public class AddProgressCommand extends Command {
 
         editedPerson.getLessonProgressList().add(toAdd);
 
-        model.setPerson(personToEdit, editedPerson);
+        personToEdit.addLessonProgress(toAdd);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import tutortrack.logic.parser.ParserUtil;
+import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
@@ -32,6 +33,7 @@ public class PersonBuilder {
     public static final String DEFAULT_DAYTIME = "Monday 1200";
     public static final String DEFAULT_COST = "$50";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_LESSON_PLAN = "2025-10-15|Cover Chapter 1";
     public static final String DEFAULT_LESSON_PROGRESS = "2025-10-15|Covered Chapter 1";
 
     private Name name;
@@ -42,6 +44,7 @@ public class PersonBuilder {
     private Cost cost;
     private Address address;
     private Set<Tag> tags;
+    private List<LessonPlan> lessonPlanList = new ArrayList<>();
     private List<LessonProgress> lessonProgressList = new ArrayList<>();
 
     /**
@@ -56,6 +59,14 @@ public class PersonBuilder {
         cost = new Cost(DEFAULT_COST);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
+        try {
+            String[] parts = DEFAULT_LESSON_PLAN.split("\\|", 2);
+            LocalDate date = LocalDate.parse(parts[0].trim());
+            String desc = parts[1].trim();
+            lessonPlanList.add(ParserUtil.parseLessonPlan(DEFAULT_LESSON_PLAN));
+        } catch (Exception e) {
+            System.err.println("Warning: failed to parse default lesson plan. Using empty list.");
+        }
         try {
             String[] parts = DEFAULT_LESSON_PROGRESS.split("\\|", 2);
             LocalDate date = LocalDate.parse(parts[0].trim());
@@ -78,6 +89,10 @@ public class PersonBuilder {
         cost = personToCopy.getCost();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
+        lessonPlanList = new ArrayList<>();
+        if (personToCopy.getLessonProgressList() != null) {
+            lessonPlanList.addAll(personToCopy.getLessonPlanList());
+        }
         lessonProgressList = new ArrayList<>();
         if (personToCopy.getLessonProgressList() != null) {
             lessonProgressList.addAll(personToCopy.getLessonProgressList());
@@ -142,6 +157,21 @@ public class PersonBuilder {
      */
     public PersonBuilder withCost(String cost) {
         this.cost = new Cost(cost);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Lesson Progress} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withLessonPlan(String... plans) {
+        this.lessonPlanList = Arrays.stream(plans)
+                .map(s -> {
+                    String[] parts = s.split("\\|", 2);
+                    LocalDate date = LocalDate.parse(parts[0].trim());
+                    String desc = parts[1].trim();
+                    return new LessonPlan(date, desc);
+                })
+                .collect(Collectors.toList());
         return this;
     }
 

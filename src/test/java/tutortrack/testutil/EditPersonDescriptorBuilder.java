@@ -35,7 +35,8 @@ public class EditPersonDescriptorBuilder {
     public EditPersonDescriptorBuilder(Person person) {
         descriptor = new EditPersonDescriptor();
         descriptor.setName(person.getName());
-        descriptor.setPhone(person.getPhone());
+        descriptor.setSelfContact(person.getSelfContact());
+        descriptor.setNokContact(person.getNokContact());
         descriptor.setSubjectLevel(person.getSubjectLevel());
         descriptor.setDayTime(person.getDayTime());
         descriptor.setCost(person.getCost());
@@ -52,10 +53,18 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code SelfContact} of the {@code EditPersonDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withPhone(String phone) {
-        descriptor.setPhone(new Phone(phone));
+    public EditPersonDescriptorBuilder withSelfContact(String phone) {
+        descriptor.setSelfContact(new Phone(phone));
+        return this;
+    }
+
+    /**
+     * Sets the {@code NokContact} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withNokContact(String phone) {
+        descriptor.setNokContact(new Phone(phone));
         return this;
     }
 

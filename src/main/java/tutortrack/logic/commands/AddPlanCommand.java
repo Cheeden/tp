@@ -53,20 +53,11 @@ public class AddPlanCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getSelfContact(),
-                personToEdit.getNokContact(),
-                personToEdit.getSubjectLevel(),
-                personToEdit.getDayTime(),
-                personToEdit.getCost(),
-                personToEdit.getAddress(),
-                personToEdit.getTags()
-        );
-
-        editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
-
-        editedPerson.getLessonPlanList().add(toAdd);
+        if (personToEdit.hasPlanOnDate(toAdd.getDate())) {
+            throw new CommandException(String.format(
+                    MESSAGE_DUPLICATE_PLAN,
+                    toAdd.getDate()));
+        }
 
         personToEdit.addLessonPlan(toAdd);
 

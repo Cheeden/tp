@@ -53,20 +53,11 @@ public class AddProgressCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getSelfContact(),
-                personToEdit.getNokContact(),
-                personToEdit.getSubjectLevel(),
-                personToEdit.getDayTime(),
-                personToEdit.getCost(),
-                personToEdit.getAddress(),
-                personToEdit.getTags()
-        );
-
-        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
-
-        editedPerson.getLessonProgressList().add(toAdd);
+        if (personToEdit.hasProgressOnDate(toAdd.getDate())) {
+            throw new CommandException(String.format(
+                    MESSAGE_DUPLICATE_PROGRESS,
+                    toAdd.getDate()));
+        }
 
         personToEdit.addLessonProgress(toAdd);
 

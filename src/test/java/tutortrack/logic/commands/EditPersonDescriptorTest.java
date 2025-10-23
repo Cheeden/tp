@@ -9,7 +9,8 @@ import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_NOK_CONTACT_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -43,7 +44,10 @@ public class EditPersonDescriptorTest {
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different phone -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY)
+                            .withSelfContact(VALID_CONTACT_BOB)
+                            .withNokContact(VALID_NOK_CONTACT_BOB)
+                            .build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different address -> returns false
@@ -71,8 +75,9 @@ public class EditPersonDescriptorTest {
     public void toStringMethod() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         String expected = EditPersonDescriptor.class.getCanonicalName() + "{name="
-                + editPersonDescriptor.getName().orElse(null) + ", phone="
-                + editPersonDescriptor.getPhone().orElse(null) + ", subjectLevel="
+                + editPersonDescriptor.getName().orElse(null) + ", contact="
+                + editPersonDescriptor.getSelfContact().orElse(null) + ", nokContact="
+                + editPersonDescriptor.getNokContact().orElse(null) + ", subjectLevel="
                 + editPersonDescriptor.getSubjectLevel().orElse(null) + ", dayTime="
                 + editPersonDescriptor.getDayTime().orElse(null) + ", cost="
                 + editPersonDescriptor.getCost().orElse(null) + ", address="

@@ -57,8 +57,7 @@ public class LessonProgressWindow extends UiPart<Stage> {
      */
     public void setPerson(Person person) {
         logger.fine("Loading lesson progress for: " + person.getName());
-        lessonProgressTable.getItems().clear();
-        lessonProgressTable.getItems().addAll(person.getLessonProgressList());
+        lessonProgressTable.setItems(person.getLessonProgressList());
     }
 
     /**

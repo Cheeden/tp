@@ -2,13 +2,14 @@ package tutortrack.model.person;
 
 import static tutortrack.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
@@ -33,8 +34,8 @@ public class Person {
     private final Cost cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-    private final List<LessonProgress> lessonProgressList = new ArrayList<>();
-    private final List<LessonPlan> lessonPlanList = new ArrayList<>();
+    private final ObservableList<LessonProgress> lessonProgressList = FXCollections.observableArrayList();
+    private final ObservableList<LessonPlan> lessonPlanList = FXCollections.observableArrayList();
 
     /**
      * All other fields and at least one of contacts must be present and not null.
@@ -101,12 +102,38 @@ public class Person {
         lessonProgressList.add(lp);
     }
 
-    public List<LessonProgress> getLessonProgressList() {
+    public void addLessonPlan(LessonPlan ll) {
+        lessonPlanList.add(ll);
+    }
+
+    public ObservableList<LessonProgress> getLessonProgressList() {
         return lessonProgressList;
     }
 
-    public List<LessonPlan> getLessonPlanList() {
+    public ObservableList<LessonPlan> getLessonPlanList() {
         return lessonPlanList;
+    }
+
+    /**
+     * Checks whether this person already has a lesson progress entry on the specified date.
+     *
+     * @param date the date to check for an existing lesson progress entry
+     * @return {@code true} if there is a lesson progress with the same date, {@code false} otherwise
+     */
+    public boolean hasProgressOnDate(LocalDate date) {
+        return lessonProgressList.stream()
+                .anyMatch(lessonProgress -> lessonProgress.getDate().equals(date));
+    }
+
+    /**
+     * Checks whether this person already has a lesson plan entry on the specified date.
+     *
+     * @param date the date to check for an existing lesson plan entry
+     * @return {@code true} if there is a lesson plan with the same date, {@code false} otherwise
+     */
+    public boolean hasPlanOnDate(LocalDate date) {
+        return lessonPlanList.stream()
+                .anyMatch(lessonPlan -> lessonPlan.getDate().equals(date));
     }
 
     /**
@@ -162,8 +189,8 @@ public class Person {
                 .add("cost", cost)
                 .add("address", address)
                 .add("tags", tags)
+                .add("lesson plan", lessonPlanList)
                 .add("lesson progress", lessonProgressList)
                 .toString();
     }
-
 }

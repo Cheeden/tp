@@ -172,6 +172,7 @@ public class ParserUtil {
 
         String dateString = parts[0].trim();
         String progress = parts[1].trim();
+
         if (progress.isEmpty()) {
             throw new ParseException("Progress cannot be empty.");
         }

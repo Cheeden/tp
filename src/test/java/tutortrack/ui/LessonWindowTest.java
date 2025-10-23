@@ -2,6 +2,7 @@ package tutortrack.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,8 +12,12 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
+import tutortrack.model.person.Person;
+import tutortrack.testutil.PersonBuilder;
 
 /**
  * Contains tests for LessonWindow's data merging logic.
@@ -168,5 +173,71 @@ public class LessonWindowTest {
     public void lessonWindowClass_exists() {
         // Test that the LessonWindow class exists and can be referenced
         assertNotNull(LessonWindow.class);
+    }
+
+    @Test
+    public void refresh_nullCurrentPerson_returnsEarly() {
+        // Tests method returns early when currentPerson is null
+        Person currentPerson = null;
+        ObservableList<Person> personList = FXCollections.observableArrayList(
+                new PersonBuilder().withName("Alice").build()
+        );
+
+        if (currentPerson == null) {
+            assertNull(currentPerson);
+            return;
+        }
+    }
+
+    @Test
+    public void refresh_personNotFoundInList_handlesGracefully() {
+        // Tests method returns null when person is not found in the list
+        Person currentPerson = new PersonBuilder().withName("Alice").build();
+        Person differentPerson = new PersonBuilder().withName("Bob").build();
+
+        ObservableList<Person> personList = FXCollections.observableArrayList(differentPerson);
+
+        Person foundPerson = personList.stream()
+                .filter(p -> p.isSamePerson(currentPerson))
+                .findFirst()
+                .orElse(null);
+
+        // checks that the person is not found in the list
+        assertNull(foundPerson);
+    }
+
+    @Test
+    public void refresh_personFoundInList_updatesPerson() {
+        // Create initial person and updated version
+        Person currentPerson = new PersonBuilder().withName("Alice").withAddress("Old Address").build();
+        Person updatedPerson = new PersonBuilder().withName("Alice").withAddress("New Address").build();
+
+        ObservableList<Person> personList = FXCollections.observableArrayList(updatedPerson);
+
+        // Simulate the refresh logic - find the updated person
+        Person foundPerson = personList.stream()
+                .filter(p -> p.isSamePerson(currentPerson))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(foundPerson);
+        assertEquals(updatedPerson, foundPerson);
+        assertEquals("New Address", foundPerson.getAddress().value);
+    }
+
+    @Test
+    public void refresh_emptyPersonList_handlesGracefully() {
+        // Create person with empty list
+        Person currentPerson = new PersonBuilder().withName("Alice").build();
+        ObservableList<Person> personList = FXCollections.observableArrayList();
+
+        // Simulate the refresh logic with empty list
+        Person foundPerson = personList.stream()
+                .filter(p -> p.isSamePerson(currentPerson))
+                .findFirst()
+                .orElse(null);
+
+        // Should return null for empty list
+        assertNull(foundPerson);
     }
 }

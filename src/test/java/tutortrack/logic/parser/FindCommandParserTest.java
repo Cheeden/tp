@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import tutortrack.logic.commands.FindCommand;
+import tutortrack.model.person.LessonDayPredicate;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
@@ -51,4 +52,21 @@ public class FindCommandParserTest {
         assertParseFailure(parser, " t/", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
+    @Test
+    public void parse_validDayArgs_returnsFindCommand() {
+        // valid day with proper capitalization
+        LessonDayPredicate predicate = new LessonDayPredicate("Monday");
+        FindCommand expectedFindCommand = new FindCommand(predicate, predicate.getComparator());
+        assertParseSuccess(parser, " d/Monday", expectedFindCommand);
+
+        // lowercase day
+        LessonDayPredicate predicate2 = new LessonDayPredicate("tuesday");
+        FindCommand expectedFindCommand2 = new FindCommand(predicate2, predicate2.getComparator());
+        assertParseSuccess(parser, " d/tuesday", expectedFindCommand2);
+
+        // uppercase day
+        LessonDayPredicate predicate3 = new LessonDayPredicate("WEDNESDAY");
+        FindCommand expectedFindCommand3 = new FindCommand(predicate3, predicate3.getComparator());
+        assertParseSuccess(parser, " d/WEDNESDAY", expectedFindCommand3);
+    }
 }

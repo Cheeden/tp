@@ -37,8 +37,10 @@ public class Messages {
     public static String format(Person person) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
-                .append("; Phone: ")
-                .append(person.getPhone())
+                .append("; Contact: ")
+                .append(person.getSelfContact() )
+                .append("; NOK Contact: ")
+                .append(person.getNokContact())
                 .append(", SubjectLevel: ")
                 .append(person.getSubjectLevel())
                 .append(", DayTime: ")

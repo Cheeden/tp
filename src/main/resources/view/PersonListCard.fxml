@@ -31,7 +31,11 @@
       </HBox>
       <HBox spacing="0" alignment="CENTER_LEFT">
         <Label text="Contact:" styleClass="field_label" />
-        <Label fx:id="phone" styleClass="field_value" text="\$phone" />
+        <Label fx:id="contact" styleClass="field_value" text="$contact" />
+      </HBox>
+      <HBox spacing="0" alignment="CENTER_LEFT">
+        <Label text="NOK Contact:" styleClass="field_label" />
+        <Label fx:id="nokContact" styleClass="field_value" text="$nokContact" />
       </HBox>
       <HBox spacing="0" alignment="CENTER_LEFT">
         <Label text="Time:" styleClass="field_label" />

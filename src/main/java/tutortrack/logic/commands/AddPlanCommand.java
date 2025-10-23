@@ -53,7 +53,8 @@ public class AddPlanCommand extends Command {
 
         Person editedPerson = new Person(
                 personToEdit.getName(),
-                personToEdit.getPhone(),
+                personToEdit.getSelfContact(),
+                personToEdit.getNokContact(),
                 personToEdit.getSubjectLevel(),
                 personToEdit.getDayTime(),
                 personToEdit.getCost(),

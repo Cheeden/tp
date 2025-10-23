@@ -3,22 +3,24 @@ package tutortrack.ui;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  * Represents a lesson entry for display in the UI table.
  * Combines lesson progress and lesson plan for the same date.
  */
 public class LessonDisplay {
     private final LocalDate date;
-    private final String progress;
-    private final String plan;
+    private final SimpleStringProperty progress;
+    private final SimpleStringProperty plan;
 
     /**
      * Constructor for lesson with both progress and plan.
      */
     public LessonDisplay(LocalDate date, String progress, String plan) {
         this.date = date;
-        this.progress = progress != null ? progress : "";
-        this.plan = plan != null ? plan : "";
+        this.progress = new SimpleStringProperty(progress != null ? progress : "");
+        this.plan = new SimpleStringProperty(plan != null ? plan : "");
     }
 
     /**
@@ -33,10 +35,26 @@ public class LessonDisplay {
     }
 
     public String getProgress() {
+        return progress.get();
+    }
+
+    public void setProgress(String progress) {
+        this.progress.set(progress);
+    }
+
+    public SimpleStringProperty progressProperty() {
         return progress;
     }
 
     public String getPlan() {
+        return plan.get();
+    }
+
+    public void setPlan(String plan) {
+        this.plan.set(plan);
+    }
+
+    public SimpleStringProperty planProperty() {
         return plan;
     }
 
@@ -52,17 +70,17 @@ public class LessonDisplay {
 
         LessonDisplay otherDisplay = (LessonDisplay) other;
         return date.equals(otherDisplay.date)
-                && progress.equals(otherDisplay.progress)
-                && plan.equals(otherDisplay.plan);
+                && getProgress().equals(otherDisplay.getProgress())
+                && getPlan().equals(otherDisplay.getPlan());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, progress, plan);
+        return Objects.hash(date, getProgress(), getPlan());
     }
 
     @Override
     public String toString() {
-        return String.format("Date: %s, Progress: %s, Plan: %s", date, progress, plan);
+        return String.format("Date: %s, Progress: %s, Plan: %s", date, getProgress(), getPlan());
     }
 }

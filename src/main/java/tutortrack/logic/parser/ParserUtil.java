@@ -173,7 +173,7 @@ public class ParserUtil {
         String dateString = parts[0].trim();
         String progress = parts[1].trim();
 
-        if (progress.isEmpty()) {
+        if (progress.isEmpty() || progress.equals("null")) {
             throw new ParseException("Progress cannot be empty.");
         }
 
@@ -181,7 +181,10 @@ public class ParserUtil {
             LocalDate date = LocalDate.parse(dateString);
             return new LessonProgress(date, progress);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
+            if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
+            }
+            throw new ParseException("Invalid date: the day/month is not a valid combination.", e);
         }
     }
 
@@ -207,7 +210,10 @@ public class ParserUtil {
             LocalDate date = LocalDate.parse(dateString);
             return new LessonPlan(date, plan);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
+            if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
+            }
+            throw new ParseException("Invalid date: the day/month is not a valid combination.", e);
         }
     }
 }

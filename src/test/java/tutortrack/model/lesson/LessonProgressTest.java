@@ -3,12 +3,23 @@ package tutortrack.model.lesson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static tutortrack.testutil.Assert.assertThrows;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
 public class LessonProgressTest {
+
+    @Test
+    void constructor_nullDate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new LessonProgress(null, "Discussed functions"));
+    }
+
+    @Test
+    void constructor_nullProgress_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new LessonProgress(LocalDate.now(), null));
+    }
 
     @Test
     public void constructor_validInputs_success() {

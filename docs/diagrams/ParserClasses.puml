@@ -11,6 +11,7 @@ package "Parser classes"{
 Class "<<interface>>\nParser" as Parser
 Class AddressBookParser
 Class XYZCommandParser
+note right of XYZCommandParser: XYZCommandParser includes\nFindCommandParser (parses name/tag/day)
 Class CliSyntax
 Class ParserUtil
 Class ArgumentMultimap

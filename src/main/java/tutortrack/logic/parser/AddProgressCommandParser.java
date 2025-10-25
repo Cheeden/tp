@@ -32,10 +32,10 @@ public class AddProgressCommandParser implements Parser<AddProgressCommand> {
 
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
-        String lpString = argMultimap.getValue(PREFIX_LESSON_PROGRESS).get();
-        LessonProgress lp = ParserUtil.parseLessonProgress(lpString);
+        String prString = argMultimap.getValue(PREFIX_LESSON_PROGRESS).get();
+        LessonProgress pr = ParserUtil.parseLessonProgress(prString);
 
-        return new AddProgressCommand(index, lp);
+        return new AddProgressCommand(index, pr);
     }
 
     /**

@@ -10,7 +10,8 @@ import static tutortrack.commons.util.AppUtil.checkArgument;
 public class SubjectLevel {
     public static final String MESSAGE_CONSTRAINTS =
             "Subject level must be in the format 'Level-Subject', e.g., 'P4-Math'. "
-            + "Both parts must be non-empty and separated by a single dash.";
+            + "Both parts must be non-empty and separated by a single dash. "
+            + "Please check if you have input invalid characters.";
 
     // Regex explanation:
     // ^ - start of string

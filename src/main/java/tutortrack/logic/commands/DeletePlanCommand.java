@@ -49,7 +49,7 @@ public class DeletePlanCommand extends Command {
         this.index = index;
         this.date = date;
 
-        Logger.fine("Created DeletePlanCommand with index: " + index + ", date: " + date);
+        logger.fine("Created DeletePlanCommand with index: " + index + ", date: " + date);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class DeletePlanCommand extends Command {
         }
 
         // Create new person and copy all the data from the original person
-        Person editedPerson = new Person(
+        Person newPerson = new Person(
                 personToEdit.getName(),
                 personToEdit.getSelfContact(),
                 personToEdit.getNokContact(),
@@ -84,19 +84,19 @@ public class DeletePlanCommand extends Command {
                 personToEdit.getTags()
         );
 
-        // Ensure new person was created and is different from the original person
-        assert editedPerson != null : "Edited person should not be null after construction";
-        assert editedPerson != personToEdit : "Edited person should be a different object";
+        // Ensure updated person was created and is different from the original person
+        assert newPerson != null : "Updated person should not be null after construction";
+        assert newPerson != personToEdit : "Updated person should be a different object";
 
         // Copy all lesson plans and lesson progress to the new person
-        editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
-        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
+        newPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
+        newPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
 
         // Remove the lesson plan from the new person
-        editedPerson.removeLessonPlanByDate(date);
+        newPerson.removeLessonPlanByDate(date);
 
         // Update the model with the edited person
-        model.setPerson(personToEdit, editedPerson);
+        model.setPerson(personToEdit, newPerson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, date));
     }

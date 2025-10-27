@@ -150,6 +150,16 @@ public class Person {
     }
 
     /**
+     * Removes a lesson plan entry on the specified date if it exists.
+     * 
+     * @param date the date of the lesson plan to remove
+     * @return {@code true} if a lesson plan was removed, {@code false} otherwise
+     */
+    public boolean removeLessonPlanByDate(LocalDate date) {
+        return lessonPlanList.removeIf(lessonPlan -> lessonPlan.getDate().equals(date));
+    }
+
+    /**
      * Returns true if both persons have the same identity and data fields except cost.
      * This defines a stronger notion of equality between two persons.
      */

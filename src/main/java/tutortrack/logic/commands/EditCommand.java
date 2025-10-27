@@ -112,6 +112,10 @@ public class EditCommand extends Command {
         Person editedPerson = new Person(updatedName, updatedPhone, updatedSubjectLevel,
                 updatedDayTime, updatedCost, updatedAddress, updatedTags);
 
+        // Preserve lesson progress and lesson plan from the original person.
+        editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
+        editedPerson.getLessonPlanList().addAll(personToEdit.getLessonPlanList());
+
         return editedPerson;
     }
 

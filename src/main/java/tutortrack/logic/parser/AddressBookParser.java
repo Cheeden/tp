@@ -14,6 +14,7 @@ import tutortrack.logic.commands.AddProgressCommand;
 import tutortrack.logic.commands.ClearCommand;
 import tutortrack.logic.commands.Command;
 import tutortrack.logic.commands.DeleteCommand;
+import tutortrack.logic.commands.DeletePlanCommand;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditPlanCommand;
 import tutortrack.logic.commands.EditProgressCommand;
@@ -23,7 +24,6 @@ import tutortrack.logic.commands.HelpCommand;
 import tutortrack.logic.commands.ListCommand;
 import tutortrack.logic.commands.ViewLessonProgressCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
-import tutortrack.logic.commands.DeletePlanCommand;
 
 /**
  * Parses user input.
@@ -100,11 +100,11 @@ public class AddressBookParser {
 
         case DeletePlanCommand.COMMAND_WORD:
             return new DeletePlanCommandParser().parse(arguments);
-        
+
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
-
 }
+

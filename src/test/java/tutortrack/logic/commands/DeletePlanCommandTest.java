@@ -1,21 +1,15 @@
 package tutortrack.logic.commands;
 
-import java.time.LocalDate;
-
-import tutortrack.model.Model;
-import tutortrack.model.ModelManager;
-import tutortrack.model.UserPrefs;
-import tutortrack.model.person.Person;
-import tutortrack.model.lesson.LessonPlan;
-import static tutortrack.testutil.TypicalPersons.getTypicalAddressBook;
-import static tutortrack.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static tutortrack.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static tutortrack.logic.commands.CommandTestUtil.assertCommandFailure;
-import static tutortrack.logic.commands.CommandTestUtil.assertCommandSuccess;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static tutortrack.logic.commands.CommandTestUtil.assertCommandFailure;
+import static tutortrack.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static tutortrack.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static tutortrack.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static tutortrack.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +17,11 @@ import org.junit.jupiter.api.Test;
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.Messages;
 import tutortrack.model.AddressBook;
+import tutortrack.model.Model;
+import tutortrack.model.ModelManager;
+import tutortrack.model.UserPrefs;
+import tutortrack.model.lesson.LessonPlan;
+import tutortrack.model.person.Person;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests
@@ -35,7 +34,7 @@ public class DeletePlanCommandTest {
     private final LocalDate testDate2 = LocalDate.of(2025, 11, 20);
 
     @BeforeEach
-    public void setUp() {   
+    public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     }
 
@@ -44,21 +43,20 @@ public class DeletePlanCommandTest {
     public void execute_validIndexWithinBoundsUnfilteredList_success() {
         // Get the first person from the filtered list
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        
+
         // Simulate adding of a lesson plan to the person on testDate1
         LessonPlan lessonPlanToAdd = new LessonPlan(testDate1, "Test lesson plan");
         personToEdit.addLessonPlan(lessonPlanToAdd);
-        
+
         // Create the delete command
         DeletePlanCommand deletePlanCommand = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
-        
         // The success message should be returned
         String expectedMessage = String.format(DeletePlanCommand.MESSAGE_SUCCESS, testDate1);
-        
+
         // Create what the model should look like after the command
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Person expectedPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        
+
         // Create a new person without the lesson plan to be deleted
         Person editedPerson = new Person(
                 expectedPerson.getName(),
@@ -70,17 +68,17 @@ public class DeletePlanCommandTest {
                 expectedPerson.getAddress(),
                 expectedPerson.getTags()
         );
-        
+
         // Copy all lesson plans and progress from the original person
         editedPerson.getLessonPlanList().addAll(expectedPerson.getLessonPlanList());
         editedPerson.getLessonProgressList().addAll(expectedPerson.getLessonProgressList());
-        
+
         // Remove the specific lesson plan by date
         editedPerson.removeLessonPlanByDate(testDate1);
-        
+
         // Update the expected model with the edited person
         expectedModel.setPerson(expectedPerson, editedPerson);
-        
+
         // Runs the delete plan command and checks if the command is successful
         assertCommandSuccess(deletePlanCommand, model, expectedMessage, expectedModel);
     }
@@ -108,13 +106,13 @@ public class DeletePlanCommandTest {
     @Test
     public void execute_invalidIndexInFilteredList_throwsCommandException() {
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        
+
         // Filter to show only first person
         model.updateFilteredPersonList(p -> p.equals(personToDelete));
-        
+
         // Try to delete using INDEX_SECOND_PERSON (out of bounds in filtered list)
         DeletePlanCommand deletePlanCommand = new DeletePlanCommand(INDEX_SECOND_PERSON, testDate1);
-        
+
         assertCommandFailure(deletePlanCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
@@ -137,8 +135,8 @@ public class DeletePlanCommandTest {
     @Test
     public void toStringTest() {
         DeletePlanCommand command = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
-        String expected = DeletePlanCommand.class.getCanonicalName() + 
-                "{index=" + INDEX_FIRST_PERSON + ", date=" + testDate1 + "}";
+        String expected = DeletePlanCommand.class.getCanonicalName()
+                + "{index=" + INDEX_FIRST_PERSON + ", date=" + testDate1 + "}";
         assertEquals(expected, command.toString());
     }
 }

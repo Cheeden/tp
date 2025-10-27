@@ -151,7 +151,7 @@ public class Person {
 
     /**
      * Removes a lesson plan entry on the specified date if it exists.
-     * 
+     *
      * @param date the date of the lesson plan to remove
      * @return {@code true} if a lesson plan was removed, {@code false} otherwise
      */

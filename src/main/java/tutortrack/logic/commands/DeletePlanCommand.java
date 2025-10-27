@@ -29,10 +29,10 @@ public class DeletePlanCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Lesson plan on %1$s deleted";
     public static final String MESSAGE_NO_PLAN_ON_DATE = "No lesson plan found on %1$s for this student";
 
+    private static final Logger logger = Logger.getLogger(DeletePlanCommand.class.getName());
+
     private final LocalDate date;
     private final Index index;
-
-    private static final Logger logger = Logger.getLogger(DeletePlanCommand.class.getName());
 
     /**
      * Creates a DeletePlanCommand to delete the lesson plan at the specified date.
@@ -67,7 +67,7 @@ public class DeletePlanCommand extends Command {
         // Get the person to edit
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        // Check if a lesson plan exists on the date 
+        // Check if a lesson plan exists on the date
         if (!personToEdit.hasPlanOnDate(date)) {
             throw new CommandException(String.format(MESSAGE_NO_PLAN_ON_DATE, date));
         }
@@ -101,7 +101,7 @@ public class DeletePlanCommand extends Command {
         return new CommandResult(String.format(MESSAGE_SUCCESS, date));
     }
 
-    @Override 
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
             .add("index", index)
@@ -109,7 +109,7 @@ public class DeletePlanCommand extends Command {
             .toString();
     }
 
-    @Override 
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -121,7 +121,7 @@ public class DeletePlanCommand extends Command {
         }
 
         DeletePlanCommand otherDeletePlanCommand = (DeletePlanCommand) other;
-        return index.equals(otherDeletePlanCommand.index) 
+        return index.equals(otherDeletePlanCommand.index)
                 && date.equals(otherDeletePlanCommand.date);
     }
 }

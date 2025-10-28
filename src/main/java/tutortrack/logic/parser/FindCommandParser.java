@@ -2,8 +2,8 @@ package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +48,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         // Tokenize arguments including tag, day/time and subject-level prefixes
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
+                PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
 
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {

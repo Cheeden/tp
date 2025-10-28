@@ -84,6 +84,6 @@ public class FindCommandParserTest {
     @Test
     public void parse_emptySubject_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
-    assertParseFailure(parser, " s/ ", expectedMessage);
+        assertParseFailure(parser, " s/ ", expectedMessage);
     }
 }

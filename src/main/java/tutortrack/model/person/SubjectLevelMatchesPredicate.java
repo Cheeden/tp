@@ -11,6 +11,10 @@ import tutortrack.commons.util.ToStringBuilder;
 public class SubjectLevelMatchesPredicate implements Predicate<Person> {
     private final String subject;
 
+    /**
+     * Constructor for SujectLevelMatchesPredicate
+     * @param subject
+     */
     public SubjectLevelMatchesPredicate(String subject) {
         assert subject != null : "Subject cannot be null";
         this.subject = subject;

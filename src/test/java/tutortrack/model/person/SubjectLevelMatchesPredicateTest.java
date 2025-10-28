@@ -32,7 +32,7 @@ public class SubjectLevelMatchesPredicateTest {
     }
 
     @Test
-    public void equals_and_toString_behaviour() {
+    public void equalsAndToStringBehaviour() {
         SubjectLevelMatchesPredicate p1 = new SubjectLevelMatchesPredicate("P4-Math");
         SubjectLevelMatchesPredicate p2 = new SubjectLevelMatchesPredicate("p4-math");
         SubjectLevelMatchesPredicate p3 = new SubjectLevelMatchesPredicate("P5-Math");

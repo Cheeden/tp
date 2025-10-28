@@ -77,15 +77,23 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
+
+* `sc/SELFCONTACT` is the student's own contact number.
+
+* `nc/NOKCONTACT` is the next-of-kin's contact number.
+
+* At least one of `sc/` or `nc/` must be provided and contain a valid phone number.
+
+* It is not allowed for both fields to be missing or for both fields to be empty (e.g., `sc/` `nc/`).
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate Prison sc/1234567 nc/ t/criminal`
 
 ### Listing all persons : `list`
 
@@ -97,7 +105,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -107,7 +115,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/
     specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 ` Edits the phone number of the 1st person to be `91234567`.
+*  `edit 1 s/P4-Math ` Edits the subject level of the 1st person to be `P4-Math`.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ### Locating persons: `find`
@@ -167,7 +175,7 @@ Examples:
 Adds a new lesson plan entry for a specific student.
 
 Format:
-`addplan INDEX ll/DATE|PLAN`
+`addplan INDEX pl/DATE|PLAN`
 
 * Adds a lesson plan to the student at the specified `INDEX`. 
 * The index refers to the index number shown in the displayed person list. 
@@ -177,21 +185,21 @@ Format:
 * Each new entry will be added to the student’s lesson plan list. 
 * Entries can later be viewed with the view command.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addplan` command to schedule and keep track of upcoming lessons for each student. </div>
+> **Tip:**
+> Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
 
 Examples:
 
-`addplan 1 ll/2025-10-25|Introduce quadratic equations`
+`addplan 1 pl/2025-10-25|Introduce quadratic equations`
 Adds a lesson plan on 25 Oct 2025 for the 1st student.
 
-`addplan 2 ll/2025-10-23|Essay writing techniques and structure`
+`addplan 2 pl/2025-10-23|Essay writing techniques and structure`
 Adds a lesson plan on 23 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson plan has been added. 
-* The new entry will appear in the student’s lesson plan list, viewable using view.
+* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
 ### Deleting lesson plan : `deleteplan`
@@ -225,22 +233,82 @@ Format: `addprogress INDEX Date|Description`
 * Each new entry will be added to the student’s lesson progress history. 
 * Entries can later be viewed with the view command.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addprogress` command regularly to keep an updated record of each student’s learning progress. </div>
+> **Tip:**
+>Use the `addprogress` command regularly to keep an updated record of each student’s learning progress. 
 
 Examples:
 
-* `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`
+* `addprogress 1 pr/2025-10-21|Introduced new algebra concepts`
 Adds a progress entry on 21 Oct 2025 for the 1st student.
 
-* `addprogress 2 lp/2025-10-15|Reviewed essay structure and grammar`
+* `addprogress 2 pr/2025-10-15|Reviewed essay structure and grammar`
 Adds a progress entry on 15 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added. 
-* The new entry will appear in the student's lesson progress list, viewable using viewlessons. 
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`. 
 * ![Add Progress Success](images/addProgressSuccess.png)
+
+### Edit Lesson Plan : `editplan`
+
+Updates an existing lesson plan entry for a student.
+
+Format: `editplan INDEX pl/Date|Description`
+
+* Updates an existing lesson plan entry for the student at the specified INDEX.
+* The index refers to the index number shown in the displayed person list.
+* The index must be a positive integer 1, 2, 3, …
+* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing lesson plan entry for the student.**
+* `DESCRIPTION` is the new description for the lesson plan, which will overwrite the old entry for that date.
+* If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
+
+> **Tip:**
+> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewplans` first to see which dates have entries you can edit.
+
+Examples:
+
+* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
+  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
+
+* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
+  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
+
+Expected outcome:
+
+* A success message will be displayed in the result box confirming that the lesson plan has been updated.
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* ![Edit Plan Success](images/editPlanSuccess.png)
+
+### Edit Lesson Progress : `editprogress`
+
+Updates an existing lesson progress entry for a student.
+
+Format: `editprogress INDEX pr/Date|Description`
+
+* Updates an existing lesson progress entry for the student at the specified INDEX.
+* The index refers to the index number shown in the displayed person list.
+* The index must be a positive integer 1, 2, 3, …
+* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing progress entry for the student.**
+* `DESCRIPTION` is the new description of what was covered, which will overwrite the old entry for that date.
+* If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
+
+> **Tip:**
+> Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+
+Examples:
+
+* `editprogress 1 pr/2025-10-21|Also covered simultaneous equations`
+  Updates the progress entry from 21 Oct 2025 for the 1st student with the new description.
+
+* `editprogress 2 pr/2025-10-15|Final review of essay complete`
+  Updates the progress entry from 15 Oct 2025 for the 2nd student with the new description.
+
+Expected outcome:
+
+* A success message will be displayed in the result box confirming that the lesson progress has been updated.
+* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
+* ![Edit Progress Success](images/editProgressSuccess.png)
 
 ### Viewing lesson progress : `viewlessons`
 
@@ -255,9 +323,8 @@ Format: `viewlessons INDEX`
 * Each entry shows the date and progress description.
 * Entries can be sorted by Date
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Add lesson progress using the `addprogress` command before viewing.
-</div>
+> **Tip:**
+> Add lesson progress using the `addprogress` command before viewing.
 
 Examples:
 * `list` followed by `viewlessons 1` opens a window showing the lesson progress for the 1st student.

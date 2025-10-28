@@ -73,6 +73,21 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseName_blank_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Name.MESSAGE_BLANK, () -> ParserUtil.parseName(" "));
+    }
+
+    @Test
+    public void parseName_tooShort_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Name.MESSAGE_TOO_SHORT, () -> ParserUtil.parseName("A"));
+    }
+
+    @Test
+    public void parseName_invalidChars_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Name.MESSAGE_INVALID_CHARS, () -> ParserUtil.parseName(INVALID_NAME));
+    }
+
+    @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
@@ -96,6 +111,21 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parsePhone_blank_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Phone.MESSAGE_BLANK, () -> ParserUtil.parsePhone(" "));
+    }
+
+    @Test
+    public void parsePhone_tooShort_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Phone.MESSAGE_TOO_SHORT, () -> ParserUtil.parsePhone("12"));
+    }
+
+    @Test
+    public void parsePhone_invalidChars_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, Phone.MESSAGE_INVALID_CHARS, () -> ParserUtil.parsePhone(INVALID_PHONE));
+    }
+
+    @Test
     public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
         Phone expectedPhone = new Phone(VALID_PHONE);
         assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE));
@@ -116,6 +146,23 @@ public class ParserUtilTest {
     @Test
     public void parseSubjectLevel_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseSubjectLevel(INVALID_SUBJECTLEVEL)); // missing dash
+    }
+
+    @Test
+    public void parseSubjectLevel_blank_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, SubjectLevel.MESSAGE_BLANK, () -> ParserUtil.parseSubjectLevel(" "));
+    }
+
+    @Test
+    public void parseSubjectLevel_invalidFormat_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, SubjectLevel.MESSAGE_INVALID_FORMAT, () ->
+                ParserUtil.parseSubjectLevel(INVALID_SUBJECTLEVEL));
+    }
+
+    @Test
+    public void parseSubjectLevel_invalidChars_throwsParseExceptionWithMessage() {
+        assertThrows(ParseException.class, SubjectLevel.MESSAGE_INVALID_CHARS, () ->
+                ParserUtil.parseSubjectLevel("P4-M4th"));
     }
 
     @Test

@@ -11,7 +11,12 @@ public class Phone {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain numbers, and it should be at least 3 digits long";
+            "Phone numbers should only contain numbers, and it should be at least 3 digits long, "
+                    + "please check if you have input invalid characters.";
+    /** Specific validation messages */
+    public static final String MESSAGE_BLANK = "Phone number cannot be blank.";
+    public static final String MESSAGE_INVALID_CHARS = "Phone numbers should only contain digits.";
+    public static final String MESSAGE_TOO_SHORT = "Phone number is too short; it should be at least 3 digits.";
     public static final String VALIDATION_REGEX = "\\d{3,}";
     public final String value;
 
@@ -31,6 +36,27 @@ public class Phone {
      */
     public static boolean isValidPhone(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /** Returns true if the given phone string is blank (null or empty after trimming). */
+    public static boolean isBlank(String test) {
+        return test == null || test.trim().isEmpty();
+    }
+
+    /** Returns true if the given phone string contains non-digit characters. */
+    public static boolean hasInvalidChars(String test) {
+        if (test == null) {
+            return true;
+        }
+        return !test.matches("\\d+");
+    }
+
+    /** Returns true if the given phone string is shorter than the minimum length. */
+    public static boolean isTooShort(String test) {
+        if (test == null) {
+            return true;
+        }
+        return test.trim().length() < 3;
     }
 
     @Override

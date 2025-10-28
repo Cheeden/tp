@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.model.person.LessonDayPredicate;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
+import tutortrack.model.person.SubjectLevelMatchesPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
@@ -68,5 +69,21 @@ public class FindCommandParserTest {
         LessonDayPredicate predicate3 = new LessonDayPredicate("WEDNESDAY");
         FindCommand expectedFindCommand3 = new FindCommand(predicate3, predicate3.getComparator());
         assertParseSuccess(parser, " d/WEDNESDAY", expectedFindCommand3);
+    }
+
+    @Test
+    public void parse_validSubjectLevel_returnsFindCommand() throws Exception {
+        // exact case
+        FindCommand expected = new FindCommand(new SubjectLevelMatchesPredicate("P4-Math"));
+        assertParseSuccess(parser, " s/P4-Math", expected);
+
+        // different case should still work
+        assertParseSuccess(parser, " s/p4-math", expected);
+    }
+
+    @Test
+    public void parse_emptySubject_throwsParseException() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, " s/ ", expectedMessage);
     }
 }

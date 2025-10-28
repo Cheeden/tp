@@ -232,6 +232,8 @@ The Add Lesson Progress feature allows tutors to record new lesson progress entr
 
 #### Implementation
 
+<img src="images/AddProgressSequenceDiagram.png" width="550" />
+
 The Add Lesson Progress mechanism involves coordination across multiple components:
 
 **Logic Component:**
@@ -256,8 +258,13 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 
 **UI Component:**
 
-* The result of a successful addprogress command is displayed in the Result Display panel. 
-* The updated progress list can then be viewed using the viewlessons command, which opens the LessonProgressWindow.
+* The result of a successful `addprogress` command is displayed in the Result Display panel. 
+* The updated progress list can then be viewed using the `viewlessons` command, which opens the LessonProgressWindow.
+
+**Notes:**
+The sequence diagram above focuses on the runtime behavior of AddProgressCommand.execute() and its interactions with `Model`, `Person`, and `LessonProgress`. 
+Classes such as `AddProgressCommandParser`, `ParserUtil`, and `LocalDate` are not included because they handle input parsing and validation before execution and are considered utility or library components.
+This keeps the diagram concise and highlights the key object interactions for adding a lesson progress entry.
 
 **Example Usage Scenario**
 

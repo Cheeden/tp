@@ -1,0 +1,33 @@
+@startuml
+participant User
+participant AddProgressCommand
+participant Model
+participant Person
+
+User ->> AddProgressCommand: execute(model)
+activate AddProgressCommand
+
+AddProgressCommand ->> Model: getFilteredPersonList()
+activate Model
+Model -->> AddProgressCommand: List<Person>
+deactivate Model
+
+AddProgressCommand ->> AddProgressCommand: validate index
+AddProgressCommand ->> Person: hasProgressOnDate(date)
+activate Person
+Person -->> AddProgressCommand: boolean
+deactivate Person
+
+alt has progress
+    AddProgressCommand ->> User: throw CommandException
+else no progress
+    AddProgressCommand ->> Person: addLessonProgress(toAdd)
+    activate Person
+    Person -->> AddProgressCommand: void
+    deactivate Person
+
+    AddProgressCommand -->> User: CommandResult(success)
+end
+
+deactivate AddProgressCommand
+@enduml

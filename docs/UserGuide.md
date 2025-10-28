@@ -122,7 +122,7 @@ Examples:
 
 Finds persons whose names, tags, or lesson days match any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
+Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
 **Search by Name:**
 * The search is case-insensitive. e.g `hans` will match `Hans`
@@ -155,6 +155,14 @@ Examples:
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+
+**Search by Subject (with `s/` prefix):**
+* Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
+* The search is case-insensitive and matches full subject-level tokens (so `s/P4-Math` matches `P4-Math` regardless of case).
+* Results are not specially ranked for subject matches (they are returned in the current list order or as provided by the command context).
+
+Examples:
+* `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
 
 ### Deleting a person : `delete`
 
@@ -372,7 +380,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find t/friends`, `find d/Monday` 
+**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
 **List** | `list`
 **Help** | `help`
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`

@@ -40,4 +40,28 @@ public class DeletePlanCommandParserTest {
         assertParseFailure(parser, args,
                 "Invalid date: month must be 01-12 and day must be valid for that month.");
     }
+
+    // EP: Invalid input with missing date argument
+    @Test
+    public void parse_missingDate_throwsParseException() {
+        String args = "1";
+        assertParseFailure(parser, args,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePlanCommand.MESSAGE_USAGE));
+    }
+
+    // EP: Invalid input with extra arguments
+    @Test
+    public void parse_extraArguments_throwsParseException() {
+        String args = "1 2025-10-15 extra";
+        assertParseFailure(parser, args,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePlanCommand.MESSAGE_USAGE));
+    }
+
+    // EP: Invalid input with no arguments provided
+    @Test
+    public void parse_noArguments_throwsParseException() {
+        String args = "";
+        assertParseFailure(parser, args,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePlanCommand.MESSAGE_USAGE));
+    }
 }

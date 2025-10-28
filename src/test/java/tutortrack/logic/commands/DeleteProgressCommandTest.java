@@ -101,14 +101,14 @@ public class DeleteProgressCommandTest {
         assertCommandFailure(deleteProgressCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    // EP: equals() tests - same value returns true
+    // EP: equals() tests which checks if same value returns true
     @Test
     public void equals_sameObject_returnsTrue() {
         DeleteProgressCommand command = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
         assertTrue(command.equals(command));
     }
 
-    // EP: equals() - different index returns false
+    // EP: equals() which checks if different index returns false
     @Test
     public void equals_differentIndex_returnsFalse() {
         DeleteProgressCommand command1 = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
@@ -116,7 +116,7 @@ public class DeleteProgressCommandTest {
         assertFalse(command1.equals(command2));
     }
 
-    // EP: equals() - different date returns false
+    // EP: equals() which checks if different date returns false
     @Test
     public void equals_differentDate_returnsFalse() {
         DeleteProgressCommand command1 = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);

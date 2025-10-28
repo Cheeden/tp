@@ -53,7 +53,7 @@ public class DeletePlanCommandTest {
         // The success message should be returned
         String expectedMessage = String.format(DeletePlanCommand.MESSAGE_SUCCESS, testDate1);
 
-        // Create what the model should look like after the command
+        // Create the expected model after the command
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Person expectedPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
@@ -100,7 +100,7 @@ public class DeletePlanCommandTest {
         assertCommandFailure(deletePlanCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    // EP: equals() tests - same value returns true
+    // EP: equals() tests which checks if same value returns true
     @Test
     public void equals_sameObject_returnsTrue() {
         DeletePlanCommand command = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);

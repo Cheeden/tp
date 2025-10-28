@@ -15,7 +15,8 @@ public class SubjectLevel {
 
     /** Specific validation messages */
     public static final String MESSAGE_BLANK = "Subject level cannot be blank.";
-    public static final String MESSAGE_INVALID_FORMAT = "Subject level must be in the format 'Level-Subject', e.g., 'P4-Math'.";
+    public static final String MESSAGE_INVALID_FORMAT = "Subject level must be in the format 'Level-Subject', "
+            + "e.g., 'P4-Math'.";
     public static final String MESSAGE_INVALID_CHARS = "Subject level contains invalid characters.";
 
     // Regex explanation:

@@ -13,6 +13,11 @@ public class SubjectLevel {
             + "Both parts must be non-empty and separated by a single dash. "
             + "Please check if you have input invalid characters.";
 
+    /** Specific validation messages */
+    public static final String MESSAGE_BLANK = "Subject level cannot be blank.";
+    public static final String MESSAGE_INVALID_FORMAT = "Subject level must be in the format 'Level-Subject', e.g., 'P4-Math'.";
+    public static final String MESSAGE_INVALID_CHARS = "Subject level contains invalid characters.";
+
     // Regex explanation:
     // ^ - start of string
     // [A-Za-z0-9]+ - one or more alphanumeric characters for the level (e.g., P4, Sec2)
@@ -39,6 +44,27 @@ public class SubjectLevel {
      */
     public static boolean isValidSubjectLevel(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /** Returns true if the given subject-level string is blank (null or empty after trimming). */
+    public static boolean isBlank(String test) {
+        return test == null || test.trim().isEmpty();
+    }
+
+    /** Returns true if the subject-level string does not match the basic format (level-subject). */
+    public static boolean hasInvalidFormat(String test) {
+        if (test == null) {
+            return true;
+        }
+        return !test.contains("-");
+    }
+
+    /** Returns true if the subject-level contains invalid characters according to regex. */
+    public static boolean hasInvalidChars(String test) {
+        if (test == null) {
+            return true;
+        }
+        return !test.matches(VALIDATION_REGEX);
     }
 
     @Override

@@ -192,15 +192,15 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        // invalid name
+        // invalid name (specific message for invalid characters)
         assertParseFailure(parser, INVALID_NAME_DESC + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
-                                           + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS);
+                                           + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_INVALID_CHARS);
 
-        // invalid contact
+        // invalid contact (invalid characters)
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
-                                           + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_CONSTRAINTS);
+                                           + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_INVALID_CHARS);
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
@@ -208,10 +208,10 @@ public class AddCommandParserTest {
                                            + INVALID_ADDRESS_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                                            Address.MESSAGE_CONSTRAINTS);
 
-        // invalid subject level
+        // invalid subject level (missing dash / invalid format)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + INVALID_SUBJECTLEVEL_DESC + DAYTIME_DESC_BOB + COST_DESC_BOB
-                                           + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND, SubjectLevel.MESSAGE_CONSTRAINTS);
+                                           + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND, SubjectLevel.MESSAGE_INVALID_FORMAT);
 
         // invalid day/time (e.g. invalid format or invalid hour)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
@@ -228,10 +228,10 @@ public class AddCommandParserTest {
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
                                            + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
 
-        // two invalid values, only first invalid value reported
+        // two invalid values, only first invalid value reported (name invalid chars reported)
         assertParseFailure(parser, INVALID_NAME_DESC + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
-                                           + INVALID_ADDRESS_DESC, Name.MESSAGE_CONSTRAINTS);
+                                           + INVALID_ADDRESS_DESC, Name.MESSAGE_INVALID_CHARS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB

@@ -238,31 +238,31 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 
 **Logic Component:**
 
-* AddProgressCommand – Adds a new LessonProgress entry to a specified student. 
-* AddProgressCommandParser – Parses the student index and lesson progress details from user input. 
-* Expects the format: addprogress INDEX lp/DATE|PROGRESS 
-* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter. 
+* AddProgressCommand – Adds a new LessonProgress entry to a specified student.
+* AddProgressCommandParser – Parses the student index and lesson progress details from user input.
+* Expects the format: addprogress INDEX lp/DATE|PROGRESS
+* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter.
 * Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
 
 **Model Component:**
 
-* Person – Contains a List<LessonProgress> representing all past lesson progress entries. 
-* LessonProgress – Stores two fields: LocalDate date and String description. 
-* The AddProgressCommand retrieves the target Person, creates a new LessonProgress object, and appends it to the person’s lesson progress list. 
+* Person – Contains a List<LessonProgress> representing all past lesson progress entries.
+* LessonProgress – Stores two fields: LocalDate date and String description.
+* The AddProgressCommand retrieves the target Person, creates a new LessonProgress object, and appends it to the person’s lesson progress list.
 * A new Person object is created with the updated lesson progress list (immutability principle), replacing the original person in the model.
 
 **Storage Component:**
 
-* JsonAdaptedLessonProgress – Handles JSON serialization and deserialization of LessonProgress data when saving or loading from storage. 
+* JsonAdaptedLessonProgress – Handles JSON serialization and deserialization of LessonProgress data when saving or loading from storage.
 * Each LessonProgress entry is stored as an object with date and progress fields in the JSON file.
 
 **UI Component:**
 
-* The result of a successful `addprogress` command is displayed in the Result Display panel. 
+* The result of a successful `addprogress` command is displayed in the Result Display panel.
 * The updated progress list can then be viewed using the `viewlessons` command, which opens the LessonProgressWindow.
 
 **Notes:**
-The sequence diagram above focuses on the runtime behavior of AddProgressCommand.execute() and its interactions with `Model`, `Person`, and `LessonProgress`. 
+The sequence diagram above focuses on the runtime behavior of AddProgressCommand.execute() and its interactions with `Model`, `Person`, and `LessonProgress`.
 Classes such as `AddProgressCommandParser`, `ParserUtil`, and `LocalDate` are not included because they handle input parsing and validation before execution and are considered utility or library components.
 This keeps the diagram concise and highlights the key object interactions for adding a lesson progress entry.
 

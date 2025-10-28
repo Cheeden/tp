@@ -14,21 +14,22 @@ import tutortrack.model.Model;
 import tutortrack.model.person.Person;
 
 /**
- * Finds and lists all persons in address book whose name, tags, or lesson day match the search criteria.
- * Keyword matching is case insensitive and uses prefix matching for names.
+ * Finds and lists all persons in address book whose name, subject level, tags, or lesson day match the search
+ * criteria. Keyword matching is case insensitive and uses prefix matching for names.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names start with any of "
-            + "the specified keywords (case-insensitive prefix matching) or whose tags contain the specified keywords, "
-            + "and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]... OR t/TAG_KEYWORD [MORE_TAG_KEYWORDS]... OR d/DAY\n"
-            + "Examples:\n"
-            + COMMAND_WORD + " alice bob charlie (searches by name prefix)\n"
-            + COMMAND_WORD + " t/Exams (searches by tag)\n"
-            + COMMAND_WORD + " d/Monday (searches by lesson day, sorted by time)";
+        + "the specified keywords (case-insensitive prefix matching), whose subject level matches the given subject, "
+        + "or whose tags contain the specified keywords, and displays them as a list with index numbers.\n"
+        + "Parameters: KEYWORD [MORE_KEYWORDS]... OR s/SUBJECT_LEVEL OR t/TAG_KEYWORD [MORE_TAG_KEYWORDS]... OR d/DAY\n"
+        + "Examples:\n"
+        + COMMAND_WORD + " alice bob charlie (searches by name prefix)\n"
+        + COMMAND_WORD + " s/P4-Math (searches by subject level, case-insensitive)\n"
+        + COMMAND_WORD + " t/Exams (searches by tag)\n"
+        + COMMAND_WORD + " d/Monday (searches by lesson day, sorted by time)";
 
     private static final Logger logger = LogsCenter.getLogger(FindCommand.class);
 

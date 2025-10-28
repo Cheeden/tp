@@ -2,6 +2,7 @@ package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.LessonDayPredicate;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
+import tutortrack.model.person.SubjectLevelMatchesPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
@@ -45,14 +47,22 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        // Check if the input contains the tag prefix
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_DAYTIME);
+        // Tokenize arguments including tag, day/time and subject-level prefixes
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
+                PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
 
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             String dayKeyword = extractNonEmptyValue(argMultimap, PREFIX_DAYTIME);
             LessonDayPredicate predicate = new LessonDayPredicate(dayKeyword);
             return new FindCommand(predicate, predicate.getComparator());
+        }
+
+        // If subject-level prefix is present, search by subject
+        if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
+            String subject = extractNonEmptyValue(argMultimap, PREFIX_SUBJECTLEVEL);
+            SubjectLevelMatchesPredicate predicate = new SubjectLevelMatchesPredicate(subject);
+            return new FindCommand(predicate);
         }
 
         // If tag prefix is present and has values, search by tags

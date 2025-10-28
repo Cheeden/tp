@@ -122,7 +122,7 @@ Examples:
 
 Finds persons whose names, tags, or lesson days match any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
+Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
 **Search by Name:**
 * The search is case-insensitive. e.g `hans` will match `Hans`
@@ -155,6 +155,14 @@ Examples:
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+
+**Search by Subject (with `s/` prefix):**
+* Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
+* The search is case-insensitive and matches full subject-level tokens (so `s/P4-Math` matches `P4-Math` regardless of case).
+* Results are not specially ranked for subject matches (they are returned in the current list order or as provided by the command context).
+
+Examples:
+* `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
 
 ### Deleting a person : `delete`
 
@@ -201,6 +209,23 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+
+### Deleting lesson plan : `deleteplan`
+
+Deletes a lesson plan entry for a specific student on a given date.
+
+Format: `deleteplan INDEX DATE`
+
+* Deletes the lesson plan for the student at the specified `INDEX` on the specified `DATE`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* `DATE` must be in the format YYYY-MM-DD.
+* The lesson plan on that date must exist. If no lesson plan exists on that date, an error message will be shown.
+
+Examples:
+
+* `deleteplan 1 2025-10-25` deletes the lesson plan for the 1st student on 25 Oct 2025.
+* `deleteplan 2 2025-10-23` deletes the lesson plan for the 2nd student on 23 Oct 2025.
 
 ### Add Lesson Progress : `addprogress`
 
@@ -372,11 +397,12 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find t/friends`, `find d/Monday` 
+**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
 **List** | `list`
 **Help** | `help`
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
 **Edit plan** | `editplan INDEX lpl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 lpl/2025-10-21\|Review essay writing and grammar`
+**Delete plan** | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
 **Edit progress** | `editprogress INDEX lp/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`
 **Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
 **View Lessons** | `viewlessons INDEX`<br> e.g., `viewlessons 1`

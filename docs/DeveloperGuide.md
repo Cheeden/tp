@@ -857,12 +857,41 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Ensure a student in the list has no lesson progress records (newly added student).
 
-   1. Test case: `viewlessons 1` (assuming 1st student has no lesson progress)<br>
+   2. Test case: `viewlessons 1` (assuming 1st student has no lesson progress)<br>
       Expected: Popup window appears but the table is empty. Success message shown.
 
-### Saving data
+### Deleting lesson plan
 
-1. Dealing with missing/corrupted data files
+1. Deleting a lesson plan for a student
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least one person has lesson plan records.
+
+   2. Test case: `deleteplan 1 2025-10-15`<br>
+      Expected: Assuming the lesson plan on the specific date for the 1st student exists. The lesson plan on 2025-10-15 for the 1st student is deleted. Success message shown: "Lesson plan on 2025-10-15 deleted".
+
+   3. Test case: `deleteplan 1 2025-12-31` (assuming no plan exists on  
+      this date)<br>
+      Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student". 
+
+   4. Test case: `deleteplan 0 2025-10-15`<br>
+      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+
+   5. Test case: `deleteplan 1`<br>
+      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+
+   6. Test case: `deleteplan 1 invalid-date`<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
+
+   7. Test case: `deleteplan 1 2025-13-01` (invalid month)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid date: month must be 01-12 and day must be valid for that month."
+
+   8. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
+      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+
+   9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
+      Expected: Similar error messages about invalid command format.
+
+1. Saving data
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 

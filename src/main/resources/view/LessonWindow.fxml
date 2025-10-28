@@ -23,10 +23,13 @@
         <children>
           <Label styleClass="label-header" text="Lessons" style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
           <TableView fx:id="lessonTable" prefHeight="450.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
             <columns>
-              <TableColumn fx:id="dateColumn" prefWidth="150.0" text="Date" />
-              <TableColumn fx:id="planColumn" prefWidth="400.0" text="Lesson Plan" />
-              <TableColumn fx:id="progressColumn" prefWidth="350.0" text="Lesson Progress" />
+              <TableColumn fx:id="dateColumn" prefWidth="150.0" minWidth="150.0" maxWidth="150.0" text="Date" resizable="false" />
+              <TableColumn fx:id="planColumn" prefWidth="375.0" text="Lesson Plan" />
+              <TableColumn fx:id="progressColumn" prefWidth="375.0" text="Lesson Progress" />
             </columns>
           </TableView>
           <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" text="Close" />

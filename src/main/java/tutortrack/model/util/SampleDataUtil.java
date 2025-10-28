@@ -27,14 +27,14 @@ public class SampleDataUtil {
                     new Address("Blk 30 Geylang Street 29, #06-40"),
                     getTagSet("friends")),
 
-            // with only selfContact
-            new Person(new Name("Bernice Yu"), new Phone("99272758"), null,
+            // with both contacts
+            new Person(new Name("Bernice Yu"), new Phone("99272758"), new Phone("88112233"),
                     new SubjectLevel("P5-Chinese"), new DayTime("Tuesday 1600"), new Cost("$60"),
                     new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                     getTagSet("colleagues", "friends")),
 
-            // with only nokContact
-            new Person(new Name("Charlotte Oliveiro"), null, new Phone("98765432"),
+            // with both contacts
+            new Person(new Name("Charlotte Oliveiro"), new Phone("93210765"), new Phone("98765432"),
                     new SubjectLevel("P6-Science"), new DayTime("Wednesday 1400"), new Cost("$50"),
                     new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
                     getTagSet("neighbours")),
@@ -45,14 +45,14 @@ public class SampleDataUtil {
                     new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
                     getTagSet("family")),
 
-            // with only selfContact
-            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), null,
+            // with both contacts
+            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Phone("94351253"),
                     new SubjectLevel("Sec1-AMath"), new DayTime("Friday 1800"), new Cost("$70"),
                     new Address("Blk 47 Tampines Street 20, #17-35"),
                     getTagSet("classmates")),
 
-            // with only nokContact
-            new Person(new Name("Roy Balakrishnan"), null, new Phone("91122334"),
+            // with both contacts
+            new Person(new Name("Roy Balakrishnan"), new Phone("96665544"), new Phone("91122334"),
                     new SubjectLevel("P4-Math"), new DayTime("Saturday 1300"), new Cost("$55"),
                     new Address("Blk 45 Aljunied Street 85, #11-31"),
                     getTagSet("colleagues"))

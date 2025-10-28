@@ -137,6 +137,16 @@ public class Person {
     }
 
     /**
+     * Removes a lesson progress entry on the specified date if it exists.
+     *
+     * @param date The date of the lesson progress to remove.
+     * @return True if a lesson progress was removed, false otherwise.
+     */
+    public boolean removeLessonProgressByDate(LocalDate date) {
+        return lessonProgressList.removeIf(lessonProgress -> lessonProgress.getDate().equals(date));
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */

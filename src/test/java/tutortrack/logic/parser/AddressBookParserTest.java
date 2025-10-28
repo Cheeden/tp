@@ -18,6 +18,7 @@ import tutortrack.logic.commands.AddCommand;
 import tutortrack.logic.commands.ClearCommand;
 import tutortrack.logic.commands.DeleteCommand;
 import tutortrack.logic.commands.DeletePlanCommand;
+import tutortrack.logic.commands.DeleteProgressCommand;
 import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
@@ -105,6 +106,13 @@ public class AddressBookParserTest {
         DeletePlanCommand command = (DeletePlanCommand) parser.parseCommand(
                 DeletePlanCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + " 2025-10-15");
         assertEquals(new DeletePlanCommand(INDEX_FIRST_PERSON, LocalDate.of(2025, 10, 15)), command);
+    }
+
+    @Test
+    public void parseCommand_deleteProgress() throws Exception {
+        DeleteProgressCommand command = (DeleteProgressCommand) parser.parseCommand(
+                DeleteProgressCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + " 2025-10-15");
+        assertEquals(new DeleteProgressCommand(INDEX_FIRST_PERSON, LocalDate.of(2025, 10, 15)), command);
     }
 
     @Test

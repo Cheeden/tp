@@ -2,6 +2,7 @@ package tutortrack.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
@@ -12,8 +13,11 @@ import static tutortrack.testutil.Assert.assertThrows;
 import static tutortrack.testutil.TypicalPersons.ALICE;
 import static tutortrack.testutil.TypicalPersons.BOB;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.testutil.PersonBuilder;
 
 public class PersonTest {
@@ -109,4 +113,24 @@ public class PersonTest {
                                   + ", lesson progress=" + ALICE.getLessonProgressList() + "}";
         assertEquals(expected, ALICE.toString());
     }
+
+    @Test
+    public void withProgressRemovedOnDate_existingProgress_success() {
+        // Create person with lesson progress
+        Person person = new PersonBuilder(ALICE).build();
+        LocalDate date = LocalDate.of(2024, 10, 15);
+        LessonProgress progress = new LessonProgress(date, "Completed Chapter 1");
+        person.addLessonProgress(progress);
+
+        // Remove the progress
+        Person updatedPerson = person.withProgressRemovedOnDate(date);
+
+        // Progress removed from new person
+        assertFalse(updatedPerson.hasProgressOnDate(date));
+        // Original person unchanged (immutability)
+        assertTrue(person.hasProgressOnDate(date));
+        // Different instances
+        assertNotSame(person, updatedPerson);
+    }
 }
+

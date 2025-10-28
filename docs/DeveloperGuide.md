@@ -315,7 +315,7 @@ The View Lesson Progress mechanism involves coordination across multiple compone
 
 **Storage Component:**
 * `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
-<!-- 
+<!--
 The following sequence diagram shows how the viewlessons operation works:
 
 ```
@@ -807,26 +807,26 @@ testers are expected to do more *exploratory* testing.
 
 ### Adding lesson progress
 
-1. Adding lesson progress for a student 
-   1. Prerequisites: List all persons using the list command. Multiple persons in the list. 
+1. Adding lesson progress for a student
+   1. Prerequisites: List all persons using the list command. Multiple persons in the list.
    2. Test case: `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`<br>
-   Expected: A success message is shown in the status message confirming that the lesson progress has been added. 
-   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts 
+   Expected: A success message is shown in the status message confirming that the lesson progress has been added.
+   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
    The student’s lesson progress list is updated. Timestamp in the status bar is updated.
    3. Test case: `addprogress 0 lp/2025-10-21|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
-   “Invalid command format! …”. Status bar remains the same. 
+   “Invalid command format! …”. Status bar remains the same.
    4. Test case: `addprogress 1 lp/invalid-date|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged. 
+   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged.
    5. Test case: `addprogress 1 lp/2025-10-21|`<br>
-   Expected: No lesson progress is added. Error details shown in the status message: progress description missing. 
+   Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
    6. Test case: `addprogress x lp/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
-   Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same. 
+   Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same.
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition 
-      1. Prerequisites: Successfully add at least one lesson progress record to a student. 
+      1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 

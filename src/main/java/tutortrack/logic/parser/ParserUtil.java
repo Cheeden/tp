@@ -50,6 +50,17 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        // Provide more specific error messages for common failure modes.
+        if (Name.isBlank(trimmedName)) {
+            throw new ParseException(Name.MESSAGE_BLANK);
+        }
+        if (Name.isTooShort(trimmedName)) {
+            throw new ParseException(Name.MESSAGE_TOO_SHORT);
+        }
+        if (Name.hasInvalidChars(trimmedName)) {
+            throw new ParseException(Name.MESSAGE_INVALID_CHARS);
+        }
+        // final defensive check
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -65,6 +76,16 @@ public class ParserUtil {
     public static Phone parsePhone(String phone) throws ParseException {
         requireNonNull(phone);
         String trimmedPhone = phone.trim();
+        // Provide more specific error messages for phone
+        if (Phone.isBlank(trimmedPhone)) {
+            throw new ParseException(Phone.MESSAGE_BLANK);
+        }
+        if (Phone.hasInvalidChars(trimmedPhone)) {
+            throw new ParseException(Phone.MESSAGE_INVALID_CHARS);
+        }
+        if (Phone.isTooShort(trimmedPhone)) {
+            throw new ParseException(Phone.MESSAGE_TOO_SHORT);
+        }
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
@@ -95,6 +116,15 @@ public class ParserUtil {
     public static SubjectLevel parseSubjectLevel(String subjectLevel) throws ParseException {
         requireNonNull(subjectLevel);
         String trimmedSubjectLevel = subjectLevel.trim();
+        if (SubjectLevel.isBlank(trimmedSubjectLevel)) {
+            throw new ParseException(SubjectLevel.MESSAGE_BLANK);
+        }
+        if (SubjectLevel.hasInvalidFormat(trimmedSubjectLevel)) {
+            throw new ParseException(SubjectLevel.MESSAGE_INVALID_FORMAT);
+        }
+        if (SubjectLevel.hasInvalidChars(trimmedSubjectLevel)) {
+            throw new ParseException(SubjectLevel.MESSAGE_INVALID_CHARS);
+        }
         if (!SubjectLevel.isValidSubjectLevel(trimmedSubjectLevel)) {
             throw new ParseException(SubjectLevel.MESSAGE_CONSTRAINTS);
         }

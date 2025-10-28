@@ -94,17 +94,20 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
+        // invalid name should report specific invalid-chars message
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_INVALID_CHARS);
+        // invalid phone (invalid chars)
+        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_INVALID_CHARS);
         assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + INVALID_SUBJECTLEVEL_DESC, SubjectLevel.MESSAGE_CONSTRAINTS);
+        // invalid subject level (missing dash / invalid format)
+        assertParseFailure(parser, "1" + INVALID_SUBJECTLEVEL_DESC, SubjectLevel.MESSAGE_INVALID_FORMAT);
         assertParseFailure(parser, "1" + INVALID_DAYTIME_DESC, DayTime.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "1" + INVALID_COST_DESC, Cost.MESSAGE_CONSTRAINTS);
 
-        // multiple invalid values, only first one captured
+        // multiple invalid values, only first one captured (name invalid chars reported)
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + VALID_ADDRESS_AMY + VALID_CONTACT_AMY,
-                Name.MESSAGE_CONSTRAINTS);
+            Name.MESSAGE_INVALID_CHARS);
     }
 
     @Test

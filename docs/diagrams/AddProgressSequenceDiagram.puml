@@ -30,5 +30,4 @@ else no progress
 end
 
 deactivate AddProgressCommand
-
 @enduml

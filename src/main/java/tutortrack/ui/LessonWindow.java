@@ -11,8 +11,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.model.lesson.LessonPlan;
@@ -58,6 +60,10 @@ public class LessonWindow extends UiPart<Stage> {
         planColumn.setCellValueFactory(cellData ->
                 cellData.getValue().planProperty());
 
+        // Enable text wrapping for progress and plan columns
+        configureWrappingColumn(progressColumn);
+        configureWrappingColumn(planColumn);
+
         // load the data into the table
         lessonTable.setItems(lessonData);
     }
@@ -67,6 +73,23 @@ public class LessonWindow extends UiPart<Stage> {
      */
     public LessonWindow() {
         this(new Stage());
+    }
+
+    /**
+     * Configures a table column to wrap text in its cells.
+     *
+     * @param column The column to configure for text wrapping.
+     */
+    private void configureWrappingColumn(TableColumn<LessonDisplay, String> column) {
+        column.setCellFactory(tc -> {
+            TableCell<LessonDisplay, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(javafx.scene.control.Control.USE_COMPUTED_SIZE);
+            text.wrappingWidthProperty().bind(column.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
     }
 
     /**

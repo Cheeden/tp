@@ -176,20 +176,6 @@ public class LessonWindowTest {
     }
 
     @Test
-    public void refresh_nullCurrentPerson_returnsEarly() {
-        // Tests method returns early when currentPerson is null
-        Person currentPerson = null;
-        ObservableList<Person> personList = FXCollections.observableArrayList(
-                new PersonBuilder().withName("Alice").build()
-        );
-
-        if (currentPerson == null) {
-            assertNull(currentPerson);
-            return;
-        }
-    }
-
-    @Test
     public void refresh_personNotFoundInList_handlesGracefully() {
         // Tests method returns null when person is not found in the list
         Person currentPerson = new PersonBuilder().withName("Alice").build();

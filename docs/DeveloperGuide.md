@@ -848,10 +848,10 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
+   2. Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+   3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
@@ -961,6 +961,28 @@ testers are expected to do more *exploratory* testing.
 
    9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
       Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+
+### Deleting lesson progress
+
+1. Deleting lesson progress while all persons are being shown
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least the first person has a lesson progress entry on 2025-10-15.
+
+   2. Test case: `deleteprogress 1 2025-10-15`<br>
+      Expected: Assuming the lesson progress on 2025-10-15 for the 1st student exists. The lesson progress on 2025-10-15 for the 1st student is deleted. Success message shown: "Lesson progress on 2025-10-15 deleted".
+
+   3. Test case: `deleteprogress 1 2025-12-31` (assuming no progress exists on this date)<br>
+      Expected: No lesson progress is deleted. Error message shown: "No lesson progress found on 2025-12-31 for this student".
+
+   4. Test case: `deleteprogress 0 2025-10-15`<br>
+      Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+   5. Test case: `deleteprogress 1 invalid-date`<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
+
+   6. Test case: `deleteprogress abc 2025-10-15`<br>
+      Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 1. Saving data
 

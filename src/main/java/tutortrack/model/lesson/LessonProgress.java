@@ -1,21 +1,15 @@
 package tutortrack.model.lesson;
 
-import static java.util.Objects.requireNonNull;
-
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * Represents a lesson progress entry in TutorTrack.
  * Guarantees: immutable; date and progress are valid as declared in their respective classes
  */
-public class LessonProgress {
+public class LessonProgress extends LessonItem {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Lesson progress should be in the format DATE|DESCRIPTION (e.g. 2025-10-12|Covered Chapter 5).";
-
-    private final LocalDate date;
-    private final String progress;
 
     /**
      * Constructs a {@code LessonProgress}.
@@ -24,39 +18,15 @@ public class LessonProgress {
      * @param progress A valid progress description.
      */
     public LessonProgress(LocalDate date, String progress) {
-        this.date = requireNonNull(date, "Date cannot be null");
-        this.progress = requireNonNull(progress, "Progress cannot be null");
-    }
-
-    public LocalDate getDate() {
-        return date;
+        super(date, progress);
     }
 
     public String getProgress() {
-        return progress;
+        return getDescription();
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof LessonProgress)) {
-            return false;
-        }
-
-        LessonProgress otherProgress = (LessonProgress) other;
-        return date.equals(otherProgress.date) && progress.equals(otherProgress.progress);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, progress);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Date: %s, Progress: %s", date.toString(), progress);
+    protected String getTypeName() {
+        return "Progress";
     }
 }

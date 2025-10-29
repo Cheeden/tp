@@ -218,9 +218,11 @@ Format: `deleteplan INDEX DATE`
 
 * Deletes the lesson plan for the student at the specified `INDEX` on the specified `DATE`.
 * The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index must be a positive integer 1, 2, 3, …​
 * `DATE` must be in the format YYYY-MM-DD.
 * The lesson plan on that date must exist. If no lesson plan exists on that date, an error message will be shown.
+* `DATE` must be in the format YYYY-MM-DD.
+* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
 
 Examples:
 
@@ -318,6 +320,24 @@ Expected outcome:
 * The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
 
+### Deleting lesson progress : `deleteprogress`
+
+Deletes a lesson progress entry for a specific student on a given date.
+
+Format: `deleteprogress INDEX DATE`
+
+* Deletes the lesson progress for the student at the specified `INDEX` on the specified `DATE`.
+* The index refers to the index number shown in the displayed person list.
+* The index must be a positive integer (e.g 1, 2, 3...)​
+* `DATE` must be in the format YYYY-MM-DD.
+* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
+* The lesson progress on that date must exist. If no lesson progress exists on that date, an error message will be shown.
+
+Examples:
+
+* `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
+* `deleteprogress 2 2025-10-15` deletes the lesson progress for the 2nd student on 15 Oct 2025.
+
 ### Viewing lesson progress : `viewlessons`
 
 Shows the lesson progress history for a specific student in a separate window.
@@ -403,6 +423,7 @@ Action | Format, Examples
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
 **Edit plan** | `editplan INDEX lpl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 lpl/2025-10-21\|Review essay writing and grammar`
 **Delete plan** | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
-**Edit progress** | `editprogress INDEX lp/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`
 **Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
+**Edit progress** | `editprogress INDEX lp/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`
+**Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`
 **View Lessons** | `viewlessons INDEX`<br> e.g., `viewlessons 1`

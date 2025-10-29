@@ -27,7 +27,6 @@ else no progress
     deactivate Person
 
     AddProgressCommand -->> User: CommandResult(success)
+    deactivate AddProgressCommand
 end
-
-deactivate AddProgressCommand
 @enduml

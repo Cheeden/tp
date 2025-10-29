@@ -244,7 +244,7 @@ Format: `addprogress INDEX Date|Description`
 * Entries can later be viewed with the view command.
 
 > **Tip:**
->Use the `addprogress` command regularly to keep an updated record of each student’s learning progress. 
+>Use the `addprogress` command regularly to keep an updated record of each student’s learning progress.
 
 Examples:
 
@@ -256,8 +256,8 @@ Adds a progress entry on 15 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
-* A success message will be displayed in the result box confirming that the lesson progress has been added. 
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`. 
+* A success message will be displayed in the result box confirming that the lesson progress has been added.
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
 
 ### Edit Lesson Plan : `editplan`
@@ -338,31 +338,32 @@ Examples:
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
 * `deleteprogress 2 2025-10-15` deletes the lesson progress for the 2nd student on 15 Oct 2025.
 
-### Viewing lesson progress : `viewlessons`
+### Viewing Lesson Window : `viewlessons`
 
 Shows the lesson progress history for a specific student in a separate window.
 
 Format: `viewlessons INDEX`
 
-* Views the lesson progress of the student at the specified `INDEX`.
+* Views the lesson plan and progress of the student at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Opens a new window displaying all recorded lesson progress entries.
 * Each entry shows the date and progress description.
-* Entries can be sorted by Date
+* Entries can be sort by Date
 
 > **Tip:**
-> Add lesson progress using the `addprogress` command before viewing.
+> 1. Add lesson plan using the `addplan` command before viewing<br>
+> 2. Add lesson progress using the `addprogress` command before viewing.
 
 Examples:
-* `list` followed by `viewlessons 1` opens a window showing the lesson progress for the 1st student.
-* `find John` followed by `viewlessons 1` shows progress for the 1st person in the filtered results.
+* `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
+* `find John` followed by `viewlessons 1` shows the lesson window for the 1st person in the filtered results.
 
 Expected output:<br>
-![View Progress Window](images/viewProgressWindow.png)
-* A new window titled "Lesson Progress" will appear.
-* The window contains a table with two columns: **Date** and **Progress**.
-* If the student has no lesson progress recorded, an empty table is shown.
+![View Lessons Window](images/viewlessonsWindow.png)
+* A new window titled "Lessons" will appear.
+* The window contains a table with three columns: **Date**, **Lesson Plan** and **Lesson Progress**.
+* If the student has no lesson plan or lesson progress recorded, an empty table is shown.
 
 ### Clearing all entries : `clear`
 
@@ -417,7 +418,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
+**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
 **List** | `list`
 **Help** | `help`
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`

@@ -17,16 +17,16 @@ import tutortrack.model.ModelManager;
 import tutortrack.model.UserPrefs;
 import tutortrack.model.person.Person;
 
-public class ViewLessonProgressCommandTest {
+public class ViewLessonsCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Person personToView = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        ViewLessonProgressCommand command = new ViewLessonProgressCommand(INDEX_FIRST_PERSON);
+        ViewLessonsCommand command = new ViewLessonsCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(ViewLessonProgressCommand.MESSAGE_SUCCESS,
+        String expectedMessage = String.format(ViewLessonsCommand.MESSAGE_SUCCESS,
                 personToView.getName());
 
         CommandResult expectedCommandResult = new CommandResult(expectedMessage, false, false, true, personToView);
@@ -38,22 +38,22 @@ public class ViewLessonProgressCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        ViewLessonProgressCommand command = new ViewLessonProgressCommand(outOfBoundIndex);
+        ViewLessonsCommand command = new ViewLessonsCommand(outOfBoundIndex);
 
         assertCommandFailure(command, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        ViewLessonProgressCommand viewFirstCommand = new ViewLessonProgressCommand(INDEX_FIRST_PERSON);
-        ViewLessonProgressCommand viewSecondCommand = new ViewLessonProgressCommand(
+        ViewLessonsCommand viewFirstCommand = new ViewLessonsCommand(INDEX_FIRST_PERSON);
+        ViewLessonsCommand viewSecondCommand = new ViewLessonsCommand(
                 Index.fromOneBased(2));
 
         // same object -> returns true
         assertTrue(viewFirstCommand.equals(viewFirstCommand));
 
         // same values -> returns true
-        ViewLessonProgressCommand viewFirstCommandCopy = new ViewLessonProgressCommand(INDEX_FIRST_PERSON);
+        ViewLessonsCommand viewFirstCommandCopy = new ViewLessonsCommand(INDEX_FIRST_PERSON);
         assertTrue(viewFirstCommand.equals(viewFirstCommandCopy));
 
         // different types -> returns false

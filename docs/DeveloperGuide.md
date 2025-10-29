@@ -294,65 +294,86 @@ New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra con
 
 Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
-### View Lesson Progress feature
+### View Lessons feature
 
-The View Lesson Progress feature allows tutors to view a student's lesson progress records in a popup window, displaying the date and remarks for each lesson conducted.
+The View Lessons feature allows tutors to view a student's lesson progress and lesson plans in a unified popup window. The window displays a table with three columns: Date, Lesson Plan, and Lesson Progress. Records from both progress and plans are merged by date, showing a comprehensive view of all lessons.
 
 #### Implementation
 
-The View Lesson Progress mechanism involves coordination across multiple components:
+The View Lessons mechanism involves coordination across multiple components:
 
 **Logic Component:**
-* `ViewLessonProgressCommand` - Retrieves the specified person from the model and returns them in the `CommandResult`
-* `ViewLessonProgressCommandParser` - Parses the student index from user input using `ParserUtil.parseIndex()`
+* `ViewLessonsCommand` - Retrieves the specified person from the model and returns them in the `CommandResult` with the command word `viewlessons`
+* `ViewLessonsCommandParser` - Parses the student index from user input using `ParserUtil.parseIndex()`
 
 **UI Component:**
-* `LessonProgressWindow` - A popup window that displays lesson progress in a TableView
+* `LessonWindow` - A popup window that displays lesson progress and plans in a unified TableView with three columns:
+  * Date column (fixed width 150px)
+  * Lesson Plan column (expandable, equal width with Progress)
+  * Lesson Progress column (expandable, equal width with Plan)
+* `LessonDisplay` - A view model class that combines `LessonProgress` and `LessonPlan` for the same date, used to populate the table
 * `MainWindow` - Handles the command result and passes the person data to the popup window
 
 **Model Component:**
-* `Person` - Contains a list of `LessonProgress` objects
-* `LessonProgress` - Stores the date and remarks for each lesson
+* `Person` - Contains two lists: `List<LessonProgress>` and `List<LessonPlan>`
+* `LessonProgress` - Stores the date and progress description for each lesson
+* `LessonPlan` - Stores the date and lesson plan description
 
 **Storage Component:**
 * `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
-<!--
-The following sequence diagram shows how the viewlessons operation works:
+* `JsonAdaptedLessonPlan` - Handles JSON serialization/deserialization of lesson plan data
 
-```
-User -> UI: viewlessons 1
-UI -> Logic: execute("viewlessons 1")
-Logic -> AddressBookParser: parseCommand("viewlessons 1")
-AddressBookParser -> ViewLessonProgressCommandParser: parse("1")
-ViewLessonProgressCommandParser -> ViewLessonProgressCommand: new ViewLessonProgressCommand(index)
-ViewLessonProgressCommand -> Model: getFilteredPersonList()
-Model -> ViewLessonProgressCommand: personList
-ViewLessonProgressCommand -> ViewLessonProgressCommand: get person at index
-ViewLessonProgressCommand -> Logic: new CommandResult(message, person)
-Logic -> UI: commandResult
-UI -> UI: handleShowLessonProgress(person)
-UI -> LessonProgressWindow: setPerson(person)
-LessonProgressWindow -> LessonProgressWindow: load lesson progress into TableView
-LessonProgressWindow -> UI: show window
-``` -->
+**Sequence of Operations:**
+
+The following sequence diagram shows how a `viewlessons` command is executed through the Logic component:
+
+![ViewLessonsSequenceDiagram](images/ViewLessonsSequenceDiagram.png)
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `ViewLessonsCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+</div>
+
+The following sequence diagram shows how the UI component handles displaying the lesson window:
+
+![ViewLessonsSequenceDiagram-UI](images/ViewLessonsSequenceDiagram-UI.png)
+
+**Data Merging Logic:**
+
+The `LessonWindow.setPerson()` method implements the merging logic:
+1. Creates a `HashMap<LocalDate, LessonDisplay>` to combine entries by date
+2. Iterates through all `LessonProgress` entries and adds them to the map
+3. Iterates through all `LessonPlan` entries:
+   * If the date already exists (has progress), merges the plan with existing progress
+   * If the date is new, creates a new entry with empty progress
+4. Converts the map to a sorted list (chronological order by date)
+5. Populates the TableView with the merged data
+
+**Text Wrapping:**
+
+The Lesson Plan and Lesson Progress columns use custom cell factories to enable text wrapping:
+* `configureWrappingColumn()` creates `TableCell` instances with `Text` nodes
+* The wrapping width is bound to the column width, ensuring text wraps dynamically when columns resize
+* Row height automatically adjusts to fit wrapped text content
 
 Given below is an example usage scenario:
 
-Step 1. The user executes `viewlessons 1` to view the lesson progress of the 1st student in the list.
+Step 1. The user executes `viewlessons 1` to view the lessons for the 1st student in the list.
 
-Step 2. `ViewLessonProgressCommandParser` parses the index "1" and creates a `ViewLessonProgressCommand` with index 1.
+Step 2. `ViewLessonsCommandParser` parses the index "1" and creates a `ViewLessonsCommand` with index 1.
 
-Step 3. `ViewLessonProgressCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
+Step 3. `ViewLessonsCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
 
 Step 4. The command returns a `CommandResult` containing the person object.
 
 Step 5. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
 
-Step 6. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson progress window.
+Step 6. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson window.
 
-Step 7. `LessonProgressWindow` receives the person via `setPerson(person)` and populates the TableView with the person's lesson progress data.
+Step 7. `LessonWindow` receives the person via `setPerson(person)` and:
+   * Merges lesson progress and lesson plans by date using a HashMap
+   * Sorts the merged entries chronologically
+   * Populates the TableView with three columns: Date, Lesson Plan, Lesson Progress
 
-Step 8. The lesson progress window is displayed to the user showing the date and remarks for each lesson.
+Step 8. The lesson window is displayed to the user showing the merged data in a three-column table.
 
 #### Design considerations
 
@@ -368,17 +389,31 @@ Step 8. The lesson progress window is displayed to the user showing the date and
   * Cons: Creates tight coupling between UI and Model
   * Cons: Requires additional state management in Model
 
-**Aspect: How to display LocalDate in TableView**
+**Aspect: How to merge lesson progress and plans**
 
-* **Alternative 1 (current choice):** Use custom CellValueFactory with SimpleStringProperty
-  * Pros: Full control over date formatting
-  * Pros: Can easily change date format in one place
-  * Cons: More code required compared to direct property binding
+* **Alternative 1 (current choice):** Use HashMap to merge by date in UI layer
+  * Pros: UI has full control over display logic
+  * Pros: Model remains simple with separate lists
+  * Pros: Easy to display entries that have only progress or only plan
+  * Cons: Merging logic is in UI instead of Model
 
-* **Alternative 2:** Use PropertyValueFactory directly with LocalDate
-  * Pros: Less code required
-  * Cons: Default LocalDate toString() format is not user-friendly
-  * Cons: Cannot customize date formatting
+* **Alternative 2:** Store merged lessons in Model
+  * Pros: Model handles data transformation
+  * Cons: More complex model with additional data structures
+  * Cons: Harder to maintain separate progress/plan operations (e.g., addprogress, addplan)
+
+**Aspect: How to display data in TableView**
+
+* **Alternative 1 (current choice):** Create LessonDisplay view model
+  * Pros: Separates UI representation from domain model
+  * Pros: JavaFX properties enable easy binding to TableView
+  * Pros: Can combine multiple domain objects (Progress + Plan) into one display row
+  * Cons: Additional class to maintain
+
+* **Alternative 2:** Display LessonProgress and LessonPlan directly
+  * Pros: No intermediate class needed
+  * Cons: Cannot easily merge progress and plan for same date
+  * Cons: Would need two separate tables or duplicate dates
 
 ### \[Proposed\] Undo/redo feature
 
@@ -826,21 +861,21 @@ testers are expected to do more *exploratory* testing.
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
-2. Viewing after addition 
+2. Viewing after addition
       1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 
 3. { more test cases … }
 
-### Viewing lesson progress
+### Viewing lessons
 
-1. Viewing lesson progress for a student
+1. Viewing lessons for a student
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least one person has lesson progress records.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least one person has lesson progress or lesson plan records.
 
    1. Test case: `viewlessons 1`<br>
-      Expected: A popup window appears showing the lesson plan and progress for the 1st student. The window displays a table with columns "Date", "Plan" and "Progress. If the student has lesson plan/progress records, they are shown in the table. Success message shown in the status message.
+      Expected: A popup window appears showing the lessons for the 1st student. The window displays a table with three columns: "Date", "Lesson Plan", and "Lesson Progress". If the student has lesson progress/plan records, they are shown merged by date in the table. Success message shown in the status message: "Opened lesson summary window for [Student Name]."
 
    1. Test case: `viewlessons 0`<br>
       Expected: No window is shown. Error details shown in the status message: "Invalid command format! ...". Status bar remains the same.
@@ -854,12 +889,33 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
       Expected: Similar error messages about invalid format or index.
 
-1. Viewing lesson progress when student has no records
+1. Viewing lessons when student has both progress and plans
 
-   1. Prerequisites: Ensure a student in the list has no lesson progress records (newly added student).
+   1. Prerequisites: Ensure a student in the list has both lesson progress and lesson plans, some on the same dates and some on different dates.
 
-   2. Test case: `viewlessons 1` (assuming 1st student has no lesson progress)<br>
-      Expected: Popup window appears but the table is empty. Success message shown.
+   2. Test case: `viewlessons 1` (assuming 1st student has mixed records)<br>
+      Expected: Popup window shows:
+      * Dates with both progress and plan display both in the same row
+      * Dates with only progress show progress with empty plan column
+      * Dates with only plan show plan with empty progress column
+      * All entries sorted chronologically by date
+
+1. Viewing lessons when student has no records
+
+   1. Prerequisites: Ensure a student in the list has no lesson progress or lesson plan records (newly added student).
+
+   2. Test case: `viewlessons 1` (assuming 1st student has no lesson records)<br>
+      Expected: Popup window appears but the table is empty. Success message shown: "Opened lesson summary window for [Student Name]."
+
+1. Text wrapping in lesson window
+
+   1. Prerequisites: Add a student with very long lesson progress or plan text (e.g., 200+ characters).
+
+   2. Test case: `viewlessons 1` (student with long text)<br>
+      Expected: Popup window displays the long text wrapped across multiple lines in the cell. Row height automatically adjusts to fit all text. No text is cut off with ellipsis (...).
+
+   3. Test case: Resize the lesson window wider or narrower<br>
+      Expected: Text in Lesson Plan and Lesson Progress columns dynamically re-wraps to fit the new column width. Date column remains fixed at 150px.
 
 ### Deleting lesson plan
 
@@ -870,9 +926,9 @@ testers are expected to do more *exploratory* testing.
    2. Test case: `deleteplan 1 2025-10-15`<br>
       Expected: Assuming the lesson plan on the specific date for the 1st student exists. The lesson plan on 2025-10-15 for the 1st student is deleted. Success message shown: "Lesson plan on 2025-10-15 deleted".
 
-   3. Test case: `deleteplan 1 2025-12-31` (assuming no plan exists on  
+   3. Test case: `deleteplan 1 2025-12-31` (assuming no plan exists on
       this date)<br>
-      Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student". 
+      Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student".
 
    4. Test case: `deleteplan 0 2025-10-15`<br>
       Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".

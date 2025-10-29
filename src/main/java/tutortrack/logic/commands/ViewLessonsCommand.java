@@ -12,9 +12,9 @@ import tutortrack.model.Model;
 import tutortrack.model.person.Person;
 
 /**
- * Shows lesson progress in a separate window.
+ * Shows lesson plan and progress in a separate window.
  */
-public class ViewLessonProgressCommand extends Command {
+public class ViewLessonsCommand extends Command {
 
     public static final String COMMAND_WORD = "viewlessons";
     public static final String MESSAGE_SUCCESS = "Opened lesson summary window for %1$s.";
@@ -27,9 +27,9 @@ public class ViewLessonProgressCommand extends Command {
     private final Index targetIndex;
 
     /**
-     * Creates a ViewLessonProgressCommand to view the lesson progress of the person at the specified index.
+     * Creates a ViewLessonsCommand to view the lessons of the person at the specified index.
      */
-    public ViewLessonProgressCommand(Index targetIndex) {
+    public ViewLessonsCommand(Index targetIndex) {
         requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
     }
@@ -55,11 +55,11 @@ public class ViewLessonProgressCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ViewLessonProgressCommand)) {
+        if (!(other instanceof ViewLessonsCommand)) {
             return false;
         }
 
-        ViewLessonProgressCommand otherCommand = (ViewLessonProgressCommand) other;
+        ViewLessonsCommand otherCommand = (ViewLessonsCommand) other;
         return targetIndex.equals(otherCommand.targetIndex);
     }
 

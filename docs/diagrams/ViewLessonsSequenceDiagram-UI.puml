@@ -1,0 +1,110 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box UI UI_COLOR_T1
+participant ":MainWindow" as MainWindow UI_COLOR
+participant ":LessonWindow" as LessonWindow UI_COLOR
+participant ":TableView" as TableView UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "p:Person" as Person MODEL_COLOR
+participant ":LessonProgress" as LessonProgress MODEL_COLOR
+participant ":LessonPlan" as LessonPlan MODEL_COLOR
+end box
+
+[-> MainWindow : handleShowLessonProgress(p)
+activate MainWindow
+
+MainWindow -> LessonWindow : setPerson(p)
+activate LessonWindow
+
+LessonWindow -> Person : getLessonProgressList()
+activate Person
+
+Person --> LessonWindow : progressList
+deactivate Person
+
+LessonWindow -> Person : getLessonPlanList()
+activate Person
+
+Person --> LessonWindow : planList
+deactivate Person
+
+loop for each LessonProgress
+    LessonWindow -> LessonProgress : getDate()
+    activate LessonProgress
+
+    LessonProgress --> LessonWindow : date
+    deactivate LessonProgress
+
+    LessonWindow -> LessonProgress : getProgress()
+    activate LessonProgress
+
+    LessonProgress --> LessonWindow : progress
+    deactivate LessonProgress
+
+    LessonWindow -> LessonWindow : add to lessonMap\nwith (date, progress, "")
+end
+
+loop for each LessonPlan
+    LessonWindow -> LessonPlan : getDate()
+    activate LessonPlan
+
+    LessonPlan --> LessonWindow : date
+    deactivate LessonPlan
+
+    LessonWindow -> LessonPlan : getPlan()
+    activate LessonPlan
+
+    LessonPlan --> LessonWindow : plan
+    deactivate LessonPlan
+
+    alt date exists in lessonMap
+        LessonWindow -> LessonWindow : merge plan with\nexisting progress
+    else date does not exist
+        LessonWindow -> LessonWindow : add to lessonMap\nwith (date, "", plan)
+    end
+end
+
+LessonWindow -> LessonWindow : sort lessonMap by date
+activate LessonWindow
+
+LessonWindow -> TableView : setItems(lessonData)
+activate TableView
+
+TableView --> LessonWindow
+deactivate TableView
+
+deactivate LessonWindow
+
+LessonWindow --> MainWindow
+deactivate LessonWindow
+
+MainWindow -> LessonWindow : show()
+activate LessonWindow
+
+LessonWindow --> MainWindow
+deactivate LessonWindow
+
+[<-- MainWindow
+deactivate MainWindow
+
+note right of LessonWindow
+LessonWindow displays a table with:
+- Date column (fixed 150px)
+- Lesson Plan column (expandable)
+- Lesson Progress column (expandable)
+
+Data is merged by date:
+- Same date → both columns filled
+- Progress only → plan column empty
+- Plan only → progress column empty
+end note
+
+@enduml

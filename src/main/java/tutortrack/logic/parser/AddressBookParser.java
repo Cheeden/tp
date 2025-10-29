@@ -23,7 +23,7 @@ import tutortrack.logic.commands.ExitCommand;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.commands.HelpCommand;
 import tutortrack.logic.commands.ListCommand;
-import tutortrack.logic.commands.ViewLessonProgressCommand;
+import tutortrack.logic.commands.ViewLessonsCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 
 /**
@@ -96,8 +96,8 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
-        case ViewLessonProgressCommand.COMMAND_WORD:
-            return new ViewLessonProgressCommandParser().parse(arguments);
+        case ViewLessonsCommand.COMMAND_WORD:
+            return new ViewLessonsCommandParser().parse(arguments);
 
         case DeletePlanCommand.COMMAND_WORD:
             return new DeletePlanCommandParser().parse(arguments);

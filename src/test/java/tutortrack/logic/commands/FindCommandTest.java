@@ -68,7 +68,7 @@ public class FindCommandTest {
         model.updateFilteredPersonList(predicate);
         assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
 
-        // Prepare command to find a non-existent tag 
+        // Prepare command to find a non-existent tag
         TagContainsKeywordsPredicate nonMatchingPredicate = new TagContainsKeywordsPredicate(Arrays.asList("NonExistentTag"));
         FindCommand command = new FindCommand(nonMatchingPredicate);
 

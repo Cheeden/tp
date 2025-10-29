@@ -26,7 +26,8 @@ import tutortrack.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3).";
+    public static final String MESSAGE_INVALID_INDEX =
+            "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3).";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be

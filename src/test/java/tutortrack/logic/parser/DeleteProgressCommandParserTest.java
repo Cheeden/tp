@@ -3,6 +3,7 @@ package tutortrack.logic.parser;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static tutortrack.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static tutortrack.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.time.LocalDate;
@@ -57,7 +58,7 @@ public class DeleteProgressCommandParserTest {
     @Test
     public void parse_invalidIndex_throwsParseException() {
         assertParseFailure(parser, "0 2025-10-15",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteProgressCommand.MESSAGE_USAGE));
+                MESSAGE_INVALID_INDEX + "\n" + DeleteProgressCommand.MESSAGE_USAGE);
     }
 }
 

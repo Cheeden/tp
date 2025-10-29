@@ -52,7 +52,7 @@ public class DeletePlanCommandParser implements Parser<DeletePlanCommand> {
                     "Invalid date: month must be 01-12 and day must be valid for that month.", e);
         } catch (ParseException pe) {
             // Preserve the specific error message and append usage information for context
-            throw new ParseException(pe.getMessage() + "\n\n" + DeletePlanCommand.MESSAGE_USAGE, pe);
+            throw new ParseException(pe.getMessage() + "\n" + DeletePlanCommand.MESSAGE_USAGE, pe);
         }
     }
 }

@@ -3,7 +3,9 @@ package tutortrack.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static tutortrack.logic.Messages.MESSAGE_NO_PERSONS_FOUND;
 import static tutortrack.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static tutortrack.logic.commands.CommandTestUtil.assertCommandFailure;
 import static tutortrack.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static tutortrack.testutil.TypicalPersons.ALICE;
 import static tutortrack.testutil.TypicalPersons.BENSON;
@@ -23,8 +25,6 @@ import tutortrack.model.ModelManager;
 import tutortrack.model.UserPrefs;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
-import static tutortrack.logic.commands.CommandTestUtil.assertCommandFailure;
-import static tutortrack.logic.Messages.MESSAGE_NO_PERSONS_FOUND;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -69,7 +69,8 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
 
         // Prepare command to find a non-existent tag
-        TagContainsKeywordsPredicate nonMatchingPredicate = new TagContainsKeywordsPredicate(Arrays.asList("NonExistentTag"));
+        TagContainsKeywordsPredicate nonMatchingPredicate =
+                new TagContainsKeywordsPredicate(Arrays.asList("NonExistentTag"));
         FindCommand command = new FindCommand(nonMatchingPredicate);
 
         // Checks that command throws command exception

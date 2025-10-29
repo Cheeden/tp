@@ -7,13 +7,13 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.person.Person;
-import javafx.collections.ObservableList;
 
 /**
  * Finds and lists all persons in address book whose name, subject level, tags, or lesson day match the search

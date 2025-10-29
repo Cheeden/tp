@@ -2,6 +2,7 @@ package tutortrack.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
@@ -214,7 +215,29 @@ public class ParserUtil {
             if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
             }
-            throw new ParseException("Invalid date: the day/month is not a valid combination.", e);
+
+            String[] dateParts = dateString.split("-");
+            int year = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int day = Integer.parseInt(dateParts[2]);
+
+            if (month > 12 && day <= 12) {
+                throw new ParseException(String.format(
+                        "Invalid date: you may have swapped day and month. Did you mean %04d-%02d-%02d?",
+                        year, day, month
+                ), e);
+            }
+
+            if (month < 1 || month > 12) {
+                throw new ParseException("Invalid month: must be between 01 and 12.", e);
+            }
+
+            try {
+                LocalDate.of(year, month, day);
+            } catch (DateTimeException ex) {
+                throw new ParseException("Invalid day for the given month. Please check your date.", e);
+            }
+            throw new ParseException("Invalid date: the day/month combination does not exist.", e);
         }
     }
 
@@ -243,7 +266,28 @@ public class ParserUtil {
             if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
             }
-            throw new ParseException("Invalid date: the day/month is not a valid combination.", e);
+            String[] dateParts = dateString.split("-");
+            int year = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int day = Integer.parseInt(dateParts[2]);
+
+            if (month > 12 && day <= 12) {
+                throw new ParseException(String.format(
+                        "Invalid date: you may have swapped day and month. Did you mean %04d-%02d-%02d?",
+                        year, day, month
+                ), e);
+            }
+
+            if (month < 1 || month > 12) {
+                throw new ParseException("Invalid month: must be between 01 and 12.", e);
+            }
+
+            try {
+                LocalDate.of(year, month, day);
+            } catch (DateTimeException ex) {
+                throw new ParseException("Invalid day for the given month. Please check your date.", e);
+            }
+            throw new ParseException("Invalid date: the day/month combination does not exist.", e);
         }
     }
 }

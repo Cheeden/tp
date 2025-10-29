@@ -198,11 +198,14 @@ Format:
 
 Examples:
 
-`addplan 1 pl/2025-10-25|Introduce quadratic equations`
-Adds a lesson plan on 25 Oct 2025 for the 1st student.
+* `addplan 1 pl/2025-10-15|Cover Chapter 5`
+Adds a lesson plan on 15 Oct 2025 for the 1st student.
 
-`addplan 2 pl/2025-10-23|Essay writing techniques and structure`
-Adds a lesson plan on 23 Oct 2025 for the 2nd student.
+* `addplan 2 pl/2025-10-22|Cover Chapter 6 and Review Assignment 2`
+Adds a lesson plan on 22 Oct 2025 for the 2nd student.
+
+* `addplan 3 pl/2025-10-29|Review past chapters and then complete a practice paper`
+Adds a lesson plan on 29 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
@@ -248,11 +251,14 @@ Format: `addprogress INDEX Date|Description`
 
 Examples:
 
-* `addprogress 1 pr/2025-10-21|Introduced new algebra concepts`
-Adds a progress entry on 21 Oct 2025 for the 1st student.
+* `addprogress 1 pr/2025-10-15|Reviewed Chapter 5`
+Adds a progress entry on 15 Oct 2025 for the 1st student.
 
-* `addprogress 2 pr/2025-10-15|Reviewed essay structure and grammar`
-Adds a progress entry on 15 Oct 2025 for the 2nd student.
+* `addprogress 2 pr/2025-10-22|Covered Chapter 6, Assignment 2 not completed`
+Adds a progress entry on 22 Oct 2025 for the 2nd student.
+
+* `addprogress 3 pr/2025-10-29|Revision on Chapter 4, completed Dunman Secondary School 2023 Practice Paper`
+Adds a progress entry on 29 Oct 2025 for the 3rd student.
 
 Expected outcome:<br>
 

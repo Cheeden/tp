@@ -243,7 +243,7 @@ public class ParserUtil {
             if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
             }
-            throw new ParseException("Invalid date: the day/month is not a valid combination.", e);
+            throw new ParseException("Invalid date: The day and month do not form a valid combination.", e);
         }
     }
 }

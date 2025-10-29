@@ -185,12 +185,12 @@ Adds a new lesson plan entry for a specific student.
 Format:
 `addplan INDEX pl/DATE|PLAN`
 
-* Adds a lesson plan to the student at the specified `INDEX`. 
-* The index refers to the index number shown in the displayed person list. 
-* The index must be a positive integer 1, 2, 3, … 
-* `DATE` must be in the format YYYY-MM-DD. 
-* `PLAN` is a short description of the topics or activities planned for that lesson. 
-* Each new entry will be added to the student’s lesson plan list. 
+* Adds a lesson plan to the student at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index must be a positive integer 1, 2, 3, …
+* `DATE` must be in the format YYYY-MM-DD.
+* `PLAN` is a short description of the topics or activities planned for that lesson.
+* Each new entry will be added to the student’s lesson plan list.
 * Entries can later be viewed with the view command.
 
 > **Tip:**
@@ -206,7 +206,7 @@ Adds a lesson plan on 23 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
-* A success message will be displayed in the result box confirming that the lesson plan has been added. 
+* A success message will be displayed in the result box confirming that the lesson plan has been added.
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
@@ -235,12 +235,12 @@ Adds a lesson progress to a student.
 
 Format: `addprogress INDEX Date|Description`
 
-* Adds a lesson progress entry to the student at the specified INDEX. 
-* The index refers to the index number shown in the displayed person list. 
-* The index must be a positive integer 1, 2, 3, … 
-* `DATE` must be in the format YYYY-MM-DD. 
-* `PROGRESS` is a short description of what was covered or achieved in that lesson. 
-* Each new entry will be added to the student’s lesson progress history. 
+* Adds a lesson progress entry to the student at the specified INDEX.
+* The index refers to the index number shown in the displayed person list.
+* The index must be a positive integer 1, 2, 3, …
+* `DATE` must be in the format YYYY-MM-DD.
+* `PROGRESS` is a short description of what was covered or achieved in that lesson.
+* Each new entry will be added to the student’s lesson progress history.
 * Entries can later be viewed with the view command.
 
 > **Tip:**

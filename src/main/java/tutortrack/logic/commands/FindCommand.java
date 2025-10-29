@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.logic.Messages;
+import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.person.Person;
+import javafx.collections.ObservableList;
 
 /**
  * Finds and lists all persons in address book whose name, subject level, tags, or lesson day match the search
@@ -53,15 +55,29 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+        // Obtain the number of matches to determine if filter should be applied
+        ObservableList<Person> filteredList = model.getFilteredPersonList();
+        long matchCount = filteredList.stream()
+                            .filter(searchPredicate)
+                            .count();
+
+        // If no matches are found, throw command exception
+        if (matchCount == 0) {
+            logger.info("No matches found for search criteria");
+            throw new CommandException(Messages.MESSAGE_NO_PERSONS_FOUND);
+        }
+
+        // If there are matches, apply the filter to display the results
         if (comparator.isPresent()) {
             model.updateFilteredPersonList(searchPredicate, comparator.get());
         } else {
             model.updateFilteredPersonList(searchPredicate);
         }
 
+        // Get the size of the filtered list
         int resultCount = model.getFilteredPersonList().size();
         logger.info("Find command executed successfully. Found " + resultCount + " person(s)");
 

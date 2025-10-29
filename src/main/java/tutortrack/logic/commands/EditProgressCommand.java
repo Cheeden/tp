@@ -19,17 +19,18 @@ import tutortrack.model.person.Person;
 public class EditProgressCommand extends Command {
     public static final String COMMAND_WORD = "editprogress";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit lesson progress of the person identified "
-                                                       + "by the index number used in the displayed person list. "
-                                                       + "If the date does not exist, add new lesson progress.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an existing lesson progress of the person "
+                                                       + "identified by the index number used in the displayed person "
+                                                       + "list.\n"
                                                        + "Parameters: INDEX (must be a positive integer) "
                                                        + PREFIX_LESSON_PROGRESS + "DATE|NEW_PROGRESS\n"
                                                        + "Example: " + COMMAND_WORD + " 1 "
                                                        + PREFIX_LESSON_PROGRESS + "2025-10-15|Reviewed Chapter 5\n";
 
     public static final String MESSAGE_SUCCESS_EDIT = "Lesson progress on %1$s updated: %2$s";
-    public static final String MESSAGE_SUCCESS_ADD = "No progress on %1$s existed. Added new progress: %2$s";
     public static final String MESSAGE_DUPLICATE_DATE = "Multiple progress entries exist on %1$s. Cannot edit.";
+    public static final String MESSAGE_NOT_FOUND =
+            "No lesson progress found on %1$s. You might want to use 'addplan' instead.";
 
     private final Index index;
     private final LessonProgress toEdit;
@@ -84,7 +85,7 @@ public class EditProgressCommand extends Command {
         } else {
             editedPerson.getLessonProgressList().add(toEdit);
             model.setPerson(personToEdit, editedPerson);
-            return new CommandResult(String.format(MESSAGE_SUCCESS_ADD, toEdit.getDate(), toEdit.getProgress()));
+            throw new CommandException(String.format(MESSAGE_NOT_FOUND, toEdit.getDate()));
         }
     }
 }

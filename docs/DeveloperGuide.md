@@ -314,25 +314,19 @@ The View Lessons mechanism involves coordination across multiple components:
 **Storage Component:**
 * `JsonAdaptedLessonProgress` - Handles JSON serialization/deserialization of lesson progress data
 * `JsonAdaptedLessonPlan` - Handles JSON serialization/deserialization of lesson plan data
-<!-- 
-The following sequence diagram shows how the viewlessons operation works:
 
-```
-User -> UI: viewlessons 1
-UI -> Logic: execute("viewlessons 1")
-Logic -> AddressBookParser: parseCommand("viewlessons 1")
-AddressBookParser -> ViewLessonsCommandParser: parse("1")
-ViewLessonsCommandParser -> ViewLessonsCommand: new ViewLessonsCommand(index)
-ViewLessonsCommand -> Model: getFilteredPersonList()
-Model -> ViewLessonsCommand: personList
-ViewLessonsCommand -> ViewLessonsCommand: get person at index
-ViewLessonsCommand -> Logic: new CommandResult(message, person)
-Logic -> UI: commandResult
-UI -> UI: handleShowLessonProgress(person)
-UI -> LessonProgressWindow: setPerson(person)
-LessonProgressWindow -> LessonProgressWindow: load lesson progress into TableView
-LessonProgressWindow -> UI: show window
-``` -->
+**Sequence of Operations:**
+
+The following sequence diagram shows how a `viewlessons` command is executed through the Logic component:
+
+![ViewLessonsSequenceDiagram](images/ViewLessonsSequenceDiagram.png)
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `ViewLessonsCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+</div>
+
+The following sequence diagram shows how the UI component handles displaying the lesson window:
+
+![ViewLessonsSequenceDiagram-UI](images/ViewLessonsSequenceDiagram-UI.png)
 
 **Data Merging Logic:**
 

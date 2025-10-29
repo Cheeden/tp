@@ -1,0 +1,97 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ViewLessonsCommandParser" as ViewLessonsCommandParser LOGIC_COLOR
+participant "v:ViewLessonsCommand" as ViewLessonsCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant ":Person" as Person MODEL_COLOR
+end box
+
+[-> LogicManager : execute("viewlessons 1")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("viewlessons 1")
+activate AddressBookParser
+
+create ViewLessonsCommandParser
+AddressBookParser -> ViewLessonsCommandParser
+activate ViewLessonsCommandParser
+
+ViewLessonsCommandParser --> AddressBookParser
+deactivate ViewLessonsCommandParser
+
+AddressBookParser -> ViewLessonsCommandParser : parse("1")
+activate ViewLessonsCommandParser
+
+create ViewLessonsCommand
+ViewLessonsCommandParser -> ViewLessonsCommand
+activate ViewLessonsCommand
+
+ViewLessonsCommand --> ViewLessonsCommandParser :
+deactivate ViewLessonsCommand
+
+ViewLessonsCommandParser --> AddressBookParser : v
+deactivate ViewLessonsCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ViewLessonsCommandParser -[hidden]-> AddressBookParser
+destroy ViewLessonsCommandParser
+
+AddressBookParser --> LogicManager : v
+deactivate AddressBookParser
+
+LogicManager -> ViewLessonsCommand : execute(m)
+activate ViewLessonsCommand
+
+ViewLessonsCommand -> Model : getFilteredPersonList()
+activate Model
+
+Model --> ViewLessonsCommand : personList
+deactivate Model
+
+ViewLessonsCommand -> ViewLessonsCommand : get person at index 1
+activate ViewLessonsCommand
+
+ViewLessonsCommand -> Person : getLessonProgressList()
+activate Person
+
+Person --> ViewLessonsCommand : lessonProgressList
+deactivate Person
+
+ViewLessonsCommand -> Person : getLessonPlanList()
+activate Person
+
+Person --> ViewLessonsCommand : lessonPlanList
+deactivate Person
+
+deactivate ViewLessonsCommand
+
+create CommandResult
+ViewLessonsCommand -> CommandResult : CommandResult(message, false, false, true, person)
+activate CommandResult
+
+CommandResult --> ViewLessonsCommand
+deactivate CommandResult
+
+ViewLessonsCommand --> LogicManager : r
+deactivate ViewLessonsCommand
+
+[<--LogicManager
+deactivate LogicManager
+
+note right of CommandResult
+The CommandResult contains:
+- showLessonProgress = true
+- person object with lesson data
+This triggers MainWindow to
+display the LessonWindow
+end note
+
+@enduml

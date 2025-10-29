@@ -232,7 +232,8 @@ The Add Lesson Progress feature allows tutors to record new lesson progress entr
 
 #### Implementation
 
-<img src="images/AddProgressSequenceDiagram.png" width="550" />
+<img src="images/AddLessonItemSequenceDiagram.png" width="550" />
+<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
 The Add Lesson Progress mechanism involves coordination across multiple components:
 

@@ -861,7 +861,7 @@ testers are expected to do more *exploratory* testing.
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
-2. Viewing after addition 
+2. Viewing after addition
       1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
@@ -926,9 +926,9 @@ testers are expected to do more *exploratory* testing.
    2. Test case: `deleteplan 1 2025-10-15`<br>
       Expected: Assuming the lesson plan on the specific date for the 1st student exists. The lesson plan on 2025-10-15 for the 1st student is deleted. Success message shown: "Lesson plan on 2025-10-15 deleted".
 
-   3. Test case: `deleteplan 1 2025-12-31` (assuming no plan exists on  
+   3. Test case: `deleteplan 1 2025-12-31` (assuming no plan exists on
       this date)<br>
-      Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student". 
+      Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student".
 
    4. Test case: `deleteplan 0 2025-10-15`<br>
       Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".

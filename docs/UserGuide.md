@@ -244,7 +244,7 @@ Format: `addprogress INDEX Date|Description`
 * Entries can later be viewed with the view command.
 
 > **Tip:**
->Use the `addprogress` command regularly to keep an updated record of each student’s learning progress. 
+>Use the `addprogress` command regularly to keep an updated record of each student’s learning progress.
 
 Examples:
 
@@ -256,8 +256,8 @@ Adds a progress entry on 15 Oct 2025 for the 2nd student.
 
 Expected outcome:<br>
 
-* A success message will be displayed in the result box confirming that the lesson progress has been added. 
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`. 
+* A success message will be displayed in the result box confirming that the lesson progress has been added.
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
 
 ### Edit Lesson Plan : `editplan`
@@ -418,7 +418,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
+**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
 **List** | `list`
 **Help** | `help`
 **Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`

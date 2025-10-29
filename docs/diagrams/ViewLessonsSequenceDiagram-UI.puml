@@ -39,32 +39,32 @@ deactivate Person
 loop for each LessonProgress
     LessonWindow -> LessonProgress : getDate()
     activate LessonProgress
-    
+
     LessonProgress --> LessonWindow : date
     deactivate LessonProgress
-    
+
     LessonWindow -> LessonProgress : getProgress()
     activate LessonProgress
-    
+
     LessonProgress --> LessonWindow : progress
     deactivate LessonProgress
-    
+
     LessonWindow -> LessonWindow : add to lessonMap\nwith (date, progress, "")
 end
 
 loop for each LessonPlan
     LessonWindow -> LessonPlan : getDate()
     activate LessonPlan
-    
+
     LessonPlan --> LessonWindow : date
     deactivate LessonPlan
-    
+
     LessonWindow -> LessonPlan : getPlan()
     activate LessonPlan
-    
+
     LessonPlan --> LessonWindow : plan
     deactivate LessonPlan
-    
+
     alt date exists in lessonMap
         LessonWindow -> LessonWindow : merge plan with\nexisting progress
     else date does not exist

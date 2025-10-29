@@ -1,0 +1,34 @@
+@startuml
+participant User
+participant ":AddLessonItemCommand" <<abstract>>
+participant "m:Model"
+participant "p:Person"
+
+User ->> ":AddLessonItemCommand": execute(model)
+activate ":AddLessonItemCommand"
+
+":AddLessonItemCommand" ->> "m:Model": getFilteredPersonList()
+activate "m:Model"
+"m:Model" -->> ":AddLessonItemCommand": List<Person>
+deactivate "m:Model"
+
+":AddLessonItemCommand" ->> ":AddLessonItemCommand": validate index
+
+":AddLessonItemCommand" ->> "p:Person": getPersonWithLessonItemAdded(personToEdit) <<abstract>>
+activate "p:Person"
+alt item-specific logic (subclass responsibility)
+    note right
+      Subclass handles the following:
+      - Check for duplicates if needed
+      - Add lesson item (progress/plan)
+      - Throw CommandException if invalid
+      - See the below diagram
+    end note
+"p:Person" -->> ":AddLessonItemCommand": updatedPerson
+deactivate "p:Person"
+
+":AddLessonItemCommand" ->> "m:Model": setPerson(personToEdit, updatedPerson)
+
+":AddLessonItemCommand" -->> User: CommandResult(success)
+deactivate ":AddLessonItemCommand"
+@enduml

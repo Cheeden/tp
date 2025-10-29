@@ -232,32 +232,40 @@ The Add Lesson Progress feature allows tutors to record new lesson progress entr
 
 #### Implementation
 
+<img src="images/AddLessonItemSequenceDiagram.png" width="550" />
+<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
+
 The Add Lesson Progress mechanism involves coordination across multiple components:
 
 **Logic Component:**
 
-* AddProgressCommand – Adds a new LessonProgress entry to a specified student. 
-* AddProgressCommandParser – Parses the student index and lesson progress details from user input. 
-* Expects the format: addprogress INDEX lp/DATE|PROGRESS 
-* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter. 
+* AddProgressCommand – Adds a new LessonProgress entry to a specified student.
+* AddProgressCommandParser – Parses the student index and lesson progress details from user input.
+* Expects the format: addprogress INDEX lp/DATE|PROGRESS
+* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter.
 * Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
 
 **Model Component:**
 
-* Person – Contains a List<LessonProgress> representing all past lesson progress entries. 
-* LessonProgress – Stores two fields: LocalDate date and String description. 
-* The AddProgressCommand retrieves the target Person, creates a new LessonProgress object, and appends it to the person’s lesson progress list. 
+* Person – Contains a List<LessonProgress> representing all past lesson progress entries.
+* LessonProgress – Stores two fields: LocalDate date and String description.
+* The AddProgressCommand retrieves the target Person, creates a new LessonProgress object, and appends it to the person’s lesson progress list.
 * A new Person object is created with the updated lesson progress list (immutability principle), replacing the original person in the model.
 
 **Storage Component:**
 
-* JsonAdaptedLessonProgress – Handles JSON serialization and deserialization of LessonProgress data when saving or loading from storage. 
+* JsonAdaptedLessonProgress – Handles JSON serialization and deserialization of LessonProgress data when saving or loading from storage.
 * Each LessonProgress entry is stored as an object with date and progress fields in the JSON file.
 
 **UI Component:**
 
-* The result of a successful addprogress command is displayed in the Result Display panel. 
-* The updated progress list can then be viewed using the viewlessons command, which opens the LessonProgressWindow.
+* The result of a successful `addprogress` command is displayed in the Result Display panel.
+* The updated progress list can then be viewed using the `viewlessons` command, which opens the LessonProgressWindow.
+
+**Notes:**
+The sequence diagram above focuses on the runtime behavior of AddProgressCommand.execute() and its interactions with `Model`, `Person`, and `LessonProgress`.
+Classes such as `AddProgressCommandParser`, `ParserUtil`, and `LocalDate` are not included because they handle input parsing and validation before execution and are considered utility or library components.
+This keeps the diagram concise and highlights the key object interactions for adding a lesson progress entry.
 
 **Example Usage Scenario**
 
@@ -835,26 +843,26 @@ testers are expected to do more *exploratory* testing.
 
 ### Adding lesson progress
 
-1. Adding lesson progress for a student 
-   1. Prerequisites: List all persons using the list command. Multiple persons in the list. 
+1. Adding lesson progress for a student
+   1. Prerequisites: List all persons using the list command. Multiple persons in the list.
    2. Test case: `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`<br>
-   Expected: A success message is shown in the status message confirming that the lesson progress has been added. 
-   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts 
+   Expected: A success message is shown in the status message confirming that the lesson progress has been added.
+   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
    The student’s lesson progress list is updated. Timestamp in the status bar is updated.
    3. Test case: `addprogress 0 lp/2025-10-21|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
-   “Invalid command format! …”. Status bar remains the same. 
+   “Invalid command format! …”. Status bar remains the same.
    4. Test case: `addprogress 1 lp/invalid-date|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged. 
+   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged.
    5. Test case: `addprogress 1 lp/2025-10-21|`<br>
-   Expected: No lesson progress is added. Error details shown in the status message: progress description missing. 
+   Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
    6. Test case: `addprogress x lp/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
-   Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same. 
+   Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same.
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition 
-      1. Prerequisites: Successfully add at least one lesson progress record to a student. 
+      1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 

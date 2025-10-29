@@ -133,6 +133,16 @@ public class Person {
     }
 
     /**
+     * Removes a lesson progress entry on the specified date if it exists.
+     *
+     * @param date The date of the lesson progress to remove.
+     * @return True if a lesson progress was removed, false otherwise.
+     */
+    public boolean removeLessonProgressByDate(LocalDate date) {
+        return lessonProgressList.removeIf(lessonProgress -> lessonProgress.getDate().equals(date));
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
@@ -153,6 +163,69 @@ public class Person {
      */
     public boolean removeLessonPlanByDate(LocalDate date) {
         return lessonPlanList.removeIf(lessonPlan -> lessonPlan.getDate().equals(date));
+    }
+
+    /**
+     * Creates a copy of this person with a specific lesson progress removed.
+     * Encapsulates the copying logic to adhere to Tell, Don't Ask principle.
+     *
+     * @param date The date of the lesson progress to remove.
+     * @return A new Person object without the specified progress entry.
+     * @throws IllegalArgumentException If no progress exists on the specified date.
+     */
+    public Person withProgressRemovedOnDate(LocalDate date) {
+        if (!hasProgressOnDate(date)) {
+            throw new IllegalArgumentException(
+                    "No lesson progress found on " + date + " for this student");
+        }
+
+        Person copy = createCopy();
+        copy.removeLessonProgressByDate(date);
+        return copy;
+    }
+
+    /**
+     * Creates a copy of this person with a specific lesson plan removed.
+     * Encapsulates the copying logic to adhere to Tell, Don't Ask principle.
+     *
+     * @param date The date of the lesson plan to remove.
+     * @return A new Person object without the specified plan entry.
+     * @throws IllegalArgumentException If no plan exists on the specified date.
+     */
+    public Person withPlanRemovedOnDate(LocalDate date) {
+        if (!hasPlanOnDate(date)) {
+            throw new IllegalArgumentException(
+                    "No lesson plan found on " + date + " for this student");
+        }
+
+        Person copy = createCopy();
+        copy.removeLessonPlanByDate(date);
+        return copy;
+    }
+
+    /**
+     * Creates a deep copy of this person with all lesson plans and progress.
+     * Private helper method to avoid code duplication.
+     *
+     * @return A new Person object with identical data.
+     */
+    private Person createCopy() {
+        Person copy = new Person(
+                this.name,
+                this.selfContact,
+                this.nokContact,
+                this.subjectLevel,
+                this.dayTime,
+                this.cost,
+                this.address,
+                new HashSet<>(this.tags)
+        );
+
+        // Copy lesson data without exposing internal collections
+        this.lessonPlanList.forEach(copy::addLessonPlan);
+        this.lessonProgressList.forEach(copy::addLessonProgress);
+
+        return copy;
     }
 
     /**

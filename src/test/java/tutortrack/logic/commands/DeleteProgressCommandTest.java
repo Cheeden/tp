@@ -20,14 +20,14 @@ import tutortrack.model.AddressBook;
 import tutortrack.model.Model;
 import tutortrack.model.ModelManager;
 import tutortrack.model.UserPrefs;
-import tutortrack.model.lesson.LessonPlan;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Person;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests
- * {@code DeletePlanCommand}.
+ * Contains integration tests (interaction with the Model) and unit tests for
+ * {@code DeleteProgressCommand}.
  */
-public class DeletePlanCommandTest {
+public class DeleteProgressCommandTest {
 
     private Model model;
     private final LocalDate testDate1 = LocalDate.of(2025, 10, 15);
@@ -38,52 +38,53 @@ public class DeletePlanCommandTest {
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     }
 
-    // EP: Valid index within bounds of unfiltered list and plan exists on date
+    // EP: Valid index within bounds of unfiltered list and progress exists on date
     @Test
     public void execute_validIndexWithinBoundsUnfilteredList_success() {
         // Get the first person from the filtered list
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
-        // Simulate adding of a lesson plan to the person on testDate1
-        LessonPlan lessonPlanToAdd = new LessonPlan(testDate1, "Test lesson plan");
-        personToEdit.addLessonPlan(lessonPlanToAdd);
+        // Simulate adding of a lesson progress to the person on testDate1
+        LessonProgress lessonProgressToAdd = new LessonProgress(testDate1, "Covered Chapter 5");
+        personToEdit.addLessonProgress(lessonProgressToAdd);
 
         // Create the delete command
-        DeletePlanCommand deletePlanCommand = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
-        // The success message should be returned
-        String expectedMessage = String.format(DeletePlanCommand.MESSAGE_SUCCESS, testDate1);
+        DeleteProgressCommand deleteProgressCommand = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
 
-        // Create the expected model after the command
+        // The success message should be returned
+        String expectedMessage = String.format(DeleteProgressCommand.MESSAGE_SUCCESS, testDate1);
+
+        // Create what the model should look like after the command
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         Person expectedPerson = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
-        // Create a new person without the lesson plan to be deleted
-        Person editedPerson = expectedPerson.withPlanRemovedOnDate(testDate1);
+        // Create a new person without the lesson progress to be deleted
+        Person editedPerson = expectedPerson.withProgressRemovedOnDate(testDate1);
 
         // Update the expected model with the edited person
         expectedModel.setPerson(expectedPerson, editedPerson);
 
-        // Runs the delete plan command and checks if the command is successful
-        assertCommandSuccess(deletePlanCommand, model, expectedMessage, expectedModel);
+        // Runs the delete progress command and checks if the command is successful
+        assertCommandSuccess(deleteProgressCommand, model, expectedMessage, expectedModel);
     }
 
-    // EP: Valid date but no lesson plan exists on that date
+    // EP: Valid date but no lesson progress exists on that date
     @Test
-    public void execute_validDateButNoPlanExists_throwsCommandException() {
-        DeletePlanCommand deletePlanCommand = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
+    public void execute_validDateButNoProgressExists_throwsCommandException() {
+        DeleteProgressCommand deleteProgressCommand = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
 
-        // No lesson plan exists on the date
-        String outputMessage = String.format(DeletePlanCommand.MESSAGE_NO_PLAN_ON_DATE, testDate1);
-        assertCommandFailure(deletePlanCommand, model, outputMessage);
+        // No lesson progress exists on the date
+        String outputMessage = String.format(DeleteProgressCommand.MESSAGE_NO_PROGRESS_ON_DATE, testDate1);
+        assertCommandFailure(deleteProgressCommand, model, outputMessage);
     }
 
     // EP: Invalid index in unfiltered list (out of bounds as index is greater than list size)
     @Test
     public void execute_invalidIndexOutOfBounds_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        DeletePlanCommand deletePlanCommand = new DeletePlanCommand(outOfBoundIndex, testDate1);
+        DeleteProgressCommand deleteProgressCommand = new DeleteProgressCommand(outOfBoundIndex, testDate1);
 
-        assertCommandFailure(deletePlanCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(deleteProgressCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     // EP: Invalid index in filtered list (valid in unfiltered but not in filtered)
@@ -95,32 +96,41 @@ public class DeletePlanCommandTest {
         model.updateFilteredPersonList(p -> p.equals(personToDelete));
 
         // Try to delete using INDEX_SECOND_PERSON (out of bounds in filtered list)
-        DeletePlanCommand deletePlanCommand = new DeletePlanCommand(INDEX_SECOND_PERSON, testDate1);
+        DeleteProgressCommand deleteProgressCommand = new DeleteProgressCommand(INDEX_SECOND_PERSON, testDate1);
 
-        assertCommandFailure(deletePlanCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(deleteProgressCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
     // EP: equals() tests which checks if same value returns true
     @Test
     public void equals_sameObject_returnsTrue() {
-        DeletePlanCommand command = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
+        DeleteProgressCommand command = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
         assertTrue(command.equals(command));
     }
 
-    // EP: equals() - different index returns false
+    // EP: equals() which checks if different index returns false
     @Test
     public void equals_differentIndex_returnsFalse() {
-        DeletePlanCommand command1 = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
-        DeletePlanCommand command2 = new DeletePlanCommand(INDEX_SECOND_PERSON, testDate1);
+        DeleteProgressCommand command1 = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
+        DeleteProgressCommand command2 = new DeleteProgressCommand(INDEX_SECOND_PERSON, testDate1);
+        assertFalse(command1.equals(command2));
+    }
+
+    // EP: equals() which checks if different date returns false
+    @Test
+    public void equals_differentDate_returnsFalse() {
+        DeleteProgressCommand command1 = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
+        DeleteProgressCommand command2 = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate2);
         assertFalse(command1.equals(command2));
     }
 
     // EP: toString() tests
     @Test
     public void toStringTest() {
-        DeletePlanCommand command = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
-        String expected = DeletePlanCommand.class.getCanonicalName()
+        DeleteProgressCommand command = new DeleteProgressCommand(INDEX_FIRST_PERSON, testDate1);
+        String expected = DeleteProgressCommand.class.getCanonicalName()
                 + "{index=" + INDEX_FIRST_PERSON + ", date=" + testDate1 + "}";
         assertEquals(expected, command.toString());
     }
 }
+

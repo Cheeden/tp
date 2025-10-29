@@ -865,8 +865,7 @@ testers are expected to do more *exploratory* testing.
    Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
    The student’s lesson progress list is updated. Timestamp in the status bar is updated.
    3. Test case: `addprogress 0 lp/2025-10-21|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error details shown in the status message:
-   “Invalid command format! …”. Status bar remains the same.
+   Expected: No lesson progress is added. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information. Status bar remains the same.
    4. Test case: `addprogress 1 lp/invalid-date|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged.
    5. Test case: `addprogress 1 lp/2025-10-21|`<br>
@@ -946,7 +945,7 @@ testers are expected to do more *exploratory* testing.
       Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student".
 
    4. Test case: `deleteplan 0 2025-10-15`<br>
-      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
    5. Test case: `deleteplan 1`<br>
       Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
@@ -958,10 +957,10 @@ testers are expected to do more *exploratory* testing.
       Expected: No lesson plan is deleted. Error message: "Invalid date: month must be 01-12 and day must be valid for that month."
 
    8. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
-      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
    9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
-      Expected: Similar error messages about invalid command format.
+      Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 1. Saving data
 

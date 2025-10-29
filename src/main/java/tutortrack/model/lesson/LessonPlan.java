@@ -10,7 +10,8 @@ import java.util.Objects;
  * Guarantees: immutable; date and plan are valid as declared in their respective classes
  */
 public class LessonPlan {
-    public static final String MESSAGE_CONSTRAINTS = "Lesson Plan should take two fields, date and description";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Lesson progress should be in the format DATE|DESCRIPTION (e.g. 2025-10-12|Covered Chapter 5).";
 
     private final LocalDate date;
     private final String plan;

@@ -11,7 +11,8 @@ import java.util.Objects;
  */
 public class LessonProgress {
 
-    public static final String MESSAGE_CONSTRAINTS = "Lesson Progress should take two fields, date and description";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Lesson progress should be in the format DATE|DESCRIPTION (e.g. 2025-10-12|Covered Chapter 5).";
 
     private final LocalDate date;
     private final String progress;

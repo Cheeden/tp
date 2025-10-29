@@ -216,7 +216,7 @@ When a search returns no matches, the find feature handles it gracefully:
 
 1. **Validation Before Mutation**: `FindCommand.execute()` validates that at least one match exists before applying the filter to the list.
 2. **Pre-check Implementation**: Uses Java streams to count matches: `filteredList.stream().filter(searchPredicate).count()`
-3. **Error on Zero Matches**: If count is 0, throws `CommandException` with message: "Search failed: No matching persons found, list remains unchanged"
+3. **Error on Zero Matches**: If count is 0, throws `CommandException` with message: "Contact list is unchanged: No students match your search criteria."
 4. **Preserved State**: The filtered list remains unchanged when the exception is thrown
 5. **UX Benefits**: 
    - The command text stays in the command box (with red border) for easy editing and retry

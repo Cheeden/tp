@@ -1,0 +1,23 @@
+@startuml
+participant ":AddProgressCommand"
+participant "p:Person"
+participant User
+
+":AddProgressCommand" ->> "p:Person": hasProgressOnDate(date)
+activate ":AddProgressCommand"
+activate "p:Person"
+"p:Person" -->> ":AddProgressCommand": boolean
+deactivate "p:Person"
+
+alt progress exists on (date)
+    ":AddProgressCommand" ->> User: throw CommandException("duplicate progress")
+else progress does not exist on (date)
+    ":AddProgressCommand" ->> "p:Person": addLessonProgress(toAdd)
+    activate "p:Person"
+    "p:Person" -->> ":AddProgressCommand": void
+    deactivate "p:Person"
+
+    ":AddProgressCommand" ->> User: CommandResult(success)
+    end
+deactivate ":AddProgressCommand"
+@enduml

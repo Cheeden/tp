@@ -222,10 +222,8 @@ public class ParserUtil {
             int day = Integer.parseInt(dateParts[2]);
 
             if (month > 12 && day <= 12) {
-                throw new ParseException(String.format(
-                        "Invalid date: you may have swapped day and month. Did you mean %04d-%02d-%02d?",
-                        year, day, month
-                ), e);
+                throw new ParseException(
+                        "Invalid date: you may have swapped day and month. The format is YYYY-MM-DD.", e);
             }
 
             if (month < 1 || month > 12) {
@@ -272,10 +270,8 @@ public class ParserUtil {
             int day = Integer.parseInt(dateParts[2]);
 
             if (month > 12 && day <= 12) {
-                throw new ParseException(String.format(
-                        "Invalid date: you may have swapped day and month. Did you mean %04d-%02d-%02d?",
-                        year, day, month
-                ), e);
+                throw new ParseException(
+                        "Invalid date: you may have swapped day and month. The format is YYYY-MM-DD.", e);
             }
 
             if (month < 1 || month > 12) {

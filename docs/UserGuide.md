@@ -318,31 +318,32 @@ Expected outcome:
 * The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
 
-### Viewing lesson progress : `viewlessons`
+### Viewing Lesson Window : `viewlessons`
 
 Shows the lesson progress history for a specific student in a separate window.
 
 Format: `viewlessons INDEX`
 
-* Views the lesson progress of the student at the specified `INDEX`.
+* Views the lesson plan and progress of the student at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Opens a new window displaying all recorded lesson progress entries.
 * Each entry shows the date and progress description.
-* Entries can be sorted by Date
+* Entries can be sort by Date
 
 > **Tip:**
-> Add lesson progress using the `addprogress` command before viewing.
+> 1. Add lesson plan using the `addplan` command before viewing<br>
+> 2. Add lesson progress using the `addprogress` command before viewing.
 
 Examples:
-* `list` followed by `viewlessons 1` opens a window showing the lesson progress for the 1st student.
-* `find John` followed by `viewlessons 1` shows progress for the 1st person in the filtered results.
+* `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
+* `find John` followed by `viewlessons 1` shows the lesson window for the 1st person in the filtered results.
 
 Expected output:<br>
-![View Progress Window](images/viewProgressWindow.png)
-* A new window titled "Lesson Progress" will appear.
-* The window contains a table with two columns: **Date** and **Progress**.
-* If the student has no lesson progress recorded, an empty table is shown.
+![View Lessons Window](images/viewlessonsWindow.png)
+* A new window titled "Lessons" will appear.
+* The window contains a table with three columns: **Date**, **Lesson Plan** and **Lesson Progress**.
+* If the student has no lesson plan or lesson progress recorded, an empty table is shown.
 
 ### Clearing all entries : `clear`
 

@@ -29,7 +29,7 @@ public class JsonAdaptedLessonProgressTest {
     public void toModelType_nullDate_throwsIllegalValueException() {
         JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(null, VALID_PROGRESS);
         String expectedMessage = String.format(JsonAdaptedLessonProgress.MISSING_FIELD_MESSAGE_FORMAT,
-                "date or progress");
+                "LessonProgress", "date or progress");
         assertThrows(IllegalValueException.class, lessonProgress::toModelType, expectedMessage);
     }
 
@@ -37,7 +37,7 @@ public class JsonAdaptedLessonProgressTest {
     public void toModelType_nullProgress_throwsIllegalValueException() {
         JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(VALID_DATE, null);
         String expectedMessage = String.format(JsonAdaptedLessonProgress.MISSING_FIELD_MESSAGE_FORMAT,
-                "date or progress");
+                "LessonProgress", "date or progress");
         assertThrows(IllegalValueException.class, lessonProgress::toModelType, expectedMessage);
     }
 }

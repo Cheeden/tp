@@ -28,14 +28,16 @@ public class JsonAdaptedLessonPlanTest {
     @Test
     public void toModelType_nullDate_throwsIllegalValueException() {
         JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(null, VALID_PLAN);
-        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT, "date or plan");
+        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT,
+                "LessonPlan", "date or plan");
         assertThrows(IllegalValueException.class, lessonPlan::toModelType, expectedMessage);
     }
 
     @Test
     public void toModelType_nullPlan_throwsIllegalValueException() {
         JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(VALID_DATE, null);
-        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT, "date or plan");
+        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT,
+                "LessonPlan", "date or plan");
         assertThrows(IllegalValueException.class, lessonPlan::toModelType, expectedMessage);
     }
 }

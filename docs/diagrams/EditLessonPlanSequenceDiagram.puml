@@ -1,0 +1,31 @@
+@startuml
+participant User
+participant ":EditPlanCommand"
+participant "p:Person"
+
+User ->> ":EditPlanCommand": execute(editplan INDEX lp/DATE|NEW_PLAN)
+activate ":EditPlanCommand"
+
+":EditPlanCommand" ->> "p:Person": hasPlanOnDate(date)
+activate "p:Person"
+"p:Person" -->> ":EditPlanCommand": boolean
+deactivate "p:Person"
+
+alt plan exists on date
+    ":EditPlanCommand" ->> "p:Person": withPlanRemovedOnDate(date)
+    activate "p:Person"
+    "p:Person" -->> ":EditPlanCommand": Person (old plan removed)
+    deactivate "p:Person"
+
+    ":EditPlanCommand" ->> "p:Person": addLessonPlan(newPlan)
+    activate "p:Person"
+    "p:Person" -->> ":EditPlanCommand": void
+    deactivate "p:Person"
+
+    ":EditPlanCommand" ->> User: CommandResult(success)
+else plan does not exist on date
+    ":EditPlanCommand" ->> User: throw CommandException("No lesson plan found, use addplan")
+end
+
+deactivate ":EditPlanCommand"
+@enduml

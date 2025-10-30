@@ -19,17 +19,18 @@ import tutortrack.model.person.Person;
 public class EditPlanCommand extends Command {
     public static final String COMMAND_WORD = "editplan";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit lesson plan of the person identified "
-                                                       + "by the index number used in the displayed person list. "
-                                                       + "If the date does not exist, add new lesson plan.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an existing lesson plan of the person "
+                                                       + "identified by the index number used in the displayed person "
+                                                       + "list.\n"
                                                        + "Parameters: INDEX (must be a positive integer) "
                                                        + PREFIX_LESSON_PLAN + "DATE|NEW_PLAN\n"
                                                        + "Example: " + COMMAND_WORD + " 1 "
                                                        + PREFIX_LESSON_PLAN + "2025-10-15|Cover Chapter 6\n";
 
     public static final String MESSAGE_SUCCESS_EDIT = "Lesson plan on %1$s updated: %2$s";
-    public static final String MESSAGE_SUCCESS_ADD = "No lesson plan on %1$s existed. Added new plan: %2$s";
     public static final String MESSAGE_DUPLICATE_DATE = "Multiple lesson plans exist on %1$s. Cannot edit.";
+    public static final String MESSAGE_NOT_FOUND =
+            "No lesson plan found on %1$s. You might want to use 'addplan' instead.";
 
     private final Index index;
     private final LessonPlan toEdit;
@@ -82,9 +83,7 @@ public class EditPlanCommand extends Command {
             model.setPerson(personToEdit, editedPerson);
             return new CommandResult(String.format(MESSAGE_SUCCESS_EDIT, toEdit.getDate(), toEdit.getPlan()));
         } else {
-            editedPerson.getLessonPlanList().add(toEdit);
-            model.setPerson(personToEdit, editedPerson);
-            return new CommandResult(String.format(MESSAGE_SUCCESS_ADD, toEdit.getDate(), toEdit.getPlan()));
+            throw new CommandException(String.format(MESSAGE_NOT_FOUND, toEdit.getDate()));
         }
     }
 }

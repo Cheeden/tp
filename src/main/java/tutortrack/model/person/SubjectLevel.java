@@ -17,7 +17,9 @@ public class SubjectLevel {
     public static final String MESSAGE_BLANK = "Subject level cannot be blank.";
     public static final String MESSAGE_INVALID_FORMAT = "Subject level must be in the format 'Level-Subject', "
             + "e.g., 'P4-Math'.";
-    public static final String MESSAGE_INVALID_CHARS = "Subject level contains invalid characters.";
+    public static final String MESSAGE_INVALID_CHARS =
+        "Subject level contains invalid characters. The subject part must contain only letters "
+        + "(no digits or spaces). Use the format Level-Subject, e.g., 'P4-Math' or 'Primary6-English'.";
 
     // Regex explanation:
     // ^ - start of string

@@ -442,7 +442,11 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
+**Q**: What is the difference between lesson plan and lesson progress?<br>
+**A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+**Q**: Are users allowed to create their own command syntax?
+**A**: No, but it could be an extension for future.
 
 --------------------------------------------------------------------------------------------------------------------
 

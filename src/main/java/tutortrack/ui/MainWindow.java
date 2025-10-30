@@ -155,10 +155,10 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleShowLessonProgress(tutortrack.model.person.Person person) {
         if (!lessonWindow.isShowing()) {
-            lessonWindow.setPerson(person);
+            lessonWindow.setPerson(person, logic.getFilteredPersonList());
             lessonWindow.show();
         } else {
-            lessonWindow.setPerson(person);
+            lessonWindow.setPerson(person, logic.getFilteredPersonList());
             lessonWindow.focus();
         }
     }

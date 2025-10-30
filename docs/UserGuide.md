@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutorTrack is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorTrack can get your contact management tasks done faster than traditional GUI apps.
+TutorTrack is a centralised CLI-based tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
 
 * Table of Contents
 {:toc}
@@ -61,6 +61,10 @@ TutorTrack is a **desktop app for managing contacts, optimized for use via a Com
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
+  The index **must be a positive integer** 1, 2, 3, …​<br>
+  e.g. the command `edit 2 n/NAME` will edit the name of the 2nd person in the list.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
@@ -93,7 +97,7 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate Prison sc/1234567`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
 
 More examples showing accepted SubjectLevel formats and common variations:
 * `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
@@ -101,7 +105,10 @@ More examples showing accepted SubjectLevel formats and common variations:
 * `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
 * `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
 
-Notes on SubjectLevel validation
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes on SubjectLevel validation:**<br>
+
 * Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
   - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
   - The "Subject" part must contain only letters (no digits, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
@@ -115,6 +122,7 @@ Notes on SubjectLevel validation
   - `Primary 6-Math` (spaces in the level part are not allowed)
 
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
+</div>
 
 ### Listing all persons : `list`
 
@@ -128,7 +136,7 @@ Edits an existing person in the address book.
 
 Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `INDEX`.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -162,6 +170,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 
 **Search by Lesson Day (with `d/` prefix):**
 * Only searches by the lesson day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
+* **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
 * The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
 * **Results are automatically sorted by lesson time** (earliest to latest).
 * If multiple lessons have the same time, they are sorted alphabetically by name.
@@ -176,6 +185,8 @@ Examples:
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
+* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
 
 **Search by Subject (with `s/` prefix):**
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
@@ -196,12 +207,36 @@ Deletes the specified person from the address book.
 Format: `delete INDEX`
 
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+
+## Lesson Management Commands
+
+TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progress for each student.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the Lesson Management command format:**<br>
+
+* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
+  The index **must be a positive integer** 1, 2, 3, …​<br>
+  e.g. the command `deleteplan 3 DATE` will deletes the lesson plan for the 3rd student in the list on the specified `DATE`.
+* `DATE` represents the day of a lesson. Each student can have **at most one** `PLAN` and one `PROGRESS` per lesson day. Otherwise, there will be an error message.
+* `DATE` must be in the format YYYY-MM-DD.<br>
+  e.g. `2025-10-30` is the only valid input format, while `Oct 30, 2025` and `2025/10/30` are invalid formats (There could be other invalid formats).
+* `DATE` MM must be between 1 and 12 inclusive and DD must be between 1 and 31 inclusive.<br>
+  Otherwise, there will be an error message.
+* `PLAN` is a short description of the topics or activities planned for that lesson.<br>
+  `PROGRESS` is a short description of what was covered or achieved in that lesson.
+* The prefix for `PLAN` is `pl/`. The prefix for `PROGRESS` is `pr/`.
+* There must be a `|` to separate `DATE` and `PLAN`/`PROGRESS`.<br>
+  e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, PLAN` and `addplan INDEX pl/DATE PLAN` are invalid formats (There could be other invalid formats).
+* The commands are case-sensitive, therefore must use lowercase letters.<br>
+  e.g. `addplan`, `editplan`, `deleteprogress`, `viewlessons`
+</div>
 
 ### Adding lesson plan : `addplan`
 
@@ -211,12 +246,8 @@ Format:
 `addplan INDEX pl/DATE|PLAN`
 
 * Adds a lesson plan to the student at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
-* `DATE` must be in the format YYYY-MM-DD.
-* `PLAN` is a short description of the topics or activities planned for that lesson.
 * Each new entry will be added to the student’s lesson plan list.
-* Entries can later be viewed with the view command.
+* Entries can later be viewed with the `viewlessons` command.
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
@@ -238,6 +269,34 @@ Expected outcome:<br>
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
+### Edit Lesson Plan : `editplan`
+
+Updates an existing lesson plan entry for a student.
+
+Format: `editplan INDEX pl/DATE|NEW_PLAN`
+
+* Updates an existing lesson plan entry for the student at the specified INDEX.
+* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
+  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
+* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
+
+> **Tip:**
+> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+
+Examples:
+
+* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
+  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
+
+* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
+  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
+
+Expected outcome:
+
+* A success message will be displayed in the result box confirming that the lesson plan has been updated.
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* ![Edit Plan Success](images/editPlanSuccess.png)
+
 ### Deleting lesson plan : `deleteplan`
 
 Deletes a lesson plan entry for a specific student on a given date.
@@ -245,31 +304,22 @@ Deletes a lesson plan entry for a specific student on a given date.
 Format: `deleteplan INDEX DATE`
 
 * Deletes the lesson plan for the student at the specified `INDEX` on the specified `DATE`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …​
-* `DATE` must be in the format YYYY-MM-DD.
 * The lesson plan on that date must exist. If no lesson plan exists on that date, an error message will be shown.
-* `DATE` must be in the format YYYY-MM-DD.
-* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
 
 Examples:
 
 * `deleteplan 1 2025-10-25` deletes the lesson plan for the 1st student on 25 Oct 2025.
-* `deleteplan 2 2025-10-23` deletes the lesson plan for the 2nd student on 23 Oct 2025.
+* `deleteplan 2 2025-02-28` deletes the lesson plan for the 2nd student on 28 Feb 2025.
 
 ### Add Lesson Progress : `addprogress`
 
 Adds a lesson progress to a student.
 
-Format: `addprogress INDEX Date|Description`
+Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 * Adds a lesson progress entry to the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
-* `DATE` must be in the format YYYY-MM-DD.
-* `PROGRESS` is a short description of what was covered or achieved in that lesson.
 * Each new entry will be added to the student’s lesson progress history.
-* Entries can later be viewed with the view command.
+* Entries can later be viewed with the `viewlessons` command.
 
 > **Tip:**
 >Use the `addprogress` command regularly to keep an updated record of each student’s learning progress.
@@ -291,48 +341,16 @@ Expected outcome:<br>
 * The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
 
-### Edit Lesson Plan : `editplan`
-
-Updates an existing lesson plan entry for a student.
-
-Format: `editplan INDEX pl/Date|Description`
-
-* Updates an existing lesson plan entry for the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
-* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing lesson plan entry for the student.**
-* `DESCRIPTION` is the new description for the lesson plan, which will overwrite the old entry for that date.
-* If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
-
-> **Tip:**
-> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewplans` first to see which dates have entries you can edit.
-
-Examples:
-
-* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
-  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
-
-* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
-  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
-
-Expected outcome:
-
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
-* ![Edit Plan Success](images/editPlanSuccess.png)
-
 ### Edit Lesson Progress : `editprogress`
 
 Updates an existing lesson progress entry for a student.
 
-Format: `editprogress INDEX pr/Date|Description`
+Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 
 * Updates an existing lesson progress entry for the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
-* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing progress entry for the student.**
-* `DESCRIPTION` is the new description of what was covered, which will overwrite the old entry for that date.
-* If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
+* **The input `DATE` must match an existing progress entry for the student.**<br>
+  If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
+* `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 
 > **Tip:**
 > Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
@@ -358,16 +376,12 @@ Deletes a lesson progress entry for a specific student on a given date.
 Format: `deleteprogress INDEX DATE`
 
 * Deletes the lesson progress for the student at the specified `INDEX` on the specified `DATE`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer (e.g 1, 2, 3...)​
-* `DATE` must be in the format YYYY-MM-DD.
-* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
-* The lesson progress on that date must exist. If no lesson progress exists on that date, an error message will be shown.
+* **The lesson progress on that date must exist.** If no lesson progress exists on that date, an error message will be shown.
 
 Examples:
 
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
-* `deleteprogress 2 2025-10-15` deletes the lesson progress for the 2nd student on 15 Oct 2025.
+* `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
 
 ### Viewing Lesson Window : `viewlessons`
 
@@ -376,8 +390,6 @@ Shows the lesson progress history for a specific student in a separate window.
 Format: `viewlessons INDEX`
 
 * Views the lesson plan and progress of the student at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
 * Opens a new window displaying all recorded lesson progress entries.
 * Each entry shows the date and progress description.
 * Entries can be sort by Date
@@ -430,7 +442,11 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
+**Q**: What is the difference between lesson plan and lesson progress?<br>
+**A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+**Q**: Are users allowed to create their own command syntax?
+**A**: No, but it could be an extension for future.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -447,19 +463,38 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
-**List** | `list`
-**Help** | `help`
-**Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
-**Edit plan** | `editplan INDEX lpl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 lpl/2025-10-21\|Review essay writing and grammar`
-**Delete plan** | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
-**Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
-**Edit progress** | `editprogress INDEX lp/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`
-**Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`
-**View Lessons** | `viewlessons INDEX`<br> e.g., `viewlessons 1`
+ Action              | Format, Examples                                                                                                                                                                                                                                                                                         
+---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`                                                                                                                                  
+ **Clear**           | `clear`                                                                                                                                                                                                                                                                                                  
+ **Delete**          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                                                      
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`                                                                                                                                                                         
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
+ **List**            | `list`                                                                                                                                                                                                                                                                                                   
+ **Help**            | `help`                                                                                                                                                                                                                                                                                                   
+ **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`                                                                                                                                                                                                        
+ **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`                                                                                                                                                                                                
+ **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`                                                                                                                                                                                                                                              
+ **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`                                                                                                                                                                                           
+ **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`                                                                                                                                                                                          
+ **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`                                                                                                                                                                                                                                      
+ **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`                                                                                                                                                                                                                                                            
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+* **CLI(Command Line Interface)**: A method of interacting with the application by typing textual commands.
+* **GUI(Graphical User Interface)**: The visual component of TutorTrack that includes panels, buttons, and lists, allowing users to view and interact with data.
+* **Home folder**: The folder on the user’s computer that contains the TutorTrack JAR file and the data storage files.
+* **JSON File**: A structured data file (JavaScript Object Notation format) used by TutorTrack to store application data. You are not required to modify this file manually.
+* **JAR File**: A Java ARchive file that contains all the components of the TutorTrack application. It can be executed using the java -jar tutortrack.jar command.
+* **Terminal**: The text-based interface on the user’s computer used to execute system commands.
+* **Index**: The numerical identifier displayed beside each person in the list. The index starts from 1 and is used to specify a person when executing commands.
+* **Parameter**: A variable part of a command that the user replaces with specific information. For example, in `add n/NAME`, the parameter `NAME` is replaced with the actual name of the person.
+* **Prefix**: A short label ending with / that indicates the type of information provided in a command. For example, `n/` denotes name, `a/` denotes address, and `pr/` denotes lesson progress.
+* **Field**: A specific category of data stored for each person (e.g., name, phone number, subject). Each field is typically associated with a prefix.
+* **Error Message**: A message displayed when a command cannot be executed, indicating the cause of the error and how to correct it.
+* **Success Message**: A message displayed after a command executes successfully, confirming that the intended action has been completed.
+* **Plan**: A record representing the intended topic or material to be covered in a future lesson.
+* **Progress**: A record representing what was actually covered or achieved during a past lesson.
+* **Window**: A display component of the GUI that presents specific information or functions (e.g., Help Window, Lesson Window).

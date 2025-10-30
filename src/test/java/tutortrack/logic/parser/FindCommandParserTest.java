@@ -1,6 +1,7 @@
 package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static tutortrack.logic.Messages.MESSAGE_INVALID_DAY;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -72,6 +73,24 @@ public class FindCommandParserTest {
     }
 
     @Test
+    public void parse_invalidDay_throwsParseException() {
+        // Invalid day name with typo
+        assertParseFailure(parser, " d/Mondayy", MESSAGE_INVALID_DAY);
+
+        // Random text
+        assertParseFailure(parser, " d/Tomorrow", MESSAGE_INVALID_DAY);
+
+        // Abbreviation
+        assertParseFailure(parser, " d/Mon", MESSAGE_INVALID_DAY);
+
+        // Invalid day name
+        assertParseFailure(parser, " d/Someday", MESSAGE_INVALID_DAY);
+
+        // Number
+        assertParseFailure(parser, " d/1", MESSAGE_INVALID_DAY);
+    }
+
+    @Test
     public void parse_validSubjectLevel_returnsFindCommand() throws Exception {
         // exact case
         FindCommand expected = new FindCommand(new SubjectLevelMatchesPredicate("P4-Math"));
@@ -85,5 +104,29 @@ public class FindCommandParserTest {
     public void parse_emptySubject_throwsParseException() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
         assertParseFailure(parser, " s/ ", expectedMessage);
+    }
+
+    @Test
+    public void parse_preambleWithTagPrefix_throwsParseException() {
+        // Should reject when both preamble and tag prefix are present
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, "john t/exams", expectedMessage);
+        assertParseFailure(parser, "alice bob t/friends", expectedMessage);
+    }
+
+    @Test
+    public void parse_preambleWithDayPrefix_throwsParseException() {
+        // Should reject when both preamble and day prefix are present
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, "alice d/Monday", expectedMessage);
+        assertParseFailure(parser, "john doe d/Friday", expectedMessage);
+    }
+
+    @Test
+    public void parse_preambleWithSubjectPrefix_throwsParseException() {
+        // Should reject when both preamble and subject prefix are present
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, "bob s/P4-Math", expectedMessage);
+        assertParseFailure(parser, "alice s/S2-Science", expectedMessage);
     }
 }

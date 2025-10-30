@@ -51,10 +51,22 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
 
+        // Check if any prefix is present
+        boolean hasPrefixes = argMultimap.getValue(PREFIX_TAG).isPresent()
+                || argMultimap.getValue(PREFIX_DAYTIME).isPresent()
+                || argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent();
+
+        // If a prefix is present, preamble should be empty
+        if (hasPrefixes && !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             String dayKeyword = extractNonEmptyValue(argMultimap, PREFIX_DAYTIME);
-            LessonDayPredicate predicate = new LessonDayPredicate(dayKeyword);
+            String validatedDay = ParserUtil.parseDay(dayKeyword);
+            LessonDayPredicate predicate = new LessonDayPredicate(validatedDay);
             return new FindCommand(predicate, predicate.getComparator());
         }
 

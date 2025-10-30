@@ -1,9 +1,3 @@
----
-layout: page
-title: Developer Guide
----
-* Table of Contents
-{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -167,9 +161,15 @@ The find mechanism is implemented using predicates and comparators:
 * `LessonDayPredicate` - filters persons whose lesson day matches the specified day
 
 The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
-* If `d/` prefix is present, it creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
+* If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
 * If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
 * If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+**Day Validation:**
+* `ParserUtil.parseDay()` validates that the input is one of the seven days of the week
+* Uses regex pattern matching for case-insensitive validation
+* Rejects abbreviations (e.g., "Mon"), typos (e.g., "Mondayy"), and invalid inputs (e.g., "Tomorrow", "1")
+* Error message stored in `Messages.MESSAGE_INVALID_DAY` for consistent user-facing messaging
 
 **Search Types:**
 
@@ -185,6 +185,8 @@ The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenize
 
 3. **Day Matching (Lesson Day Search):**
    * Filters by the day component of `DayTime` field (e.g., "Monday 1200" → "Monday")
+   * **Validation:** Only accepts full day names (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday). Invalid days trigger a `ParseException` with the message `MESSAGE_INVALID_DAY`
+   * Validation is performed by `ParserUtil.parseDay()` which uses regex matching: `(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$`
    * Case-insensitive (e.g., "monday", "Monday", "MONDAY" all match)
    * **Important:** Time is used for sorting only, not for filtering
    * Results are automatically sorted by lesson time (earliest to latest)
@@ -586,193 +588,163 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to add a student with subject, name, contact, address, and lesson time
-2.  TutorTrack adds the student to the contact list and updates the UI to display the new student
-3.  TutorTrack shows confirmation message:
-    “New student added: John Doe (math-primary4, contact: 98230810, lesson: Tuesday 1400).”
+1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
+2.  AddressBook validates all input fields:
+    * Name is not empty. 
+    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits). 
+    * Day/time, cost, and address are valid. 
+    * At least one contact number (student or next-of-kin) is provided.
+3. AddressBook creates a new person entry.
+4. AddressBook adds the new person to the list.
+5. AddressBook shows a confirmation message that the person has been added:
+   "add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St"
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
 * 2a. The student already exists (same name and contact).
 
     * 2a1. TutorTrack shows error message:
-      “Student with the same name and contact already exists.”
-
-      Use case end
-
-* 2b. Any parameter is missing or invalid
-
-    * 2b1. TutorTrack shows specific error messages, e.g.:
-       * Missing subject → “Missing parameter: subject is required.”
-       * Invalid subject → “Invalid subject format. Use <subject-level>, e.g., math-primary4.”
-       * Missing name → “Missing parameter: name is required.”
-       * Invalid name → “Name must not contain digits or special characters except hyphens.”
-       * Duplicate parameter → “Duplicate parameter: <parameter-name> specified more than once.”
-       * Missing contact → “Missing parameter: contact is required.”
-       * Invalid contact → “Contact must be an 8-digit number.”
-       * Missing address → “Address cannot be empty.”
-       * Missing/invalid daytime → “Day must be full name (e.g., Tuesday).” or “Time must be between 0000 and 2359.”
+      “This person already exists in the address book”
 
       Use case ends.
+
+* 2b. One or more mandatory fields are missing (i.e., name, subject level, daytime, address, at least one contact).
+
+    * 2b1. Tutortrack shows error message:
+      "Invalid command format!..."
+
+      Use case ends.
+
+* 2c. Invalid mandatory fields input
+
+    * 2c1. Invalid name:
+        * Name less than 2 characters:
+          * TutorTrack shows error message:<br>
+          "Name is too short. It should be at least 2 characters long."
+    * 2c2. Invalid daytime:
+        * Wrong daytime format:
+          * TutorTrack shows error message:<br>
+          DayTime should be in the format 'Day HHMM', e.g., 'Monday 1200' or 'Tuesday 1600'.
+        * Invalid time:
+          * TutorTrack shows error message:<br>
+            '2400' is not a valid 24-hour time (HHMM).
+    * 2c3. Invalid contact:
+        * Empty phone number input:
+          * TutorTrack shows error message:<br>
+          Phone number cannot be blank.
+          * TutorTrack shows error message:<br>
+          Phone number is too short; it should be at least 3 digits.
 
 *{More to be added}*
 
-**Use case: delete a student contact**
+**Use case: find a student or a group of students**
 
 **MSS**
 
-1.  Tutor requests to list persons
-2.  TutorTrack shows a list of persons
-3.  Tutor requests to delete a specific person in the list
-4.  TutorTrack deletes the person
-5.  TutorTrack shows confirmation message:
-    “Deleted student: John Doe (math-primary4, contact: 98230810, lesson: Tuesday 1400).”
+1. User requests to list all persons. 
+2. TutorTrack displays the full list of persons. 
+3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day. 
+4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty
+* 2a. The list is empty.
 
-    * 2a1. TutorTrack shows error message:
-      “Can’t delete with empty list.”
+  Use case ends.
+
+* 3a. The user provides an invalid prefix
+
+    * 3a1. TutorTrack shows error message:
+      “Contact list is unchanged: No students match your search criteria.”
 
       Use case ends.
 
-* 2b. The given index is invalid
+* 3a. The user provides an invalid prefix 
 
-    * 2b1. TutorTrack shows error message:
-      “The student index provided is invalid.”
+    * 3a1. TutorTrack shows error message:
+      “Contact list is unchanged: No students match your search criteria.”
+
+      Use case ends.
+
+* 3b. The user provides a valid prefix but an invalid value.
+
+    * 3b1. TutorTrack shows error message:
+      “Contact list is unchanged: No students match your search criteria.”
+
+      Use case ends.
+* 3c. No persons match the given search criteria.
+
+    * 3c1. TutorTrack shows error message:
+      “Contact list is unchanged: No students match your search criteria.”
+
+      Use case ends.
+
+* 3d. The user provides multiple keywords without prefixes
+    * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+
+**Use case: editplan**
+
+**MSS**
+
+1. User requests to list all persons.
+2. TutorTrack displays the list of persons.
+3. User identifies the student to edit and enters the `editplan INDEX pl/DATE|NEW_PLAN` command.
+4. TutorTrack locates the lesson plan entry for the given student and date.
+5. TutorTrack updates the lesson plan entry with the new description provided.
+6. TutorTrack confirms that the lesson plan has been successfully updated.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+    Use case ends.
+
+* 3a. The given `INDEX` is invalid (e.g., not a positive integer or out of range).
+
+    * 2a1. TutorTrack shows error message:<br>
+      "The person index provided is invalid."
 
       Use case resumes at step 2.
-* 2c. The list is empty
 
-    * 2c1. TutorTrack shows error message:
-      “Invalid command format. Usage: delete <index>.”
+* 3b. The `DATE` provided is in the wrong format (e.g., 2025/10/28, 28-10-2025).
 
-      Use case ends.
+    * 2b1. TutorTrack shows error message:<br>
+      * TutorTrack displays an error message:<br>
+      "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
 
-**Use case: find a student by name or tag**
+      Use case resumes at step 2.
+* 3c. The student does not have a lesson plan entry on the specified `DATE`.
 
-**MSS**
-
-1.  Tutor requests to find students by entering a keyword
-2.  TutorTrack searches for matching students
-3.  Tutor requests to delete a specific person in the list
-4.  TutorTrack displays the list of matching students with details
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. Keyword is missing
-
-    * 2a1. TutorTrack shows error message:
-      “Keyword is missing!”
+    * 3c1. TutorTrack shows error message:
+      “No lesson plan found on `DATE`. You might want to use 'addplan' instead.”
 
       Use case ends.
+* 3d. The `NEW_PLAN` field is empty or contains only whitespace.
 
-* 2b. Keyword contains invalid characters
+    * 3d1. TutorTrack shows error message:
+      “Plan cannot be empty.”
 
-    * 2b1. TutorTrack shows error message:
-      “Do not enter invalid characters in!”
+      Use case resumes at step 2.
 
-      Use case ends.
-* 2c. No matching student is found
-
-    * 2c1. TutorTrack shows error message:
-      “Name is not Found!”
-
-      Use case ends.
-
-**Use case: filter students by subject**
-
-**MSS**
-
-1.  Tutor requests to filter students by subject-level
-2.  TutorTrack searches for students matching the subject-level
-3.  TutorTrack displays the list of matching students with details
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. Subject parameter is missing
-
-    * 2a1. TutorTrack shows error message:
-      “Subject is missing!”
-
-      Use case ends.
-
-* 2b. Subject format is invalid
-
-    * 2b1. TutorTrack shows error message:
-      * Missing hyphen → “Invalid subject format. Use <subject-level>, e.g., Math-Primary4.”
-      * Non-alphanumeric level → “Subject level must only contain letters/numbers.”
-
-      Use case ends.
-* 2c. No matching student is found
-
-    * 2c1. TutorTrack shows error message:
-      “Name is not Found!”
-
-      Use case ends.
-
-**Use case: track payments**
-
-**MSS**
-
-1.  Tutor requests to list payments for a date range
-2.  TutorTrack retrieves payment records within the range
-3.  TutorTrack displays payments in a table with columns (Date, Student, Amount, Method, Note)
-4. TutorTrack shows summary of total payments:
-   “Listed X payments from yyyy-MM-dd to yyyy-MM-dd. Total: YYY.YY”
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. No payments exist for the date range
-
-    * 2a1. TutorTrack shows error message:
-      “No payments found from yyyy-MM-dd to yyyy-MM-dd. Total: 0.00”
-
-      Use case ends.
-
-* 2b. Duplicate payment detected
-
-    * 2b1. TutorTrack asks whether to add duplicate payment
-
-      Use case resumes at step 1.
-
-* 2c. Invalid date format
-
-    * 2c1. TutorTrack shows error message:
-      * “Invalid date in from/: use dd-MM-yyyy, or dd/MM/yyyy.”
-      * “Invalid date in to/: use dd-MM-yyyy, or dd/MM/yyyy.”
-
-      Use case ends.
-* 2d. Invalid range (from date after to date)
-
-    * 2d1. TutorTrack shows error message:
-      “Invalid range: from/ must be on or before to/.”
-
-      Use case ends.
 
 *{More to be added}*
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  Should start up within 3 seconds on a modern computer.
-5.  The system should be able to run offline without requiring an internet connection.
-6.  The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
+1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. Should start up within 3 seconds on a modern computer.
+5. The system should be able to run offline without requiring an internet connection.
+6. The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
 7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
-8.. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability
+8. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability
 9. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
 10. Commands should complete within 2 seconds for typical operations
 11. UI should remain responsive during all operations (no freezing)
@@ -891,16 +863,16 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `viewlessons 1`<br>
       Expected: A popup window appears showing the lessons for the 1st student. The window displays a table with three columns: "Date", "Lesson Plan", and "Lesson Progress". If the student has lesson progress/plan records, they are shown merged by date in the table. Success message shown in the status message: "Opened lesson summary window for [Student Name]."
 
-   1. Test case: `viewlessons 0`<br>
+   2. Test case: `viewlessons 0`<br>
       Expected: No window is shown. Error details shown in the status message: "Invalid command format! ...". Status bar remains the same.
 
-   1. Test case: `viewlessons`<br>
+   3. Test case: `viewlessons`<br>
       Expected: Similar to previous - error message about invalid command format.
 
-   1. Test case: `viewlessons x` (where x is larger than the list size)<br>
+   4. Test case: `viewlessons x` (where x is larger than the list size)<br>
       Expected: No window is shown. Error message: "The student index provided is invalid."
 
-   1. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
+   5. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
       Expected: Similar error messages about invalid format or index.
 
 1. Viewing lessons when student has both progress and plans
@@ -953,14 +925,20 @@ testers are expected to do more *exploratory* testing.
    6. Test case: `deleteplan 1 invalid-date`<br>
       Expected: No lesson plan is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
 
-   7. Test case: `deleteplan 1 2025-13-01` (invalid month)<br>
-      Expected: No lesson plan is deleted. Error message: "Invalid date: month must be 01-12 and day must be valid for that month."
+   7. Test case: `deleteplan 1 2025-13-20` (invalid month)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid month: must be between 01 and 12."
 
-   8. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
-      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+   8. Test case: `deleteplan 1 2025-02-31` (invalid day for February)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid day for the given month. Please check your date."
 
-   9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
-      Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+   9. Test case: `deleteplan 1 2025-04-31` (invalid day for April)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid day for the given month. Please check your date."
+
+   10. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
+       Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+   11. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
+       Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 
 ### Deleting lesson progress
@@ -981,7 +959,16 @@ testers are expected to do more *exploratory* testing.
    5. Test case: `deleteprogress 1 invalid-date`<br>
       Expected: No lesson progress is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
 
-   6. Test case: `deleteprogress abc 2025-10-15`<br>
+   6. Test case: `deleteprogress 1 2025-13-20` (invalid month)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid month: must be between 01 and 12."
+
+   7. Test case: `deleteprogress 1 2025-02-31` (invalid day for February)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid day for the given month. Please check your date."
+
+   8. Test case: `deleteprogress 1 2025-13-01` (swapped day and month)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd." followed by usage information.
+
+   9. Test case: `deleteprogress abc 2025-10-15`<br>
       Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 1. Saving data
@@ -989,3 +976,16 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Effort**
+
+* Difficulty Level
+* Challenges faced
+* Effort required
+* Achievements of the project
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**

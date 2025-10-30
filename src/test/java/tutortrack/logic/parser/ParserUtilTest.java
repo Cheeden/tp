@@ -329,7 +329,7 @@ public class ParserUtilTest {
     @Test
     public void parseLessonProgress_invalidDateFormat_throwsParseException() {
         assertThrows(ParseException.class,
-                "Invalid date format. Use yyyy-MM-dd.", () ->
+                "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15).", () ->
                         ParserUtil.parseLessonProgress("25-10-2025|Covered Chapter 1"));
     }
 
@@ -378,7 +378,7 @@ public class ParserUtilTest {
     @Test
     public void parseLessonPlan_invalidDateFormat_throwsParseException() {
         assertThrows(ParseException.class,
-                "Invalid date format. Use yyyy-MM-dd.", () ->
+                "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15).", () ->
                         ParserUtil.parseLessonPlan("25-10-2025|Review algebra"));
     }
 

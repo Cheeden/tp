@@ -59,8 +59,8 @@ public class FindCommand extends Command {
         requireNonNull(model);
 
         // Obtain the number of matches to determine if filter should be applied
-        ObservableList<Person> filteredList = model.getFilteredPersonList();
-        long matchCount = filteredList.stream()
+        ObservableList<Person> fullList = model.getAddressBook().getPersonList();
+        long matchCount = fullList.stream()
                             .filter(searchPredicate)
                             .count();
 

@@ -11,7 +11,7 @@ import tutortrack.model.person.Person;
 /**
  * Adds a lesson plan entry to a person identified by the displayed index.
  */
-public class AddPlanCommand extends AddLessonItemCommand {
+public class AddPlanCommand extends ModifyLessonItemCommand {
     public static final String COMMAND_WORD = "addplan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson plan of the person identified "
@@ -37,7 +37,7 @@ public class AddPlanCommand extends AddLessonItemCommand {
     }
 
     @Override
-    protected Person getPersonWithLessonItemAdded(Person personToEdit) throws CommandException {
+    protected Person getPersonWithLessonItemModified(Person personToEdit) throws CommandException {
         if (personToEdit.hasPlanOnDate(toAdd.getDate())) {
             throw new CommandException(String.format(
                     MESSAGE_DUPLICATE_PLAN,

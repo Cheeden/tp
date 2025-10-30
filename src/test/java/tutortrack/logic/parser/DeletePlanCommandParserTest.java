@@ -42,6 +42,22 @@ public class DeletePlanCommandParserTest {
                 "Invalid month: must be between 01 and 12.\n" + DeletePlanCommand.MESSAGE_USAGE);
     }
 
+    // EP: Invalid input - day invalid for given month
+    @Test
+    public void parse_invalidDayForMonth_throwsParseException() {
+        String args = "1 2025-02-31";
+        assertParseFailure(parser, args,
+                "Invalid day for the given month. Please check your date.\n" + DeletePlanCommand.MESSAGE_USAGE);
+    }
+
+    // EP: Invalid input - incorrect date format
+    @Test
+    public void parse_invalidDateFormat_throwsParseException() {
+        String args = "1 15-10-2025";
+        assertParseFailure(parser, args,
+                "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15).\n" + DeletePlanCommand.MESSAGE_USAGE);
+    }
+
     // EP: Invalid input with missing date argument
     @Test
     public void parse_missingDate_throwsParseException() {

@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
+TutorTrack is a centralised CLI-based tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
 
 * Table of Contents
 {:toc}
@@ -468,3 +468,22 @@ _Details coming soon ..._
  **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`                                                                                                                                                                                          
  **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`                                                                                                                                                                                                                                      
  **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`                                                                                                                                                                                                                                                            
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+* **CLI(Command Line Interface)**: A method of interacting with the application by typing textual commands.
+* **GUI(Graphical User Interface)**: The visual component of TutorTrack that includes panels, buttons, and lists, allowing users to view and interact with data.
+* **Home folder**: The folder on the user’s computer that contains the TutorTrack JAR file and the data storage files.
+* **JSON File**: A structured data file (JavaScript Object Notation format) used by TutorTrack to store application data. You are not required to modify this file manually.
+* **JAR File**: A Java ARchive file that contains all the components of the TutorTrack application. It can be executed using the java -jar tutortrack.jar command.
+* **Terminal**: The text-based interface on the user’s computer used to execute system commands.
+* **Index**: The numerical identifier displayed beside each person in the list. The index starts from 1 and is used to specify a person when executing commands.
+* **Parameter**: A variable part of a command that the user replaces with specific information. For example, in `add n/NAME`, the parameter `NAME` is replaced with the actual name of the person.
+* **Prefix**: A short label ending with / that indicates the type of information provided in a command. For example, `n/` denotes name, `a/` denotes address, and `pr/` denotes lesson progress.
+* **Field**: A specific category of data stored for each person (e.g., name, phone number, subject). Each field is typically associated with a prefix.
+* **Error Message**: A message displayed when a command cannot be executed, indicating the cause of the error and how to correct it.
+* **Success Message**: A message displayed after a command executes successfully, confirming that the intended action has been completed.
+* **Plan**: A record representing the intended topic or material to be covered in a future lesson.
+* **Progress**: A record representing what was actually covered or achieved during a past lesson.
+* **Window**: A display component of the GUI that presents specific information or functions (e.g., Help Window, Lesson Window).

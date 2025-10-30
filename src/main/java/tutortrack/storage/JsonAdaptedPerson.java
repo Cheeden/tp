@@ -102,13 +102,13 @@ class JsonAdaptedPerson {
         }
 
         final List<LessonPlan> modelLessonPlan = new ArrayList<>();
-        for (JsonAdaptedLessonPlan ll : lessonPlanList) {
-            modelLessonPlan.add(ll.toModelType());
+        for (JsonAdaptedLessonPlan pl : lessonPlanList) {
+            modelLessonPlan.add(pl.toModelType());
         }
 
         final List<LessonProgress> modelLessonProgress = new ArrayList<>();
-        for (JsonAdaptedLessonProgress lp : lessonProgressList) {
-            modelLessonProgress.add(lp.toModelType());
+        for (JsonAdaptedLessonProgress pr : lessonProgressList) {
+            modelLessonProgress.add(pr.toModelType());
         }
 
         if (name == null) {

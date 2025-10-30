@@ -35,16 +35,16 @@ public class AddProgressCommandTest {
     @Test
     void execute_addDuplicateProgress_throwsCommandException() {
         Person validPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        LessonProgress existingLp = new LessonProgress(LocalDate.of(2025, 10, 21),
+        LessonProgress existingPr = new LessonProgress(LocalDate.of(2025, 10, 21),
                 "Introduced new algebra concepts");
-        validPerson.addLessonProgress(existingLp);
+        validPerson.addLessonProgress(existingPr);
 
-        LessonProgress duplicateLp = new LessonProgress(LocalDate.of(2025, 10, 21),
+        LessonProgress duplicatePr = new LessonProgress(LocalDate.of(2025, 10, 21),
                 "Repeated entry");
-        AddProgressCommand command = new AddProgressCommand(Index.fromOneBased(1), duplicateLp);
+        AddProgressCommand command = new AddProgressCommand(Index.fromOneBased(1), duplicatePr);
 
         String expectedMessage = String.format(AddProgressCommand.MESSAGE_DUPLICATE_PROGRESS,
-                duplicateLp.getDate());
+                duplicatePr.getDate());
         assertThrows(
                 CommandException.class, expectedMessage, () -> command.execute(model));
     }

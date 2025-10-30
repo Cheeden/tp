@@ -31,8 +31,8 @@ public class AddPlanCommandParser implements Parser<AddPlanCommand> {
 
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
-        String lpString = argMultimap.getValue(PREFIX_LESSON_PLAN).get();
-        LessonPlan pl = ParserUtil.parseLessonPlan(lpString);
+        String plString = argMultimap.getValue(PREFIX_LESSON_PLAN).get();
+        LessonPlan pl = ParserUtil.parseLessonPlan(plString);
 
         return new AddPlanCommand(index, pl);
     }

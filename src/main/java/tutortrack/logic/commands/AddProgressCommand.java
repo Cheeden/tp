@@ -16,7 +16,6 @@ public class AddProgressCommand extends AddLessonItemCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson progress of the person identified "
             + "by the index number used in the displayed person list. "
-            + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_LESSON_PROGRESS + "DATE|PROGRESS\n"
             + "Example: " + COMMAND_WORD + " 1 "

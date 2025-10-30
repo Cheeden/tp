@@ -90,7 +90,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
         lessonPlanList = new ArrayList<>();
-        if (personToCopy.getLessonProgressList() != null) {
+        if (personToCopy.getLessonPlanList() != null) {
             lessonPlanList.addAll(personToCopy.getLessonPlanList());
         }
         lessonProgressList = new ArrayList<>();

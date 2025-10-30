@@ -256,8 +256,8 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 
 * AddProgressCommand – Adds a new LessonProgress entry to a specified student.
 * AddProgressCommandParser – Parses the student index and lesson progress details from user input.
-* Expects the format: addprogress INDEX lp/DATE|PROGRESS
-* Extracts the DATE and PROGRESS components by splitting the string after the lp/ prefix using the | delimiter.
+* Expected format: addprogress INDEX pr/DATE|PROGRESS
+* Extracts the DATE and PROGRESS components by splitting the string after the pr/ prefix using the | delimiter.
 * Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
 
 **Model Component:**
@@ -286,7 +286,7 @@ This keeps the diagram concise and highlights the key object interactions for ad
 
 Given below is an example usage scenario of the Add Lesson Progress feature:
 
-Step 1. The user executes `addprogress 1 lp/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
+Step 1. The user executes `addprogress 1 pr/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
 
 Step 2. `AddProgressCommandParser` parses:
 
@@ -860,19 +860,19 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding lesson progress for a student
    1. Prerequisites: List all persons using the list command. Multiple persons in the list.
-   2. Test case: `addprogress 1 lp/2025-10-21|Introduced new algebra concepts`<br>
+   2. Test case: `addprogress 1 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: A success message is shown in the status message confirming that the lesson progress has been added.
    Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
    The student’s lesson progress list is updated. Timestamp in the status bar is updated.
-   3. Test case: `addprogress 0 lp/2025-10-21|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information. Status bar remains the same.
-   4. Test case: `addprogress 1 lp/invalid-date|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged.
-   5. Test case: `addprogress 1 lp/2025-10-21|`<br>
+   3. Test case: `addprogress 0 pr/2025-10-21|Introduced new algebra concepts`<br>
+   Expected: No lesson progress is added. Error details shown in the status message:
+   “Invalid command format! …”. Status bar remains the same.
+   4. Test case: `addprogress 1 pr/invalid-date|Introduced new algebra concepts`<br>
+   5. Test case: `addprogress 1 pr/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
-   6. Test case: `addprogress x lp/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
+   6. Test case: `addprogress x pr/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
    Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same.
-   7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 lp/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
+   7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 pr/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition

@@ -76,16 +76,16 @@ public class FindCommandParserTest {
     public void parse_invalidDay_throwsParseException() {
         // Invalid day name with typo
         assertParseFailure(parser, " d/Mondayy", MESSAGE_INVALID_DAY);
-        
+
         // Random text
         assertParseFailure(parser, " d/Tomorrow", MESSAGE_INVALID_DAY);
-        
+
         // Abbreviation
         assertParseFailure(parser, " d/Mon", MESSAGE_INVALID_DAY);
-        
+
         // Invalid day name
         assertParseFailure(parser, " d/Someday", MESSAGE_INVALID_DAY);
-        
+
         // Number
         assertParseFailure(parser, " d/1", MESSAGE_INVALID_DAY);
     }

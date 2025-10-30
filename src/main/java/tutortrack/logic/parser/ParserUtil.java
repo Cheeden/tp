@@ -207,18 +207,18 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String day} into a valid day of the week.
-     * Leading and trailing whitespaces will be trimmed.
+     * Leading and trailing whitespaces will be removed from input
      *
      * @throws ParseException if the given {@code day} is not a valid day (Monday-Sunday).
      */
     public static String parseDay(String day) throws ParseException {
         requireNonNull(day);
         String trimmedDay = day.trim();
-        
+
         if (!trimmedDay.matches("(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$")) {
             throw new ParseException(MESSAGE_INVALID_DAY);
         }
-        
+
         return trimmedDay;
     }
 

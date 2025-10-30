@@ -11,6 +11,9 @@ public class Cost {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Cost should start with '$' followed by a valid number, e.g., '$50' or '$12.50'.";
+    /** Specific validation messages */
+    public static final String MESSAGE_TOO_MANY_DECIMALS = "Cost may have at most 2 decimal places.";
+    public static final String MESSAGE_MISSING_DOLLAR = "Cost should start with '$'.";
 
     // Regex explanation:
     // ^\\$ - starts with a dollar sign
@@ -37,6 +40,22 @@ public class Cost {
      */
     public static boolean isValidCost(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /** Returns true if the given cost string has more than 2 decimal places. */
+    public static boolean hasTooManyDecimalPlaces(String test) {
+        if (test == null) {
+            return false;
+        }
+        return test.matches("^\\$\\d+\\.\\d{3,}$");
+    }
+
+    /** Returns true if the given cost string is missing the leading dollar sign. */
+    public static boolean isMissingDollar(String test) {
+        if (test == null) {
+            return true;
+        }
+        return !test.startsWith("$");
     }
 
     @Override

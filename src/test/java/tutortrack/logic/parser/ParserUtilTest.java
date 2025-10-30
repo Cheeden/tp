@@ -185,7 +185,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseDayTime_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseDayTime(INVALID_DAYTIME));
+        assertThrows(ParseException.class, "Invalid time: '2500' is not a valid 24-hour time (HHMM).", () ->
+                ParserUtil.parseDayTime(INVALID_DAYTIME));
     }
 
     @Test
@@ -208,7 +209,15 @@ public class ParserUtilTest {
 
     @Test
     public void parseCost_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseCost(INVALID_COST)); // missing $
+        assertThrows(ParseException.class, Cost.MESSAGE_MISSING_DOLLAR, () ->
+                ParserUtil.parseCost(INVALID_COST)); // missing $
+    }
+
+    @Test
+    public void parseCost_tooManyDecimalPlaces_throwsParseException() {
+        final String invalidTooMany = "$50.123";
+        assertThrows(ParseException.class, Cost.MESSAGE_TOO_MANY_DECIMALS, () ->
+                ParserUtil.parseCost(invalidTooMany));
     }
 
     @Test

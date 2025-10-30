@@ -6,6 +6,7 @@ import static tutortrack.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static tutortrack.testutil.Assert.assertThrows;
 import static tutortrack.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import tutortrack.logic.parser.exceptions.ParseException;
+import tutortrack.model.lesson.LessonPlan;
+import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
@@ -292,4 +295,103 @@ public class ParserUtilTest {
 
         assertEquals(expectedTagSet, actualTagSet);
     }
+
+    @Test
+    public void parseLessonProgress_validInput_success() throws Exception {
+        LessonProgress pr = ParserUtil.parseLessonProgress("2025-10-25|Covered Chapter 1");
+        assertEquals(LocalDate.of(2025, 10, 25), pr.getDate());
+        assertEquals("Covered Chapter 1", pr.getProgress());
+    }
+
+    @Test
+    public void parseLessonProgress_missingProgress_throwsParseException() {
+        assertThrows(ParseException.class,
+                tutortrack.model.lesson.LessonProgress.MESSAGE_CONSTRAINTS,
+                () -> ParserUtil.parseLessonProgress("2025-10-25"));
+    }
+
+    @Test
+    public void parseLessonProgress_nullProgress_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Progress cannot be empty.",
+                () -> ParserUtil.parseLessonProgress("2025-10-25|null"));
+    }
+
+    @Test
+    public void parseLessonProgress_invalidDateFormat_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid date format. Use yyyy-MM-dd.",
+                () -> ParserUtil.parseLessonProgress("25-10-2025|Covered Chapter 1"));
+    }
+
+    @Test
+    public void parseLessonProgress_swappedDayMonth_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.",
+                () -> ParserUtil.parseLessonProgress("2025-25-10|Covered Chapter 1"));
+    }
+
+    @Test
+    public void parseLessonProgress_invalidDay_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid day for the given month. Please check your date.",
+                () -> ParserUtil.parseLessonProgress("2025-02-30|Covered Chapter 1"));
+    }
+
+    @Test
+    public void parseLessonProgress_invalidMonth_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid month: must be between 01 and 12.",
+                () -> ParserUtil.parseLessonProgress("2025-13-15|Covered Chapter 1"));
+    }
+
+    @Test
+    public void parseLessonPlan_validInput_success() throws Exception {
+        LessonPlan lp = ParserUtil.parseLessonPlan("2025-10-25|Review algebra");
+        assert lp.getDate().equals(LocalDate.of(2025, 10, 25));
+        assert lp.getPlan().equals("Review algebra");
+    }
+
+    @Test
+    public void parseLessonPlan_missingPipe_throwsParseException() {
+        assertThrows(ParseException.class,
+                LessonPlan.MESSAGE_CONSTRAINTS,
+                () -> ParserUtil.parseLessonPlan("2025-10-25"));
+    }
+
+    @Test
+    public void parseLessonPlan_emptyPlan_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Plan cannot be empty.",
+                () -> ParserUtil.parseLessonPlan("2025-10-25|"));
+    }
+
+    @Test
+    public void parseLessonPlan_invalidDateFormat_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid date format. Use yyyy-MM-dd.",
+                () -> ParserUtil.parseLessonPlan("25-10-2025|Review algebra"));
+    }
+
+    @Test
+    public void parseLessonPlan_swappedDayMonth_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.",
+                () -> ParserUtil.parseLessonPlan("2025-30-09|Review algebra"));
+    }
+
+    @Test
+    public void parseLessonPlan_invalidMonth_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid month: must be between 01 and 12.",
+                () -> ParserUtil.parseLessonPlan("2025-17-16|Review algebra"));
+    }
+
+    @Test
+    public void parseLessonPlan_invalidDay_throwsParseException() {
+        assertThrows(ParseException.class,
+                "Invalid day for the given month. Please check your date.",
+                () -> ParserUtil.parseLessonPlan("2025-04-31|Review algebra"));
+    }
+
 }

@@ -223,7 +223,7 @@ public class ParserUtil {
 
             if (month > 12 && day <= 12) {
                 throw new ParseException(
-                        "Invalid date: you may have swapped day and month. The format is YYYY-MM-DD.", e);
+                        "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.", e);
             }
 
             if (month < 1 || month > 12) {
@@ -232,10 +232,10 @@ public class ParserUtil {
 
             try {
                 LocalDate.of(year, month, day);
+                return new LessonProgress(LocalDate.of(year, month, day), progress);
             } catch (DateTimeException ex) {
                 throw new ParseException("Invalid day for the given month. Please check your date.", e);
             }
-            throw new ParseException("Invalid date: the day/month combination does not exist.", e);
         }
     }
 
@@ -271,7 +271,7 @@ public class ParserUtil {
 
             if (month > 12 && day <= 12) {
                 throw new ParseException(
-                        "Invalid date: you may have swapped day and month. The format is YYYY-MM-DD.", e);
+                        "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.", e);
             }
 
             if (month < 1 || month > 12) {
@@ -280,10 +280,10 @@ public class ParserUtil {
 
             try {
                 LocalDate.of(year, month, day);
+                return new LessonPlan(LocalDate.of(year, month, day), plan);
             } catch (DateTimeException ex) {
                 throw new ParseException("Invalid day for the given month. Please check your date.", e);
             }
-            throw new ParseException("Invalid date: the day/month combination does not exist.", e);
         }
     }
 }

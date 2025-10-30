@@ -210,6 +210,22 @@ Examples:
 
 TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progress for each student.
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the Lesson Management command format:**<br>
+
+* `DATE` represents the day of a lesson. Each student can have at most one `PLAN` and one `PROGRESS` per lesson day.
+* `DATE` must be in the format YYYY-MM-DD.<br>
+  e.g. `2025-10-30` is the only valid input format, while `Oct 30, 2025` and `2025/10/30` are invalid formats (There could be other invalid formats).
+* `DATE` MM must be between 1 and 12 inclusive and DD must be between 1 and 31 inclusive.<br>
+  Otherwise, there will be an error message.
+* `PLAN` is a short description of the topics or activities planned for that lesson.<br>
+  `PROGRESS` is a short description of what was covered or achieved in that lesson.
+* There must be a '|' to segment `DATE` and `DESCRIPTION`.<br>
+  e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, DESCRIPTION` and `addplan INDEX pl/DATE DESCRIPTION` are invalid formats (There could be other invalid formats).
+* The commands are case-sensitive, therefore must use lowercase letters.<br>
+  e.g. `addplan`, `editplan`, `deleteprogress`, `viewlessons`
+
 ### Adding lesson plan : `addplan`
 
 Adds a new lesson plan entry for a specific student.
@@ -218,9 +234,6 @@ Format:
 `addplan INDEX pl/DATE|PLAN`
 
 * Adds a lesson plan to the student at the specified `INDEX`.
-* `DATE` must be in the format YYYY-MM-DD.
-* `PLAN` is a short description of the topics or activities planned for that lesson.
-* There must be a '|' to segment `DATE` and `PLAN`.
 * Each new entry will be added to the student’s lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
@@ -251,10 +264,7 @@ Deletes a lesson plan entry for a specific student on a given date.
 Format: `deleteplan INDEX DATE`
 
 * Deletes the lesson plan for the student at the specified `INDEX` on the specified `DATE`.
-* `DATE` must be in the format YYYY-MM-DD.
 * The lesson plan on that date must exist. If no lesson plan exists on that date, an error message will be shown.
-* `DATE` must be in the format YYYY-MM-DD.
-* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
 
 Examples:
 
@@ -268,10 +278,8 @@ Adds a lesson progress to a student.
 Format: `addprogress INDEX Date|Description`
 
 * Adds a lesson progress entry to the student at the specified INDEX.
-* `DATE` must be in the format YYYY-MM-DD.
-* `PROGRESS` is a short description of what was covered or achieved in that lesson.
 * Each new entry will be added to the student’s lesson progress history.
-* Entries can later be viewed with the view command.
+* Entries can later be viewed with the `viewlessons` command.
 
 > **Tip:**
 >Use the `addprogress` command regularly to keep an updated record of each student’s learning progress.
@@ -300,9 +308,9 @@ Updates an existing lesson plan entry for a student.
 Format: `editplan INDEX pl/Date|Description`
 
 * Updates an existing lesson plan entry for the student at the specified INDEX.
-* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing lesson plan entry for the student.**
+* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
+  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
 * `DESCRIPTION` is the new description for the lesson plan, which will overwrite the old entry for that date.
-* If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
 
 > **Tip:**
 > Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewplans` first to see which dates have entries you can edit.
@@ -328,9 +336,9 @@ Updates an existing lesson progress entry for a student.
 Format: `editprogress INDEX pr/Date|Description`
 
 * Updates an existing lesson progress entry for the student at the specified INDEX.
-* `DATE` must be in the format YYYY-MM-DD. **This date must match an existing progress entry for the student.**
-* `DESCRIPTION` is the new description of what was covered, which will overwrite the old entry for that date.
-* If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
+* **The input `DATE` must match an existing progress entry for the student.**<br>
+  If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
+* `DESCRIPTION` is the new description for the lesson progress, which will overwrite the old entry for that date.
 
 > **Tip:**
 > Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
@@ -356,9 +364,7 @@ Deletes a lesson progress entry for a specific student on a given date.
 Format: `deleteprogress INDEX DATE`
 
 * Deletes the lesson progress for the student at the specified `INDEX` on the specified `DATE`.
-* `DATE` must be in the format YYYY-MM-DD.
-* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
-* The lesson progress on that date must exist. If no lesson progress exists on that date, an error message will be shown.
+* **The lesson progress on that date must exist.** If no lesson progress exists on that date, an error message will be shown.
 
 Examples:
 

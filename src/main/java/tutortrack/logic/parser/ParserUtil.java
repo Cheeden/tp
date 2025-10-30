@@ -339,6 +339,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String lesson progress}.
      * Leading and trailing whitespaces will be trimmed.
+     * Escape sequences like \n will be converted to actual newlines.
      */
     public static LessonProgress parseLessonProgress(String input) throws ParseException {
         requireNonNull(input);
@@ -349,7 +350,7 @@ public class ParserUtil {
         }
 
         String dateString = parts[0].trim();
-        String progress = parts[1].trim();
+        String progress = processEscapeSequences(parts[1].trim());
 
         if (progress.isEmpty() || progress.equals("null")) {
             throw new ParseException("Progress cannot be empty.");
@@ -363,6 +364,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String lesson plan}.
      * Leading and trailing whitespaces will be trimmed.
+     * Escape sequences like \n will be converted to actual newlines.
      */
     public static LessonPlan parseLessonPlan(String input) throws ParseException {
         requireNonNull(input);
@@ -373,13 +375,25 @@ public class ParserUtil {
         }
 
         String dateString = parts[0].trim();
-        String plan = parts[1].trim();
-        if (plan.isEmpty() || plan.equals("null")) {
+        String plan = processEscapeSequences(parts[1].trim());
+        if (plan.isEmpty()) {
             throw new ParseException("Plan cannot be empty.");
         }
 
         LocalDate date = parseDate(dateString);
         return new LessonPlan(date, plan);
     }
-}
 
+    /**
+     * Converts escape sequences in the input string to their actual characters.
+     * Supports: \n (newline), \t (tab), \\ (backslash)
+     *
+     * @param input The string that may contain escape sequences
+     * @return The string with escape sequences converted to actual characters
+     */
+    private static String processEscapeSequences(String input) {
+        return input.replace("\\n", "\n")
+                .replace("\\t", "\t")
+                .replace("\\\\", "\\");
+    }
+}

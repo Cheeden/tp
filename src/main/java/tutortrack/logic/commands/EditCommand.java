@@ -51,7 +51,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_DAYTIME + "DAYTIME] "
             + "[" + PREFIX_COST + "COST] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\\n"
+            + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 ";
 

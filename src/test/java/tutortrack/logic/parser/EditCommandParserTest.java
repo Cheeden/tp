@@ -49,7 +49,6 @@ import tutortrack.logic.commands.EditCommand;
 import tutortrack.logic.commands.EditCommand.EditPersonDescriptor;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
-import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
 import tutortrack.model.person.SubjectLevel;
@@ -102,8 +101,9 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS);
         // invalid subject level (missing dash / invalid format)
         assertParseFailure(parser, "1" + INVALID_SUBJECTLEVEL_DESC, SubjectLevel.MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, "1" + INVALID_DAYTIME_DESC, DayTime.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + INVALID_COST_DESC, Cost.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1" + INVALID_DAYTIME_DESC,
+                "Invalid time: '2500' is not a valid 24-hour time (HHMM).");
+        assertParseFailure(parser, "1" + INVALID_COST_DESC, Cost.MESSAGE_MISSING_DOLLAR);
 
         // multiple invalid values, only first one captured (name invalid chars reported)
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + VALID_ADDRESS_AMY + VALID_CONTACT_AMY,

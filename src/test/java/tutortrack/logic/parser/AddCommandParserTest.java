@@ -49,7 +49,6 @@ import tutortrack.logic.Messages;
 import tutortrack.logic.commands.AddCommand;
 import tutortrack.model.person.Address;
 import tutortrack.model.person.Cost;
-import tutortrack.model.person.DayTime;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -216,12 +215,13 @@ public class AddCommandParserTest {
         // invalid day/time (e.g. invalid format or invalid hour)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + SUBJECTLEVEL_DESC_BOB + INVALID_DAYTIME_DESC + COST_DESC_BOB
-                                           + ADDRESS_DESC_BOB, DayTime.MESSAGE_CONSTRAINTS);
+                                           + ADDRESS_DESC_BOB,
+                "Invalid time: '2500' is not a valid 24-hour time (HHMM).");
 
         // invalid cost (missing $ sign)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + INVALID_COST_DESC
-                                           + ADDRESS_DESC_BOB, Cost.MESSAGE_CONSTRAINTS);
+                                           + ADDRESS_DESC_BOB, Cost.MESSAGE_MISSING_DOLLAR);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB

@@ -27,12 +27,13 @@ import tutortrack.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX =
+            "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3).";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * @throws ParseException if the specified index is invalid.
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -141,9 +142,21 @@ public class ParserUtil {
     public static DayTime parseDayTime(String dayTime) throws ParseException {
         requireNonNull(dayTime);
         String trimmedDayTime = dayTime.trim();
-        if (!DayTime.isValidDayTime(trimmedDayTime)) {
+        // Detailed validation: first check structural format (Day + space + 4 digits), then check numeric ranges
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(
+                "(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\s(\\d{4})$");
+        java.util.regex.Matcher m = p.matcher(trimmedDayTime);
+        if (!m.matches()) {
             throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
         }
+
+        String timePart = m.group(2);
+        int hour = Integer.parseInt(timePart.substring(0, 2));
+        int minute = Integer.parseInt(timePart.substring(2));
+        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+            throw new ParseException("Invalid time: '" + timePart + "' is not a valid 24-hour time (HHMM).");
+        }
+
         return new DayTime(trimmedDayTime);
     }
 
@@ -156,9 +169,17 @@ public class ParserUtil {
     public static Cost parseCost(String cost) throws ParseException {
         requireNonNull(cost);
         String trimmedCost = cost.trim();
+        // Provide clearer error messages for common failure modes
+        if (Cost.isMissingDollar(trimmedCost)) {
+            throw new ParseException(Cost.MESSAGE_MISSING_DOLLAR);
+        }
+        if (Cost.hasTooManyDecimalPlaces(trimmedCost)) {
+            throw new ParseException(Cost.MESSAGE_TOO_MANY_DECIMALS);
+        }
         if (!Cost.isValidCost(trimmedCost)) {
             throw new ParseException(Cost.MESSAGE_CONSTRAINTS);
         }
+
         return new Cost(trimmedCost);
     }
 
@@ -287,3 +308,4 @@ public class ParserUtil {
         }
     }
 }
+

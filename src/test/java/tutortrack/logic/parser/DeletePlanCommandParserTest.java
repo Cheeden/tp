@@ -3,6 +3,7 @@ package tutortrack.logic.parser;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static tutortrack.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static tutortrack.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class DeletePlanCommandParserTest {
     public void parse_invalidIndex_throwsParseException() {
         String args = "a 2025-10-15";
         assertParseFailure(parser, args,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePlanCommand.MESSAGE_USAGE));
+                MESSAGE_INVALID_INDEX + "\n" + DeletePlanCommand.MESSAGE_USAGE);
     }
 
     // EP: Invalid input - date values out of range

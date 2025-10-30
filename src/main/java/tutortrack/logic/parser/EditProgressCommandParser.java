@@ -3,8 +3,7 @@ package tutortrack.logic.parser;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_LESSON_PROGRESS;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.util.stream.Stream;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.EditProgressCommand;
@@ -12,54 +11,37 @@ import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonProgress;
 
 /**
- * Parses input arguments and creates a new EditProgressCommand object
+ * Parses input arguments and creates a new EditProgressCommand object.
  */
 public class EditProgressCommandParser implements Parser<EditProgressCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditProgressCommand
      * and returns an EditProgressCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform to the expected format
      */
-    @Override
     public EditProgressCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_LESSON_PROGRESS);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_LESSON_PROGRESS);
 
-        String preamble = argMultimap.getPreamble();
-        if (preamble.isEmpty() || !argMultimap.getValue(PREFIX_LESSON_PROGRESS).isPresent()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditProgressCommand.MESSAGE_USAGE));
+        if (!arePrefixesPresent(argMultimap, PREFIX_LESSON_PROGRESS)
+                    || argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditProgressCommand.MESSAGE_USAGE));
         }
 
-        Index index;
-        try {
-            index = ParserUtil.parseIndex(preamble);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditProgressCommand.MESSAGE_USAGE), pe);
-        }
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
-        String lpInput = argMultimap.getValue(PREFIX_LESSON_PROGRESS).get();
-        String[] parts = lpInput.split("\\|", 2);
-        if (parts.length < 2) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditProgressCommand.MESSAGE_USAGE));
-        }
+        String prString = argMultimap.getValue(PREFIX_LESSON_PROGRESS).get();
+        LessonProgress updatedProgress = ParserUtil.parseLessonProgress(prString);
 
-        LocalDate date;
-        try {
-            date = LocalDate.parse(parts[0].trim());
-        } catch (DateTimeParseException e) {
-            throw new ParseException("Invalid date format. Use YYYY-MM-DD.");
-        }
+        return new EditProgressCommand(index, updatedProgress);
+    }
 
-        String progress = parts[1].trim();
-        if (progress.isEmpty()) {
-            throw new ParseException("Lesson progress description cannot be empty.");
-        }
-
-        LessonProgress toEdit = new LessonProgress(date, progress);
-
-        return new EditProgressCommand(index, toEdit);
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values
+     * in the given {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

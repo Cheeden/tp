@@ -210,6 +210,21 @@ This approach ensures:
 - Sorting is temporary and specific to the current search
 - Other commands maintain the original contact order
 
+#### Error Handling for Empty Search Results
+
+When a search returns no matches, the find feature handles it gracefully:
+
+1. **Validation Before Mutation**: `FindCommand.execute()` validates that at least one match exists before applying the filter to the list.
+2. **Pre-check Implementation**: Uses Java streams to count matches: `filteredList.stream().filter(searchPredicate).count()`
+3. **Error on Zero Matches**: If count is 0, throws `CommandException` with message: "Contact list is unchanged: No students match your search criteria."
+4. **Preserved State**: The filtered list remains unchanged when the exception is thrown
+5. **UX Benefits**: 
+   - The command text stays in the command box (with red border) for easy editing and retry
+   - Users don't lose their current view when a search fails
+   - Clear feedback distinguishes between successful empty results and failed searches
+
+This follows the **validate-before-mutate** pattern used throughout the codebase (e.g., `DeleteCommand` validates index before deletion).
+
 #### Example Usage Scenario
 
 Given below is an example usage scenario of the find feature with ranking:
@@ -833,10 +848,10 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
+   2. Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+   3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
@@ -853,7 +868,6 @@ testers are expected to do more *exploratory* testing.
    Expected: No lesson progress is added. Error details shown in the status message:
    “Invalid command format! …”. Status bar remains the same.
    4. Test case: `addprogress 1 pr/invalid-date|Introduced new algebra concepts`<br>
-   Expected: No lesson progress is added. Error details shown in the status message indicating invalid date format. Status bar remains unchanged.
    5. Test case: `addprogress 1 pr/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
    6. Test case: `addprogress x pr/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
@@ -931,7 +945,7 @@ testers are expected to do more *exploratory* testing.
       Expected: No lesson plan is deleted. Error message shown: "No lesson plan found on 2025-12-31 for this student".
 
    4. Test case: `deleteplan 0 2025-10-15`<br>
-      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
    5. Test case: `deleteplan 1`<br>
       Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
@@ -943,10 +957,32 @@ testers are expected to do more *exploratory* testing.
       Expected: No lesson plan is deleted. Error message: "Invalid date: month must be 01-12 and day must be valid for that month."
 
    8. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
-      Expected: No lesson plan is deleted. Error details shown in the status message: "Invalid command format! ...".
+      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
    9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
-      Expected: Similar error messages about invalid command format.
+      Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+
+### Deleting lesson progress
+
+1. Deleting lesson progress while all persons are being shown
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. At least the first person has a lesson progress entry on 2025-10-15.
+
+   2. Test case: `deleteprogress 1 2025-10-15`<br>
+      Expected: Assuming the lesson progress on 2025-10-15 for the 1st student exists. The lesson progress on 2025-10-15 for the 1st student is deleted. Success message shown: "Lesson progress on 2025-10-15 deleted".
+
+   3. Test case: `deleteprogress 1 2025-12-31` (assuming no progress exists on this date)<br>
+      Expected: No lesson progress is deleted. Error message shown: "No lesson progress found on 2025-12-31 for this student".
+
+   4. Test case: `deleteprogress 0 2025-10-15`<br>
+      Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+   5. Test case: `deleteprogress 1 invalid-date`<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
+
+   6. Test case: `deleteprogress abc 2025-10-15`<br>
+      Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 1. Saving data
 

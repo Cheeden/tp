@@ -220,7 +220,7 @@ When a search returns no matches, the find feature handles it gracefully:
 2. **Pre-check Implementation**: Uses Java streams to count matches: `filteredList.stream().filter(searchPredicate).count()`
 3. **Error on Zero Matches**: If count is 0, throws `CommandException` with message: "Contact list is unchanged: No students match your search criteria."
 4. **Preserved State**: The filtered list remains unchanged when the exception is thrown
-5. **UX Benefits**: 
+5. **UX Benefits**:
    - The command text stays in the command box (with red border) for easy editing and retry
    - Users don't lose their current view when a search fails
    - Clear feedback distinguishes between successful empty results and failed searches
@@ -249,7 +249,7 @@ The Add Lesson Progress feature allows tutors to record new lesson progress entr
 
 #### Implementation
 
-<img src="images/AddLessonItemSequenceDiagram.png" width="550" />
+<img src="images/ModifyLessonItemSequenceDiagram.png" width="550" />
 <img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
 The Add Lesson Progress mechanism involves coordination across multiple components:
@@ -310,6 +310,65 @@ Step 7. The command returns a `CommandResult` confirming the addition, e.g.
 New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
 
 Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
+
+### Edit Lesson Plan/Progress Feature
+**Notes:**
+The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify an existing lesson entry for a specific student on a specific date. The implementation for editplan and editprogress is similar. Therefore, this guide will use editplan as an example.
+
+#### Implementation
+
+<img src="images/EditLessonPlanSequenceDiagram.png" width="550" />
+
+**Logic Component:**
+
+* EditPlanCommand – Edits an existing `LessonPlan` entry for a specified student.
+* EditPlanCommandParser – Parses the student index and new lesson plan details from user input.
+* Expected format: `editplan INDEX lp/DATE|NEW_PLAN`
+* The parser extracts the DATE and NEW_PLAN components by splitting the string after the `lp/` prefix using the `|` delimiter.
+* Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
+* Constructs an `EditPlanCommand` with the parsed index and updated `LessonPlan`.
+  
+**Model Component:**
+
+* Person – Contains a `List<LessonPlan>` representing all planned lessons for a student.
+* LessonPlan – Stores two fields: `LocalDate date` and `String plan`.
+
+**Storage Component:**
+
+* JsonAdaptedLessonPlan – Handles JSON serialization and deserialization of `LessonPlan` data.
+* Each lesson plan entry is stored as a JSON object with two fields: `date` and `plan`.
+* When a plan is edited, the updated entry replaces the old one upon saving.
+
+
+**UI Component:**
+* The result of a successful `editplan` command is shown in the **Result Display** panel.
+* The updated plan list can be viewed using the `viewlessons` command, which opens the LessonPlanWindow to display the current plans.
+
+## Example Usage Scenario
+
+Below is an example scenario for the Edit Lesson Plan feature:
+
+**Step 1.**  
+The user executes:  
+editplan 1 lp/2025-10-15|Cover Chapter 6  
+**Step 2.**  
+`EditPlanCommandParser` parses:
+Index = 1
+Date = 2025-10-15
+New Plan = "Cover Chapter 6"  
+**Step 3.**  
+The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.  
+**Step 4.**  
+`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.  
+**Step 5.**  
+The command verifies that a lesson plan exists on the given date.  
+If found, it removes the old plan and adds the new one.  
+**Step 6.**  
+`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.  
+**Step 7.**  
+A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6  
+**Step 8.**  
+The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
 ### View Lessons feature
 

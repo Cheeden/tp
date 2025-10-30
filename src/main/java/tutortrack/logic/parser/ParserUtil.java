@@ -291,35 +291,9 @@ public class ParserUtil {
             throw new ParseException("Progress cannot be empty.");
         }
 
-        try {
-            LocalDate date = LocalDate.parse(dateString);
-            return new LessonProgress(date, progress);
-        } catch (DateTimeParseException e) {
-            if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
-            }
+        LocalDate date = parseDate(dateString);
+        return new LessonProgress(date, progress);
 
-            String[] dateParts = dateString.split("-");
-            int year = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]);
-            int day = Integer.parseInt(dateParts[2]);
-
-            if (month > 12 && day <= 12) {
-                throw new ParseException(
-                        "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.", e);
-            }
-
-            if (month < 1 || month > 12) {
-                throw new ParseException("Invalid month: must be between 01 and 12.", e);
-            }
-
-            try {
-                LocalDate.of(year, month, day);
-                return new LessonProgress(LocalDate.of(year, month, day), progress);
-            } catch (DateTimeException ex) {
-                throw new ParseException("Invalid day for the given month. Please check your date.", e);
-            }
-        }
     }
 
     /**
@@ -336,38 +310,12 @@ public class ParserUtil {
 
         String dateString = parts[0].trim();
         String plan = parts[1].trim();
-        if (plan.isEmpty()) {
+        if (plan.isEmpty() || plan.equals("null")) {
             throw new ParseException("Plan cannot be empty.");
         }
 
-        try {
-            LocalDate date = LocalDate.parse(dateString);
-            return new LessonPlan(date, plan);
-        } catch (DateTimeParseException e) {
-            if (!dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                throw new ParseException("Invalid date format. Use yyyy-MM-dd.", e);
-            }
-            String[] dateParts = dateString.split("-");
-            int year = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]);
-            int day = Integer.parseInt(dateParts[2]);
-
-            if (month > 12 && day <= 12) {
-                throw new ParseException(
-                        "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.", e);
-            }
-
-            if (month < 1 || month > 12) {
-                throw new ParseException("Invalid month: must be between 01 and 12.", e);
-            }
-
-            try {
-                LocalDate.of(year, month, day);
-                return new LessonPlan(LocalDate.of(year, month, day), plan);
-            } catch (DateTimeException ex) {
-                throw new ParseException("Invalid day for the given month. Please check your date.", e);
-            }
-        }
+        LocalDate date = parseDate(dateString);
+        return new LessonPlan(date, plan);
     }
 }
 

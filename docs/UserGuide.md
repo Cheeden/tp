@@ -97,7 +97,7 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate Prison sc/1234567`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
 
 More examples showing accepted SubjectLevel formats and common variations:
 * `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
@@ -269,6 +269,34 @@ Expected outcome:<br>
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
+### Edit Lesson Plan : `editplan`
+
+Updates an existing lesson plan entry for a student.
+
+Format: `editplan INDEX pl/DATE|NEW_PLAN`
+
+* Updates an existing lesson plan entry for the student at the specified INDEX.
+* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
+  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
+* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
+
+> **Tip:**
+> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+
+Examples:
+
+* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
+  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
+
+* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
+  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
+
+Expected outcome:
+
+* A success message will be displayed in the result box confirming that the lesson plan has been updated.
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* ![Edit Plan Success](images/editPlanSuccess.png)
+
 ### Deleting lesson plan : `deleteplan`
 
 Deletes a lesson plan entry for a specific student on a given date.
@@ -312,34 +340,6 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
 * The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
-
-### Edit Lesson Plan : `editplan`
-
-Updates an existing lesson plan entry for a student.
-
-Format: `editplan INDEX pl/DATE|NEW_PLAN`
-
-* Updates an existing lesson plan entry for the student at the specified INDEX.
-* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
-  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
-* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
-
-> **Tip:**
-> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
-
-Examples:
-
-* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
-  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
-
-* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
-  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
-
-Expected outcome:
-
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
-* ![Edit Plan Success](images/editPlanSuccess.png)
 
 ### Edit Lesson Progress : `editprogress`
 
@@ -442,7 +442,11 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
+**Q**: What is the difference between lesson plan and lesson progress?<br>
+**A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+**Q**: Are users allowed to create their own command syntax?
+**A**: No, but it could be an extension for future.
 
 --------------------------------------------------------------------------------------------------------------------
 

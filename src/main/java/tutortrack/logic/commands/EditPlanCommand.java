@@ -11,7 +11,7 @@ import tutortrack.model.person.Person;
 /**
  * Edits an existing lesson plan entry of a person identified by the displayed index.
  */
-public class EditPlanCommand extends ModifyLessonItemCommand{
+public class EditPlanCommand extends ModifyLessonItemCommand {
     public static final String COMMAND_WORD = "editplan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an existing lesson plan of the person "

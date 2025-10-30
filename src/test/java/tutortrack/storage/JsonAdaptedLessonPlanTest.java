@@ -1,43 +1,46 @@
 package tutortrack.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static tutortrack.testutil.TypicalLessonPlans.LESSON_PLAN_1;
 
-import org.junit.jupiter.api.Test;
+import tutortrack.model.lesson.LessonPlan;
 
-import tutortrack.commons.exceptions.IllegalValueException;
-
-public class JsonAdaptedLessonPlanTest {
+public class JsonAdaptedLessonPlanTest extends JsonAdaptedLessonTest<LessonPlan> {
     private static final String VALID_DATE = "2025-10-20";
     private static final String VALID_PLAN = "Cover Chapter 1";
     private static final String INVALID_DATE = "invalid-date";
 
-    @Test
-    public void toModelType_validLessonPlanDetails_returnsLessonPlan() throws Exception {
-        JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(VALID_DATE, VALID_PLAN);
-        assertEquals(LESSON_PLAN_1, lessonPlan.toModelType());
+    @Override
+    protected JsonAdaptedLessonItem<LessonPlan> getValidItem() {
+        return new JsonAdaptedLessonPlan(VALID_DATE, VALID_PLAN);
     }
 
-    @Test
-    public void toModelType_invalidDate_throwsIllegalValueException() {
-        JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(INVALID_DATE, VALID_PLAN);
-        assertThrows(Exception.class, lessonPlan::toModelType);
+    @Override
+    protected LessonPlan getExpectedModel() {
+        return LESSON_PLAN_1;
     }
 
-    @Test
-    public void toModelType_nullDate_throwsIllegalValueException() {
-        JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(null, VALID_PLAN);
-        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT,
-                "LessonPlan", "date or plan");
-        assertThrows(IllegalValueException.class, lessonPlan::toModelType, expectedMessage);
+    @Override
+    protected JsonAdaptedLessonItem<LessonPlan> getInvalidDateItem() {
+        return new JsonAdaptedLessonPlan(INVALID_DATE, VALID_PLAN);
     }
 
-    @Test
-    public void toModelType_nullPlan_throwsIllegalValueException() {
-        JsonAdaptedLessonPlan lessonPlan = new JsonAdaptedLessonPlan(VALID_DATE, null);
-        String expectedMessage = String.format(JsonAdaptedLessonPlan.MISSING_FIELD_MESSAGE_FORMAT,
-                "LessonPlan", "date or plan");
-        assertThrows(IllegalValueException.class, lessonPlan::toModelType, expectedMessage);
+    @Override
+    protected JsonAdaptedLessonItem<LessonPlan> getNullDateItem() {
+        return new JsonAdaptedLessonPlan(null, VALID_PLAN);
+    }
+
+    @Override
+    protected JsonAdaptedLessonItem<LessonPlan> getNullContentItem() {
+        return new JsonAdaptedLessonPlan(VALID_DATE, null);
+    }
+
+    @Override
+    protected String getTypeName() {
+        return "LessonPlan";
+    }
+
+    @Override
+    protected String getContentFieldName() {
+        return "plan";
     }
 }

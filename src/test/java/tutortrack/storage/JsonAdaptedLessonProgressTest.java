@@ -1,43 +1,46 @@
 package tutortrack.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static tutortrack.testutil.TypicalLessonProgresses.LESSON_PROGRESS_1;
 
-import org.junit.jupiter.api.Test;
+import tutortrack.model.lesson.LessonProgress;
 
-import tutortrack.commons.exceptions.IllegalValueException;
-
-public class JsonAdaptedLessonProgressTest {
+public class JsonAdaptedLessonProgressTest extends JsonAdaptedLessonTest<LessonProgress> {
     private static final String VALID_DATE = "2024-01-15";
     private static final String VALID_PROGRESS = "Completed Chapter 1";
     private static final String INVALID_DATE = "invalid-date";
 
-    @Test
-    public void toModelType_validLessonProgressDetails_returnsLessonProgress() throws Exception {
-        JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(VALID_DATE, VALID_PROGRESS);
-        assertEquals(LESSON_PROGRESS_1, lessonProgress.toModelType());
+    @Override
+    protected JsonAdaptedLessonItem<LessonProgress> getValidItem() {
+        return new JsonAdaptedLessonProgress(VALID_DATE, VALID_PROGRESS);
     }
 
-    @Test
-    public void toModelType_invalidDate_throwsIllegalValueException() {
-        JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(INVALID_DATE, VALID_PROGRESS);
-        assertThrows(Exception.class, lessonProgress::toModelType);
+    @Override
+    protected LessonProgress getExpectedModel() {
+        return LESSON_PROGRESS_1;
     }
 
-    @Test
-    public void toModelType_nullDate_throwsIllegalValueException() {
-        JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(null, VALID_PROGRESS);
-        String expectedMessage = String.format(JsonAdaptedLessonProgress.MISSING_FIELD_MESSAGE_FORMAT,
-                "LessonProgress", "date or progress");
-        assertThrows(IllegalValueException.class, lessonProgress::toModelType, expectedMessage);
+    @Override
+    protected JsonAdaptedLessonItem<LessonProgress> getInvalidDateItem() {
+        return new JsonAdaptedLessonProgress(INVALID_DATE, VALID_PROGRESS);
     }
 
-    @Test
-    public void toModelType_nullProgress_throwsIllegalValueException() {
-        JsonAdaptedLessonProgress lessonProgress = new JsonAdaptedLessonProgress(VALID_DATE, null);
-        String expectedMessage = String.format(JsonAdaptedLessonProgress.MISSING_FIELD_MESSAGE_FORMAT,
-                "LessonProgress", "date or progress");
-        assertThrows(IllegalValueException.class, lessonProgress::toModelType, expectedMessage);
+    @Override
+    protected JsonAdaptedLessonItem<LessonProgress> getNullDateItem() {
+        return new JsonAdaptedLessonProgress(null, VALID_PROGRESS);
+    }
+
+    @Override
+    protected JsonAdaptedLessonItem<LessonProgress> getNullContentItem() {
+        return new JsonAdaptedLessonProgress(VALID_DATE, null);
+    }
+
+    @Override
+    protected String getTypeName() {
+        return "LessonProgress";
+    }
+
+    @Override
+    protected String getContentFieldName() {
+        return "progress";
     }
 }

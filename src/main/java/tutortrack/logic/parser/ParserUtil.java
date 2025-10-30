@@ -187,15 +187,25 @@ public class ParserUtil {
     public static DayTime parseDayTime(String dayTime) throws ParseException {
         requireNonNull(dayTime);
         String trimmedDayTime = dayTime.trim();
-        // Detailed validation: first check structural format (Day + space + 4 digits), then check numeric ranges
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(
-                "(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\s(\\d{4})$");
-        java.util.regex.Matcher m = p.matcher(trimmedDayTime);
-        if (!m.matches()) {
+        // Basic split to provide clearer error messages: check day and time separately
+        String[] parts = trimmedDayTime.split("\\s+", 2);
+        if (parts.length != 2) {
             throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
         }
 
-        String timePart = m.group(2);
+        String dayPart = parts[0];
+        String timePart = parts[1];
+
+        // If day is not a full weekday name, inform user explicitly
+        if (!dayPart.matches("(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$")) {
+            throw new ParseException(MESSAGE_INVALID_DAY);
+        }
+
+        // Time must be exactly 4 digits (HHMM)
+        if (!timePart.matches("\\d{4}")) {
+            throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
+        }
+
         int hour = Integer.parseInt(timePart.substring(0, 2));
         int minute = Integer.parseInt(timePart.substring(2));
         if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {

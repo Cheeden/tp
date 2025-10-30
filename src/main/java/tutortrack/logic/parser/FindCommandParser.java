@@ -7,7 +7,9 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
+import tutortrack.commons.core.LogsCenter;
 import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.LessonDayPredicate;
@@ -20,6 +22,8 @@ import tutortrack.model.person.TagContainsKeywordsPredicate;
  * Parses input arguments and creates a new FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
+
+    private static final Logger logger = LogsCenter.getLogger(FindCommandParser.class);
 
     /**
      * Extracts the value associated with a prefix from the argument multimap.
@@ -44,6 +48,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
+            logger.warning("Find command received empty arguments");
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }

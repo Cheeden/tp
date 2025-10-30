@@ -981,11 +981,29 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix: Effort**
 
-* Difficulty Level
-* Challenges faced
-* Effort required
-* Achievements of the project
+* Difficulty and Challenges faced:
+  * Multi-Entity Data Management
+    Extending the AB3 model to handle multiple data types required designing robust associations between Person and lesson-related classes. Ensuring data consistency (e.g., preventing duplicate plans per date) demanded new validation logic, exception handling, and integration tests. 
+  * Custom Command Parsing
+    Commands like `addplan`, `editplan`, and `addprogress` introduced composite parameters separated by special delimiters (|). Parsing and validating such commands while maintaining user-friendly error messages was significantly more complex than AB3’s simpler “prefix-based” structure. 
+  * GUI Integration for Lesson Data
+    Implementing the `viewlessons` window required extending AB3’s single-panel GUI to dynamically render multiple linked lists, synchronize updates, and preserve responsiveness under data changes. 
+  * Testing and Robustness
+    The testing scope expanded substantially — beyond typical Person CRUD operations, tests now covered command logic, parser error handling, and GUI behavior for nested lesson data. Mocking and adapting existing test utilities also required careful design.
+* Effort and Achievements of the project
+  * Implementation of the Lesson Class Hierarchy:<br>
+    We designed and implemented new model classes — LessonPlan and LessonProgress — under a unifying Lesson abstraction to represent a student’s learning journey over time.
+  * Extension and Refinement of Command Logic:<br>
+    We enhanced the command system to support lesson management while reusing and adapting AB3’s Command framework.
+  * Improvements to the find Command:<br>
+    The find command was redesigned to support multiple search modes and contextual ranking.
+  * GUI and Usability Enhancements:<br>
+    Developed the LessonListWindow to display both lesson plans and progress for each student, accessible via the viewlessons command.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Planned Enhancements**
+
+* Lesson Window Export (Preview)
+  * Current issue: Tutors may want to export lesson records for reporting to parents. 
+  * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.

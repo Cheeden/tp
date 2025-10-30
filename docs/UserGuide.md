@@ -105,7 +105,10 @@ More examples showing accepted SubjectLevel formats and common variations:
 * `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
 * `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
 
-Notes on SubjectLevel validation
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes on SubjectLevel validation:**<br>
+
 * Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
   - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
   - The "Subject" part must contain only letters (no digits, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
@@ -119,6 +122,7 @@ Notes on SubjectLevel validation
   - `Primary 6-Math` (spaces in the level part are not allowed)
 
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
+</div>
 
 ### Listing all persons : `list`
 

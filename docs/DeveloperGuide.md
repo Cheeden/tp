@@ -658,7 +658,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student's contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students.
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
 
 
 ### User stories
@@ -672,23 +672,21 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | tutor managing multiple subjects | filter students by subject | prepare lesson materials faster |
 | `* * *`  | tutor | record key points from each lesson | track student progress over time |
 | `* * *`  | tutor | search for a student by name | find their contact info or lesson history quickly |
-| `* * *`  | tutor | see upcoming lessons at a glance | plan my week and avoid scheduling conflicts |
-| `* * *`  | tutor with many students | prioritize or tag important details | avoid forgetting critical information before lessons |
-| `* * *`  | tutor | access past lesson notes easily | follow up on unfinished topics without repeating work |
+| `* * *`  | tutor | update the content of a planned lesson (by date) | tailor upcoming lessons based on student progress or parent feedback |
+| `* * *`  | tutor | view past lesson notes by date | continue lessons seamlessly without re-teaching covered material |
 | `* * *`  | tutor working with parents | keep parent contact info alongside student records | communicate updates conveniently |
-| `* * *`  | tutor | record attendance for each lesson | keep track of who missed sessions |
 | `* * *`  | tutor | review a student's overall progress history | identify strengths and areas for improvement |
 | `* * *`  | tutor | have a quick overview of today's schedule | prepare efficiently before lessons begin |
-| `* * *`  | Tutor with more than 5 students | Keep track of all made payments | Receive payments on time and ensure no tutee miss out payments |
-| `* *`    | tutor | Mark my students' work | Give students immediate feedback about their work |
-| `* *`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
+| `* * *`  | tutor | get a clear error if I try to add a duplicate student | avoid messy duplicates in my contact list |
+| `* *`    | tutor | search students by tags | group and find students with specific characteristics to prepare materials more effectively |
 | `* *`    | tutor | find out which students are weaker in which topics | focus my attention on those they need help with |
-| `* *`    | tutor | delete students contacts | remove students who are no longer under me |
-| `* *`    | tutor | edit students contacts | keep their contacts up to date if they change it |
+| `* *`    | tutor | delete outdated student records | keep my contact list clean and relevant |
+| `* *`    | tutor | delete an incorrect lesson progress record for a student | keep progress tracking accurate and up to date |
+| `* *`    | tutor | edit students’ contact information | maintain accurate records when their details change |
 | `* *`    | private home tutor | securely track students addresses | refer to their addresses and know where to travel to |
-| `* *`    | tutor | keep track of students exam scores | find out if they are improving and determine if lessons have been effective |
 | `* *`    | tutor | view each student's information | easily access each student's personal details |
 | `* *`    | tutor | Filter each student by level | Find my students of the same level quicker |
+| `*`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
 
 *{More to be added}*
 

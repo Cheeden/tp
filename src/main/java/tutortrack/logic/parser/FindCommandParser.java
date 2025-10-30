@@ -12,11 +12,12 @@ import tutortrack.logic.commands.FindCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.person.LessonDayPredicate;
 import tutortrack.model.person.NameContainsKeywordsPredicate;
+import tutortrack.model.person.SubjectLevel;
 import tutortrack.model.person.SubjectLevelMatchesPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
- * Parses input arguments and creates a new FindCommand object
+ * Parses input arguments and creates a new FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
@@ -51,6 +52,26 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
 
+        // Check if any prefix is present
+        boolean hasPrefixes = argMultimap.getValue(PREFIX_TAG).isPresent()
+                || argMultimap.getValue(PREFIX_DAYTIME).isPresent()
+                || argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent();
+
+        // If a prefix is present, preamble should be empty. Provide more specific
+        // feedback depending on which prefix was used to help the user correct common mistakes
+        if (hasPrefixes && !argMultimap.getPreamble().isEmpty()) {
+            if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
+                throw new ParseException("Invalid subject search format. The subject-level must be a single token "
+                    + "in the form Level-Subject (no spaces). Example: find s/P4-Math");
+            }
+            if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
+                throw new ParseException("Invalid day search format. Use 'find d/Monday' "
+                    + "(use full weekday names and no abbreviations).");
+            }
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             String dayKeyword = extractNonEmptyValue(argMultimap, PREFIX_DAYTIME);
@@ -62,7 +83,9 @@ public class FindCommandParser implements Parser<FindCommand> {
         // If subject-level prefix is present, search by subject
         if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
             String subject = extractNonEmptyValue(argMultimap, PREFIX_SUBJECTLEVEL);
-            SubjectLevelMatchesPredicate predicate = new SubjectLevelMatchesPredicate(subject);
+            // validate subject-level format and give user a clear error if invalid
+            SubjectLevel parsedSubject = ParserUtil.parseSubjectLevel(subject);
+            SubjectLevelMatchesPredicate predicate = new SubjectLevelMatchesPredicate(parsedSubject.toString());
             return new FindCommand(predicate);
         }
 

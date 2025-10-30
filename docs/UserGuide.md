@@ -225,6 +225,7 @@ TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progre
   e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, DESCRIPTION` and `addplan INDEX pl/DATE DESCRIPTION` are invalid formats (There could be other invalid formats).
 * The commands are case-sensitive, therefore must use lowercase letters.<br>
   e.g. `addplan`, `editplan`, `deleteprogress`, `viewlessons`
+</div>
 
 ### Adding lesson plan : `addplan`
 

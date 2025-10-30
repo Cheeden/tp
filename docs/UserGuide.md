@@ -246,8 +246,9 @@ Format:
 `addplan INDEX pl/DATE|PLAN`
 
 * Adds a lesson plan to the student at the specified `INDEX`.
-* Each new entry will be added to the student’s lesson plan list.
+* Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
+* You can use `\n` to add line breaks in your lesson plan for better organization.
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
@@ -262,6 +263,9 @@ Adds a lesson plan on 22 Oct 2025 for the 2nd student.
 
 * `addplan 3 pl/2025-10-29|Review past chapters and then complete a practice paper`
 Adds a lesson plan on 29 Oct 2025 for the 2nd student.
+
+* `addplan 1 pl/2025-11-05|Warm-up: Quick quiz on last week's topics\nMain: Introduce quadratic equations\nHomework: Complete worksheet 5`
+Adds a multi-line lesson plan on 5 Nov 2025 for the 1st student. The `\n` will create line breaks in the viewlessons window.
 
 Expected outcome:<br>
 
@@ -290,11 +294,12 @@ Adds a lesson progress to a student.
 Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 * Adds a lesson progress entry to the student at the specified INDEX.
-* Each new entry will be added to the student’s lesson progress history.
+* Each new entry will be added to the student's lesson progress history.
 * Entries can later be viewed with the `viewlessons` command.
+* You can use `\n` to add line breaks in your progress description for better readability.
 
 > **Tip:**
->Use the `addprogress` command regularly to keep an updated record of each student’s learning progress.
+>Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
 
 Examples:
 
@@ -306,6 +311,9 @@ Adds a progress entry on 22 Oct 2025 for the 2nd student.
 
 * `addprogress 3 pr/2025-10-29|Revision on Chapter 4, completed Dunman Secondary School 2023 Practice Paper`
 Adds a progress entry on 29 Oct 2025 for the 3rd student.
+
+* `addprogress 1 pr/2025-10-30|Completed differentiation\nStarted integration basics\nHomework: Practice questions 1-10`
+Adds a multi-line progress entry on 30 Oct 2025 for the 1st student. The `\n` will create line breaks in the viewlessons window.
 
 Expected outcome:<br>
 

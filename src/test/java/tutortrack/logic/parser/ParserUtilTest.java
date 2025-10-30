@@ -355,6 +355,27 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseLessonProgress_withNewlineEscapeSequence_success() throws Exception {
+        LessonProgress pr = ParserUtil.parseLessonProgress("2025-10-25|Line 1\\nLine 2\\nLine 3");
+        assertEquals(LocalDate.of(2025, 10, 25), pr.getDate());
+        assertEquals("Line 1\nLine 2\nLine 3", pr.getProgress());
+    }
+
+    @Test
+    public void parseLessonProgress_withTabEscapeSequence_success() throws Exception {
+        LessonProgress pr = ParserUtil.parseLessonProgress("2025-10-25|Item 1\\tItem 2");
+        assertEquals(LocalDate.of(2025, 10, 25), pr.getDate());
+        assertEquals("Item 1\tItem 2", pr.getProgress());
+    }
+
+    @Test
+    public void parseLessonProgress_withBackslashEscapeSequence_success() throws Exception {
+        LessonProgress pr = ParserUtil.parseLessonProgress("2025-10-25|Path: C:\\\\Users\\\\file");
+        assertEquals(LocalDate.of(2025, 10, 25), pr.getDate());
+        assertEquals("Path: C:\\Users\\file", pr.getProgress());
+    }
+
+    @Test
     public void parseLessonPlan_validInput_success() throws Exception {
         LessonPlan lp = ParserUtil.parseLessonPlan("2025-10-25|Review algebra");
         assert lp.getDate().equals(LocalDate.of(2025, 10, 25));
@@ -401,6 +422,27 @@ public class ParserUtilTest {
         assertThrows(ParseException.class,
                 "Invalid day for the given month. Please check your date.", () ->
                         ParserUtil.parseLessonPlan("2025-04-31|Review algebra"));
+    }
+
+    @Test
+    public void parseLessonPlan_withNewlineEscapeSequence_success() throws Exception {
+        LessonPlan lp = ParserUtil.parseLessonPlan("2025-10-25|Topic 1\\nTopic 2\\nTopic 3");
+        assertEquals(LocalDate.of(2025, 10, 25), lp.getDate());
+        assertEquals("Topic 1\nTopic 2\nTopic 3", lp.getPlan());
+    }
+
+    @Test
+    public void parseLessonPlan_withTabEscapeSequence_success() throws Exception {
+        LessonPlan lp = ParserUtil.parseLessonPlan("2025-10-25|Section A\\tSection B");
+        assertEquals(LocalDate.of(2025, 10, 25), lp.getDate());
+        assertEquals("Section A\tSection B", lp.getPlan());
+    }
+
+    @Test
+    public void parseLessonPlan_withBackslashEscapeSequence_success() throws Exception {
+        LessonPlan lp = ParserUtil.parseLessonPlan("2025-10-25|Formula: a\\\\b");
+        assertEquals(LocalDate.of(2025, 10, 25), lp.getDate());
+        assertEquals("Formula: a\\b", lp.getPlan());
     }
 
 }

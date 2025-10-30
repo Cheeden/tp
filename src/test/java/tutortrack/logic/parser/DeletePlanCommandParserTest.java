@@ -39,7 +39,7 @@ public class DeletePlanCommandParserTest {
         // Month 13 is invalid
         String args = "1 2025-13-15";
         assertParseFailure(parser, args,
-                "Invalid date: month must be 01-12 and day must be valid for that month.");
+                "Invalid month: must be between 01 and 12.\n" + DeletePlanCommand.MESSAGE_USAGE);
     }
 
     // EP: Invalid input with missing date argument

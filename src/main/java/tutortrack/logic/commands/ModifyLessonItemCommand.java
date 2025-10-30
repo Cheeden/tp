@@ -3,6 +3,7 @@ package tutortrack.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.Messages;
@@ -17,6 +18,8 @@ import tutortrack.model.person.Person;
  */
 public abstract class ModifyLessonItemCommand extends Command {
     protected final Index index;
+
+    protected static final Logger logger = Logger.getLogger(ModifyLessonItemCommand.class.getName());
 
     /**
      * Creates a ModifyLessonItemCommand.
@@ -34,6 +37,8 @@ public abstract class ModifyLessonItemCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
+            logger.warning("Invalid index: " + index.getOneBased()
+                    + ". List size: " + lastShownList.size());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 

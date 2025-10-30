@@ -269,6 +269,34 @@ Expected outcome:<br>
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
+### Edit Lesson Plan : `editplan`
+
+Updates an existing lesson plan entry for a student.
+
+Format: `editplan INDEX pl/DATE|NEW_PLAN`
+
+* Updates an existing lesson plan entry for the student at the specified INDEX.
+* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
+  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
+* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
+
+> **Tip:**
+> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+
+Examples:
+
+* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
+  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
+
+* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
+  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
+
+Expected outcome:
+
+* A success message will be displayed in the result box confirming that the lesson plan has been updated.
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* ![Edit Plan Success](images/editPlanSuccess.png)
+
 ### Deleting lesson plan : `deleteplan`
 
 Deletes a lesson plan entry for a specific student on a given date.
@@ -312,34 +340,6 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
 * The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
-
-### Edit Lesson Plan : `editplan`
-
-Updates an existing lesson plan entry for a student.
-
-Format: `editplan INDEX pl/DATE|NEW_PLAN`
-
-* Updates an existing lesson plan entry for the student at the specified INDEX.
-* **The input `DATE` must match an existing lesson plan entry for the student.**<br>
-  If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
-* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
-
-> **Tip:**
-> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
-
-Examples:
-
-* `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
-  Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
-
-* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
-  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
-
-Expected outcome:
-
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
-* ![Edit Plan Success](images/editPlanSuccess.png)
 
 ### Edit Lesson Progress : `editprogress`
 

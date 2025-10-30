@@ -248,7 +248,16 @@ Format:
 * Adds a lesson plan to the student at the specified `INDEX`.
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
-* You can use `\n` to add line breaks in your lesson plan for better organization.
+
+<div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plans:**
+
+You can use special characters to format your lesson plans for better readability:
+* **`\n`** - Creates a new line (line break)
+* **`\t`** - Adds a tab space for indentation
+* **`\\`** - Displays a backslash character
+
+These formatting options help you organize multi-part lessons, create structured plans, or separate different sections clearly.
+</div>
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
@@ -256,16 +265,25 @@ Format:
 Examples:
 
 * `addplan 1 pl/2025-10-15|Cover Chapter 5`
-Adds a lesson plan on 15 Oct 2025 for the 1st student.
+Adds a simple, single-line lesson plan on 15 Oct 2025 for the 1st student.
 
 * `addplan 2 pl/2025-10-22|Cover Chapter 6 and Review Assignment 2`
 Adds a lesson plan on 22 Oct 2025 for the 2nd student.
 
-* `addplan 3 pl/2025-10-29|Review past chapters and then complete a practice paper`
-Adds a lesson plan on 29 Oct 2025 for the 2nd student.
-
 * `addplan 1 pl/2025-11-05|Warm-up: Quick quiz on last week's topics\nMain: Introduce quadratic equations\nHomework: Complete worksheet 5`
-Adds a multi-line lesson plan on 5 Nov 2025 for the 1st student. The `\n` will create line breaks in the viewlessons window.
+Adds a structured, multi-line lesson plan on 5 Nov 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
+  ```
+  Warm-up: Quick quiz on last week's topics
+  Main: Introduce quadratic equations
+  Homework: Complete worksheet 5
+  ```
+
+* `addplan 3 pl/2025-11-10|Topic 1:\tLinear equations\nTopic 2:\tQuadratic equations`
+Adds a lesson plan with tabs for alignment. This will display as:
+  ```
+  Topic 1:    Linear equations
+  Topic 2:    Quadratic equations
+  ```
 
 Expected outcome:<br>
 
@@ -296,7 +314,19 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 * Adds a lesson progress entry to the student at the specified INDEX.
 * Each new entry will be added to the student's lesson progress history.
 * Entries can later be viewed with the `viewlessons` command.
-* You can use `\n` to add line breaks in your progress description for better readability.
+
+<div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
+
+You can use special characters to format your progress entries for better readability:
+* **`\n`** - Creates a new line (line break)
+* **`\t`** - Adds a tab space for indentation
+* **`\\`** - Displays a backslash character
+
+These formatting options are especially useful for:
+- Breaking down what was covered into bullet points
+- Separating completed topics from homework assignments
+- Creating structured progress reports
+</div>
 
 > **Tip:**
 >Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
@@ -304,16 +334,28 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 Examples:
 
 * `addprogress 1 pr/2025-10-15|Reviewed Chapter 5`
-Adds a progress entry on 15 Oct 2025 for the 1st student.
+Adds a simple, single-line progress entry on 15 Oct 2025 for the 1st student.
 
 * `addprogress 2 pr/2025-10-22|Covered Chapter 6, Assignment 2 not completed`
 Adds a progress entry on 22 Oct 2025 for the 2nd student.
 
-* `addprogress 3 pr/2025-10-29|Revision on Chapter 4, completed Dunman Secondary School 2023 Practice Paper`
-Adds a progress entry on 29 Oct 2025 for the 3rd student.
-
 * `addprogress 1 pr/2025-10-30|Completed differentiation\nStarted integration basics\nHomework: Practice questions 1-10`
-Adds a multi-line progress entry on 30 Oct 2025 for the 1st student. The `\n` will create line breaks in the viewlessons window.
+Adds a structured, multi-line progress entry on 30 Oct 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
+  ```
+  Completed differentiation
+  Started integration basics
+  Homework: Practice questions 1-10
+  ```
+
+* `addprogress 3 pr/2025-11-01|Topics covered:\n\t- Quadratic equations\n\t- Factorization\n\t- Completing the square\nQuiz score: 85%`
+Adds a detailed progress report with indentation. This will display as:
+  ```
+  Topics covered:
+      - Quadratic equations
+      - Factorization
+      - Completing the square
+  Quiz score: 85%
+  ```
 
 Expected outcome:<br>
 
@@ -331,6 +373,7 @@ Format: `editplan INDEX pl/DATE|NEW_PLAN`
 * **The input `DATE` must match an existing lesson plan entry for the student.**<br>
   If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
 * `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
+* You can use formatting characters (`\n`, `\t`, `\\`) in your new plan, just like in `addplan`.
 
 > **Tip:**
 > Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
@@ -340,8 +383,8 @@ Examples:
 * `editplan 1 pl/2025-10-28|Focus on polynomial division instead`
   Updates the lesson plan for 28 Oct 2025 for the 1st student with the new description.
 
-* `editplan 2 pl/2025-10-22|Spend more time on thesis statements`
-  Updates the lesson plan for 22 Oct 2025 for the 2nd student with the new description.
+* `editplan 2 pl/2025-10-22|Introduction:\tThesis statements\nMain:\tEssay structure\nPractice:\tWrite opening paragraph`
+  Updates the lesson plan for 22 Oct 2025 with a structured, multi-line format.
 
 Expected outcome:
 
@@ -359,6 +402,7 @@ Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 * **The input `DATE` must match an existing progress entry for the student.**<br>
   If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
 * `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
+* You can use formatting characters (`\n`, `\t`, `\\`) in your new progress, just like in `addprogress`.
 
 > **Tip:**
 > Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
@@ -368,8 +412,8 @@ Examples:
 * `editprogress 1 pr/2025-10-21|Also covered simultaneous equations`
   Updates the progress entry from 21 Oct 2025 for the 1st student with the new description.
 
-* `editprogress 2 pr/2025-10-15|Final review of essay complete`
-  Updates the progress entry from 15 Oct 2025 for the 2nd student with the new description.
+* `editprogress 2 pr/2025-10-15|Essay review completed\nStrengths: Good thesis\nAreas to improve: Conclusion needs work`
+  Updates the progress entry from 15 Oct 2025 for the 2nd student with a detailed, multi-line update.
 
 Expected outcome:
 
@@ -400,7 +444,8 @@ Format: `viewlessons INDEX`
 * Views the lesson plan and progress of the student at the specified `INDEX`.
 * Opens a new window displaying all recorded lesson progress entries.
 * Each entry shows the date and progress description.
-* Entries can be sort by Date
+* Entries are sorted by date in chronological order.
+* **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
 > **Tip:**
 > 1. Add lesson plan using the `addplan` command before viewing<br>
@@ -412,8 +457,10 @@ Examples:
 
 Expected output:<br>
 ![View Lessons Window](images/viewlessonsWindow.png)
-* A new window titled "Lessons" will appear.
+* A new window titled "Lessons - [Student Name]" will appear.
 * The window contains a table with three columns: **Date**, **Lesson Plan** and **Lesson Progress**.
+* Multi-line entries will display properly with line breaks preserved.
+* The columns automatically adjust to fit your content with text wrapping enabled.
 * If the student has no lesson plan or lesson progress recorded, an empty table is shown.
 
 ### Clearing all entries : `clear`
@@ -452,6 +499,15 @@ _Details coming soon ..._
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.
 
+**Q**: How do I create multi-line lesson plans or progress entries?<br>
+**A**: Use `\n` to create line breaks in your text. For example: `addplan 1 pl/2025-10-30|Warm-up\nMain lesson\nHomework`. This will display each section on a separate line in the `viewlessons` window.
+
+**Q**: Can I use tabs or special formatting in my entries?<br>
+**A**: Yes! You can use `\t` for tabs (indentation), `\n` for new lines, and `\\` to display a backslash. These help organize your lesson plans and progress notes.
+
+**Q**: What happens to my formatting when I edit an entry?<br>
+**A**: Your existing formatting is preserved. When you edit an entry, you can keep, modify, or add new formatting using the same special characters (`\n`, `\t`, `\\`).
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -463,22 +519,22 @@ _Details coming soon ..._
 
 ## Command summary
 
- Action              | Format, Examples                                                                                                                                                                                                                                                                                         
+ Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`                                                                                                                                  
- **Clear**           | `clear`                                                                                                                                                                                                                                                                                                  
- **Delete**          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                                                      
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`                                                                                                                                                                         
- **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
- **List**            | `list`                                                                                                                                                                                                                                                                                                   
- **Help**            | `help`                                                                                                                                                                                                                                                                                                   
- **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`                                                                                                                                                                                                        
- **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`                                                                                                                                                                                                
- **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`                                                                                                                                                                                                                                              
- **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`                                                                                                                                                                                           
- **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`                                                                                                                                                                                          
- **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`                                                                                                                                                                                                                                      
- **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`                                                                                                                                                                                                                                                            
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Clear**           | `clear`
+ **Delete**          | `delete INDEX`<br> e.g., `delete 3`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
+ **List**            | `list`
+ **Help**            | `help`
+ **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
+ **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`
+ **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
+ **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`
+ **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`
+ **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`
+ **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`
 
 --------------------------------------------------------------------------------------------------------------------
 

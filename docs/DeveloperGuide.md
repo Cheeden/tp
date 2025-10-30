@@ -311,6 +311,15 @@ New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra con
 
 Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
+### Edit Lesson Plan/Progress Feature
+**Notes:**
+The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify an existing lesson entry for a specific student on a specific date. The implementation for editplan and editprogress is similar. Therefore, this guide will use editplan as an example.
+
+#### Implementation
+
+<img src="images/EditLessonPlanSequenceDiagram.png" width="550" />
+
+
 ### View Lessons feature
 
 The View Lessons feature allows tutors to view a student's lesson progress and lesson plans in a unified popup window. The window displays a table with three columns: Date, Lesson Plan, and Lesson Progress. Records from both progress and plans are merged by date, showing a comprehensive view of all lessons.

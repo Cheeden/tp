@@ -438,6 +438,10 @@ _Details coming soon ..._
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **Very long text in any field may be truncated in the UI.**
+  - If a field (for example, a tag, name, or address) contains an extremely long string, the UI may display an ellipsis or cut off the text when rendering the person card or other compact views.
+  - This is a display/UX limitation rather than data loss — the full text remains stored. We intentionally avoid imposing strict length limits on input fields so as not to restrict users' freedom to store detailed information.
+  - Workaround: prefer shorter tokens for tags and shorter summaries for fields that will be displayed in compact views. A future release may add optional truncation/tooltip behaviour to improve readability.
 
 --------------------------------------------------------------------------------------------------------------------
 

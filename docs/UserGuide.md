@@ -252,7 +252,7 @@ Format: `deleteplan INDEX DATE`
 * `DATE` must be a valid calendar date:
   * Month (MM) must be between 01 and 12.
   * Day (DD) must be valid for the given month (e.g., February cannot have 31 days, April cannot have 31 days).
-  * The system will detect invalid dates like 2025-02-31 and display an appropriate error message.
+  * The system will detect non existant dates like 2025-02-31 and display an appropriate error message.
 
 Examples:
 
@@ -363,13 +363,16 @@ Format: `deleteprogress INDEX DATE`
 * The index refers to the index number shown in the displayed person list.
 * The index must be a positive integer (e.g 1, 2, 3...)​
 * `DATE` must be in the format YYYY-MM-DD.
-* `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
 * The lesson progress on that date must exist. If no lesson progress exists on that date, an error message will be shown.
+* `DATE` must be a valid calendar date:
+  * Month (MM) must be between 01 and 12.
+  * Day (DD) must be valid for the given month (e.g., February cannot have 31 days, April cannot have 31 days).
+  * The system will detect non existent dates like 2025-02-31 and display an appropriate error message.
 
 Examples:
 
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
-* `deleteprogress 2 2025-10-15` deletes the lesson progress for the 2nd student on 15 Oct 2025.
+* `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
 
 ### Viewing Lesson Window : `viewlessons`
 

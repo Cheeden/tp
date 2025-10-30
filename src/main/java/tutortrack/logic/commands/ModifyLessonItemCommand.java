@@ -17,9 +17,9 @@ import tutortrack.model.person.Person;
  * Extracts common logic for finding a person by index and updating them.
  */
 public abstract class ModifyLessonItemCommand extends Command {
-    protected final Index index;
+    protected static final Logger LOGGER = Logger.getLogger(ModifyLessonItemCommand.class.getName());
 
-    protected static final Logger logger = Logger.getLogger(ModifyLessonItemCommand.class.getName());
+    protected final Index index;
 
     /**
      * Creates a ModifyLessonItemCommand.
@@ -37,7 +37,7 @@ public abstract class ModifyLessonItemCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            logger.warning("Invalid index: " + index.getOneBased()
+            LOGGER.warning("Invalid index: " + index.getOneBased()
                     + ". List size: " + lastShownList.size());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }

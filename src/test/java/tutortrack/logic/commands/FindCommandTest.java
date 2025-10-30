@@ -3,7 +3,9 @@ package tutortrack.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static tutortrack.logic.Messages.MESSAGE_NO_PERSONS_FOUND;
 import static tutortrack.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static tutortrack.logic.commands.CommandTestUtil.assertCommandFailure;
 import static tutortrack.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static tutortrack.testutil.TypicalPersons.ALICE;
 import static tutortrack.testutil.TypicalPersons.BENSON;
@@ -58,16 +60,36 @@ public class FindCommandTest {
         assertFalse(findFirstCommand.equals(findSecondCommand));
     }
 
+    // EP: When search fails on already-filtered list, existing filtered list is unchanged
     @Test
-    public void execute_zeroKeywords_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
-        FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+    public void execute_noMatchOnFilteredList_listUnchanged() {
+        // Filter the list to show only Alice
+        NameContainsKeywordsPredicate predicate = preparePredicate("Alice");
+        model.updateFilteredPersonList(predicate);
+        assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
+
+        // Prepare command to find a non-existent tag
+        TagContainsKeywordsPredicate nonMatchingPredicate =
+                new TagContainsKeywordsPredicate(Arrays.asList("NonExistentTag"));
+        FindCommand command = new FindCommand(nonMatchingPredicate);
+
+        // Checks that command throws command exception
+        assertCommandFailure(command, model, MESSAGE_NO_PERSONS_FOUND);
+
+        // Verify Alice is still shown in the list with existing filter
+        assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
     }
 
+    // EP: No person matches name search criteria, throw command exception
+    @Test
+    public void execute_nonMatchingName_throwsCommandException() {
+        String expectedMessage = MESSAGE_NO_PERSONS_FOUND;
+        NameContainsKeywordsPredicate predicate = preparePredicate("NonExistentName");
+        FindCommand command = new FindCommand(predicate);
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    // EP: Multiple persons match name search criteria, display all matching persons
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
@@ -78,6 +100,16 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
     }
 
+    // EP: No person matches tag search criteria, throw command exception
+    @Test
+    public void execute_nonMatchingTags_throwsCommandException() {
+        String expectedMessage = MESSAGE_NO_PERSONS_FOUND;
+        TagContainsKeywordsPredicate predicate = new TagContainsKeywordsPredicate(Arrays.asList("nonExistentTag"));
+        FindCommand command = new FindCommand(predicate);
+        assertCommandFailure(command, model, expectedMessage);
+    }
+
+    // EP: Multiple persons match tag search criteria, display all matching persons
     @Test
     public void execute_singleTagKeyword_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
@@ -88,6 +120,7 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
     }
 
+    // toString() method returns the correct string representation
     @Test
     public void toStringMethod() {
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList("keyword"));
@@ -97,9 +130,7 @@ public class FindCommandTest {
         assertEquals(expected, findCommand.toString());
     }
 
-    /**
-     * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
-     */
+    // Helper method to prepare a predicate for testing
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
         return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
     }

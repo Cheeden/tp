@@ -164,6 +164,10 @@ Examples:
 Examples:
 * `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Note:**
+If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box (with a red border) so you can easily edit and retry your search.
+</div>
+
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book.

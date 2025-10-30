@@ -170,6 +170,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 
 **Search by Lesson Day (with `d/` prefix):**
 * Only searches by the lesson day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
+* **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
 * The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
 * **Results are automatically sorted by lesson time** (earliest to latest).
 * If multiple lessons have the same time, they are sorted alphabetically by name.
@@ -184,6 +185,8 @@ Examples:
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
+* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
 
 **Search by Subject (with `s/` prefix):**
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
@@ -278,7 +281,7 @@ Format: `deleteplan INDEX DATE`
 Examples:
 
 * `deleteplan 1 2025-10-25` deletes the lesson plan for the 1st student on 25 Oct 2025.
-* `deleteplan 2 2025-10-23` deletes the lesson plan for the 2nd student on 23 Oct 2025.
+* `deleteplan 2 2025-02-28` deletes the lesson plan for the 2nd student on 28 Feb 2025.
 
 ### Add Lesson Progress : `addprogress`
 
@@ -378,7 +381,7 @@ Format: `deleteprogress INDEX DATE`
 Examples:
 
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
-* `deleteprogress 2 2025-10-15` deletes the lesson progress for the 2nd student on 15 Oct 2025.
+* `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
 
 ### Viewing Lesson Window : `viewlessons`
 

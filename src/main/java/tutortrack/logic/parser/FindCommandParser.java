@@ -54,7 +54,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             String dayKeyword = extractNonEmptyValue(argMultimap, PREFIX_DAYTIME);
-            LessonDayPredicate predicate = new LessonDayPredicate(dayKeyword);
+            String validatedDay = ParserUtil.parseDay(dayKeyword);
+            LessonDayPredicate predicate = new LessonDayPredicate(validatedDay);
             return new FindCommand(predicate, predicate.getComparator());
         }
 

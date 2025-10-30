@@ -1,9 +1,3 @@
----
-layout: page
-title: Developer Guide
----
-* Table of Contents
-{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -167,9 +161,15 @@ The find mechanism is implemented using predicates and comparators:
 * `LessonDayPredicate` - filters persons whose lesson day matches the specified day
 
 The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
-* If `d/` prefix is present, it creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
+* If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
 * If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
 * If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+**Day Validation:**
+* `ParserUtil.parseDay()` validates that the input is one of the seven days of the week
+* Uses regex pattern matching for case-insensitive validation
+* Rejects abbreviations (e.g., "Mon"), typos (e.g., "Mondayy"), and invalid inputs (e.g., "Tomorrow", "1")
+* Error message stored in `Messages.MESSAGE_INVALID_DAY` for consistent user-facing messaging
 
 **Search Types:**
 
@@ -185,6 +185,8 @@ The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenize
 
 3. **Day Matching (Lesson Day Search):**
    * Filters by the day component of `DayTime` field (e.g., "Monday 1200" → "Monday")
+   * **Validation:** Only accepts full day names (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday). Invalid days trigger a `ParseException` with the message `MESSAGE_INVALID_DAY`
+   * Validation is performed by `ParserUtil.parseDay()` which uses regex matching: `(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$`
    * Case-insensitive (e.g., "monday", "Monday", "MONDAY" all match)
    * **Important:** Time is used for sorting only, not for filtering
    * Results are automatically sorted by lesson time (earliest to latest)
@@ -891,16 +893,16 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `viewlessons 1`<br>
       Expected: A popup window appears showing the lessons for the 1st student. The window displays a table with three columns: "Date", "Lesson Plan", and "Lesson Progress". If the student has lesson progress/plan records, they are shown merged by date in the table. Success message shown in the status message: "Opened lesson summary window for [Student Name]."
 
-   1. Test case: `viewlessons 0`<br>
+   2. Test case: `viewlessons 0`<br>
       Expected: No window is shown. Error details shown in the status message: "Invalid command format! ...". Status bar remains the same.
 
-   1. Test case: `viewlessons`<br>
+   3. Test case: `viewlessons`<br>
       Expected: Similar to previous - error message about invalid command format.
 
-   1. Test case: `viewlessons x` (where x is larger than the list size)<br>
+   4. Test case: `viewlessons x` (where x is larger than the list size)<br>
       Expected: No window is shown. Error message: "The student index provided is invalid."
 
-   1. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
+   5. Other incorrect viewlessons commands to try: `viewlessons -1`, `viewlessons abc`<br>
       Expected: Similar error messages about invalid format or index.
 
 1. Viewing lessons when student has both progress and plans
@@ -953,14 +955,20 @@ testers are expected to do more *exploratory* testing.
    6. Test case: `deleteplan 1 invalid-date`<br>
       Expected: No lesson plan is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
 
-   7. Test case: `deleteplan 1 2025-13-01` (invalid month)<br>
-      Expected: No lesson plan is deleted. Error message: "Invalid date: month must be 01-12 and day must be valid for that month."
+   7. Test case: `deleteplan 1 2025-13-20` (invalid month)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid month: must be between 01 and 12."
 
-   8. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
-      Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+   8. Test case: `deleteplan 1 2025-02-31` (invalid day for February)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid day for the given month. Please check your date."
 
-   9. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
-      Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+   9. Test case: `deleteplan 1 2025-04-31` (invalid day for April)<br>
+      Expected: No lesson plan is deleted. Error message: "Invalid day for the given month. Please check your date."
+
+   10. Test case: `deleteplan x 2025-10-15` (where x is larger than the list size)<br>
+       Expected: No lesson plan is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
+
+   11. Other incorrect deleteplan commands to try: `deleteplan`, `deleteplan -1 2025-10-15`, `deleteplan abc 2025-10-15`<br>
+       Expected: `deleteplan` shows "Invalid command format!" (missing arguments). `deleteplan -1 2025-10-15` and `deleteplan abc 2025-10-15` show "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 
 ### Deleting lesson progress
@@ -981,7 +989,16 @@ testers are expected to do more *exploratory* testing.
    5. Test case: `deleteprogress 1 invalid-date`<br>
       Expected: No lesson progress is deleted. Error message: "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
 
-   6. Test case: `deleteprogress abc 2025-10-15`<br>
+   6. Test case: `deleteprogress 1 2025-13-20` (invalid month)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid month: must be between 01 and 12."
+
+   7. Test case: `deleteprogress 1 2025-02-31` (invalid day for February)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid day for the given month. Please check your date."
+
+   8. Test case: `deleteprogress 1 2025-13-01` (swapped day and month)<br>
+      Expected: No lesson progress is deleted. Error message: "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd." followed by usage information.
+
+   9. Test case: `deleteprogress abc 2025-10-15`<br>
       Expected: No lesson progress is deleted. Error message shown: "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3)." followed by usage information.
 
 1. Saving data

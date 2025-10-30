@@ -16,7 +16,7 @@ import tutortrack.model.person.SubjectLevelMatchesPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
- * Parses input arguments and creates a new FindCommand object
+ * Parses input arguments and creates a new FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
@@ -50,6 +50,17 @@ public class FindCommandParser implements Parser<FindCommand> {
         // Tokenize arguments including tag, day/time and subject-level prefixes
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
+
+        // Check if any prefix is present
+        boolean hasPrefixes = argMultimap.getValue(PREFIX_TAG).isPresent()
+                || argMultimap.getValue(PREFIX_DAYTIME).isPresent()
+                || argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent();
+
+        // If a prefix is present, preamble should be empty
+        if (hasPrefixes && !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
 
         // If day/time prefix is present, search by day and sort by time
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {

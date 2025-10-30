@@ -11,7 +11,7 @@ import tutortrack.model.person.Person;
 /**
  * Edits an existing lesson plan entry of a person identified by the displayed index.
  */
-public class EditPlanCommand extends AddLessonItemCommand {
+public class EditPlanCommand extends ModifyLessonItemCommand{
     public static final String COMMAND_WORD = "editplan";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an existing lesson plan of the person "
@@ -38,7 +38,7 @@ public class EditPlanCommand extends AddLessonItemCommand {
     }
 
     @Override
-    protected Person getPersonWithLessonItemAdded(Person personToEdit) throws CommandException {
+    protected Person getPersonWithLessonItemModified(Person personToEdit) throws CommandException {
         if (!personToEdit.hasPlanOnDate(toEdit.getDate())) {
             throw new CommandException(String.format(MESSAGE_NOT_FOUND, toEdit.getDate()));
         }

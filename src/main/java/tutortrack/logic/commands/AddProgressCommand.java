@@ -11,7 +11,7 @@ import tutortrack.model.person.Person;
 /**
  * Adds a lesson progress entry to a person identified by the displayed index.
  */
-public class AddProgressCommand extends AddLessonItemCommand {
+public class AddProgressCommand extends ModifyLessonItemCommand {
     public static final String COMMAND_WORD = "addprogress";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add lesson progress of the person identified "
@@ -36,7 +36,7 @@ public class AddProgressCommand extends AddLessonItemCommand {
     }
 
     @Override
-    protected Person getPersonWithLessonItemAdded(Person personToEdit) throws CommandException {
+    protected Person getPersonWithLessonItemModified(Person personToEdit) throws CommandException {
         if (personToEdit.hasProgressOnDate(toAdd.getDate())) {
             throw new CommandException(String.format(
                     MESSAGE_DUPLICATE_PROGRESS,

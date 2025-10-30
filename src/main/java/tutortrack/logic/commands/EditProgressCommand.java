@@ -11,7 +11,7 @@ import tutortrack.model.person.Person;
 /**
  * Edits an existing lesson progress entry of a person identified by the displayed index.
  */
-public class EditProgressCommand extends AddLessonItemCommand {
+public class EditProgressCommand extends ModifyLessonItemCommand {
     public static final String COMMAND_WORD = "editprogress";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an existing lesson progress of the person "
@@ -38,8 +38,7 @@ public class EditProgressCommand extends AddLessonItemCommand {
     }
 
     @Override
-    protected Person getPersonWithLessonItemAdded(Person personToEdit) throws CommandException {
-        // 检查该日期是否存在 progress
+    protected Person getPersonWithLessonItemModified(Person personToEdit) throws CommandException {
         if (!personToEdit.hasProgressOnDate(toEdit.getDate())) {
             throw new CommandException(String.format(MESSAGE_NOT_FOUND, toEdit.getDate()));
         }

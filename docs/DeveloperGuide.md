@@ -161,9 +161,15 @@ The find mechanism is implemented using predicates and comparators:
 * `LessonDayPredicate` - filters persons whose lesson day matches the specified day
 
 The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
-* If `d/` prefix is present, it creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
+* If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
 * If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
 * If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+**Day Validation:**
+* `ParserUtil.parseDay()` validates that the input is one of the seven days of the week
+* Uses regex pattern matching for case-insensitive validation
+* Rejects abbreviations (e.g., "Mon"), typos (e.g., "Mondayy"), and invalid inputs (e.g., "Tomorrow", "1")
+* Error message stored in `Messages.MESSAGE_INVALID_DAY` for consistent user-facing messaging
 
 **Search Types:**
 
@@ -179,6 +185,8 @@ The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenize
 
 3. **Day Matching (Lesson Day Search):**
    * Filters by the day component of `DayTime` field (e.g., "Monday 1200" → "Monday")
+   * **Validation:** Only accepts full day names (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday). Invalid days trigger a `ParseException` with the message `MESSAGE_INVALID_DAY`
+   * Validation is performed by `ParserUtil.parseDay()` which uses regex matching: `(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$`
    * Case-insensitive (e.g., "monday", "Monday", "MONDAY" all match)
    * **Important:** Time is used for sorting only, not for filtering
    * Results are automatically sorted by lesson time (earliest to latest)

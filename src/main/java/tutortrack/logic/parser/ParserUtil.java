@@ -1,6 +1,7 @@
 package tutortrack.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static tutortrack.logic.Messages.MESSAGE_INVALID_DAY;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -202,6 +203,23 @@ public class ParserUtil {
         }
 
         return new DayTime(trimmedDayTime);
+    }
+
+    /**
+     * Parses a {@code String day} into a valid day of the week.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code day} is not a valid day (Monday-Sunday).
+     */
+    public static String parseDay(String day) throws ParseException {
+        requireNonNull(day);
+        String trimmedDay = day.trim();
+        
+        if (!trimmedDay.matches("(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$")) {
+            throw new ParseException(MESSAGE_INVALID_DAY);
+        }
+        
+        return trimmedDay;
     }
 
     /**

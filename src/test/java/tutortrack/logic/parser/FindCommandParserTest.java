@@ -1,6 +1,7 @@
 package tutortrack.logic.parser;
 
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static tutortrack.logic.Messages.MESSAGE_INVALID_DAY;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static tutortrack.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -69,6 +70,24 @@ public class FindCommandParserTest {
         LessonDayPredicate predicate3 = new LessonDayPredicate("WEDNESDAY");
         FindCommand expectedFindCommand3 = new FindCommand(predicate3, predicate3.getComparator());
         assertParseSuccess(parser, " d/WEDNESDAY", expectedFindCommand3);
+    }
+
+    @Test
+    public void parse_invalidDay_throwsParseException() {
+        // Invalid day name with typo
+        assertParseFailure(parser, " d/Mondayy", MESSAGE_INVALID_DAY);
+        
+        // Random text
+        assertParseFailure(parser, " d/Tomorrow", MESSAGE_INVALID_DAY);
+        
+        // Abbreviation
+        assertParseFailure(parser, " d/Mon", MESSAGE_INVALID_DAY);
+        
+        // Invalid day name
+        assertParseFailure(parser, " d/Someday", MESSAGE_INVALID_DAY);
+        
+        // Number
+        assertParseFailure(parser, " d/1", MESSAGE_INVALID_DAY);
     }
 
     @Test

@@ -39,6 +39,12 @@ public class ParserUtil {
         private final Index index;
         private final LocalDate date;
 
+        /**
+         * Constructs an IndexDatePair with the specified index and date.
+         *
+         * @param index The index value
+         * @param date The date value
+         */
         public IndexDatePair(Index index, LocalDate date) {
             this.index = index;
             this.date = date;
@@ -68,7 +74,7 @@ public class ParserUtil {
 
     /**
      * Parses a string containing an index and a date separated by whitespace.
-     * 
+     *
      * @param args The input string containing index and date
      * @param messageUsage The usage message for error reporting
      * @return An IndexDatePair containing the parsed Index and LocalDate

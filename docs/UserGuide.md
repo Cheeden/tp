@@ -95,6 +95,27 @@ Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate Prison sc/1234567 nc/ t/criminal`
 
+More examples showing accepted SubjectLevel formats and common variations:
+* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
+* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 c/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
+* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
+* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
+
+Notes on SubjectLevel validation
+* Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
+  - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
+  - The "Subject" part must contain only letters (no digits, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
+* Examples of valid subject-level tokens:
+  - `P4-Math`, `P6-Science`, `Pri6-Math`, `Primary6-Mathematics` (note: `Mathematics` must be a single word without spaces)
+  - `Sec1-English`, `Sec2-Physics`
+* Examples of invalid subject-level tokens and why they are rejected:
+  - `P4 Math` (missing dash between level and subject)
+  - `P4-M4th` (subject contains digits)
+  - `P4-Math-Advanced` (extra dash; only a single dash separator is allowed)
+  - `Primary 6-Math` (spaces in the level part are not allowed)
+
+If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
+
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
@@ -163,6 +184,10 @@ Examples:
 
 Examples:
 * `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Note:**
+If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box (with a red border) so you can easily edit and retry your search.
+</div>
 
 ### Deleting a person : `delete`
 

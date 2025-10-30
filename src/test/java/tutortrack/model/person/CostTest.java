@@ -20,6 +20,26 @@ public class CostTest {
     }
 
     @Test
+    public void hasTooManyDecimalPlaces_returnsTrueWhenMoreThanTwoDecimals() {
+        assertTrue(Cost.hasTooManyDecimalPlaces("$50.123"));
+        assertTrue(Cost.hasTooManyDecimalPlaces("$0.001"));
+    }
+
+    @Test
+    public void hasTooManyDecimalPlaces_returnsFalseForValidOrNull() {
+        assertFalse(Cost.hasTooManyDecimalPlaces("$50.12"));
+        assertFalse(Cost.hasTooManyDecimalPlaces("$50"));
+        assertFalse(Cost.hasTooManyDecimalPlaces(null));
+    }
+
+    @Test
+    public void isMissingDollar_detectsMissingOrNull() {
+        assertTrue(Cost.isMissingDollar(null));
+        assertTrue(Cost.isMissingDollar("50"));
+        assertFalse(Cost.isMissingDollar("$50"));
+    }
+
+    @Test
     public void isValidCost() {
         // null cost
         assertThrows(NullPointerException.class, () -> Cost.isValidCost(null));

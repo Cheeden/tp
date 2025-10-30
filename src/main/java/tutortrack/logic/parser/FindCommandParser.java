@@ -16,7 +16,7 @@ import tutortrack.model.person.SubjectLevelMatchesPredicate;
 import tutortrack.model.person.TagContainsKeywordsPredicate;
 
 /**
- * Parses input arguments and creates a new FindCommand object
+ * Parses input arguments and creates a new FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
 

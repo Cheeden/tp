@@ -370,6 +370,59 @@ A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-1
 **Step 8.**  
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
+### Delete Lesson Plan Feature
+
+#### Implementation
+
+The delete lesson plan feature removes a specific lesson plan (by date) for a selected student. The command validates the person index, delegates deletion-and-validation to `Person.withPlanRemovedOnDate(date)`, and updates the model with an immutable `Person` copy. The diagram below shows a user-triggered flow from `User` → `LogicManager` → `DeletePlanCommand` to `Model`/`Person`. Parsing and command creation are intentionally omitted using a `ref` frame to reduce clutter.
+
+![DeletePlanSequenceDiagram](images/DeletePlanSequenceDiagram.png)
+
+Key points:
+- `DeletePlanCommandParser` parses `INDEX` and `DATE` using `ParserUtil.parseIndexAndDate(...)` (omitted in the diagram via `ref`).
+- `DeletePlanCommand.execute(model)` gets the filtered list, validates the index, asks `Person` to produce an updated copy via `withPlanRemovedOnDate(date)`, and calls `Model#setPerson(...)`.
+- On success, a `CommandResult("Lesson plan on DATE deleted")` is returned to `LogicManager` and then surfaced to the user. If no plan exists on the given date, `Person` throws `IllegalArgumentException`; the command maps it to a user-facing `CommandException`.
+
+#### Design considerations
+
+- Validation placement (Tell, Don't Ask): `Person.withPlanRemovedOnDate(date)` performs the existence check and throws `IllegalArgumentException` if not found. The command simply maps exceptions to user-facing `CommandException`, keeping validation close to the domain model.
+- Template Method reuse: Both delete commands extend `DeleteLessonItemCommand` and override `createPersonWithItemRemoved(Person, LocalDate)` to inject item-specific behavior. This avoids duplication of index validation, model access, and result formatting.
+- Immutability: Instead of mutating the same `Person` instance, `Person` returns a new copy with the plan removed. The model is updated via `Model#setPerson(target, updated)`, improving safety and testability.
+
+#### Constraints and invariants
+
+- Each student has at most one plan per date. This invariant is enforced by add/edit paths and delete assumes it.
+
+#### Storage & persistence
+
+- The address book is saved only after successful execution (within `LogicManager.execute`). Failures (exceptions) do not trigger persistence.
+
+### Delete Lesson Progress Feature
+
+#### Implementation
+
+The delete lesson progress feature mirrors delete plan, but targets progress entries. The sequence diagram below starts at `LogicManager -> DeleteProgressCommand` (parsing omitted using a reference frame) and focuses on command execution and model update.
+
+![DeleteProgressSequenceDiagram](images/DeleteProgressSequenceDiagram.png)
+
+Key points:
+- `DeleteProgressCommand.execute(model)` retrieves the target `Person`, calls `Person.withProgressRemovedOnDate(date)`, and updates the model with the returned copy.
+- Absence of a progress entry on that date results in an `IllegalArgumentException` inside `Person`, mapped to `CommandException` by the command.
+
+#### Design considerations
+
+- Validation in model: `Person.withProgressRemovedOnDate(date)` ensures the progress exists and signals failure via `IllegalArgumentException`; the command translates that to a `CommandException` with a user-friendly message.
+- Template Method reuse: Shares the same superclass `DeleteLessonItemCommand` (index validation, model access, result creation) and only overrides the item-specific removal method.
+- Immutability: Produces an updated `Person` copy and replaces it in the model with `Model#setPerson(...)`.
+
+#### Constraints and invariants
+
+- Each student has at most one progress per date. This invariant is enforced by add/edit paths and delete assumes it.
+
+#### Storage & persistence
+
+- Persistence occurs on success only; exceptions prevent save. This keeps on-disk state consistent with in-memory state.
+
 ### View Lessons feature
 
 The View Lessons feature allows tutors to view a student's lesson progress and lesson plans in a unified popup window. The window displays a table with three columns: Date, Lesson Plan, and Lesson Progress. Records from both progress and plans are merged by date, showing a comprehensive view of all lessons.

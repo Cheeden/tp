@@ -61,6 +61,10 @@ TutorTrack is a **desktop app for managing student contacts, optimized for use v
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
+  The index **must be a positive integer** 1, 2, 3, …​<br>
+  e.g. the command `edit 2 n/NAME` will edit the name of the 2nd person in the list.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
@@ -128,7 +132,7 @@ Edits an existing person in the address book.
 
 Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `INDEX`.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -196,12 +200,15 @@ Deletes the specified person from the address book.
 Format: `delete INDEX`
 
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+
+## Lesson Management Commands
+
+TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progress for each student.
 
 ### Adding lesson plan : `addplan`
 
@@ -211,12 +218,11 @@ Format:
 `addplan INDEX pl/DATE|PLAN`
 
 * Adds a lesson plan to the student at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
 * `DATE` must be in the format YYYY-MM-DD.
 * `PLAN` is a short description of the topics or activities planned for that lesson.
+* There must be a '|' to segment `DATE` and `PLAN`.
 * Each new entry will be added to the student’s lesson plan list.
-* Entries can later be viewed with the view command.
+* Entries can later be viewed with the `viewlessons` command.
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
@@ -245,8 +251,6 @@ Deletes a lesson plan entry for a specific student on a given date.
 Format: `deleteplan INDEX DATE`
 
 * Deletes the lesson plan for the student at the specified `INDEX` on the specified `DATE`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …​
 * `DATE` must be in the format YYYY-MM-DD.
 * The lesson plan on that date must exist. If no lesson plan exists on that date, an error message will be shown.
 * `DATE` must be in the format YYYY-MM-DD.
@@ -264,8 +268,6 @@ Adds a lesson progress to a student.
 Format: `addprogress INDEX Date|Description`
 
 * Adds a lesson progress entry to the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
 * `DATE` must be in the format YYYY-MM-DD.
 * `PROGRESS` is a short description of what was covered or achieved in that lesson.
 * Each new entry will be added to the student’s lesson progress history.
@@ -298,8 +300,6 @@ Updates an existing lesson plan entry for a student.
 Format: `editplan INDEX pl/Date|Description`
 
 * Updates an existing lesson plan entry for the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
 * `DATE` must be in the format YYYY-MM-DD. **This date must match an existing lesson plan entry for the student.**
 * `DESCRIPTION` is the new description for the lesson plan, which will overwrite the old entry for that date.
 * If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
@@ -328,8 +328,6 @@ Updates an existing lesson progress entry for a student.
 Format: `editprogress INDEX pr/Date|Description`
 
 * Updates an existing lesson progress entry for the student at the specified INDEX.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer 1, 2, 3, …
 * `DATE` must be in the format YYYY-MM-DD. **This date must match an existing progress entry for the student.**
 * `DESCRIPTION` is the new description of what was covered, which will overwrite the old entry for that date.
 * If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
@@ -358,8 +356,6 @@ Deletes a lesson progress entry for a specific student on a given date.
 Format: `deleteprogress INDEX DATE`
 
 * Deletes the lesson progress for the student at the specified `INDEX` on the specified `DATE`.
-* The index refers to the index number shown in the displayed person list.
-* The index must be a positive integer (e.g 1, 2, 3...)​
 * `DATE` must be in the format YYYY-MM-DD.
 * `DATE` MM must be between 1 to 12 inclusive and DD must be between 1 to 31 inclusive. Otherwise, there will be an error message.
 * The lesson progress on that date must exist. If no lesson progress exists on that date, an error message will be shown.
@@ -376,8 +372,6 @@ Shows the lesson progress history for a specific student in a separate window.
 Format: `viewlessons INDEX`
 
 * Views the lesson plan and progress of the student at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
 * Opens a new window displaying all recorded lesson progress entries.
 * Each entry shows the date and progress description.
 * Entries can be sort by Date

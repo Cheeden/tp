@@ -11,19 +11,19 @@ import tutortrack.model.Model;
 import tutortrack.model.person.Person;
 
 /**
- * Abstract base class for adding lesson items (plans or progress).
- * Extract common addition logic to adhere to DRY principle.
- * Subclasses only need to specify item-specific behavior via template methods.
+ * Abstract base class for commands that modify a person's lesson items
+ * (e.g., adding or editing plans/progress).
+ * Extracts common logic for finding a person by index and updating them.
  */
-public abstract class AddLessonItemCommand extends Command {
+public abstract class ModifyLessonItemCommand extends Command {
     protected final Index index;
 
     /**
-     * Creates a AddLessonItemCommand.
+     * Creates a ModifyLessonItemCommand.
      *
      * @param index The index of the person in the displayed list.
      */
-    public AddLessonItemCommand(Index index) {
+    public ModifyLessonItemCommand(Index index) {
         requireNonNull(index);
         this.index = index;
     }
@@ -39,13 +39,13 @@ public abstract class AddLessonItemCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        Person updatedPerson = getPersonWithLessonItemAdded(personToEdit);
+        Person updatedPerson = getPersonWithLessonItemModified(personToEdit);
 
         model.setPerson(personToEdit, updatedPerson);
         return new CommandResult(getSuccessMessage());
     }
 
-    protected abstract Person getPersonWithLessonItemAdded(Person personToEdit) throws CommandException;
+    protected abstract Person getPersonWithLessonItemModified(Person personToEdit) throws CommandException;
 
     protected abstract String getSuccessMessage();
 }

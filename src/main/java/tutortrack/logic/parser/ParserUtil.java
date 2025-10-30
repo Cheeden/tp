@@ -44,6 +44,50 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String dateString} into a {@code LocalDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given date string is invalid.
+     */
+    public static LocalDate parseDate(String dateString) throws ParseException {
+        requireNonNull(dateString);
+        String trimmedDate = dateString.trim();
+
+        try {
+            return LocalDate.parse(trimmedDate);
+        } catch (DateTimeParseException e) {
+            // Check if format is correct (yyyy-MM-dd)
+            if (!trimmedDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new ParseException("Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15).", e);
+            }
+
+            // Parse date components for detailed validation
+            String[] dateParts = trimmedDate.split("-");
+            int year = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int day = Integer.parseInt(dateParts[2]);
+
+            // Check if month and day might be swapped
+            if (month > 12 && day <= 12) {
+                throw new ParseException(
+                        "Invalid date: you may have swapped day and month. The format is yyyy-MM-dd.", e);
+            }
+
+            // Check for invalid month
+            if (month < 1 || month > 12) {
+                throw new ParseException("Invalid month: must be between 01 and 12.", e);
+            }
+
+            // Explicitly validate day for the given month
+            try {
+                return LocalDate.of(year, month, day);
+            } catch (DateTimeException ex) {
+                throw new ParseException("Invalid day for the given month. Please check your date.", e);
+            }
+        }
+    }
+
+    /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
      *

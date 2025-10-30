@@ -214,6 +214,9 @@ TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progre
 
 **:information_source: Notes about the Lesson Management command format:**<br>
 
+* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
+  The index **must be a positive integer** 1, 2, 3, …​<br>
+  e.g. the command `deleteplan 3 DATE` will deletes the lesson plan for the 3rd student in the list on the specified `DATE`..
 * `DATE` represents the day of a lesson. Each student can have at most one `PLAN` and one `PROGRESS` per lesson day.
 * `DATE` must be in the format YYYY-MM-DD.<br>
   e.g. `2025-10-30` is the only valid input format, while `Oct 30, 2025` and `2025/10/30` are invalid formats (There could be other invalid formats).
@@ -221,8 +224,9 @@ TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progre
   Otherwise, there will be an error message.
 * `PLAN` is a short description of the topics or activities planned for that lesson.<br>
   `PROGRESS` is a short description of what was covered or achieved in that lesson.
-* There must be a '|' to segment `DATE` and `DESCRIPTION`.<br>
-  e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, DESCRIPTION` and `addplan INDEX pl/DATE DESCRIPTION` are invalid formats (There could be other invalid formats).
+* The prefix for `PLAN` is `pl/`. The prefix for `PROGRESS` is `pr/`.
+* There must be a `|` to separate `DATE` and `PLAN`/`PROGRESS`.<br>
+  e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, PLAN` and `addplan INDEX pl/DATE PLAN` are invalid formats (There could be other invalid formats).
 * The commands are case-sensitive, therefore must use lowercase letters.<br>
   e.g. `addplan`, `editplan`, `deleteprogress`, `viewlessons`
 </div>
@@ -276,7 +280,7 @@ Examples:
 
 Adds a lesson progress to a student.
 
-Format: `addprogress INDEX Date|Description`
+Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 * Adds a lesson progress entry to the student at the specified INDEX.
 * Each new entry will be added to the student’s lesson progress history.
@@ -306,15 +310,15 @@ Expected outcome:<br>
 
 Updates an existing lesson plan entry for a student.
 
-Format: `editplan INDEX pl/Date|Description`
+Format: `editplan INDEX pl/DATE|NEW_PLAN`
 
 * Updates an existing lesson plan entry for the student at the specified INDEX.
 * **The input `DATE` must match an existing lesson plan entry for the student.**<br>
   If no lesson plan or more than one lesson plan entry is found for the specified date, an error message will be shown.
-* `DESCRIPTION` is the new description for the lesson plan, which will overwrite the old entry for that date.
+* `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
 
 > **Tip:**
-> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewplans` first to see which dates have entries you can edit.
+> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
 
 Examples:
 
@@ -334,12 +338,12 @@ Expected outcome:
 
 Updates an existing lesson progress entry for a student.
 
-Format: `editprogress INDEX pr/Date|Description`
+Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 
 * Updates an existing lesson progress entry for the student at the specified INDEX.
 * **The input `DATE` must match an existing progress entry for the student.**<br>
   If no progress entry or more than one progress entry is found for the specified date, an error message will be shown.
-* `DESCRIPTION` is the new description for the lesson progress, which will overwrite the old entry for that date.
+* `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 
 > **Tip:**
 > Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
@@ -444,19 +448,19 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
-**List** | `list`
-**Help** | `help`
-**Add plan** | `addplan INDEX Date Description`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`
-**Edit plan** | `editplan INDEX lpl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 lpl/2025-10-21\|Review essay writing and grammar`
-**Delete plan** | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
-**Add progress** | `addprogress INDEX Date Description`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`
-**Edit progress** | `editprogress INDEX lp/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`
-**Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`
-**View Lessons** | `viewlessons INDEX`<br> e.g., `viewlessons 1`
+ Action              | Format, Examples                                                                                                                                                                                                                                                                                         
+---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`                                                                                                                                  
+ **Clear**           | `clear`                                                                                                                                                                                                                                                                                                  
+ **Delete**          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                                                      
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`                                                                                                                                                                         
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
+ **List**            | `list`                                                                                                                                                                                                                                                                                                   
+ **Help**            | `help`                                                                                                                                                                                                                                                                                                   
+ **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 ll/2025-10-21\|Introduce essay writing skills`                                                                                                                                                                                                        
+ **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 lpl/2025-10-21\|Review essay writing and grammar`                                                                                                                                                                                               
+ **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`                                                                                                                                                                                                                                              
+ **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 lp/2025-10-21\|Introduced new algebra concepts`                                                                                                                                                                                           
+ **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 lp/2025-10-21\|Completed algebra concepts`                                                                                                                                                                                          
+ **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`                                                                                                                                                                                                                                      
+ **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`                                                                                                                                                                                                                                                            

@@ -1,6 +1,7 @@
 package tutortrack.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_DAY;
 
 import java.time.DateTimeException;
@@ -32,6 +33,33 @@ public class ParserUtil {
             "Invalid index. Please use a valid number from the displayed list (e.g., 1, 2, 3).";
 
     /**
+     * Represents a pair of Index and LocalDate.
+     */
+    public static class IndexDatePair {
+        private final Index index;
+        private final LocalDate date;
+
+        /**
+         * Constructs an IndexDatePair with the specified index and date.
+         *
+         * @param index The index value
+         * @param date The date value
+         */
+        public IndexDatePair(Index index, LocalDate date) {
+            this.index = index;
+            this.date = date;
+        }
+
+        public Index getIndex() {
+            return index;
+        }
+
+        public LocalDate getDate() {
+            return date;
+        }
+    }
+
+    /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
      * @throws ParseException if the specified index is invalid.
@@ -42,6 +70,35 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses a string containing an index and a date separated by whitespace.
+     *
+     * @param args The input string containing index and date
+     * @param messageUsage The usage message for error reporting
+     * @return An IndexDatePair containing the parsed Index and LocalDate
+     * @throws ParseException if the format is invalid or parsing fails
+     */
+    public static IndexDatePair parseIndexAndDate(String args, String messageUsage) throws ParseException {
+        requireNonNull(args);
+        requireNonNull(messageUsage);
+        String trimmedArguments = args.trim();
+        String[] parts = trimmedArguments.split("\\s+");
+
+        if (parts.length != 2) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, messageUsage));
+        }
+
+        try {
+            Index index = parseIndex(parts[0]);
+            LocalDate date = parseDate(parts[1]);
+            assert index != null : "Parsed index should not be null";
+            assert date != null : "Parsed date should not be null";
+            return new IndexDatePair(index, date);
+        } catch (ParseException pe) {
+            throw new ParseException(pe.getMessage() + "\n" + messageUsage, pe);
+        }
     }
 
     /**
@@ -187,15 +244,25 @@ public class ParserUtil {
     public static DayTime parseDayTime(String dayTime) throws ParseException {
         requireNonNull(dayTime);
         String trimmedDayTime = dayTime.trim();
-        // Detailed validation: first check structural format (Day + space + 4 digits), then check numeric ranges
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(
-                "(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\s(\\d{4})$");
-        java.util.regex.Matcher m = p.matcher(trimmedDayTime);
-        if (!m.matches()) {
+        // Basic split to provide clearer error messages: check day and time separately
+        String[] parts = trimmedDayTime.split("\\s+", 2);
+        if (parts.length != 2) {
             throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
         }
 
-        String timePart = m.group(2);
+        String dayPart = parts[0];
+        String timePart = parts[1];
+
+        // If day is not a full weekday name, inform user explicitly
+        if (!dayPart.matches("(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$")) {
+            throw new ParseException(MESSAGE_INVALID_DAY);
+        }
+
+        // Time must be exactly 4 digits (HHMM)
+        if (!timePart.matches("\\d{4}")) {
+            throw new ParseException(DayTime.MESSAGE_CONSTRAINTS);
+        }
+
         int hour = Integer.parseInt(timePart.substring(0, 2));
         int minute = Integer.parseInt(timePart.substring(2));
         if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
@@ -275,6 +342,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String lesson progress}.
      * Leading and trailing whitespaces will be trimmed.
+     * Escape sequences like \n will be converted to actual newlines.
      */
     public static LessonProgress parseLessonProgress(String input) throws ParseException {
         requireNonNull(input);
@@ -285,7 +353,7 @@ public class ParserUtil {
         }
 
         String dateString = parts[0].trim();
-        String progress = parts[1].trim();
+        String progress = processEscapeSequences(parts[1].trim());
 
         if (progress.isEmpty() || progress.equals("null")) {
             throw new ParseException("Progress cannot be empty.");
@@ -299,6 +367,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String lesson plan}.
      * Leading and trailing whitespaces will be trimmed.
+     * Escape sequences like \n will be converted to actual newlines.
      */
     public static LessonPlan parseLessonPlan(String input) throws ParseException {
         requireNonNull(input);
@@ -309,13 +378,25 @@ public class ParserUtil {
         }
 
         String dateString = parts[0].trim();
-        String plan = parts[1].trim();
-        if (plan.isEmpty() || plan.equals("null")) {
+        String plan = processEscapeSequences(parts[1].trim());
+        if (plan.isEmpty()) {
             throw new ParseException("Plan cannot be empty.");
         }
 
         LocalDate date = parseDate(dateString);
         return new LessonPlan(date, plan);
     }
-}
 
+    /**
+     * Converts escape sequences in the input string to their actual characters.
+     * Supports: \n (newline), \t (tab), \\ (backslash)
+     *
+     * @param input The string that may contain escape sequences
+     * @return The string with escape sequences converted to actual characters
+     */
+    private static String processEscapeSequences(String input) {
+        return input.replace("\\n", "\n")
+                .replace("\\t", "\t")
+                .replace("\\\\", "\\");
+    }
+}

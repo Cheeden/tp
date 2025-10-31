@@ -1,5 +1,7 @@
 package tutortrack.ui;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -43,6 +46,8 @@ public class LessonWindow extends UiPart<Stage> {
 
     private final ObservableList<LessonDisplay> lessonData = FXCollections.observableArrayList();
     private Person currentPerson; // Track the person being displayed
+    private ObservableList<Person> personList; // Observable list to monitor for changes
+    private ListChangeListener<Person> personListListener; // Listener for person list changes
 
     /**
      * Creates a new LessonWindow.
@@ -66,6 +71,9 @@ public class LessonWindow extends UiPart<Stage> {
 
         // load the data into the table
         lessonTable.setItems(lessonData);
+
+        // Set up listener for person list changes
+        setupPersonListListener();
     }
 
     /**
@@ -93,13 +101,54 @@ public class LessonWindow extends UiPart<Stage> {
     }
 
     /**
-     * Sets the person whose lessons should be displayed.
+     * Sets up a listener that closes the window if the displayed person is deleted.
+     */
+    private void setupPersonListListener() {
+        personListListener = change -> {
+            if (currentPerson == null || personList == null) {
+                return;
+            }
+
+            while (change.next()) {
+                if (change.wasRemoved() && !change.wasReplaced()) {
+                    // Only close if person was removed WITHOUT being replaced
+                    // (wasReplaced() = true means it's an edit/update, not a deletion)
+                    for (Person removed : change.getRemoved()) {
+                        if (removed.isSamePerson(currentPerson)) {
+                            logger.info("Displayed person was deleted, closing lesson window");
+                            hide();
+                            return;
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    /**
+     * Sets the person whose lessons should be displayed and registers listener to person list.
      * Combines lesson progress and lesson plans by date.
      *
      * @param person The person whose lessons to display.
+     * @param personList The observable list of persons to monitor for changes.
      */
-    public void setPerson(Person person) {
+    public void setPerson(Person person, ObservableList<Person> personList) {
+        requireNonNull(person);
+        requireNonNull(personList);
+
+        // Remove old listener if exists
+        if (this.personList != null && personListListener != null) {
+            this.personList.removeListener(personListListener);
+        }
+
+        // Store references
         this.currentPerson = person;
+        this.personList = personList;
+
+        // Add listener to new list
+        personList.addListener(personListListener);
+
+        // Update window display
         getRoot().setTitle("Lessons - " + person.getName().fullName);
         logger.fine("Loading lessons summary for: " + person.getName());
 
@@ -154,7 +203,7 @@ public class LessonWindow extends UiPart<Stage> {
                                 .orElse(null);
 
         if (updatedPerson != null) {
-            setPerson(updatedPerson);
+            setPerson(updatedPerson, updatedPersonList);
         }
     }
 
@@ -175,9 +224,13 @@ public class LessonWindow extends UiPart<Stage> {
     }
 
     /**
-     * Hides the lesson window.
+     * Hides the lesson window and cleans up listeners.
      */
     public void hide() {
+        // Clean up listener before hiding
+        if (personList != null && personListListener != null) {
+            personList.removeListener(personListListener);
+        }
         getRoot().hide();
     }
 

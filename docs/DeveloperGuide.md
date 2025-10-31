@@ -220,7 +220,7 @@ When a search returns no matches, the find feature handles it gracefully:
 2. **Pre-check Implementation**: Uses Java streams to count matches: `filteredList.stream().filter(searchPredicate).count()`
 3. **Error on Zero Matches**: If count is 0, throws `CommandException` with message: "Contact list is unchanged: No students match your search criteria."
 4. **Preserved State**: The filtered list remains unchanged when the exception is thrown
-5. **UX Benefits**: 
+5. **UX Benefits**:
    - The command text stays in the command box (with red border) for easy editing and retry
    - Users don't lose their current view when a search fails
    - Clear feedback distinguishes between successful empty results and failed searches
@@ -327,7 +327,7 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 * The parser extracts the DATE and NEW_PLAN components by splitting the string after the `lp/` prefix using the `|` delimiter.
 * Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 * Constructs an `EditPlanCommand` with the parsed index and updated `LessonPlan`.
-  
+
 **Model Component:**
 
 * Person – Contains a `List<LessonPlan>` representing all planned lessons for a student.
@@ -348,27 +348,80 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 
 Below is an example scenario for the Edit Lesson Plan feature:
 
-**Step 1.**  
-The user executes:  
-editplan 1 lp/2025-10-15|Cover Chapter 6  
-**Step 2.**  
+**Step 1.**
+The user executes:
+editplan 1 lp/2025-10-15|Cover Chapter 6
+**Step 2.**
 `EditPlanCommandParser` parses:
 Index = 1
 Date = 2025-10-15
-New Plan = "Cover Chapter 6"  
-**Step 3.**  
-The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.  
-**Step 4.**  
-`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.  
-**Step 5.**  
-The command verifies that a lesson plan exists on the given date.  
-If found, it removes the old plan and adds the new one.  
-**Step 6.**  
-`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.  
-**Step 7.**  
-A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6  
-**Step 8.**  
+New Plan = "Cover Chapter 6"
+**Step 3.**
+The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.
+**Step 4.**
+`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.
+**Step 5.**
+The command verifies that a lesson plan exists on the given date.
+If found, it removes the old plan and adds the new one.
+**Step 6.**
+`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.
+**Step 7.**
+A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6
+**Step 8.**
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
+
+### Delete Lesson Plan Feature
+
+#### Implementation
+
+The delete lesson plan feature removes a specific lesson plan (by date) for a selected student. The command validates the person index, delegates deletion-and-validation to `Person.withPlanRemovedOnDate(date)`, and updates the model with an immutable `Person` copy. The diagram below shows a user-triggered flow from `User` → `LogicManager` → `DeletePlanCommand` to `Model`/`Person`. Parsing and command creation are intentionally omitted using a `ref` frame to reduce clutter.
+
+![DeletePlanSequenceDiagram](images/DeletePlanSequenceDiagram.png)
+
+Key points:
+- `DeletePlanCommandParser` parses `INDEX` and `DATE` using `ParserUtil.parseIndexAndDate(...)` (omitted in the diagram via `ref`).
+- `DeletePlanCommand.execute(model)` gets the filtered list, validates the index, asks `Person` to produce an updated copy via `withPlanRemovedOnDate(date)`, and calls `Model#setPerson(...)`.
+- On success, a `CommandResult("Lesson plan on DATE deleted")` is returned to `LogicManager` and then surfaced to the user. If no plan exists on the given date, `Person` throws `IllegalArgumentException`; the command maps it to a user-facing `CommandException`.
+
+#### Design considerations
+
+- Validation placement (Tell, Don't Ask): `Person.withPlanRemovedOnDate(date)` performs the existence check and throws `IllegalArgumentException` if not found. The command simply maps exceptions to user-facing `CommandException`, keeping validation close to the domain model.
+- Template Method reuse: Both delete commands extend `DeleteLessonItemCommand` and override `createPersonWithItemRemoved(Person, LocalDate)` to inject item-specific behavior. This avoids duplication of index validation, model access, and result formatting.
+- Immutability: Instead of mutating the same `Person` instance, `Person` returns a new copy with the plan removed. The model is updated via `Model#setPerson(target, updated)`, improving safety and testability.
+
+#### Constraints and invariants
+
+- Each student has at most one plan per date. This invariant is enforced by add/edit paths and delete assumes it.
+
+#### Storage & persistence
+
+- The address book is saved only after successful execution (within `LogicManager.execute`). Failures (exceptions) do not trigger persistence.
+
+### Delete Lesson Progress Feature
+
+#### Implementation
+
+The delete lesson progress feature mirrors delete plan, but targets progress entries. The sequence diagram below starts at `LogicManager -> DeleteProgressCommand` (parsing omitted using a reference frame) and focuses on command execution and model update.
+
+![DeleteProgressSequenceDiagram](images/DeleteProgressSequenceDiagram.png)
+
+Key points:
+- `DeleteProgressCommand.execute(model)` retrieves the target `Person`, calls `Person.withProgressRemovedOnDate(date)`, and updates the model with the returned copy.
+- Absence of a progress entry on that date results in an `IllegalArgumentException` inside `Person`, mapped to `CommandException` by the command.
+
+#### Design considerations
+
+- Validation in model: `Person.withProgressRemovedOnDate(date)` ensures the progress exists and signals failure via `IllegalArgumentException`; the command translates that to a `CommandException` with a user-friendly message.
+- Template Method reuse: Shares the same superclass `DeleteLessonItemCommand` (index validation, model access, result creation) and only overrides the item-specific removal method.
+- Immutability: Produces an updated `Person` copy and replaces it in the model with `Model#setPerson(...)`.
+
+#### Constraints and invariants
+
+- Each student has at most one progress per date. This invariant is enforced by add/edit paths and delete assumes it.
+
+#### Storage & persistence
+
+- Persistence occurs on success only; exceptions prevent save. This keeps on-disk state consistent with in-memory state.
 
 ### View Lessons feature
 
@@ -605,7 +658,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student's contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students.
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
 
 
 ### User stories
@@ -619,23 +672,21 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | tutor managing multiple subjects | filter students by subject | prepare lesson materials faster |
 | `* * *`  | tutor | record key points from each lesson | track student progress over time |
 | `* * *`  | tutor | search for a student by name | find their contact info or lesson history quickly |
-| `* * *`  | tutor | see upcoming lessons at a glance | plan my week and avoid scheduling conflicts |
-| `* * *`  | tutor with many students | prioritize or tag important details | avoid forgetting critical information before lessons |
-| `* * *`  | tutor | access past lesson notes easily | follow up on unfinished topics without repeating work |
+| `* * *`  | tutor | update the content of a planned lesson (by date) | tailor upcoming lessons based on student progress or parent feedback |
+| `* * *`  | tutor | view past lesson notes by date | continue lessons seamlessly without re-teaching covered material |
 | `* * *`  | tutor working with parents | keep parent contact info alongside student records | communicate updates conveniently |
-| `* * *`  | tutor | record attendance for each lesson | keep track of who missed sessions |
 | `* * *`  | tutor | review a student's overall progress history | identify strengths and areas for improvement |
 | `* * *`  | tutor | have a quick overview of today's schedule | prepare efficiently before lessons begin |
-| `* * *`  | Tutor with more than 5 students | Keep track of all made payments | Receive payments on time and ensure no tutee miss out payments |
-| `* *`    | tutor | Mark my students' work | Give students immediate feedback about their work |
-| `* *`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
+| `* * *`  | tutor | get a clear error if I try to add a duplicate student | avoid messy duplicates in my contact list |
+| `* *`    | tutor | search students by tags | group and find students with specific characteristics to prepare materials more effectively |
 | `* *`    | tutor | find out which students are weaker in which topics | focus my attention on those they need help with |
-| `* *`    | tutor | delete students contacts | remove students who are no longer under me |
-| `* *`    | tutor | edit students contacts | keep their contacts up to date if they change it |
+| `* *`    | tutor | delete outdated student records | keep my contact list clean and relevant |
+| `* *`    | tutor | delete an incorrect lesson progress record for a student | keep progress tracking accurate and up to date |
+| `* *`    | tutor | edit students’ contact information | maintain accurate records when their details change |
 | `* *`    | private home tutor | securely track students addresses | refer to their addresses and know where to travel to |
-| `* *`    | tutor | keep track of students exam scores | find out if they are improving and determine if lessons have been effective |
 | `* *`    | tutor | view each student's information | easily access each student's personal details |
 | `* *`    | tutor | Filter each student by level | Find my students of the same level quicker |
+| `*`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
 
 *{More to be added}*
 
@@ -649,9 +700,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
 2.  AddressBook validates all input fields:
-    * Name is not empty. 
-    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits). 
-    * Day/time, cost, and address are valid. 
+    * Name is not empty.
+    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
+    * Day/time, cost, and address are valid.
     * At least one contact number (student or next-of-kin) is provided.
 3. AddressBook creates a new person entry.
 4. AddressBook adds the new person to the list.
@@ -702,9 +753,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons. 
-2. TutorTrack displays the full list of persons. 
-3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day. 
+1. User requests to list all persons.
+2. TutorTrack displays the full list of persons.
+3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day.
 4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
 
     Use case ends.
@@ -1040,11 +1091,29 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix: Effort**
 
-* Difficulty Level
-* Challenges faced
-* Effort required
-* Achievements of the project
+* Difficulty and Challenges faced:
+  * Multi-Entity Data Management
+    Extending the AB3 model to handle multiple data types required designing robust associations between Person and lesson-related classes. Ensuring data consistency (e.g., preventing duplicate plans per date) demanded new validation logic, exception handling, and integration tests. 
+  * Custom Command Parsing
+    Commands like `addplan`, `editplan`, and `addprogress` introduced composite parameters separated by special delimiters (|). Parsing and validating such commands while maintaining user-friendly error messages was significantly more complex than AB3’s simpler “prefix-based” structure. 
+  * GUI Integration for Lesson Data
+    Implementing the `viewlessons` window required extending AB3’s single-panel GUI to dynamically render multiple linked lists, synchronize updates, and preserve responsiveness under data changes. 
+  * Testing and Robustness
+    The testing scope expanded substantially — beyond typical Person CRUD operations, tests now covered command logic, parser error handling, and GUI behavior for nested lesson data. Mocking and adapting existing test utilities also required careful design.
+* Effort and Achievements of the project
+  * Implementation of the Lesson Class Hierarchy:<br>
+    We designed and implemented new model classes — LessonPlan and LessonProgress — under a unifying Lesson abstraction to represent a student’s learning journey over time.
+  * Extension and Refinement of Command Logic:<br>
+    We enhanced the command system to support lesson management while reusing and adapting AB3’s Command framework.
+  * Improvements to the find Command:<br>
+    The find command was redesigned to support multiple search modes and contextual ranking.
+  * GUI and Usability Enhancements:<br>
+    Developed the LessonListWindow to display both lesson plans and progress for each student, accessible via the viewlessons command.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Planned Enhancements**
+
+* Lesson Window Export (Preview)
+  * Current issue: Tutors may want to export lesson records for reporting to parents. 
+  * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.

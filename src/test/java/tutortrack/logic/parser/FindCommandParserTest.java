@@ -117,7 +117,8 @@ public class FindCommandParserTest {
     @Test
     public void parse_preambleWithDayPrefix_throwsParseException() {
         // Should reject when both preamble and day prefix are present
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        String expectedMessage = "Invalid day search format. Use 'find d/Monday' "
+            + "(use full weekday names and no abbreviations).";
         assertParseFailure(parser, "alice d/Monday", expectedMessage);
         assertParseFailure(parser, "john doe d/Friday", expectedMessage);
     }
@@ -125,7 +126,8 @@ public class FindCommandParserTest {
     @Test
     public void parse_preambleWithSubjectPrefix_throwsParseException() {
         // Should reject when both preamble and subject prefix are present
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
+        String expectedMessage = "Invalid subject search format. The subject-level must be a single token "
+                + "in the form Level-Subject (no spaces). Example: find s/P4-Math";
         assertParseFailure(parser, "bob s/P4-Math", expectedMessage);
         assertParseFailure(parser, "alice s/S2-Science", expectedMessage);
     }

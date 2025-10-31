@@ -327,7 +327,7 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 * The parser extracts the DATE and NEW_PLAN components by splitting the string after the `lp/` prefix using the `|` delimiter.
 * Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 * Constructs an `EditPlanCommand` with the parsed index and updated `LessonPlan`.
-  
+
 **Model Component:**
 
 * Person – Contains a `List<LessonPlan>` representing all planned lessons for a student.
@@ -348,26 +348,26 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 
 Below is an example scenario for the Edit Lesson Plan feature:
 
-**Step 1.**  
-The user executes:  
-editplan 1 lp/2025-10-15|Cover Chapter 6  
-**Step 2.**  
+**Step 1.**
+The user executes:
+editplan 1 lp/2025-10-15|Cover Chapter 6
+**Step 2.**
 `EditPlanCommandParser` parses:
 Index = 1
 Date = 2025-10-15
-New Plan = "Cover Chapter 6"  
-**Step 3.**  
-The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.  
-**Step 4.**  
-`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.  
-**Step 5.**  
-The command verifies that a lesson plan exists on the given date.  
-If found, it removes the old plan and adds the new one.  
-**Step 6.**  
-`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.  
-**Step 7.**  
-A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6  
-**Step 8.**  
+New Plan = "Cover Chapter 6"
+**Step 3.**
+The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.
+**Step 4.**
+`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.
+**Step 5.**
+The command verifies that a lesson plan exists on the given date.
+If found, it removes the old plan and adds the new one.
+**Step 6.**
+`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.
+**Step 7.**
+A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6
+**Step 8.**
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
 ### Delete Lesson Plan Feature
@@ -700,9 +700,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
 2.  AddressBook validates all input fields:
-    * Name is not empty. 
-    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits). 
-    * Day/time, cost, and address are valid. 
+    * Name is not empty.
+    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
+    * Day/time, cost, and address are valid.
     * At least one contact number (student or next-of-kin) is provided.
 3. AddressBook creates a new person entry.
 4. AddressBook adds the new person to the list.
@@ -753,9 +753,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons. 
-2. TutorTrack displays the full list of persons. 
-3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day. 
+1. User requests to list all persons.
+2. TutorTrack displays the full list of persons.
+3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day.
 4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
 
     Use case ends.

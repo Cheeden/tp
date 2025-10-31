@@ -61,10 +61,10 @@ public abstract class DeleteLessonItemCommand extends Command {
             assert updatedPerson != null : "Updated person should not be null";
 
             model.setPerson(personToEdit, updatedPerson);
-            
+
             logger.info(String.format("Successfully deleted lesson item on %s for person: %s",
                     date, personToEdit.getName()));
-            
+
             return new CommandResult(getSuccessMessage());
         } catch (IllegalArgumentException e) {
             logger.warning(String.format("No lesson item found on %s for person: %s",

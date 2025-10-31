@@ -101,7 +101,7 @@ public class LessonWindow extends UiPart<Stage> {
     }
 
     /**
-     * Sets up a listener that closes the window if the displayed person is deleted or no longer exists.
+     * Sets up a listener that closes the window if the displayed person is deleted.
      */
     private void setupPersonListListener() {
         personListListener = change -> {
@@ -110,26 +110,15 @@ public class LessonWindow extends UiPart<Stage> {
             }
 
             while (change.next()) {
-                if (change.wasRemoved()) {
-                    // Check if our person was removed
+                if (change.wasRemoved() && !change.wasReplaced()) {
+                    // Only close if person was removed WITHOUT being replaced
+                    // (wasReplaced() = true means it's an edit/update, not a deletion)
                     for (Person removed : change.getRemoved()) {
                         if (removed.isSamePerson(currentPerson)) {
                             logger.info("Displayed person was deleted, closing lesson window");
                             hide();
                             return;
                         }
-                    }
-                }
-
-                if (change.wasUpdated() || change.wasReplaced()) {
-                    // Check if our person still exists in the list
-                    boolean personStillExists = personList.stream()
-                            .anyMatch(p -> p.isSamePerson(currentPerson));
-
-                    if (!personStillExists) {
-                        logger.info("Displayed person no longer in list, closing lesson window");
-                        hide();
-                        return;
                     }
                 }
             }

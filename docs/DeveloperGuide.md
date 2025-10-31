@@ -327,7 +327,7 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 * The parser extracts the DATE and NEW_PLAN components by splitting the string after the `lp/` prefix using the `|` delimiter.
 * Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 * Constructs an `EditPlanCommand` with the parsed index and updated `LessonPlan`.
-  
+
 **Model Component:**
 
 * Person – Contains a `List<LessonPlan>` representing all planned lessons for a student.
@@ -348,26 +348,26 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 
 Below is an example scenario for the Edit Lesson Plan feature:
 
-**Step 1.**  
-The user executes:  
-editplan 1 lp/2025-10-15|Cover Chapter 6  
-**Step 2.**  
+**Step 1.**
+The user executes:
+editplan 1 lp/2025-10-15|Cover Chapter 6
+**Step 2.**
 `EditPlanCommandParser` parses:
 Index = 1
 Date = 2025-10-15
-New Plan = "Cover Chapter 6"  
-**Step 3.**  
-The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.  
-**Step 4.**  
-`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.  
-**Step 5.**  
-The command verifies that a lesson plan exists on the given date.  
-If found, it removes the old plan and adds the new one.  
-**Step 6.**  
-`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.  
-**Step 7.**  
-A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6  
-**Step 8.**  
+New Plan = "Cover Chapter 6"
+**Step 3.**
+The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.
+**Step 4.**
+`EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.
+**Step 5.**
+The command verifies that a lesson plan exists on the given date.
+If found, it removes the old plan and adds the new one.
+**Step 6.**
+`Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.
+**Step 7.**
+A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6
+**Step 8.**
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
 ### Delete Lesson Plan Feature
@@ -658,7 +658,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * values speed and organization over visual-heavy interfaces
 * often has limited time for admin work and prefers tools that reduce repetitive tracking tasks
 
-**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments datelines, and payments based on student's contacts in one streamlined system. Built for tutor with many students, TutorTrack helps reduce time tutors spend on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most - marking, giving feedback, and creating target resources for students.
+**Value proposition**: TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
 
 
 ### User stories
@@ -672,23 +672,21 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | tutor managing multiple subjects | filter students by subject | prepare lesson materials faster |
 | `* * *`  | tutor | record key points from each lesson | track student progress over time |
 | `* * *`  | tutor | search for a student by name | find their contact info or lesson history quickly |
-| `* * *`  | tutor | see upcoming lessons at a glance | plan my week and avoid scheduling conflicts |
-| `* * *`  | tutor with many students | prioritize or tag important details | avoid forgetting critical information before lessons |
-| `* * *`  | tutor | access past lesson notes easily | follow up on unfinished topics without repeating work |
+| `* * *`  | tutor | update the content of a planned lesson (by date) | tailor upcoming lessons based on student progress or parent feedback |
+| `* * *`  | tutor | view past lesson notes by date | continue lessons seamlessly without re-teaching covered material |
 | `* * *`  | tutor working with parents | keep parent contact info alongside student records | communicate updates conveniently |
-| `* * *`  | tutor | record attendance for each lesson | keep track of who missed sessions |
 | `* * *`  | tutor | review a student's overall progress history | identify strengths and areas for improvement |
 | `* * *`  | tutor | have a quick overview of today's schedule | prepare efficiently before lessons begin |
-| `* * *`  | Tutor with more than 5 students | Keep track of all made payments | Receive payments on time and ensure no tutee miss out payments |
-| `* *`    | tutor | Mark my students' work | Give students immediate feedback about their work |
-| `* *`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
+| `* * *`  | tutor | get a clear error if I try to add a duplicate student | avoid messy duplicates in my contact list |
+| `* *`    | tutor | search students by tags | group and find students with specific characteristics to prepare materials more effectively |
 | `* *`    | tutor | find out which students are weaker in which topics | focus my attention on those they need help with |
-| `* *`    | tutor | delete students contacts | remove students who are no longer under me |
-| `* *`    | tutor | edit students contacts | keep their contacts up to date if they change it |
+| `* *`    | tutor | delete outdated student records | keep my contact list clean and relevant |
+| `* *`    | tutor | delete an incorrect lesson progress record for a student | keep progress tracking accurate and up to date |
+| `* *`    | tutor | edit students’ contact information | maintain accurate records when their details change |
 | `* *`    | private home tutor | securely track students addresses | refer to their addresses and know where to travel to |
-| `* *`    | tutor | keep track of students exam scores | find out if they are improving and determine if lessons have been effective |
 | `* *`    | tutor | view each student's information | easily access each student's personal details |
 | `* *`    | tutor | Filter each student by level | Find my students of the same level quicker |
+| `*`    | tutor | keep track of my students exam dates | focus more on the specific topics closer to the date |
 
 *{More to be added}*
 
@@ -702,9 +700,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
 2.  AddressBook validates all input fields:
-    * Name is not empty. 
-    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits). 
-    * Day/time, cost, and address are valid. 
+    * Name is not empty.
+    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
+    * Day/time, cost, and address are valid.
     * At least one contact number (student or next-of-kin) is provided.
 3. AddressBook creates a new person entry.
 4. AddressBook adds the new person to the list.
@@ -755,9 +753,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons. 
-2. TutorTrack displays the full list of persons. 
-3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day. 
+1. User requests to list all persons.
+2. TutorTrack displays the full list of persons.
+3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day.
 4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
 
     Use case ends.

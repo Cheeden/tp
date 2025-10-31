@@ -82,6 +82,7 @@ public class ParserUtil {
      */
     public static IndexDatePair parseIndexAndDate(String args, String messageUsage) throws ParseException {
         requireNonNull(args);
+        requireNonNull(messageUsage);
         String trimmedArguments = args.trim();
         String[] parts = trimmedArguments.split("\\s+");
 
@@ -92,6 +93,8 @@ public class ParserUtil {
         try {
             Index index = parseIndex(parts[0]);
             LocalDate date = parseDate(parts[1]);
+            assert index != null : "Parsed index should not be null";
+            assert date != null : "Parsed date should not be null";
             return new IndexDatePair(index, date);
         } catch (ParseException pe) {
             throw new ParseException(pe.getMessage() + "\n" + messageUsage, pe);

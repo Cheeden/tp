@@ -4,7 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
+import tutortrack.commons.core.LogsCenter;
 import tutortrack.commons.core.index.Index;
 import tutortrack.commons.util.ToStringBuilder;
 import tutortrack.logic.Messages;
@@ -18,6 +20,8 @@ import tutortrack.model.person.Person;
  * Subclasses only need to specify item-specific behavior via template methods.
  */
 public abstract class DeleteLessonItemCommand extends Command {
+
+    private static final Logger logger = LogsCenter.getLogger(DeleteLessonItemCommand.class);
 
     protected final Index index;
     protected final LocalDate date;
@@ -40,8 +44,12 @@ public abstract class DeleteLessonItemCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
+        assert lastShownList != null : "Filtered person list should never be null";
+
         // Validate index
         if (index.getZeroBased() >= lastShownList.size()) {
+            logger.warning(String.format("Invalid index %d for list of size %d",
+                    index.getOneBased(), lastShownList.size()));
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
@@ -50,9 +58,17 @@ public abstract class DeleteLessonItemCommand extends Command {
         // Let Person handle the deletion and validation to adhere to Tell, Don't Ask principle.
         try {
             Person updatedPerson = createPersonWithItemRemoved(personToEdit, date);
+            assert updatedPerson != null : "Updated person should not be null";
+
             model.setPerson(personToEdit, updatedPerson);
+
+            logger.info(String.format("Successfully deleted lesson item on %s for person: %s",
+                    date, personToEdit.getName()));
+
             return new CommandResult(getSuccessMessage());
         } catch (IllegalArgumentException e) {
+            logger.warning(String.format("No lesson item found on %s for person: %s",
+                    date, personToEdit.getName()));
             throw new CommandException(getNoItemMessage());
         }
     }

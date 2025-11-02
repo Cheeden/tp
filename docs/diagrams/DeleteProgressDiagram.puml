@@ -1,0 +1,38 @@
+@startuml
+skinparam ArrowFontStyle plain
+
+participant ":LogicManager" as L
+participant "dpr:DeleteProgressCommand" as C
+participant "m:Model" as M
+participant "p:Person" as P
+
+L ->> C: execute(model)
+activate C
+
+C -> M: getFilteredPersonList()
+activate M
+M --> C: List<Person>
+deactivate M
+
+C -> P: withProgressRemovedOnDate(date)
+activate P
+
+alt progress exists on date
+  P --> C: updatedPerson
+  deactivate P
+
+  C -> M: setPerson(personToEdit, updatedPerson)
+  activate M
+  M --> C:
+  deactivate M
+
+  C --> L: CommandResult("Lesson progress on DATE deleted")
+
+else no progress on date
+  P --> C: throws IllegalArgumentException
+  deactivate P
+
+  C --> L: CommandException(NO_PROGRESS_ON_DATE)
+  deactivate C
+end
+@enduml

@@ -20,6 +20,16 @@ public class Messages {
             "Contact list is unchanged: No students match your search criteria.";
     public static final String MESSAGE_INVALID_DAY =
             "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)";
+    public static final String MESSAGE_FIND_MULTIPLE_PREFIXES =
+            "Only one search type can be used at a time. "
+            + "Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes.";
+    public static final String MESSAGE_FIND_DUPLICATE_TAG =
+            "Duplicate t/ prefix found. To search multiple tags, separate keywords with spaces. "
+            + "Example: find t/jake john";
+    public static final String MESSAGE_FIND_DUPLICATE_DAY =
+            "Duplicate d/ prefix found. Only one day can be searched at a time.";
+    public static final String MESSAGE_FIND_DUPLICATE_SUBJECT =
+            "Duplicate s/ prefix found. Only one subject can be searched at a time.";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 

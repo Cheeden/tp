@@ -1,5 +1,9 @@
 package tutortrack.logic.parser;
 
+import static tutortrack.logic.Messages.MESSAGE_FIND_DUPLICATE_DAY;
+import static tutortrack.logic.Messages.MESSAGE_FIND_DUPLICATE_SUBJECT;
+import static tutortrack.logic.Messages.MESSAGE_FIND_DUPLICATE_TAG;
+import static tutortrack.logic.Messages.MESSAGE_FIND_MULTIPLE_PREFIXES;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SUBJECTLEVEL;
@@ -7,7 +11,9 @@ import static tutortrack.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import tutortrack.commons.core.LogsCenter;
 import tutortrack.logic.commands.FindCommand;
@@ -24,6 +30,13 @@ import tutortrack.model.person.TagContainsKeywordsPredicate;
 public class FindCommandParser implements Parser<FindCommand> {
 
     private static final Logger logger = LogsCenter.getLogger(FindCommandParser.class);
+
+    /** Map of prefixes to their duplicate error messages for find command validation */
+    private static final Map<Prefix, String> DUPLICATE_PREFIX_ERRORS = Map.of(
+        PREFIX_TAG, MESSAGE_FIND_DUPLICATE_TAG,
+        PREFIX_DAYTIME, MESSAGE_FIND_DUPLICATE_DAY,
+        PREFIX_SUBJECTLEVEL, MESSAGE_FIND_DUPLICATE_SUBJECT
+    );
 
     /**
      * Extracts the value associated with a prefix from the argument multimap.
@@ -57,14 +70,25 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
                 PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
 
-        // Check if any prefix is present
-        boolean hasPrefixes = argMultimap.getValue(PREFIX_TAG).isPresent()
-                || argMultimap.getValue(PREFIX_DAYTIME).isPresent()
-                || argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent();
+        // Defensively check if multiple prefixes are present to avoid unexpected behavior
+        long prefixCount = Stream.of(PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL)
+                .filter(prefix -> argMultimap.getValue(prefix).isPresent())
+                .count();
+
+        if (prefixCount > 1) {
+            throw new ParseException(MESSAGE_FIND_MULTIPLE_PREFIXES);
+        }
+
+        // Defensively check for duplicate usage of the same prefix and throw specific error messages
+        for (Map.Entry<Prefix, String> entry : DUPLICATE_PREFIX_ERRORS.entrySet()) {
+            if (argMultimap.getAllValues(entry.getKey()).size() > 1) {
+                throw new ParseException(entry.getValue());
+            }
+        }
 
         // If a prefix is present, preamble should be empty. Provide more specific
         // feedback depending on which prefix was used to help the user correct common mistakes
-        if (hasPrefixes && !argMultimap.getPreamble().isEmpty()) {
+        if (prefixCount > 0 && !argMultimap.getPreamble().isEmpty()) {
             if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
                 throw new ParseException("Invalid subject search format. The subject-level must be a single token "
                     + "in the form Level-Subject (no spaces). Example: find s/P4-Math");

@@ -163,7 +163,16 @@ The find mechanism is implemented using predicates and comparators:
 The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
 * If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
 * If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
+* If `s/` prefix is present, it creates a `FindCommand` with `SubjectLevelMatchesPredicate` (no sorting)
 * If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+**Prefix Validation:**
+* Only one search type is allowed per command - multiple prefixes (e.g., `find t/tag d/Monday`) are rejected with error message from `Messages.MESSAGE_FIND_MULTIPLE_PREFIXES`
+* Duplicate usage of the same prefix (e.g., `find t/tag t/tag`) is rejected with context-specific error messages:
+  * Tag prefix: `Messages.MESSAGE_FIND_DUPLICATE_TAG` (guides users to use space-separated keywords)
+  * Day prefix: `Messages.MESSAGE_FIND_DUPLICATE_DAY`
+  * Subject prefix: `Messages.MESSAGE_FIND_DUPLICATE_SUBJECT`
+* Validation is implemented using a Map (`DUPLICATE_PREFIX_ERRORS`) that associates each prefix with its error message
 
 **Day Validation:**
 * `ParserUtil.parseDay()` validates that the input is one of the seven days of the week
@@ -222,10 +231,10 @@ This approach ensures:
     - `find john` results in a Match (name starts with "John")
     - `find david` results in No match (name doesn't start with "David")
     - `find smith` results in No match (name doesn't start with "Smith")
-  * Pros: 
+  * Pros:
     - Simpler implementation (no tokenization required)
     - Faster performance (single string comparison)
-  * Cons: 
+  * Cons:
     - **Cannot search by last name** - Critical limitation for busy tutors who cannot remember their students by their first name
     - **Poor user experience** - Breaks mental model from common contact apps (phone, Gmail, etc.)
     - **Less flexible** - Only searches the beginning of the full name string
@@ -237,15 +246,15 @@ This approach ensures:
     - `find john` leads to a match (1st token "John" starts with "john")
     - `find david` leads to a match (2nd token "David" starts with "david")
     - `find smith` leads to a match (3rd token "Smith" starts with "smith")
-  * Pros: 
+  * Pros:
     - **Can search by any name part** - Users can find students by first, middle, or last name
     - **Aligns with user expectations** - Matches behavior of mainstream contact apps
     - **Practical for tutors** - Often remember students by last name or nickname
-  * Cons: 
+  * Cons:
     - More complex implementation (requires tokenization and multiple comparisons)
     - Requires ranking system to prioritize first name matches
 
-**Rationale:** 
+**Rationale:**
 Alternative 2 was chosen because **searching by last name is essential functionality** for a tutor contact management system. Tutors frequently have multiple students from the same family (e.g., siblings "Alice Tan" and "Bobby Tan") and need to search by family name. The token-based approach also aligns with user expectations from familiar contact applications, reducing the learning curve. While more complex to implement, the usability benefits far outweigh the implementation cost.
 
 
@@ -279,6 +288,31 @@ Step 3. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate,
 Step 4. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
 
 Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
+
+#### Sequence Diagram
+
+The following sequence diagram shows how a find operation goes through the Logic component when the user searches by name (e.g., `find Jo`):
+
+![FindSequenceDiagram](images/FindCommandSequenceDiagram.png)
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `FindCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+</div>
+
+How the find operation works:
+1. When `LogicManager` receives `execute("find Jo")`, it passes the command to `AddressBookParser`.
+2. `AddressBookParser` creates a `FindCommandParser` and calls its `parse(" Jo")` method.
+3. `FindCommandParser` analyzes the input and determines the search type (in this case, name search as no prefix is present).
+4. For name search, `FindCommandParser` creates a `NameContainsKeywordsPredicate` with the keyword "Jo".
+5. `FindCommandParser` then creates a `FindCommand` with both the predicate and its associated comparator (for ranking results).
+6. `FindCommand.execute(m)` is called by `LogicManager`.
+7. `FindCommand` calls `Model.updateFilteredPersonList(predicate, comparator)` to filter and sort the person list.
+8. A `CommandResult` is created with the number of persons found and returned to `LogicManager`.
+
+**Note:** The sequence flow shown above applies to all search types (name, tag, day, subject). The only differences are:
+- **Name search** (`find Jo`): Creates `NameContainsKeywordsPredicate` with relevance-based comparator
+- **Tag search** (`find t/exam`): Creates `TagContainsKeywordsPredicate` (no comparator)
+- **Day search** (`find d/Monday`): Creates `LessonDayPredicate` with time-based comparator, after validating the day name
+- **Subject search** (`find s/P4-Math`): Creates `SubjectLevelMatchesPredicate` (no comparator), after validating the subject-level format
 
 ### Add Lesson Progress feature
 
@@ -415,6 +449,8 @@ The delete lesson plan feature removes a specific lesson plan (by date) for a se
 
 ![DeletePlanSequenceDiagram](images/DeletePlanSequenceDiagram.png)
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** For brevity, the invalid index branch is omitted from the sequence diagram. Index validation happens early in `DeletePlanCommand.execute(...)` and results in a user-facing `CommandException` if the index is invalid.</div>
+
 Key points:
 - `DeletePlanCommandParser` parses `INDEX` and `DATE` using `ParserUtil.parseIndexAndDate(...)` (omitted in the diagram via `ref`).
 - `DeletePlanCommand.execute(model)` gets the filtered list, validates the index, asks `Person` to produce an updated copy via `withPlanRemovedOnDate(date)`, and calls `Model#setPerson(...)`.
@@ -441,6 +477,8 @@ Key points:
 The delete lesson progress feature mirrors delete plan, but targets progress entries. The sequence diagram below starts at `LogicManager -> DeleteProgressCommand` (parsing omitted using a reference frame) and focuses on command execution and model update.
 
 ![DeleteProgressSequenceDiagram](images/DeleteProgressSequenceDiagram.png)
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** For brevity, the invalid index branch is omitted from this diagram. Index validation happens early in `DeleteProgressCommand.execute(...)` and results in a user-facing `CommandException` if the index is invalid.</div>
 
 Key points:
 - `DeleteProgressCommand.execute(model)` retrieves the target `Person`, calls `Person.withProgressRemovedOnDate(date)`, and updates the model with the returned copy.
@@ -810,7 +848,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-* 3a. The user provides an invalid prefix 
+* 3a. The user provides an invalid prefix
 
     * 3a1. TutorTrack shows error message:
       “Contact list is unchanged: No students match your search criteria.”
@@ -1146,7 +1184,7 @@ testers are expected to do more *exploratory* testing.
 ## **Appendix: Planned Enhancements**
 
 * Lesson Window Export (Preview)
-  * Current issue: Tutors may want to export lesson records for reporting to parents. 
+  * Current issue: Tutors may want to export lesson records for reporting to parents.
   * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.
 
 * Improve find functionality to give better results for multi-keyword searches

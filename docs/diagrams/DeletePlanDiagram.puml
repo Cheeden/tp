@@ -1,0 +1,39 @@
+@startuml
+skinparam ArrowFontStyle plain
+
+participant ":LogicManager" as L
+participant "dp:DeletePlanCommand" as C
+participant "m:Model" as M
+participant "p:Person" as P
+
+ref over L, C
+  Parsing and command creation omitted
+end ref
+
+L ->> C: execute(model)
+activate C
+
+C -> M: getFilteredPersonList()
+activate M
+M --> C: List<Person>
+deactivate M
+
+C -> P: withPlanRemovedOnDate(date)
+activate P
+
+alt plan exists on date
+  P --> C: updatedPerson
+  deactivate P
+  C -> M: setPerson(personToEdit, updatedPerson)
+  activate M
+  M --> C:
+  deactivate M
+  C --> L: CommandResult("Lesson plan on DATE deleted")
+
+else no plan on date
+  P --> C: throws IllegalArgumentException
+  deactivate P
+  C --> L: CommandException(NO_PLAN_ON_DATE)
+  deactivate C
+end
+@enduml

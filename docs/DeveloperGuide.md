@@ -212,6 +212,43 @@ This approach ensures:
 - Sorting is temporary and specific to the current search
 - Other commands maintain the original contact order
 
+#### Design Considerations for Name Search Matching Strategy
+
+**Aspect: How to match search keywords against person names**
+
+* **Alternative 1: Exact Prefix Matching (Substring Match on Full Name)**
+  * Implementation: Treat the entire name as a single string and check if it starts with the search keyword
+  * Example: For name "John David Smith"
+    - `find john` results in a Match (name starts with "John")
+    - `find david` results in No match (name doesn't start with "David")
+    - `find smith` results in No match (name doesn't start with "Smith")
+  * Pros: 
+    - Simpler implementation (no tokenization required)
+    - Faster performance (single string comparison)
+  * Cons: 
+    - **Cannot search by last name** - Critical limitation for busy tutors who cannot remember their students by their first name
+    - **Poor user experience** - Breaks mental model from common contact apps (phone, Gmail, etc.)
+    - **Less flexible** - Only searches the beginning of the full name string
+    - **Unusable for Asian naming conventions** - Cannot find "Tan Wei Ming" by searching "tan" or "ming"
+
+* **Alternative 2 (Current choice): Token-Based Prefix Matching**
+  * Implementation: Split name into tokens (words) and check if any token starts with the search keyword
+  * Example: For name "John David Smith" → tokens ["John", "David", "Smith"]
+    - `find john` leads to a match (1st token "John" starts with "john")
+    - `find david` leads to a match (2nd token "David" starts with "david")
+    - `find smith` leads to a match (3rd token "Smith" starts with "smith")
+  * Pros: 
+    - **Can search by any name part** - Users can find students by first, middle, or last name
+    - **Aligns with user expectations** - Matches behavior of mainstream contact apps
+    - **Practical for tutors** - Often remember students by last name or nickname
+  * Cons: 
+    - More complex implementation (requires tokenization and multiple comparisons)
+    - Requires ranking system to prioritize first name matches
+
+**Rationale:** 
+Alternative 2 was chosen because **searching by last name is essential functionality** for a tutor contact management system. Tutors frequently have multiple students from the same family (e.g., siblings "Alice Tan" and "Bobby Tan") and need to search by family name. The token-based approach also aligns with user expectations from familiar contact applications, reducing the learning curve. While more complex to implement, the usability benefits far outweigh the implementation cost.
+
+
 #### Error Handling for Empty Search Results
 
 When a search returns no matches, the find feature handles it gracefully:
@@ -854,10 +891,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 5. The system should be able to run offline without requiring an internet connection.
 6. The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
 7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
-8. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability
-9. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
-10. Commands should complete within 2 seconds for typical operations
-11. UI should remain responsive during all operations (no freezing)
+8. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
+9. Commands should complete within 2 seconds for typical operations
+10. UI should remain responsive during all operations (no freezing)
 
 *{More to be added}*
 
@@ -873,16 +909,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **API**: Application Programming Interface is the public contract of a component (e.g., Model) that defines callable methods and expected behavior.
 * **JAR (Java Archive)**: Packaged, executable distribution format used to ship the desktop app.
 * **PlantUML**: Tool used to create and edit UML diagrams
-
-
 * **Prefix**: Command parameter identifiers (eg n/ for name, /p for phone)
 * **Command Word**: action keyword at the start of each command (eg add, delete)
 * **Index**: the position number of a person in the displayed list, used to reference persons in commands
-
 * **Person**: A contact entity stored in the address book with fields such as name and phone.
 * **Tag**: A label attached to a person for categorisation or filtering.
 * **Predicate**: A functional interface that tests a condition on a `Person` object, used for filtering the person list.
-
 * **Parser**: Converts raw user input into specific `Command` objects.
 * **Command**: An object created by the parser that encapsulates a user action to be executed by `Logic`.
 * **CommandResult**: The outcome returned by a `Command` after execution, shown by the UI.
@@ -1117,3 +1149,13 @@ testers are expected to do more *exploratory* testing.
 * Lesson Window Export (Preview)
   * Current issue: Tutors may want to export lesson records for reporting to parents. 
   * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.
+
+* Improve find functionality to give better results for multi-keyword searches
+  * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
+  * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
+  * Trade off considerations: Harder for users to understand find implementation if added for a rare edge case. Takes time away from more important tasks.
+
+
+
+
+

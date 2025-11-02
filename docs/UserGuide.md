@@ -160,9 +160,34 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * By default (without prefix eg t/), the name of the student is searched using prefix matching.
 * Any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
-* **Results are ranked by relevance**: First name matches appear first, followed by last name matches, then alphabetically.
+* **Results are ranked by relevance**:
+  - **Priority 1**: First name matches appear first
+  - **Priority 2**: Other name matches appear second
+  - Within each priority level, results are sorted alphabetically by full name (case-insensitive)
+  - Note: All non-first name matches have equal priority regardless of position (2nd, 3rd, 4th token, etc.)
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+**Ranking Examples for "find Jo":**
+* **Priority 1** (First name matches):
+  - `Joanna Lee Smith`
+  - `John Michael Smith`
+  - `Joseph Tan`
+* **Priority 2** (Non-first name matches):
+  - `Alice Jordan Lee` (2nd token match)
+  - `Alice Jones Tan` (2nd token match)
+  - `Mary Smith Jones` (3rd token match)
+
+**Ranking Examples for "find david tan":**
+* **Priority 1** (First name matches sorted alphabetically):
+  - `David Lee` (matches "david")
+  - `David Tan` (matches both "david" and "tan")
+  - `Tan Wei Ming` (matches "tan")
+* **Priority 2** (Non-first name matches sorted alphabetically):
+  - `Alice Tan` (2nd token matches "tan")
+  - `John David` (2nd token matches "david")
+
+Note: "David Tan" matches both keywords but receives the same rank as "David Lee" since both have first name matches. Multiple keyword matches do not increase priority.
 
 **Search by Tag (with `t/` prefix):**
 * Only tags are searched.
@@ -175,20 +200,20 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
 * The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
 * **Results are automatically sorted by lesson time** (earliest to latest).
-* If multiple lessons have the same time, they are sorted alphabetically by name.
+* If multiple lessons have the same time, they are sorted alphabetically by name (case-insensitive).
 * Only one day can be searched at a time.
 
-Examples:
-* `find John` returns `john` and `John Doe` (first names starting with "John" ranked higher)
-* `find Jo` returns `John Doe` and `Joseph Tan` (both match first name, alphabetically sorted)
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+**General Examples:**
+* `find John` returns persons whose names contain "John" - first name matches appear before other matches
+* `find Jo` returns `John Doe`, `Joseph Tan` (Priority 1 - first name matches), then `Alice Jones` (Priority 2 - other name match)
+
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find t/friends` returns all persons tagged with `friends`
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
-* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
-* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
+* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
+* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
 
 **Search by Subject (with `s/` prefix):**
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
@@ -199,7 +224,7 @@ Examples:
 * `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
-If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box (with a red border) so you can easily edit and retry your search.
+If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box with the text in red so you can easily edit and retry your search.
 </div>
 
 ### Deleting a person : `delete`
@@ -518,9 +543,6 @@ If your changes to the data file makes its format invalid, TutorTrack will disca
 Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -528,8 +550,10 @@ _Details coming soon ..._
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
+
 **Q**: What is the difference between lesson plan and lesson progress?<br>
 **A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+
 **Q**: Are users allowed to create their own command syntax?
 **A**: No, but it could be an extension for future.
 

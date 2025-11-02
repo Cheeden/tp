@@ -277,17 +277,17 @@ This follows the **validate-before-mutate** pattern used throughout the codebase
 
 Given below is an example usage scenario of the find feature with ranking:
 
-Step 1. The user launches the application. The `ModelManager` initializes with a `FilteredList` wrapped in a `SortedList` with no comparator set (no sorting).
+**Step 1**. The user launches the application. The `ModelManager` initializes with a `FilteredList` wrapped in a `SortedList` with no comparator set (no sorting).
 
-Step 2. The user executes `find Jo` to search for persons whose names start with "Jo". The `FindCommandParser` parses this and creates a `NameContainsKeywordsPredicate` with keyword "Jo", then creates a `FindCommand` with both the predicate and the predicate's comparator.
+**Step 2**. The user executes `find Jo` to search for persons whose names start with "Jo". The `FindCommandParser` parses this and creates a `NameContainsKeywordsPredicate` with keyword "Jo", then creates a `FindCommand` with both the predicate and the predicate's comparator.
 
-Step 3. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate, comparator)`, which:
+**Step 3**. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate, comparator)`, which:
    * Sets the predicate on the `FilteredList` (filters to only matching persons)
    * Sets the comparator on the `SortedList` (sorts the filtered results)
 
-Step 4. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
+**Step 4**. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
 
-Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
+**Step 5**. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
 
 #### Sequence Diagram
 
@@ -316,14 +316,20 @@ How the find operation works:
 
 ### Add Lesson Progress feature
 
-The Add Lesson Progress feature allows tutors to record new lesson progress entries for a specific student, capturing the date and description of what was covered during a lesson.
+The add/edit lesson plan/progress feature allow tutors to keep a record of lessons and edit if needed.
 
 #### Implementation
 
 <img src="images/ModifyLessonItemSequenceDiagram.png" width="550" />
-<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
-The Add Lesson Progress mechanism involves coordination across multiple components:
+**Notes**:
+This guide will be using `addprogress` and `editplan` as examples.
+
+#### AddProgress feature
+
+The Add Lesson Progress mechanism involves coordination across multiple components as shown below:
+
+<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
 **Logic Component:**
 
@@ -359,9 +365,9 @@ This keeps the diagram concise and highlights the key object interactions for ad
 
 Given below is an example usage scenario of the Add Lesson Progress feature:
 
-Step 1. The user executes `addprogress 1 pr/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
+**Step 1**. The user executes `addprogress 1 pr/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
 
-Step 2. `AddProgressCommandParser` parses:
+**Step 2**. `AddProgressCommandParser` parses:
 
 Index = 1
 
@@ -369,24 +375,22 @@ Date = 2025-10-21
 
 Progress = "Introduced new algebra concepts"
 
-Step 3. `AddProgressCommandParser` creates a new `LessonProgress` object with the parsed values and constructs an `AddProgressCommand` with the index and lesson progress.
+**Step 3**. `AddProgressCommandParser` creates a new `LessonProgress` object with the parsed values and constructs an `AddProgressCommand` with the index and lesson progress.
 
-Step 4. `AddProgressCommand.execute()` retrieves the student at index 1 from the filtered person list in the model.
+**Step 4**. `AddProgressCommand.execute()` retrieves the student at index 1 from the filtered person list in the model.
 
-Step 5. The command creates a new Person with the additional lesson progress entry appended to their existing list of progress records.
+**Step 5**. The command creates a new Person with the additional lesson progress entry appended to their existing list of progress records.
 
-Step 6. `Model.setPerson(targetPerson, updatedPerson)` is called to update the model with the modified person.
+**Step 6**. `Model.setPerson(targetPerson, updatedPerson)` is called to update the model with the modified person.
 
-Step 7. The command returns a `CommandResult` confirming the addition, e.g.
+**Step 7**. The command returns a `CommandResult` confirming the addition, e.g.
 New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
 
-Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
+**Step 8**. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
-### Edit Lesson Plan/Progress Feature
-**Notes:**
-The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify an existing lesson entry for a specific student on a specific date. The implementation for editplan and editprogress is similar. Therefore, this guide will use editplan as an example.
+#### EditPlan Feature
 
-#### Implementation
+The implementation of `editplan` is shown in this UML diagram:
 
 <img src="images/EditLessonPlanSequenceDiagram.png" width="550" />
 
@@ -415,29 +419,36 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 * The result of a successful `editplan` command is shown in the **Result Display** panel.
 * The updated plan list can be viewed using the `viewlessons` command, which opens the LessonPlanWindow to display the current plans.
 
-## Example Usage Scenario
+**Example Usage Scenario**
 
 Below is an example scenario for the Edit Lesson Plan feature:
 
 **Step 1.**
 The user executes:
 editplan 1 lp/2025-10-15|Cover Chapter 6
+
 **Step 2.**
 `EditPlanCommandParser` parses:
 Index = 1
 Date = 2025-10-15
 New Plan = "Cover Chapter 6"
+
 **Step 3.**
 The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.
+
 **Step 4.**
 `EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.
+
 **Step 5.**
 The command verifies that a lesson plan exists on the given date.
 If found, it removes the old plan and adds the new one.
+
 **Step 6.**
 `Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.
+
 **Step 7.**
 A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6
+
 **Step 8.**
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
@@ -560,24 +571,24 @@ The Lesson Plan and Lesson Progress columns use custom cell factories to enable 
 
 Given below is an example usage scenario:
 
-Step 1. The user executes `viewlessons 1` to view the lessons for the 1st student in the list.
+**Step 1**. The user executes `viewlessons 1` to view the lessons for the 1st student in the list.
 
-Step 2. `ViewLessonsCommandParser` parses the index "1" and creates a `ViewLessonsCommand` with index 1.
+**Step 2**. `ViewLessonsCommandParser` parses the index "1" and creates a `ViewLessonsCommand` with index 1.
 
-Step 3. `ViewLessonsCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
+**Step 3**. `ViewLessonsCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
 
-Step 4. The command returns a `CommandResult` containing the person object.
+**Step 4**. The command returns a `CommandResult` containing the person object.
 
-Step 5. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
+**Step 5**. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
 
-Step 6. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson window.
+**Step 6**. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson window.
 
-Step 7. `LessonWindow` receives the person via `setPerson(person)` and:
+**Step 7**. `LessonWindow` receives the person via `setPerson(person)` and:
    * Merges lesson progress and lesson plans by date using a HashMap
    * Sorts the merged entries chronologically
    * Populates the TableView with three columns: Date, Lesson Plan, Lesson Progress
 
-Step 8. The lesson window is displayed to the user showing the merged data in a three-column table.
+**Step 8**. The lesson window is displayed to the user showing the merged data in a three-column table.
 
 #### Design considerations
 
@@ -769,62 +780,38 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `TutorTrack` and the **Actor** is the `Tutor`, unless specified otherwise)
 
-**Use case: Add a student contact**
+**UC01: Add a student contact**
 
 **MSS**
 
-1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
-2.  AddressBook validates all input fields:
-    * Name is not empty.
-    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
-    * Day/time, cost, and address are valid.
-    * At least one contact number (student or next-of-kin) is provided.
-3. AddressBook creates a new person entry.
-4. AddressBook adds the new person to the list.
-5. AddressBook shows a confirmation message that the person has been added:
-   "add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St"
+1. User chooses to add a new student.
+2. User enters the requested details. 
+3. TutorTrack validates all input fields. 
+4. TutorTrack creates a new student entry. 
+5. TutorTrack adds the entry to the student list. 
+6. TutorTrack confirms that the student has been successfully added.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The student already exists (same name and contact).
+* 3a. The student already exists (same name and contact).
 
-    * 2a1. TutorTrack shows error message:
-      “This person already exists in the address book”
-
-      Use case ends.
-
-* 2b. One or more mandatory fields are missing (i.e., name, subject level, daytime, address, at least one contact).
-
-    * 2b1. Tutortrack shows error message:
-      "Invalid command format!..."
+    * 3a1. TutorTrack rejects the addition and shows error message.
 
       Use case ends.
 
-* 2c. Invalid mandatory fields input
+* 3b. One or more mandatory fields are missing/invalid (i.e., name, subject level, daytime, address, at least one contact).
 
-    * 2c1. Invalid name:
-        * Name less than 2 characters:
-          * TutorTrack shows error message:<br>
-          "Name is too short. It should be at least 2 characters long."
-    * 2c2. Invalid daytime:
-        * Wrong daytime format:
-          * TutorTrack shows error message:<br>
-          DayTime should be in the format 'Day HHMM', e.g., 'Monday 1200' or 'Tuesday 1600'.
-        * Invalid time:
-          * TutorTrack shows error message:<br>
-            '2400' is not a valid 24-hour time (HHMM).
-    * 2c3. Invalid contact:
-        * Empty phone number input:
-          * TutorTrack shows error message:<br>
-          Phone number cannot be blank.
-          * TutorTrack shows error message:<br>
-          Phone number is too short; it should be at least 3 digits.
+    * 3b1. TutorTrack shows error message.
+    * 3b2. User enters corrected details.
+
+      Steps 3a1–3a2 are repeated until all data are valid.
+      Use case resumes from step 5.
 
 *{More to be added}*
 
-**Use case: find a student or a group of students**
+**UC02: find a student or a group of students**
 
 **MSS**
 
@@ -838,40 +825,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+  * 2a1. TutorTrack does not display any student.
 
-  Use case ends.
-
-* 3a. The user provides an invalid prefix
-
-    * 3a1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
-
-      Use case ends.
+    Use case ends.
 
 * 3a. The user provides an invalid prefix
 
-    * 3a1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
+    * 3a1. TutorTrack rejects the search.
 
       Use case ends.
 
-* 3b. The user provides a valid prefix but an invalid value.
+* 3b. No students match the given search criteria.
 
-    * 3b1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
-
-      Use case ends.
-* 3c. No persons match the given search criteria.
-
-    * 3c1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
+    * 3b1. TutorTrack does not display any students.
 
       Use case ends.
 
-* 3d. The user provides multiple keywords without prefixes
+* 3c. The user provides multiple keywords without prefixes
     * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+      Use case ends.
 
-**Use case: editplan**
+**UC03: editplan**
 
 **MSS**
 
@@ -887,33 +861,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
-
+    * 2a1. TutorTrack does not display any student.
     Use case ends.
 
 * 3a. The given `INDEX` is invalid (e.g., not a positive integer or out of range).
 
-    * 2a1. TutorTrack shows error message:<br>
-      "The person index provided is invalid."
+    * 3a1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 
 * 3b. The `DATE` provided is in the wrong format (e.g., 2025/10/28, 28-10-2025).
 
-    * 2b1. TutorTrack shows error message:<br>
-      * TutorTrack displays an error message:<br>
-      "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
+    * 3b1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 * 3c. The student does not have a lesson plan entry on the specified `DATE`.
 
-    * 3c1. TutorTrack shows error message:
-      “No lesson plan found on `DATE`. You might want to use 'addplan' instead.”
+    * 3c1. TutorTrack rejects the input and shows error message.
 
       Use case ends.
 * 3d. The `NEW_PLAN` field is empty or contains only whitespace.
 
-    * 3d1. TutorTrack shows error message:
-      “Plan cannot be empty.”
+    * 3d1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 

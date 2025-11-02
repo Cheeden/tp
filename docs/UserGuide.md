@@ -2,10 +2,23 @@
 layout: page
 title: User Guide
 ---
+--------------------------------------------------------------------------------------------------------------------
 
-TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating target resources for students.
+## Introduction
 
-Optimized for use via a Command Line Interface (CLI) while still having the benefits of a Graphical User Interface (GUI), TutorTrack can get your contact management tasks done faster than traditional GUI apps if you can type fast.
+TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating targeted resources for students.
+
+TutorTrack is optimised for use through a Command Line Interface (CLI), where users type commands to perform actions. It is also complemented by a Graphical User Interface (GUI), which allows users to interact using buttons and visual elements. Together, these interfaces gives users the speed and precision of typed commands with the clarity of visual displays. This makes student management faster and more intuitive than traditional click-based applications.
+
+### Who this is for
+- Private tutors managing multiple students who are taking different subjects and need a fast way to track lessons progress, plan lessons and manage student, parent contacts in one place.
+- Part-time tutors who prefer keyboard-driven speed over mouse-driven menus
+- Comfortable with basic typing with no prior coding knowledge
+
+### Assumptions & prerequisites
+1) Comfortable with basic typing with no prior coding knowledge
+2) Can run desktop Java apps and launch a `.jar` from a terminal using the instructions in this guide.
+
 
 * Table of Contents
 {:toc}
@@ -17,15 +30,16 @@ Optimized for use via a Command Line Interface (CLI) while still having the bene
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W11-4/tp/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W11-4/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorTrack.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutortrack.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutortrack.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -38,7 +52,7 @@ Optimized for use via a Command Line Interface (CLI) while still having the bene
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -77,6 +91,9 @@ Shows a message explaining how to access the help page.
 ![help message](images/helpMessage.png)
 
 Format: `help`
+
+#### Expected output
+- The Help window opens automatically.
 
 
 ### Adding a person: `add`
@@ -126,11 +143,19 @@ More examples showing accepted SubjectLevel formats and common variations:
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
 
+#### Expected output
+- A success message appears in the result box and the new person appears in the list.
+
+> **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
+
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
 
 Format: `list`
+
+#### Expected output
+- The full list of persons is displayed.
 
 ### Editing a person : `edit`
 
@@ -149,13 +174,19 @@ Examples:
 *  `edit 1 s/P4-Math ` Edits the subject level of the 1st person to be `P4-Math`.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+#### Expected output
+- A success message appears in command box showing the edited person and its updated data.
+
+#### Common errors
+- No fields provided: "At least one field to edit must be provided."
+
 ### Locating persons: `find`
 
 Finds persons whose names, tags, or lesson days match any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
-**Search by Name:**
+#### Search by Name
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * By default (without prefix eg t/), the name of the student is searched using prefix matching.
@@ -168,6 +199,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
+Examples:
 **Ranking Examples for "find Jo":**
 * **Priority 1** (First name matches):
   - `Joanna Lee Smith`
@@ -182,20 +214,26 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * **Priority 1** (First name matches sorted alphabetically):
   - `David Lee` (matches "david")
   - `David Tan` (matches both "david" and "tan")
-  - `Tan Wei Ming` (matches "tan")
 * **Priority 2** (Non-first name matches sorted alphabetically):
   - `Alice Tan` (2nd token matches "tan")
   - `John David` (2nd token matches "david")
 
 Note: "David Tan" matches both keywords but receives the same rank as "David Lee" since both have first name matches. Multiple keyword matches do not increase priority.
 
-**Search by Tag (with `t/` prefix):**
+**Example output for `find alex david`:**
+![Result for 'find alex david'](images/findAlexDavidResult.png)
+
+#### Search by Tag (with `t/` prefix)
 * Only tags are searched.
 * Only full words will be matched.
 * The search is case-insensitive.
 * Persons matching at least one tag keyword will be returned.
 
-**Search by Lesson Day (with `d/` prefix):**
+Examples:
+* `find t/friends` returns all persons tagged with `friends`
+* `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
+
+#### Search by Lesson Day (with `d/` prefix)
 * Only searches by the lesson day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
 * **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
 * The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
@@ -203,19 +241,14 @@ Note: "David Tan" matches both keywords but receives the same rank as "David Lee
 * If multiple lessons have the same time, they are sorted alphabetically by name (case-insensitive).
 * Only one day can be searched at a time.
 
-**General Examples:**
-* `find John` returns persons whose names contain "John" - first name matches appear before other matches
-* `find Jo` returns `John Doe`, `Joseph Tan` (Priority 1 - first name matches), then `Alice Jones` (Priority 2 - other name match)
-
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
-* `find t/friends` returns all persons tagged with `friends`
-* `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
-* `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
-* `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+Examples:
 * `find d/Mon` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
 * `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
+* `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
+* `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
 
-**Search by Subject (with `s/` prefix):**
+
+#### Search by Subject (with `s/` prefix)
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
 * The search is case-insensitive and matches full subject-level tokens (so `s/P4-Math` matches `P4-Math` regardless of case).
 * Results are not specially ranked for subject matches (they are returned in the current list order or as provided by the command context).
@@ -226,6 +259,9 @@ Examples:
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
 If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box with the text in red so you can easily edit and retry your search.
 </div>
+
+#### Common errors
+- No matches: "Contact list is unchanged: No students match your search criteria."
 
 ### Deleting a person : `delete`
 
@@ -239,6 +275,8 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+#### Expected output
+- "Deleted Person: …" appears in command box and the person is removed from the list.
 
 ## Lesson Management Commands
 
@@ -276,15 +314,12 @@ Format:
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
-<div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plans:**
-
-You can use special characters to format your lesson plans for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-
-These formatting options help you organize multi-part lessons, create structured plans, or separate different sections clearly.
-</div>
+> **Tip:** You can use special characters to format your lesson plans for better readability:
+> - **`\n`** - Creates a new line (line break)
+> - **`\t`** - Adds a tab space for indentation
+> - **`\\`** - Displays a backslash character
+>
+> These formatting options help you organize multi-part lessons, create structured plans, or separate different sections clearly.
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.

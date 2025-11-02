@@ -746,13 +746,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User chooses to add a new student. 
-2. TutorTrack requests the student’s details: name, subject level, day/time, cost, address, at least one contact number, and optional tags. 
-3. User enters the requested details. 
-4. TutorTrack validates all input fields. 
-5. TutorTrack creates a new student entry. 
-6. TutorTrack adds the entry to the student list. 
-7. TutorTrack confirms that the student has been successfully added.
+1. User chooses to add a new student.
+2. User enters the requested details. 
+3. TutorTrack validates all input fields. 
+4. TutorTrack creates a new student entry. 
+5. TutorTrack adds the entry to the student list. 
+6. TutorTrack confirms that the student has been successfully added.
 
    Use case ends.
 
@@ -760,13 +759,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The student already exists (same name and contact).
 
-    * 3a1. TutorTrack rejects the addition.
+    * 3a1. TutorTrack rejects the addition and shows error message.
 
       Use case ends.
 
 * 3b. One or more mandatory fields are missing/invalid (i.e., name, subject level, daytime, address, at least one contact).
 
-    * 3b1. TutorTrack rejects the entry.
+    * 3b1. TutorTrack shows error message.
     * 3b2. User enters corrected details.
 
       Steps 3a1–3a2 are repeated until all data are valid.

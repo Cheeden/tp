@@ -160,9 +160,22 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * By default (without prefix eg t/), the name of the student is searched using prefix matching.
 * Any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
-* **Results are ranked by relevance**: First name matches appear first, followed by last name matches, then alphabetically.
+* **Results are ranked by relevance**:
+  - **Priority 1**: First name matches (sorted alphabetically by full name, case-insensitive)
+  - **Priority 2**: Other name matches (sorted alphabetically by full name, case-insensitive)
+  - Note: All non-first name matches have equal priority regardless of position
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+**Ranking Examples for "Jo":**
+* **Priority 1** (First name matches):
+  - `Joanna Lee Smith`
+  - `John Michael Smith`
+  - `Joseph Tan`
+* **Priority 2** (Non-first name matches):
+  - `Alice Jordan Lee` (2nd token match)
+  - `Alice Jones Tan` (2nd token match)
+  - `Mary Smith Jones` (3rd token match)
 
 **Search by Tag (with `t/` prefix):**
 * Only tags are searched.
@@ -175,13 +188,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_
 * **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
 * The search is case-insensitive. e.g. `monday`, `MONDAY`, and `Monday` all work.
 * **Results are automatically sorted by lesson time** (earliest to latest).
-* If multiple lessons have the same time, they are sorted alphabetically by name.
+* If multiple lessons have the same time, they are sorted alphabetically by name (case-insensitive).
 * Only one day can be searched at a time.
 
-Examples:
-* `find John` returns `john` and `John Doe` (first names starting with "John" ranked higher)
-* `find Jo` returns `John Doe` and `Joseph Tan` (both match first name, alphabetically sorted)
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+**General Examples:**
+* `find John` returns persons whose names contain "John" - first name matches appear before other matches
+* `find Jo` returns `John Doe`, `Joseph Tan` (Priority 1 - first name matches), then `Alice Jones` (Priority 2 - other name match)
+
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 * `find t/friends` returns all persons tagged with `friends`
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
@@ -518,9 +531,6 @@ If your changes to the data file makes its format invalid, TutorTrack will disca
 Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 

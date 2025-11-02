@@ -212,6 +212,70 @@ This approach ensures:
 - Sorting is temporary and specific to the current search
 - Other commands maintain the original contact order
 
+#### Design Considerations for Name Search Matching Strategy
+
+**Aspect: How to match search keywords against person names**
+
+* **Alternative 1: Exact Prefix Matching (Substring Match on Full Name)**
+  * Implementation: Treat the entire name as a single string and check if it starts with the search keyword
+  * Example: For name "John David Smith"
+    - `find john` results in a Match (name starts with "John")
+    - `find david` results in No match (name doesn't start with "David")
+    - `find smith` results in No match (name doesn't start with "Smith")
+  * Pros: 
+    - Simpler implementation (no tokenization required)
+    - Faster performance (single string comparison)
+  * Cons: 
+    - **Cannot search by last name** - Critical limitation for busy tutors who cannot remember their students by their first name
+    - **Poor user experience** - Breaks mental model from common contact apps (phone, Gmail, etc.)
+    - **Less flexible** - Only searches the beginning of the full name string
+    - **Unusable for Asian naming conventions** - Cannot find "Tan Wei Ming" by searching "tan" or "ming"
+
+* **Alternative 2 (Current choice): Token-Based Prefix Matching**
+  * Implementation: Split name into tokens (words) and check if any token starts with the search keyword
+  * Example: For name "John David Smith" → tokens ["John", "David", "Smith"]
+    - `find john` → ✓ Match (1st token "John" starts with "john")
+    - `find david` → ✓ Match (2nd token "David" starts with "david")
+    - `find smith` → ✓ Match (3rd token "Smith" starts with "smith")
+  * Pros: 
+    - **Can search by any name part** - Users can find students by first, middle, or last name
+    - **Aligns with user expectations** - Matches behavior of mainstream contact apps
+    - **Practical for tutors** - Often remember students by last name or nickname
+  * Cons: 
+    - More complex implementation (requires tokenization and multiple comparisons)
+    - Requires ranking system to prioritize first name matches
+
+**Rationale:** 
+Alternative 2 was chosen because **searching by last name is essential functionality** for a tutor contact management system. Tutors frequently have multiple students from the same family (e.g., siblings "Alice Tan" and "Bobby Tan") and need to search by family name. The token-based approach also aligns with user expectations from familiar contact applications, reducing the learning curve. While more complex to implement, the usability benefits far outweigh the implementation cost.
+
+#### Design Choices for Name Search Ranking
+
+**Aspect: Ranking search results when multiple persons match**
+
+* **Current choice: Rank by Token Position**
+  * First token (first name) matches ranked higher than other token matches, then alphabetical within each rank
+  * Example: `find jo` → First: "John Smith", "Joseph Tan" (Rank 1), Then: "Alice Jones" (Rank 2)
+  * Pros: 
+    - **More relevant results first** - First names are more distinguishing and memorable than last names
+    - **Faster visual scanning** - Users can quickly identify the intended person
+    - **Aligns with cognitive patterns** - People typically recall first names more readily
+  * Cons: 
+    - More complex to implement (requires ranking logic and comparator)
+    - Doesn't account for multiple keyword matches (e.g., "John David" gets same rank as "John Smith" for query "john david")
+
+* **Improvements: Count Keyword Matches**
+  * Rank by number of keywords matched, then by token position, then alphabetically
+  * Example: `find john david` → "John David" (2 matches), then "John Smith", "David Lee" (1 match each)
+  * Pros: 
+    - Most intelligent relevance ranking
+    - Rewards comprehensive matches
+    - Better results for multi-keyword searches
+  * Cons: 
+    - Most complex to implement and test
+    - Significantly more complex to explain to users
+    - Diminishing returns for typical use cases (most searches are 1-2 keywords)
+
+
 #### Error Handling for Empty Search Results
 
 When a search returns no matches, the find feature handles it gracefully:
@@ -1117,3 +1181,8 @@ testers are expected to do more *exploratory* testing.
 * Lesson Window Export (Preview)
   * Current issue: Tutors may want to export lesson records for reporting to parents. 
   * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.
+
+* Improve find functionality to give better results for multi-keyword searches
+  * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
+  * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
+

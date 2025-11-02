@@ -268,17 +268,17 @@ This follows the **validate-before-mutate** pattern used throughout the codebase
 
 Given below is an example usage scenario of the find feature with ranking:
 
-Step 1. The user launches the application. The `ModelManager` initializes with a `FilteredList` wrapped in a `SortedList` with no comparator set (no sorting).
+**Step 1**. The user launches the application. The `ModelManager` initializes with a `FilteredList` wrapped in a `SortedList` with no comparator set (no sorting).
 
-Step 2. The user executes `find Jo` to search for persons whose names start with "Jo". The `FindCommandParser` parses this and creates a `NameContainsKeywordsPredicate` with keyword "Jo", then creates a `FindCommand` with both the predicate and the predicate's comparator.
+**Step 2**. The user executes `find Jo` to search for persons whose names start with "Jo". The `FindCommandParser` parses this and creates a `NameContainsKeywordsPredicate` with keyword "Jo", then creates a `FindCommand` with both the predicate and the predicate's comparator.
 
-Step 3. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate, comparator)`, which:
+**Step 3**. `FindCommand.execute()` calls `model.updateFilteredPersonList(predicate, comparator)`, which:
    * Sets the predicate on the `FilteredList` (filters to only matching persons)
    * Sets the comparator on the `SortedList` (sorts the filtered results)
 
-Step 4. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
+**Step 4**. The results appear ranked: "John Doe" (first name match) appears before "Mary Joe" (last name match).
 
-Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
+**Step 5**. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
 
 ### Add/Edit Lesson Plan/Progress feature
 
@@ -331,9 +331,9 @@ This keeps the diagram concise and highlights the key object interactions for ad
 
 Given below is an example usage scenario of the Add Lesson Progress feature:
 
-Step 1. The user executes `addprogress 1 pr/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
+**Step 1**. The user executes `addprogress 1 pr/2025-10-21|Introduced new algebra concepts` to add a progress entry for the 1st student.
 
-Step 2. `AddProgressCommandParser` parses:
+**Step 2**. `AddProgressCommandParser` parses:
 
 Index = 1
 
@@ -341,18 +341,18 @@ Date = 2025-10-21
 
 Progress = "Introduced new algebra concepts"
 
-Step 3. `AddProgressCommandParser` creates a new `LessonProgress` object with the parsed values and constructs an `AddProgressCommand` with the index and lesson progress.
+**Step 3**. `AddProgressCommandParser` creates a new `LessonProgress` object with the parsed values and constructs an `AddProgressCommand` with the index and lesson progress.
 
-Step 4. `AddProgressCommand.execute()` retrieves the student at index 1 from the filtered person list in the model.
+**Step 4**. `AddProgressCommand.execute()` retrieves the student at index 1 from the filtered person list in the model.
 
-Step 5. The command creates a new Person with the additional lesson progress entry appended to their existing list of progress records.
+**Step 5**. The command creates a new Person with the additional lesson progress entry appended to their existing list of progress records.
 
-Step 6. `Model.setPerson(targetPerson, updatedPerson)` is called to update the model with the modified person.
+**Step 6**. `Model.setPerson(targetPerson, updatedPerson)` is called to update the model with the modified person.
 
-Step 7. The command returns a `CommandResult` confirming the addition, e.g.
+**Step 7**. The command returns a `CommandResult` confirming the addition, e.g.
 New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
 
-Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
+**Step 8**. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
 #### EditPlan Feature
 
@@ -392,22 +392,29 @@ Below is an example scenario for the Edit Lesson Plan feature:
 **Step 1.**
 The user executes:
 editplan 1 lp/2025-10-15|Cover Chapter 6
+
 **Step 2.**
 `EditPlanCommandParser` parses:
 Index = 1
 Date = 2025-10-15
 New Plan = "Cover Chapter 6"
+
 **Step 3.**
 The parser constructs a new `LessonPlan` with the parsed data and creates an `EditPlanCommand`.
+
 **Step 4.**
 `EditPlanCommand.execute()` retrieves the student at index `1` from the filtered person list.
+
 **Step 5.**
 The command verifies that a lesson plan exists on the given date.
 If found, it removes the old plan and adds the new one.
+
 **Step 6.**
 `Model.setPerson(targetPerson, updatedPerson)` updates the model with the modified student.
+
 **Step 7.**
 A `CommandResult` is returned confirming the edit, e.g. Lesson plan on 2025-10-15 updated: Cover Chapter 6
+
 **Step 8.**
 The user may execute `viewlessons 1` to view the updated list of lesson plans in the Lesson Plan window.
 
@@ -526,24 +533,24 @@ The Lesson Plan and Lesson Progress columns use custom cell factories to enable 
 
 Given below is an example usage scenario:
 
-Step 1. The user executes `viewlessons 1` to view the lessons for the 1st student in the list.
+**Step 1**. The user executes `viewlessons 1` to view the lessons for the 1st student in the list.
 
-Step 2. `ViewLessonsCommandParser` parses the index "1" and creates a `ViewLessonsCommand` with index 1.
+**Step 2**. `ViewLessonsCommandParser` parses the index "1" and creates a `ViewLessonsCommand` with index 1.
 
-Step 3. `ViewLessonsCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
+**Step 3**. `ViewLessonsCommand` executes and retrieves the person at index 1 from the filtered person list in the model.
 
-Step 4. The command returns a `CommandResult` containing the person object.
+**Step 4**. The command returns a `CommandResult` containing the person object.
 
-Step 5. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
+**Step 5**. `MainWindow` receives the `CommandResult` and extracts the person using `getPerson()`.
 
-Step 6. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson window.
+**Step 6**. `MainWindow` calls `handleShowLessonProgress(person)` to display the lesson window.
 
-Step 7. `LessonWindow` receives the person via `setPerson(person)` and:
+**Step 7**. `LessonWindow` receives the person via `setPerson(person)` and:
    * Merges lesson progress and lesson plans by date using a HashMap
    * Sorts the merged entries chronologically
    * Populates the TableView with three columns: Date, Lesson Plan, Lesson Progress
 
-Step 8. The lesson window is displayed to the user showing the merged data in a three-column table.
+**Step 8**. The lesson window is displayed to the user showing the merged data in a three-column table.
 
 #### Design considerations
 

@@ -65,12 +65,12 @@ public class HelpWindow extends UiPart<Stage> {
     public void show() {
         logger.fine("Showing help page about the application.");
         Stage stage = getRoot();
-        
+
         // If window is minimized (iconified), restore it
         if (stage.isIconified()) {
             stage.setIconified(false);
         }
-        
+
         stage.show();
         stage.centerOnScreen();
     }
@@ -96,12 +96,12 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public void focus() {
         Stage stage = getRoot();
-        
+
         // If minimized, restore it first
         if (stage.isIconified()) {
             stage.setIconified(false);
         }
-        
+
         stage.show();
         stage.toFront();
         stage.requestFocus();

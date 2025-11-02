@@ -801,7 +801,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * TutorTrack displays all persons whose names match any of the given keywords (OR search).
       Use case ends.
 
-**Use case: editplan**
+**UC03: editplan**
 
 **MSS**
 

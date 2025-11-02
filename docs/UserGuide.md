@@ -212,8 +212,8 @@ Note: "David Tan" matches both keywords but receives the same rank as "David Lee
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
-* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
-* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week (Monday to Sunday)."
+* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
+* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
 
 **Search by Subject (with `s/` prefix):**
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).

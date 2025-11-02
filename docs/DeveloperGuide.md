@@ -891,10 +891,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 5. The system should be able to run offline without requiring an internet connection.
 6. The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
 7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
-8. The system source code should try to adhere to coding standards given by https://se-education.org/guides/conventions/java/intermediate.html for maintainability
-9. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
-10. Commands should complete within 2 seconds for typical operations
-11. UI should remain responsive during all operations (no freezing)
+8. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
+9. Commands should complete within 2 seconds for typical operations
+10. UI should remain responsive during all operations (no freezing)
 
 *{More to be added}*
 

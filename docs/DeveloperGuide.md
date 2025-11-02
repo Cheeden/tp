@@ -280,16 +280,22 @@ Step 4. The results appear ranked: "John Doe" (first name match) appears before 
 
 Step 5. The user executes `list` to view all persons. `ListCommand.execute()` calls `model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` which clears the comparator, removing the ranking.
 
-### Add Lesson Progress feature
+### Add/Edit Lesson Plan/Progress feature
 
-The Add Lesson Progress feature allows tutors to record new lesson progress entries for a specific student, capturing the date and description of what was covered during a lesson.
+The add/edit lesson plan/progress feature allow tutors to keep a record of lessons and edit if needed.
 
 #### Implementation
 
 <img src="images/ModifyLessonItemSequenceDiagram.png" width="550" />
-<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
-The Add Lesson Progress mechanism involves coordination across multiple components:
+**Notes**:
+This guide will be using `addprogress` and `editplan` as examples.
+
+#### AddProgress feature
+
+The Add Lesson Progress mechanism involves coordination across multiple components as shown below:
+
+<img src="images/AddLessonProgressSequenceDiagram.png" width="550" />
 
 **Logic Component:**
 
@@ -348,11 +354,9 @@ New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra con
 
 Step 8. The user may then execute `viewlessons 1` to view the updated list of progress entries in the Lesson Progress window.
 
-### Edit Lesson Plan/Progress Feature
-**Notes:**
-The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify an existing lesson entry for a specific student on a specific date. The implementation for editplan and editprogress is similar. Therefore, this guide will use editplan as an example.
+#### EditPlan Feature
 
-#### Implementation
+The implementation of `editplan` is shown in this UML diagram:
 
 <img src="images/EditLessonPlanSequenceDiagram.png" width="550" />
 
@@ -381,7 +385,7 @@ The Edit Lesson Plan and Edit Lesson Progress features allow a tutor to modify a
 * The result of a successful `editplan` command is shown in the **Result Display** panel.
 * The updated plan list can be viewed using the `viewlessons` command, which opens the LessonPlanWindow to display the current plans.
 
-## Example Usage Scenario
+**Example Usage Scenario**
 
 Below is an example scenario for the Edit Lesson Plan feature:
 

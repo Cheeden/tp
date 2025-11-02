@@ -98,7 +98,7 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a student to the address book.
 
 Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
 
@@ -313,15 +313,24 @@ Format:
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
-> **Tip:** You can use special characters to format your lesson plans for better readability:
-> - **`\n`** - Creates a new line (line break)
-> - **`\t`** - Adds a tab space for indentation
-> - **`\\`** - Displays a backslash character
->
-> These formatting options help you organize multi-part lessons, create structured plans, or separate different sections clearly.
+<div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
+
+You can use special characters to format your lesson plans for better readability:
+* **`\n`** - Creates a new line (line break)
+* **`\t`** - Adds a tab space for indentation
+* **`\\`** - Displays a backslash character
+
+These formatting options are especially useful for:
+- helping you organize multi-part lessons
+- Highlighting key sections or steps
+- Clearly separating different components of your plan
+</div>
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+
+> **Tip:**
+> In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
 
 Examples:
 
@@ -412,13 +421,16 @@ You can use special characters to format your progress entries for better readab
 * **`\\`** - Displays a backslash character
 
 These formatting options are especially useful for:
-- Breaking down what was covered into bullet points
-- Separating completed topics from homework assignments
-- Creating structured progress reports
+- Listing topics covered during the lesson
+- Separating completed tasks from homework or follow-ups
+- Structuring detailed progress notes clearly
 </div>
 
 > **Tip:**
->Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+> Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+
+> **Tip:**
+> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 
 Examples:
 
@@ -586,7 +598,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
 
 **Q**: What is the difference between lesson plan and lesson progress?<br>
-**A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+**A**: Lesson Plan represents what is intended to be taught in a future lesson. Lesson Progress represents what was actually covered in a past lesson.
+
+**Q**: Can I add plans for past dates and progresses for future dates?
+**A**: Yes, You can add plans for past dates (for example, if you forgot to record a previous lesson) and progresses for future dates (to update them in advance). You can always edit them later if there are any changes.
 
 **Q**: Are users allowed to create their own command syntax?
 **A**: No, but it could be an extension for future.

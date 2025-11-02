@@ -893,7 +893,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 7. The system shall handle invalid inputs gracefully (e.g. show error messages without crashing).
 8. The application should automatically persist all contact changes and reload them on application startup so that no contacts are lost across sessions
 9. Commands should complete within 2 seconds for typical operations
-10. UI should remain responsive during all operations (no freezing)
 
 *{More to be added}*
 

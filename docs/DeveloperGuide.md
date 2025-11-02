@@ -163,7 +163,16 @@ The find mechanism is implemented using predicates and comparators:
 The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
 * If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
 * If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
+* If `s/` prefix is present, it creates a `FindCommand` with `SubjectLevelMatchesPredicate` (no sorting)
 * If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+**Prefix Validation:**
+* Only one search type is allowed per command - multiple prefixes (e.g., `find t/tag d/Monday`) are rejected with error message from `Messages.MESSAGE_FIND_MULTIPLE_PREFIXES`
+* Duplicate usage of the same prefix (e.g., `find t/tag t/tag`) is rejected with context-specific error messages:
+  * Tag prefix: `Messages.MESSAGE_FIND_DUPLICATE_TAG` (guides users to use space-separated keywords)
+  * Day prefix: `Messages.MESSAGE_FIND_DUPLICATE_DAY`
+  * Subject prefix: `Messages.MESSAGE_FIND_DUPLICATE_SUBJECT`
+* Validation is implemented using a Map (`DUPLICATE_PREFIX_ERRORS`) that associates each prefix with its error message
 
 **Day Validation:**
 * `ParserUtil.parseDay()` validates that the input is one of the seven days of the week

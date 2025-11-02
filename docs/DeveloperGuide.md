@@ -234,9 +234,9 @@ This approach ensures:
 * **Alternative 2 (Current choice): Token-Based Prefix Matching**
   * Implementation: Split name into tokens (words) and check if any token starts with the search keyword
   * Example: For name "John David Smith" → tokens ["John", "David", "Smith"]
-    - `find john` → ✓ Match (1st token "John" starts with "john")
-    - `find david` → ✓ Match (2nd token "David" starts with "david")
-    - `find smith` → ✓ Match (3rd token "Smith" starts with "smith")
+    - `find john` leads to a match (1st token "John" starts with "john")
+    - `find david` leads to a match (2nd token "David" starts with "david")
+    - `find smith` leads to a match (3rd token "Smith" starts with "smith")
   * Pros: 
     - **Can search by any name part** - Users can find students by first, middle, or last name
     - **Aligns with user expectations** - Matches behavior of mainstream contact apps
@@ -247,33 +247,6 @@ This approach ensures:
 
 **Rationale:** 
 Alternative 2 was chosen because **searching by last name is essential functionality** for a tutor contact management system. Tutors frequently have multiple students from the same family (e.g., siblings "Alice Tan" and "Bobby Tan") and need to search by family name. The token-based approach also aligns with user expectations from familiar contact applications, reducing the learning curve. While more complex to implement, the usability benefits far outweigh the implementation cost.
-
-#### Design Choices for Name Search Ranking
-
-**Aspect: Ranking search results when multiple persons match**
-
-* **Current choice: Rank by Token Position**
-  * First token (first name) matches ranked higher than other token matches, then alphabetical within each rank
-  * Example: `find jo` → First: "John Smith", "Joseph Tan" (Rank 1), Then: "Alice Jones" (Rank 2)
-  * Pros: 
-    - **More relevant results first** - First names are more distinguishing and memorable than last names
-    - **Faster visual scanning** - Users can quickly identify the intended person
-    - **Aligns with cognitive patterns** - People typically recall first names more readily
-  * Cons: 
-    - More complex to implement (requires ranking logic and comparator)
-    - Doesn't account for multiple keyword matches (e.g., "John David" gets same rank as "John Smith" for query "john david")
-
-* **Improvements: Count Keyword Matches**
-  * Rank by number of keywords matched, then by token position, then alphabetically
-  * Example: `find john david` → "John David" (2 matches), then "John Smith", "David Lee" (1 match each)
-  * Pros: 
-    - Most intelligent relevance ranking
-    - Rewards comprehensive matches
-    - Better results for multi-keyword searches
-  * Cons: 
-    - Most complex to implement and test
-    - Significantly more complex to explain to users
-    - Diminishing returns for typical use cases (most searches are 1-2 keywords)
 
 
 #### Error Handling for Empty Search Results
@@ -937,16 +910,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **API**: Application Programming Interface is the public contract of a component (e.g., Model) that defines callable methods and expected behavior.
 * **JAR (Java Archive)**: Packaged, executable distribution format used to ship the desktop app.
 * **PlantUML**: Tool used to create and edit UML diagrams
-
-
 * **Prefix**: Command parameter identifiers (eg n/ for name, /p for phone)
 * **Command Word**: action keyword at the start of each command (eg add, delete)
 * **Index**: the position number of a person in the displayed list, used to reference persons in commands
-
 * **Person**: A contact entity stored in the address book with fields such as name and phone.
 * **Tag**: A label attached to a person for categorisation or filtering.
 * **Predicate**: A functional interface that tests a condition on a `Person` object, used for filtering the person list.
-
 * **Parser**: Converts raw user input into specific `Command` objects.
 * **Command**: An object created by the parser that encapsulates a user action to be executed by `Logic`.
 * **CommandResult**: The outcome returned by a `Command` after execution, shown by the UI.
@@ -1185,4 +1154,9 @@ testers are expected to do more *exploratory* testing.
 * Improve find functionality to give better results for multi-keyword searches
   * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
   * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
+  * Trade off considerations: Harder for users to understand find implementation if added for a rare edge case. Takes time away from more important tasks.
+
+
+
+
 

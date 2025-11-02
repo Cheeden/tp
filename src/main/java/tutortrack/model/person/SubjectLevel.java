@@ -18,16 +18,16 @@ public class SubjectLevel {
     public static final String MESSAGE_INVALID_FORMAT = "Subject level must be in the format 'Level-Subject', "
             + "e.g., 'P4-Math'.";
     public static final String MESSAGE_INVALID_CHARS =
-        "Subject level contains invalid characters. The subject part must contain only letters "
-        + "(no digits or spaces). Use the format Level-Subject, e.g., 'P4-Math' or 'Primary6-English'.";
+        "Subject level contains invalid characters. (no spaces) "
+        + "Use the format Level-Subject, e.g., 'P4-Math' or 'Primary6-English'.";
 
     // Regex explanation:
     // ^ - start of string
     // [A-Za-z0-9]+ - one or more alphanumeric characters for the level (e.g., P4, Sec2)
     // - - must include a dash
-    // [A-Za-z]+ - one or more alphabetic characters for the subject (e.g., Math, English)
+    // [A-Za-z0-9]+ - one or more alphanumeric characters for the subject (e.g., Math, English)
     // $ - end of string
-    public static final String VALIDATION_REGEX = "^[A-Za-z0-9]+-[A-Za-z]+$";
+    public static final String VALIDATION_REGEX = "^[A-Za-z0-9]+-[A-Za-z0-9]+$";
 
     public final String value;
 

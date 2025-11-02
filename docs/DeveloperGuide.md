@@ -735,11 +735,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
+1.  User requests to add a new person with details: name, subject level, day/time, hourly rate, address, at least one contact number, and optional tags.
 2.  AddressBook validates all input fields:
     * Name is not empty.
     * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
-    * Day/time, cost, and address are valid.
+   * Day/time, hourly rate, and address are valid.
     * At least one contact number (student or next-of-kin) is provided.
 3. AddressBook creates a new person entry.
 4. AddressBook adds the new person to the list.

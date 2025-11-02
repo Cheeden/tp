@@ -185,6 +185,10 @@ Finds persons whose names, tags, or lesson days match any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Important:**
+Only one search type can be used per command. You cannot combine different prefixes (e.g., `find t/friends d/Monday` is not allowed).
+</div>
+
 #### Search by Name
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -232,6 +236,10 @@ Examples:
 * `find t/friends` returns all persons tagged with `friends`
 * `find t/friends colleagues` returns all persons tagged with either `friends` or `colleagues`
 
+Common error:
+* `find t/friends t/colleagues` Error: "Duplicate t/ prefix found. To search multiple tags, separate keywords with spaces. Example: find t/jake john"
+  - Use `find t/friends colleagues` instead.
+
 #### Search by Lesson Day (with `d/` prefix)
 * Only searches by the lesson day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
 * **Day must be a valid day of the week** — full day names only (e.g., `Monday`, `Tuesday`). Abbreviations (e.g., `Mon`, `Tue`) or invalid day names will be rejected with an error message.
@@ -241,11 +249,13 @@ Examples:
 * Only one day can be searched at a time.
 
 Examples:
-* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
-* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
 * `find d/Monday` returns all persons with Monday lessons, sorted by lesson time (e.g., 0900 before 1400)
 * `find d/tuesday` returns all persons with Tuesday lessons (case-insensitive)
+* `find d/Mon` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
+* `find d/Tomorrow` Error: "Invalid day: Please enter a valid day of the week without abbreviations (e.g. Monday to Sunday)."
 
+Common error:
+* `find d/Monday d/Tuesday` Error: "Duplicate d/ prefix found. Only one day can be searched at a time."
 
 #### Search by Subject (with `s/` prefix)
 * Only searches by the person's subject level. The subject level uses the format `Level-Subject` (e.g., `P4-Math`, `Sec1-English`).
@@ -255,12 +265,17 @@ Examples:
 Examples:
 * `find s/P4-Math` returns all persons whose subject level is `P4-Math` (case-insensitive)
 
+Common error:
+* `find s/P4-Math s/Sec1-English` Error: "Duplicate s/ prefix found. Only one subject can be searched at a time."
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
 If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box with the text in red so you can easily edit and retry your search.
 </div>
 
 #### Common errors
 - No matches: "Contact list is unchanged: No students match your search criteria."
+- Multiple prefixes: "Only one search type can be used at a time. Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes."
+  - Example: `find t/friends d/Monday` will trigger this error.
 
 ### Deleting a person : `delete`
 

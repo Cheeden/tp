@@ -735,62 +735,39 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `TutorTrack` and the **Actor** is the `Tutor`, unless specified otherwise)
 
-**Use case: Add a student contact**
+**UC01: Add a student contact**
 
 **MSS**
 
-1.  User requests to add a new person with details: name, subject level, day/time, cost, address, at least one contact number, and optional tags.
-2.  AddressBook validates all input fields:
-    * Name is not empty.
-    * SubjectLevel follows the format Level-Subject (Level: alphanumeric, no spaces; Subject: letters only, no spaces or digits).
-    * Day/time, cost, and address are valid.
-    * At least one contact number (student or next-of-kin) is provided.
-3. AddressBook creates a new person entry.
-4. AddressBook adds the new person to the list.
-5. AddressBook shows a confirmation message that the person has been added:
-   "add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St"
+1.  User chooses to add a new student. 
+2. TutorTrack requests the student’s details: name, subject level, day/time, cost, address, at least one contact number, and optional tags. 
+3. User enters the requested details. 
+4. TutorTrack validates all input fields. 
+5. TutorTrack creates a new student entry. 
+6. TutorTrack adds the entry to the student list. 
+7. TutorTrack confirms that the student has been successfully added.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The student already exists (same name and contact).
+* 3a. The student already exists (same name and contact).
 
-    * 2a1. TutorTrack shows error message:
-      “This person already exists in the address book”
-
-      Use case ends.
-
-* 2b. One or more mandatory fields are missing (i.e., name, subject level, daytime, address, at least one contact).
-
-    * 2b1. Tutortrack shows error message:
-      "Invalid command format!..."
+    * 3a1. TutorTrack rejects the addition.
 
       Use case ends.
 
-* 2c. Invalid mandatory fields input
+* 3b. One or more mandatory fields are missing/invalid (i.e., name, subject level, daytime, address, at least one contact).
 
-    * 2c1. Invalid name:
-        * Name less than 2 characters:
-          * TutorTrack shows error message:<br>
-          "Name is too short. It should be at least 2 characters long."
-    * 2c2. Invalid daytime:
-        * Wrong daytime format:
-          * TutorTrack shows error message:<br>
-          DayTime should be in the format 'Day HHMM', e.g., 'Monday 1200' or 'Tuesday 1600'.
-        * Invalid time:
-          * TutorTrack shows error message:<br>
-            '2400' is not a valid 24-hour time (HHMM).
-    * 2c3. Invalid contact:
-        * Empty phone number input:
-          * TutorTrack shows error message:<br>
-          Phone number cannot be blank.
-          * TutorTrack shows error message:<br>
-          Phone number is too short; it should be at least 3 digits.
+    * 3b1. TutorTrack rejects the entry.
+    * 3b2. User enters corrected details.
+
+      Steps 3a1–3a2 are repeated until all data are valid.
+      Use case resumes from step 5.
 
 *{More to be added}*
 
-**Use case: find a student or a group of students**
+**UC02: find a student or a group of students**
 
 **MSS**
 
@@ -804,38 +781,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+  * 2a1. TutorTrack does not display any student.
 
-  Use case ends.
+    Use case ends.
 
-* 3a. The user provides an invalid prefix
+* 3a. User provides an invalid prefix or a valid prefix with an invalid value.
 
-    * 3a1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
-
-      Use case ends.
-
-* 3a. The user provides an invalid prefix 
-
-    * 3a1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
+    * 3a1. TutorTrack rejects the search.
 
       Use case ends.
 
-* 3b. The user provides a valid prefix but an invalid value.
+* 3b. No students match the given search criteria.
 
-    * 3b1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
-
-      Use case ends.
-* 3c. No persons match the given search criteria.
-
-    * 3c1. TutorTrack shows error message:
-      “Contact list is unchanged: No students match your search criteria.”
+    * 3b1. TutorTrack does not display any students.
 
       Use case ends.
 
-* 3d. The user provides multiple keywords without prefixes
+* 3c. The user provides multiple keywords without prefixes
     * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+      Use case ends.
 
 **Use case: editplan**
 
@@ -853,33 +817,28 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
-
+    * 2a1. TutorTrack does not display any student.
     Use case ends.
 
 * 3a. The given `INDEX` is invalid (e.g., not a positive integer or out of range).
 
-    * 2a1. TutorTrack shows error message:<br>
-      "The person index provided is invalid."
+    * 3a1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 
 * 3b. The `DATE` provided is in the wrong format (e.g., 2025/10/28, 28-10-2025).
 
-    * 2b1. TutorTrack shows error message:<br>
-      * TutorTrack displays an error message:<br>
-      "Invalid date format. Use yyyy-MM-dd (e.g., 2025-10-15)."
+    * 3b1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 * 3c. The student does not have a lesson plan entry on the specified `DATE`.
 
-    * 3c1. TutorTrack shows error message:
-      “No lesson plan found on `DATE`. You might want to use 'addplan' instead.”
+    * 3c1. TutorTrack rejects the input and shows error message.
 
       Use case ends.
 * 3d. The `NEW_PLAN` field is empty or contains only whitespace.
 
-    * 3d1. TutorTrack shows error message:
-      “Plan cannot be empty.”
+    * 3d1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
 

@@ -99,13 +99,13 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
 
 More examples showing accepted SubjectLevel formats and common variations:
-* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
-* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 c/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
-* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
-* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
+* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 h/$45 a/Blk 88, Bedok St` — classic short level `P6`.
+* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 h/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
+* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 h/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
+* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 h/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
 
 <div markdown="block" class="alert alert-info">
 

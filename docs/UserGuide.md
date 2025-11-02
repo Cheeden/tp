@@ -113,13 +113,12 @@ More examples showing accepted SubjectLevel formats and common variations:
 
 * Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
   - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
-  - The "Subject" part must contain only letters (no digits, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
+  - The "Subject" part may contain letters and digits (alphanumeric, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
 * Examples of valid subject-level tokens:
   - `P4-Math`, `P6-Science`, `Pri6-Math`, `Primary6-Mathematics` (note: `Mathematics` must be a single word without spaces)
   - `Sec1-English`, `Sec2-Physics`
 * Examples of invalid subject-level tokens and why they are rejected:
   - `P4 Math` (missing dash between level and subject)
-  - `P4-M4th` (subject contains digits)
   - `P4-Math-Advanced` (extra dash; only a single dash separator is allowed)
   - `Primary 6-Math` (spaces in the level part are not allowed)
 

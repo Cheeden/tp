@@ -153,7 +153,8 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        // Trim leading/trailing whitespace and collapse consecutive internal whitespace to a single space.
+        String trimmedName = name.trim().replaceAll("\\s+", " ");
         // Provide more specific error messages for common failure modes.
         if (Name.isBlank(trimmedName)) {
             throw new ParseException(Name.MESSAGE_BLANK);

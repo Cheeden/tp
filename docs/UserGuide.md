@@ -44,7 +44,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -130,16 +130,6 @@ A person can have any number of tags (including 0)
 
 </div>
 
-Examples:
-* `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
-
-More examples showing accepted SubjectLevel formats and common variations:
-* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 h/$45 a/Blk 88, Bedok St` — classic short level `P6`.
-* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 h/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
-* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 h/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
-* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 h/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
-
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on SubjectLevel validation:**<br>
@@ -158,6 +148,24 @@ More examples showing accepted SubjectLevel formats and common variations:
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
 
+**:information_source: Notes on DayTime validation:**<br>
+
+* Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.
+  - The `DAY` part must be a **full day name** (case-insensitive), and must be one of the following:  
+    `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday`, `Sunday`.  
+    *(e.g., both `Monday` and `monday` are accepted)*
+  - The `TIME` part must be a **4-digit 24-hour format** number (`HHMM`) representing the lesson start time.
+    - Valid range: `0000` (12:00 AM) to `2359` (11:59 PM)
+* Examples of valid DayTime tokens:
+  - `Monday 0900`, `wednesday 1530`, `SUNDAY 2300`
+* Examples of invalid DayTime tokens and why they are rejected:
+  - `Mon 0900` (abbreviated day name not allowed)
+  - `Monday9am` (missing space and incorrect time format)
+  - `Monday 24:00` (invalid time format; must be 4 digits without colon)
+  - `Monday 2500` (invalid hour; exceeds 2359)
+  - `Funday 1200` (invalid day name)
+</div>
+
 #### Example Usage
 
 Below is an example showing how to add a contact with all the required fields:
@@ -167,6 +175,7 @@ Below is an example showing how to add a contact with all the required fields:
 The command shown: `add n/James Tan sc/98765432 nc/87438807 s/p4-math d/Tuesday 1200 h/$50 a/311, Clementi Ave 2, #02-25 t/Important t/Exams`
 
 This adds a student "James Tan" with both student contact (98765432) and NOK contact (87438807), taking P4-Math on Tuesday at 12:00 PM, with an hourly rate of $50, at the specified address, and with two tags: "Important" and "Exams".
+<div markdown="block" class="alert alert-info">
 
 #### Expected output
 - A success message appears in the result box and the new person appears in the list.
@@ -681,10 +690,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

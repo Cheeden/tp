@@ -114,9 +114,26 @@ Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [
 A person can have any number of tags (including 0)
 </div>
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes on Tags:**<br>
+
+* Tags must be **single words** with no spaces (alphanumeric characters only).
+* **If necessary**, for multi-word concepts, use **camelCase** (e.g., `needsHelp`, `topStudent`, `paidInFull`).
+* Examples of valid tags:
+  - `friend`, `colleague`, `vip`
+  - `needsHelp`, `topStudent`, `examsAreUpcoming` (camelCase for multi-word tags)
+* Examples of invalid tags:
+  - `needs help` (contains space - use `needsHelp` instead)
+  - `top-student` (contains hyphen - use `topStudent` instead)
+  - `exams_are_upcoming` (contains underscore - use `examsAreUpcoming` instead)
+
+</div>
+
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
+* `add n/Alice Lee sc/91234567 t/topStudent t/needsHelp s/P5-Math d/Friday 1500 c/$55 a/Blk 30, Ang Mo Kio` 
 
 More examples showing accepted SubjectLevel formats and common variations:
 * `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.

@@ -166,22 +166,11 @@ If you enter an invalid subject-level, the parser will show an error message exp
   - `Monday 0900`, `wednesday 1530`, `SUNDAY 2300`
 * Examples of invalid DayTime tokens and why they are rejected:
   - `Mon 0900` (abbreviated day name not allowed)
-  - `Monday9am` (missing space and incorrect time format)
   - `Monday 24:00` (invalid time format; must be 4 digits without colon)
   - `Monday 2500` (invalid hour; exceeds 2359)
   - `Funday 1200` (invalid day name)
   
 </div>
-
-#### Example Usage
-
-Below is an example showing how to add a contact with all the required fields:
-
-![Add Contact Example](images/AddContact.png)
-
-The command shown: `add n/James Tan sc/98765432 nc/87438807 s/p4-math d/Tuesday 1200 h/$50 a/311, Clementi Ave 2, #02-25 t/Important t/Exams`
-
-This adds a student "James Tan" with both student contact (98765432) and NOK contact (87438807), taking P4-Math on Tuesday at 12:00 PM, with an hourly rate of $50, at the specified address, and with two tags: "Important" and "Exams".
 
 #### Example Usage
 

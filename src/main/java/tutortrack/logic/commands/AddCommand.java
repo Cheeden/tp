@@ -2,8 +2,8 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_HOURLYRATE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
@@ -30,7 +30,7 @@ public class AddCommand extends Command {
             + "[" + PREFIX_NOK_CONTACT + "NOK_CONTACT] "
             + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL "
             + PREFIX_DAYTIME + "DAYTIME "
-            + PREFIX_COST + "COST "
+            + PREFIX_HOURLYRATE + "HOURLYRATE "
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
@@ -39,7 +39,7 @@ public class AddCommand extends Command {
             + PREFIX_NOK_CONTACT + "87438807 "
             + PREFIX_SUBJECTLEVEL + "p4-math "
             + PREFIX_DAYTIME + "Tuesday 1200 "
-            + PREFIX_COST + "$50 "
+            + PREFIX_HOURLYRATE + "$50 "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_TAG + "Important "
             + PREFIX_TAG + "Exams";

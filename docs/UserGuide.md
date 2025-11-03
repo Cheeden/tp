@@ -100,7 +100,7 @@ Format: `help`
 
 Adds a student to the address book.
 
-Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
+Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
 
 * `sc/SELFCONTACT` is the student's own contact number.
 
@@ -114,15 +114,31 @@ Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [
 A person can have any number of tags (including 0)
 </div>
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes on Tags:**<br>
+
+* Tags must be **single words** with no spaces (alphanumeric characters only).
+* **If necessary**, for multi-word concepts, use **camelCase** (e.g., `needsHelp`, `topStudent`, `paidInFull`).
+* Examples of valid tags:
+  - `friend`, `colleague`, `vip`
+  - `needsHelp`, `topStudent`, `examsAreUpcoming` (camelCase for multi-word tags)
+* Examples of invalid tags:
+  - `needs help` (contains space - use `needsHelp` instead)
+  - `top-student` (contains hyphen - use `topStudent` instead)
+  - `exams_are_upcoming` (contains underscore - use `examsAreUpcoming` instead)
+
+</div>
+
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
 
 More examples showing accepted SubjectLevel formats and common variations:
-* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
-* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 c/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
-* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
-* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
+* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 h/$45 a/Blk 88, Bedok St` — classic short level `P6`.
+* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 h/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
+* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 h/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
+* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 h/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
 
 <div markdown="block" class="alert alert-info">
 
@@ -160,7 +176,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`.
 * At least one of the optional fields must be provided.
@@ -334,6 +350,8 @@ You can use special characters to format your lesson plans for better readabilit
 * **`\n`** - Creates a new line (line break)
 * **`\t`** - Adds a tab space for indentation
 * **`\\`** - Displays a backslash character
+* **`\\n`** - Displays the literal text "\n" (not a line break)
+* **`\\t`** - Displays the literal text "\t" (not a tab)
 
 These formatting options are especially useful for:
 - helping you organize multi-part lessons
@@ -368,6 +386,13 @@ Adds a lesson plan with tabs for alignment. This will display as:
   ```
   Topic 1:    Linear equations
   Topic 2:    Quadratic equations
+  ```
+
+* `addplan 2 pl/2025-11-12|Reminder: Use \\n for line breaks and \\t for tabs\nChapter 7: Variables`
+Adds a lesson plan with literal escape sequences. This will display as:
+  ```
+  Reminder: Use \n for line breaks and \t for tabs
+  Chapter 7: Variables
   ```
 
 Expected outcome:<br>
@@ -435,6 +460,8 @@ You can use special characters to format your progress entries for better readab
 * **`\n`** - Creates a new line (line break)
 * **`\t`** - Adds a tab space for indentation
 * **`\\`** - Displays a backslash character
+* **`\\n`** - Displays the literal text "\n" (not a line break)
+* **`\\t`** - Displays the literal text "\t" (not a tab)
 
 These formatting options are especially useful for:
 - Listing topics covered during the lesson
@@ -472,6 +499,13 @@ Adds a detailed progress report with indentation. This will display as:
       - Factorization
       - Completing the square
   Quiz score: 85%
+  ```
+
+* `addprogress 1 pr/2025-11-05|Student asked about \\n character\nExplained it creates line breaks`
+Adds a progress entry with literal escape sequences. This will display as:
+  ```
+  Student asked about \n character
+  Explained it creates line breaks
   ```
 
 Expected outcome:<br>
@@ -569,7 +603,7 @@ TutorTrack data are saved in the hard disk automatically after any command that 
 
 ### Editing the data file
 
-TutorTrack data are saved automatically as a JSON file `[JAR file location]/data/tutortrack.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorTrack data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, TutorTrack will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
@@ -599,6 +633,9 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 **Q**: Can I use tabs or special formatting in my entries?<br>
 **A**: Yes! You can use `\t` for tabs (indentation), `\n` for new lines, and `\\` to display a backslash. These help organize your lesson plans and progress notes.
 
+**Q**: How do I type the literal text "\n" or "\t" instead of creating a line break or tab?<br>
+**A**: Use double backslashes: type `\\n` to display the text "\n" and `\\t` to display the text "\t". For example: `addplan 1 pl/2025-10-30|Note: Type \\n for newline` will display as "Note: Type \n for newline".
+
 **Q**: What happens to my formatting when I edit an entry?<br>
 **A**: Your existing formatting is preserved. When you edit an entry, you can keep, modify, or add new formatting using the same special characters (`\n`, `\t`, `\\`).
 
@@ -619,10 +656,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME [sc/SELFCONTACT] [nc/NOKCONTACT] s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/John Doe sc/98765432 nc/87438807 s/P4-Math d/Tuesday 1200 c/$50 a/311, Clementi Ave 2, #02-25 t/Important`
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

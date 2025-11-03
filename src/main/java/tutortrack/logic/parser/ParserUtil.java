@@ -17,8 +17,8 @@ import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
+import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
 import tutortrack.model.person.SubjectLevel;
@@ -290,26 +290,26 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String subjectLevel}.
+     * Parses a {@code String hourlyRate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code cost} is invalid.
+     * @throws ParseException if the given {@code hourlyRate} is invalid.
      */
-    public static Cost parseCost(String cost) throws ParseException {
-        requireNonNull(cost);
-        String trimmedCost = cost.trim();
+    public static HourlyRate parseHourlyRate(String hourlyRate) throws ParseException {
+        requireNonNull(hourlyRate);
+        String trimmedHourlyRate = hourlyRate.trim();
         // Provide clearer error messages for common failure modes
-        if (Cost.isMissingDollar(trimmedCost)) {
-            throw new ParseException(Cost.MESSAGE_MISSING_DOLLAR);
+        if (HourlyRate.isMissingDollar(trimmedHourlyRate)) {
+            throw new ParseException(HourlyRate.MESSAGE_MISSING_DOLLAR);
         }
-        if (Cost.hasTooManyDecimalPlaces(trimmedCost)) {
-            throw new ParseException(Cost.MESSAGE_TOO_MANY_DECIMALS);
+        if (HourlyRate.hasIncorrectDecimalPlaces(trimmedHourlyRate)) {
+            throw new ParseException(HourlyRate.MESSAGE_TOO_MANY_DECIMALS);
         }
-        if (!Cost.isValidCost(trimmedCost)) {
-            throw new ParseException(Cost.MESSAGE_CONSTRAINTS);
+        if (!HourlyRate.isValidHourlyRate(trimmedHourlyRate)) {
+            throw new ParseException(HourlyRate.MESSAGE_CONSTRAINTS);
         }
 
-        return new Cost(trimmedCost);
+        return new HourlyRate(trimmedHourlyRate);
     }
 
     /**

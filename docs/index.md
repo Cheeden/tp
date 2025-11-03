@@ -14,7 +14,7 @@ title: TutorTrack
 
 Private tutors often struggle with tracking multiple students' progress, managing lesson plans, and preparing updates for parents. TutorTrack solves these problems by providing:
 
-* **Centralised Student Management** - Store student contacts, subject levels, lesson times, and costs in one place
+* **Centralised Student Management** - Store student contacts, subject levels, lesson times, and hourly rates in one place
 * **Lesson Planning** - Create and manage lesson plans for each student with multi-line formatting support
 * **Progress Tracking** - Record what was covered in each lesson with detailed notes
 * **Unified Lesson View** - See all lesson plans and progress for a student side-by-side in a dedicated window

@@ -3,8 +3,8 @@ package tutortrack.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_HOURLYRATE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
@@ -36,7 +36,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_SELF_CONTACT, PREFIX_NOK_CONTACT,
-                        PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS, PREFIX_TAG);
+                        PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_HOURLYRATE, PREFIX_ADDRESS, PREFIX_TAG);
 
         Index index;
         try {
@@ -47,7 +47,7 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 PREFIX_NAME, PREFIX_SELF_CONTACT, PREFIX_NOK_CONTACT,
-                PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_COST, PREFIX_ADDRESS);
+                PREFIX_SUBJECTLEVEL, PREFIX_DAYTIME, PREFIX_HOURLYRATE, PREFIX_ADDRESS);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
@@ -72,8 +72,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             editPersonDescriptor.setDayTime(ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get()));
         }
-        if (argMultimap.getValue(PREFIX_COST).isPresent()) {
-            editPersonDescriptor.setCost(ParserUtil.parseCost(argMultimap.getValue(PREFIX_COST).get()));
+        if (argMultimap.getValue(PREFIX_HOURLYRATE).isPresent()) {
+            editPersonDescriptor.setHourlyRate(ParserUtil
+                    .parseHourlyRate(argMultimap.getValue(PREFIX_HOURLYRATE).get()));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));

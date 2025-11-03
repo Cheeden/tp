@@ -5,13 +5,13 @@ import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.CONTACT_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.CONTACT_DESC_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_AMY;
-import static tutortrack.logic.commands.CommandTestUtil.COST_DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.DAYTIME_DESC_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.HOURLYRATE_DESC_AMY;
+import static tutortrack.logic.commands.CommandTestUtil.HOURLYRATE_DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
-import static tutortrack.logic.commands.CommandTestUtil.INVALID_COST_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_DAYTIME_DESC;
+import static tutortrack.logic.commands.CommandTestUtil.INVALID_HOURLYRATE_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static tutortrack.logic.commands.CommandTestUtil.INVALID_SUBJECTLEVEL_DESC;
@@ -28,8 +28,8 @@ import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static tutortrack.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_HOURLYRATE_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NOK_CONTACT_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
 import tutortrack.logic.Messages;
 import tutortrack.logic.commands.AddCommand;
 import tutortrack.model.person.Address;
-import tutortrack.model.person.Cost;
+import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -67,7 +67,7 @@ public class AddCommandParserTest {
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB
                                            + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB
-                                           + COST_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
+                                           + HOURLYRATE_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
                 new AddCommand(expectedPerson));
 
         // multiple tags - all accepted
@@ -75,7 +75,7 @@ public class AddCommandParserTest {
                                                     .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                        + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                        + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 new AddCommand(expectedPersonMultipleTags));
     }
@@ -83,7 +83,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_repeatedNonTagValue_failure() {
         String validExpectedPersonString = NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                                   + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                                   + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                                    + ADDRESS_DESC_BOB + TAG_DESC_FRIEND;
 
         // multiple names
@@ -137,7 +137,7 @@ public class AddCommandParserTest {
         // zero tags
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + CONTACT_DESC_AMY + NOK_CONTACT_DESC_AMY
-                                           + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY + COST_DESC_AMY
+                                           + SUBJECTLEVEL_DESC_AMY + DAYTIME_DESC_AMY + HOURLYRATE_DESC_AMY
                                            + ADDRESS_DESC_AMY, new AddCommand(expectedPerson));
     }
 
@@ -147,37 +147,37 @@ public class AddCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing contact prefix
         assertParseFailure(parser, NAME_DESC_BOB + VALID_CONTACT_BOB + VALID_NOK_CONTACT_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing subject level prefix
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + VALID_SUBJECTLEVEL_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + VALID_SUBJECTLEVEL_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing daytime prefix
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + VALID_DAYTIME_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + VALID_DAYTIME_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing cost prefix
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + VALID_COST_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + VALID_HOURLYRATE_BOB
                                            + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing address prefix
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + VALID_ADDRESS_BOB,
                 expectedMessage);
 
@@ -185,7 +185,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, VALID_NAME_BOB + VALID_CONTACT_BOB
                                            + VALID_NOK_CONTACT_BOB
                                            + VALID_SUBJECTLEVEL_BOB + VALID_DAYTIME_BOB
-                                           + VALID_COST_BOB + VALID_ADDRESS_BOB,
+                                           + VALID_HOURLYRATE_BOB + VALID_ADDRESS_BOB,
                 expectedMessage);
     }
 
@@ -193,49 +193,52 @@ public class AddCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name (specific message for invalid characters)
         assertParseFailure(parser, INVALID_NAME_DESC + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB
+                                           + HOURLYRATE_DESC_BOB + ADDRESS_DESC_BOB
                                            + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_INVALID_CHARS);
 
         // invalid contact (invalid characters)
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB
+                                           + HOURLYRATE_DESC_BOB + ADDRESS_DESC_BOB
                                            + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_INVALID_CHARS);
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + INVALID_ADDRESS_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                                            Address.MESSAGE_CONSTRAINTS);
 
         // invalid subject level (missing dash / invalid format)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + INVALID_SUBJECTLEVEL_DESC + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + INVALID_SUBJECTLEVEL_DESC + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND, SubjectLevel.MESSAGE_INVALID_FORMAT);
 
         // invalid day/time (e.g. invalid format or invalid hour)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + INVALID_DAYTIME_DESC + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + INVALID_DAYTIME_DESC + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
                 "Invalid time: '2500' is not a valid 24-hour time (HHMM).");
 
         // invalid cost (missing $ sign)
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + INVALID_COST_DESC
-                                           + ADDRESS_DESC_BOB, Cost.MESSAGE_MISSING_DOLLAR);
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + INVALID_HOURLYRATE_DESC
+                                           + ADDRESS_DESC_BOB, HourlyRate.MESSAGE_MISSING_DOLLAR);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB + ADDRESS_DESC_BOB
-                                           + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
+                                           + ADDRESS_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND,
+                                           Tag.MESSAGE_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported (name invalid chars reported)
         assertParseFailure(parser, INVALID_NAME_DESC + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + INVALID_ADDRESS_DESC, Name.MESSAGE_INVALID_CHARS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB
-                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + COST_DESC_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }

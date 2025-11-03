@@ -100,7 +100,7 @@ Format: `help`
 
 Adds a student to the address book.
 
-Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
+Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
 
 * `sc/SELFCONTACT` is the student's own contact number.
 
@@ -196,7 +196,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`.
 * At least one of the optional fields must be provided.
@@ -219,7 +219,7 @@ Examples:
 
 Finds persons whose names, tags, or lesson days match any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECT_LEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
+Format: `find KEYWORD [MORE_KEYWORDS]` OR `find s/SUBJECTLEVEL` OR `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` OR `find d/DAY`
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Important:**
 Only one search type can be used per command. You cannot combine different prefixes (e.g., `find t/friends d/Monday` is not allowed).
@@ -691,11 +691,11 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
- **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECTLEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`
  **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`

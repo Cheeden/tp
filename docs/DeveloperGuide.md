@@ -3,7 +3,15 @@
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* {list of sources of all reused/adapted ideas, code, documentation, and third-party libraries -- including links to the original source}
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+* CS2103T Teaching Team for guidance and the initial codebase
+* Libraries and frameworks used:
+  * [JavaFX](https://openjfx.io/) - For the graphical user interface
+  * [Jackson](https://github.com/FasterXML/jackson) - For JSON data processing and storage
+  * [JUnit5](https://junit.org/junit5/) - For unit testing
+  * [Gradle](https://gradle.org/) and [Shadow Plugin](https://github.com/johnrengelman/shadow) - For build automation and packaging
+* Material UI library for the house.png icon (https://mui.com/material-ui/material-icons/)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1157,7 +1165,10 @@ testers are expected to do more *exploratory* testing.
   * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
   * Trade off considerations: Harder for users to understand find implementation if added for a rare edge case. Takes time away from more important tasks.
 
-
+* Clear command confirmation
+  * Current issue: The `clear` command immediately deletes all student data without any confirmation message. For users who type quickly, accidentally typing `clear` and pressing Enter could result in unintended data loss of valuable lesson plans and progress records.
+  * Planned change: Add a confirmation step for the `clear` command to prevent accidental deletion. Users will need to type `clear confirm` or the system will prompt for confirmation before permanently deleting all data.
+  * Trade off considerations: Adds a small friction to the clear command, but the safety benefit outweighs this cost given the destructive and irreversible nature of the operation. This aligns with industry best practices for data deletion operations.
 
 
 

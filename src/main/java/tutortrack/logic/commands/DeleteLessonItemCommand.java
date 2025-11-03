@@ -54,6 +54,8 @@ public abstract class DeleteLessonItemCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+        logger.info(String.format("Attempting to delete lesson item on %s for person: %s",
+                date, personToEdit.getName()));
 
         // Let Person handle the deletion and validation to adhere to Tell, Don't Ask principle.
         try {

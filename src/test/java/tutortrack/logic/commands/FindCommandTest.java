@@ -120,6 +120,17 @@ public class FindCommandTest {
         assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredPersonList());
     }
 
+    // EP: Exactly one person matches name search criteria, display single person
+    @Test
+    public void execute_singlePersonFound_success() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        NameContainsKeywordsPredicate predicate = preparePredicate("Alice");
+        FindCommand command = new FindCommand(predicate, predicate.getComparator());
+        expectedModel.updateFilteredPersonList(predicate, predicate.getComparator());
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
+    }
+
     // toString() method returns the correct string representation
     @Test
     public void toStringMethod() {

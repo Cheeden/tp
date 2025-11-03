@@ -57,6 +57,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        logger.info("Executing find command with predicate: " + searchPredicate.getClass().getSimpleName());
 
         // Obtain the number of matches to determine if filter should be applied
         ObservableList<Person> fullList = model.getAddressBook().getPersonList();

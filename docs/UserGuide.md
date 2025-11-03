@@ -44,7 +44,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -62,39 +62,39 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 
 **:information_source: Notes about the command format:**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+**Parameter Notation:**
+* Words in `UPPER_CASE` are parameters to be supplied by the user.
+  - Example: in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+* Items in square brackets are optional.
+  - Example: `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* Items with `…`​ after them can be used multiple times including zero times.
+  - Example: `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME s/SUBJECTLEVEL`, `s/SUBJECTLEVEL n/NAME` is also acceptable.
+**Command Flexibility:**
+* Parameters can be in any order.
+  - Example: if the command specifies `n/NAME s/SUBJECTLEVEL`, `s/SUBJECTLEVEL n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.
+  - Example: if the command specifies `help 123`, it will be interpreted as `help`.
 
-* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
-  The index **must be a positive integer** 1, 2, 3, …​<br>
-  e.g. the command `edit 2 n/NAME` will edit the name of the 2nd person in the list.
+**INDEX:**
+* Refers to the index number shown in the displayed person list, which **starts from 1**.
+* The index **must be a positive integer** 1, 2, 3, …​
+* Example: the command `edit 2 n/NAME` will edit the name of the 2nd person in the list.
 
+**PDF Users:**
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the help page.
+shows a message within a pop up explaining how to access the help page appears.
 
 ![help message](images/helpMessage.png)
 
 Format: `help`
-
-#### Expected output
-- The Help window opens automatically.
-
 
 ### Adding a person: `add`
 
@@ -130,16 +130,6 @@ A person can have any number of tags (including 0)
 
 </div>
 
-Examples:
-* `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
-
-More examples showing accepted SubjectLevel formats and common variations:
-* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 h/$45 a/Blk 88, Bedok St` — classic short level `P6`.
-* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 h/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
-* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 h/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
-* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 h/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
-
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on SubjectLevel validation:**<br>
@@ -157,6 +147,35 @@ More examples showing accepted SubjectLevel formats and common variations:
 
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
+
+**:information_source: Notes on DayTime validation:**<br>
+
+* Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.
+  - The `DAY` part must be a **full day name** (case-insensitive), and must be one of the following:  
+    `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday`, `Sunday`.  
+    *(e.g., both `Monday` and `monday` are accepted)*
+  - The `TIME` part must be a **4-digit 24-hour format** number (`HHMM`) representing the lesson start time.
+    - Valid range: `0000` (12:00 AM) to `2359` (11:59 PM)
+* Examples of valid DayTime tokens:
+  - `Monday 0900`, `wednesday 1530`, `SUNDAY 2300`
+* Examples of invalid DayTime tokens and why they are rejected:
+  - `Mon 0900` (abbreviated day name not allowed)
+  - `Monday9am` (missing space and incorrect time format)
+  - `Monday 24:00` (invalid time format; must be 4 digits without colon)
+  - `Monday 2500` (invalid hour; exceeds 2359)
+  - `Funday 1200` (invalid day name)
+</div>
+
+#### Example Usage
+
+Below is an example showing how to add a contact with all the required fields:
+
+![Add Contact Example](images/AddContact.png)
+
+The command shown: `add n/James Tan sc/98765432 nc/87438807 s/p4-math d/Tuesday 1200 h/$50 a/311, Clementi Ave 2, #02-25 t/Important t/Exams`
+
+This adds a student "James Tan" with both student contact (98765432) and NOK contact (87438807), taking P4-Math on Tuesday at 12:00 PM, with an hourly rate of $50, at the specified address, and with two tags: "Important" and "Exams".
+<div markdown="block" class="alert alert-info">
 
 #### Expected output
 - A success message appears in the result box and the new person appears in the list.
@@ -206,17 +225,30 @@ Only one search type can be used per command. You cannot combine different prefi
 </div>
 
 #### Search by Name
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* By default (without prefix eg t/), the name of the student is searched using prefix matching.
-* Any name token starting with the keyword will be matched e.g. `Han` will match `Hans` and `Hannah`
-* **Results are ranked by relevance**:
-  - **Priority 1**: First name matches appear first
-  - **Priority 2**: Other name matches appear second
-  - Within each priority level, results are sorted alphabetically by full name (case-insensitive)
-  - Note: All non-first name matches have equal priority regardless of position (2nd, 3rd, 4th token, etc.)
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+**Basic Search Rules:**
+* Case-insensitive - `hans` will match `Hans`
+* Keyword order doesn't matter - `find Hans Bo` gives the same results as `find Bo Hans`
+* Uses **prefix matching** - matches any word in the name that starts with your search keyword.
+  - Example: searching `Han` will match both `Hans` and `Hannah` (because both start with "Han")
+* **OR search** - displays students matching **any** of the keywords (not all)
+  - Example: `find Hans Bo` displays:
+    - `Hans Gruber` (first name matches "Hans")
+    - `Bo Yang` (first name matches "Bo")
+
+
+**Result Ranking:**
+
+Results are automatically sorted by relevance:
+1. **First name matches** - appear first (highest priority)
+   - Example: searching `John` → `John Doe` appears before `Mary Johnson`
+2. **Other name matches** - appear second (last name, middle name, etc.)
+   - Example: searching `John` → `Mary Johnson` appears after `John Doe`
+3. **Alphabetical within each priority** - results are sorted by full name (case-insensitive)
+
+**Important:** First name matches will **always** appear before other name matches, regardless of alphabetical order. 
+
+> **Note:** All non-first name matches (2nd, 3rd, 4th token, etc.) have equal priority.
 
 Examples:
 **Ranking Examples for "find Jo":**
@@ -229,17 +261,9 @@ Examples:
   - `Alice Jones Tan` (2nd token match)
   - `Mary Smith Jones` (3rd token match)
 
-**Ranking Examples for "find david tan":**
-* **Priority 1** (First name matches sorted alphabetically):
-  - `David Lee` (matches "david")
-  - `David Tan` (matches both "david" and "tan")
-* **Priority 2** (Non-first name matches sorted alphabetically):
-  - `Alice Tan` (2nd token matches "tan")
-  - `John David` (2nd token matches "david")
-
-Note: "David Tan" matches both keywords but receives the same rank as "David Lee" since both have first name matches. Multiple keyword matches do not increase priority.
 
 **Example output for `find alex david`:**
+
 ![Result for 'find alex david'](images/findAlexDavidResult.png)
 
 #### Search by Tag (with `t/` prefix)
@@ -316,22 +340,61 @@ TutorTrack allows tutors to add, edit, and delete lesson plans and lesson progre
 
 **:information_source: Notes about the Lesson Management command format:**<br>
 
-* `INDEX` refers to the index number shown in the displayed person list, which **starts from 1**.<br>
-  The index **must be a positive integer** 1, 2, 3, …​<br>
-  e.g. the command `deleteplan 3 DATE` will deletes the lesson plan for the 3rd student in the list on the specified `DATE`.
-* `DATE` represents the day of a lesson. Each student can have **at most one** `PLAN` and one `PROGRESS` per lesson day. Otherwise, there will be an error message.
-* `DATE` must be in the format YYYY-MM-DD.<br>
-  e.g. `2025-10-30` is the only valid input format, while `Oct 30, 2025` and `2025/10/30` are invalid formats (There could be other invalid formats).
-* `DATE` MM must be between 1 and 12 inclusive and DD must be between 1 and 31 inclusive.<br>
-  Otherwise, there will be an error message.
-* `PLAN` is a short description of the topics or activities planned for that lesson.<br>
-  `PROGRESS` is a short description of what was covered or achieved in that lesson.
-* The prefix for `PLAN` is `pl/`. The prefix for `PROGRESS` is `pr/`.
-* There must be a `|` to separate `DATE` and `PLAN`/`PROGRESS`.<br>
-  e.g. `addplan INDEX pl/DATE|PLAN` is the only valid input format, while `addplan INDEX pl/DATE, PLAN` and `addplan INDEX pl/DATE PLAN` are invalid formats (There could be other invalid formats).
-* The commands are case-sensitive, therefore must use lowercase letters.<br>
-  e.g. `addplan`, `editplan`, `deleteprogress`, `viewlessons`
+**INDEX:**
+* Refers to the index number shown in the displayed person list, which **starts from 1**.
+* The index **must be a positive integer** 1, 2, 3, …​
+* Example: `deleteplan 3 DATE` deletes the lesson plan for the 3rd student in the list on the specified `DATE`.
+
+**DATE:**
+* Represents the day of a lesson.
+* Each student can have **at most one** `PLAN` and one `PROGRESS` per lesson day.
+* Must be in the format `YYYY-MM-DD` (e.g., `2025-10-30`).
+  - Invalid formats: `Oct 30, 2025`, `2025/10/30`
+* Month (MM) must be between 1 and 12 inclusive.
+* Day (DD) must be between 1 and 31 inclusive.
+
+**PLAN and PROGRESS:**
+* `PLAN` is a short description of the topics or activities planned for that lesson.
+* `PROGRESS` is a short description of what was covered or achieved in that lesson.
+* Prefix for `PLAN` is `pl/`.
+* Prefix for `PROGRESS` is `pr/`.
+* Must use `|` to separate `DATE` and `PLAN`/`PROGRESS`.
+  - Valid format: `addplan INDEX pl/DATE|PLAN`
+  - Invalid formats: `addplan INDEX pl/DATE, PLAN` or `addplan INDEX pl/DATE PLAN`
+
+**Command Case Sensitivity:**
+* All lesson management commands must use lowercase letters.
+* Examples: `addplan`, `editplan`, `deleteprogress`, `viewlessons`
+
 </div>
+
+### Viewing Lesson Window : `viewlessons`
+
+Shows the lesson plan and progress history for a specific student in a separate window.
+
+Format: `viewlessons INDEX`
+
+* Views the lesson plan and progress of the student at the specified `INDEX`.
+* Opens a new window displaying all recorded lesson progress entries.
+* Each entry shows the date and progress description.
+* Entries are sorted by date in chronological order.
+* **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
+
+> **Tip:**
+> 1. Add lesson plan using the `addplan` command before viewing<br>
+> 2. Add lesson progress using the `addprogress` command before viewing.
+
+Examples:
+* `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
+* `find John` followed by `viewlessons 1` shows the lesson window for the 1st person in the filtered results.
+
+Expected output:<br>
+![View Lessons Window](images/viewlessonsWindow.png)
+* A new window titled "Lessons - [Student Name]" will appear.
+* The window contains a table with three columns: **Date**, **Lesson Plan** and **Lesson Progress**.
+* Multi-line entries will display properly with line breaks preserved.
+* The columns automatically adjust to fit your content with text wrapping enabled.
+* If the student has no lesson plan or lesson progress recorded, an empty table is shown.
 
 ### Adding lesson plan : `addplan`
 
@@ -557,34 +620,6 @@ Examples:
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
 * `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
 
-### Viewing Lesson Window : `viewlessons`
-
-Shows the lesson progress history for a specific student in a separate window.
-
-Format: `viewlessons INDEX`
-
-* Views the lesson plan and progress of the student at the specified `INDEX`.
-* Opens a new window displaying all recorded lesson progress entries.
-* Each entry shows the date and progress description.
-* Entries are sorted by date in chronological order.
-* **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
-
-> **Tip:**
-> 1. Add lesson plan using the `addplan` command before viewing<br>
-> 2. Add lesson progress using the `addprogress` command before viewing.
-
-Examples:
-* `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
-* `find John` followed by `viewlessons 1` shows the lesson window for the 1st person in the filtered results.
-
-Expected output:<br>
-![View Lessons Window](images/viewlessonsWindow.png)
-* A new window titled "Lessons - [Student Name]" will appear.
-* The window contains a table with three columns: **Date**, **Lesson Plan** and **Lesson Progress**.
-* Multi-line entries will display properly with line breaks preserved.
-* The columns automatically adjust to fit your content with text wrapping enabled.
-* If the student has no lesson plan or lesson progress recorded, an empty table is shown.
-
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -621,10 +656,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 **Q**: What is the difference between lesson plan and lesson progress?<br>
 **A**: Lesson Plan represents what is intended to be taught in a future lesson. Lesson Progress represents what was actually covered in a past lesson.
 
-**Q**: Can I add plans for past dates and progresses for future dates?
+**Q**: Can I add plans for past dates and progresses for future dates?<br>
 **A**: Yes, You can add plans for past dates (for example, if you forgot to record a previous lesson) and progresses for future dates (to update them in advance). You can always edit them later if there are any changes.
 
-**Q**: Are users allowed to create their own command syntax?
+**Q**: Are users allowed to create their own command syntax?<br>
 **A**: No, but it could be an extension for future.
 
 **Q**: How do I create multi-line lesson plans or progress entries?<br>
@@ -644,8 +679,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **Very long text in any field may be truncated in the UI.**
+2. **Very long text in any field may be truncated in the UI.**
   - If a field (for example, a tag, name, or address) contains an extremely long string, the UI may display an ellipsis or cut off the text when rendering the person card or other compact views.
   - This is a display/UX limitation rather than data loss — the full text remains stored. We intentionally avoid imposing strict length limits on input fields so as not to restrict users' freedom to store detailed information.
   - Workaround: prefer shorter tokens for tags and shorter summaries for fields that will be displayed in compact views. A future release may add optional truncation/tooltip behaviour to improve readability.
@@ -656,10 +690,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

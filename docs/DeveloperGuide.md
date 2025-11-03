@@ -994,8 +994,10 @@ testers are expected to do more *exploratory* testing.
    The student’s lesson progress list is updated. Timestamp in the status bar is updated.
    3. Test case: `addprogress 0 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
-   “Invalid command format! …”. Status bar remains the same.
+   "Invalid index. ...". Status bar remains the same.
    4. Test case: `addprogress 1 pr/invalid-date|Introduced new algebra concepts`<br>
+   Expected: No lesson progress is added. Error details shown in the status message:
+   "Invalid date format. ...". Status bar remains the same
    5. Test case: `addprogress 1 pr/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
    6. Test case: `addprogress x pr/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>

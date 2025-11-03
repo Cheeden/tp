@@ -42,10 +42,12 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_SUBJECTLEVEL,
                 PREFIX_DAYTIME, PREFIX_HOURLYRATE, PREFIX_ADDRESS)
-                    || (!argMultimap.getValue(PREFIX_SELF_CONTACT).isPresent()
-                                && !argMultimap.getValue(PREFIX_NOK_CONTACT).isPresent())
-                    || !argMultimap.getPreamble().isEmpty()) {
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+        if (!argMultimap.getValue(PREFIX_SELF_CONTACT).isPresent()
+                    && !argMultimap.getValue(PREFIX_NOK_CONTACT).isPresent()) {
+            throw new ParseException("At least one of the contacts must be provided.");
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(
@@ -60,10 +62,9 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone selfContact = selfContactStr.isPresent() ? ParserUtil.parsePhone(selfContactStr.get()) : null;
         Phone nokContact = nokContactStr.isPresent() ? ParserUtil.parsePhone(nokContactStr.get()) : null;
 
-        if (selfContact == null && nokContact == null) {
-            throw new ParseException("At least one of self contact or NOK contact must be provided.");
+        if (selfContact != null && selfContact.equals(nokContact)) {
+            throw new ParseException("Two contact numbers cannot be the same.");
         }
-
         SubjectLevel subjectLevel = ParserUtil.parseSubjectLevel(argMultimap.getValue(PREFIX_SUBJECTLEVEL).get());
         DayTime dayTime = ParserUtil.parseDayTime(argMultimap.getValue(PREFIX_DAYTIME).get());
         HourlyRate hourlyRate = ParserUtil.parseHourlyRate(argMultimap.getValue(PREFIX_HOURLYRATE).get());

@@ -18,8 +18,8 @@ import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
-import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
 import tutortrack.model.person.SubjectLevel;
@@ -206,34 +206,34 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseHourlyRate_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseHourlyRate((String) null));
+    public void parseCost_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseCost((String) null));
     }
 
     @Test
     public void parseCost_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, HourlyRate.MESSAGE_MISSING_DOLLAR, () ->
-                ParserUtil.parseHourlyRate(INVALID_COST)); // missing $
+        assertThrows(ParseException.class, Cost.MESSAGE_MISSING_DOLLAR, () ->
+                ParserUtil.parseCost(INVALID_COST)); // missing $
     }
 
     @Test
     public void parseCost_tooManyDecimalPlaces_throwsParseException() {
         final String invalidTooMany = "$50.123";
-        assertThrows(ParseException.class, HourlyRate.MESSAGE_TOO_MANY_DECIMALS, () ->
-                ParserUtil.parseHourlyRate(invalidTooMany));
+        assertThrows(ParseException.class, Cost.MESSAGE_TOO_MANY_DECIMALS, () ->
+                ParserUtil.parseCost(invalidTooMany));
     }
 
     @Test
-    public void parseCost_validValueWithoutWhitespace_returnsHourlyRate() throws Exception {
-        HourlyRate expectedCost = new HourlyRate(VALID_COST);
-        assertEquals(expectedCost, ParserUtil.parseHourlyRate(VALID_COST));
+    public void parseCost_validValueWithoutWhitespace_returnsCost() throws Exception {
+        Cost expectedCost = new Cost(VALID_COST);
+        assertEquals(expectedCost, ParserUtil.parseCost(VALID_COST));
     }
 
     @Test
-    public void parseCost_validValueWithWhitespace_returnsTrimmedHourlyRate() throws Exception {
+    public void parseCost_validValueWithWhitespace_returnsTrimmedCost() throws Exception {
         String costWithWhitespace = WHITESPACE + VALID_COST + WHITESPACE;
-        HourlyRate expectedCost = new HourlyRate(VALID_COST);
-        assertEquals(expectedCost, ParserUtil.parseHourlyRate(costWithWhitespace));
+        Cost expectedCost = new Cost(VALID_COST);
+        assertEquals(expectedCost, ParserUtil.parseCost(costWithWhitespace));
     }
 
     @Test

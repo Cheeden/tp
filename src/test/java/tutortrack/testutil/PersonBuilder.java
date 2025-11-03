@@ -12,8 +12,8 @@ import tutortrack.logic.parser.ParserUtil;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
-import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -31,7 +31,7 @@ public class PersonBuilder {
     public static final String DEFAULT_NOK_CONTACT = "87438807";
     public static final String DEFAULT_SUBJECTLEVEL = "P4-Math";
     public static final String DEFAULT_DAYTIME = "Monday 1200";
-    public static final String DEFAULT_HOURLYRATE = "$50";
+    public static final String DEFAULT_COST = "$50";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_LESSON_PLAN = "2025-10-15|Cover Chapter 1";
     public static final String DEFAULT_LESSON_PROGRESS = "2025-10-15|Covered Chapter 1";
@@ -41,7 +41,7 @@ public class PersonBuilder {
     private Phone nokContact;
     private SubjectLevel subjectLevel;
     private DayTime dayTime;
-    private HourlyRate hourlyRate;
+    private Cost cost;
     private Address address;
     private Set<Tag> tags;
     private List<LessonPlan> lessonPlanList = new ArrayList<>();
@@ -56,7 +56,7 @@ public class PersonBuilder {
         nokContact = new Phone(DEFAULT_NOK_CONTACT);
         subjectLevel = new SubjectLevel(DEFAULT_SUBJECTLEVEL);
         dayTime = new DayTime(DEFAULT_DAYTIME);
-        hourlyRate = new HourlyRate(DEFAULT_HOURLYRATE);
+        cost = new Cost(DEFAULT_COST);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         try {
@@ -86,7 +86,7 @@ public class PersonBuilder {
         nokContact = personToCopy.getNokContact();
         subjectLevel = personToCopy.getSubjectLevel();;
         dayTime = personToCopy.getDayTime();
-        hourlyRate = personToCopy.getHourlyRate();
+        cost = personToCopy.getCost();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
         lessonPlanList = new ArrayList<>();
@@ -156,10 +156,10 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code hourlyRate} of the {@code Person} that we are building.
+     * Sets the {@code Cost} of the {@code Person} that we are building.
      */
-    public PersonBuilder withHourlyRate(String hourlyRate) {
-        this.hourlyRate = new HourlyRate(hourlyRate);
+    public PersonBuilder withCost(String cost) {
+        this.cost = new Cost(cost);
         return this;
     }
 
@@ -197,7 +197,7 @@ public class PersonBuilder {
      * Builds a person.
      */
     public Person build() {
-        Person person = new Person(name, selfContact, nokContact, subjectLevel, dayTime, hourlyRate, address, tags);
+        Person person = new Person(name, selfContact, nokContact, subjectLevel, dayTime, cost, address, tags);
         person.getLessonProgressList().addAll(lessonProgressList);
         return person;
     }

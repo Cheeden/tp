@@ -13,8 +13,8 @@ import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.lesson.LessonPlan;
 import tutortrack.model.lesson.LessonProgress;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
-import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -33,7 +33,7 @@ class JsonAdaptedPerson {
     private final String nokContact;
     private final String subjectLevel;
     private final String dayTime;
-    private final String hourlyRate;
+    private final String cost;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<JsonAdaptedLessonPlan> lessonPlanList = new ArrayList<>();
@@ -46,7 +46,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("selfContact") String selfContact,
             @JsonProperty("nokContact") String nokContact,
             @JsonProperty("subjectLevel") String subjectLevel,
-            @JsonProperty("dayTime") String dayTime, @JsonProperty("hourlyRate") String hourlyRate,
+            @JsonProperty("dayTime") String dayTime, @JsonProperty("cost") String cost,
             @JsonProperty("address") String address, @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("lessonPlanList") List<JsonAdaptedLessonPlan> lessonPlanList,
                              @JsonProperty("lessonProgressList") List<JsonAdaptedLessonProgress> lessonProgressList) {
@@ -55,7 +55,7 @@ class JsonAdaptedPerson {
         this.nokContact = nokContact;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
-        this.hourlyRate = hourlyRate;
+        this.cost = cost;
         this.address = address;
         if (tags != null) {
             this.tags.addAll(tags);
@@ -77,7 +77,7 @@ class JsonAdaptedPerson {
         nokContact = (source.getNokContact() != null) ? source.getNokContact().value : null;
         subjectLevel = source.getSubjectLevel().value;
         dayTime = source.getDayTime().value;
-        hourlyRate = source.getHourlyRate().value;
+        cost = source.getCost().value;
         address = source.getAddress().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -162,14 +162,13 @@ class JsonAdaptedPerson {
         }
         final DayTime modelDayTime = new DayTime(dayTime);
 
-        if (hourlyRate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    HourlyRate.class.getSimpleName()));
+        if (cost == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Cost.class.getSimpleName()));
         }
-        if (!HourlyRate.isValidHourlyRate(hourlyRate)) {
-            throw new IllegalValueException(HourlyRate.MESSAGE_CONSTRAINTS);
+        if (!Cost.isValidCost(cost)) {
+            throw new IllegalValueException(Cost.MESSAGE_CONSTRAINTS);
         }
-        final HourlyRate modelHourlyRate = new HourlyRate(hourlyRate);
+        final Cost modelCost = new Cost(cost);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
@@ -182,7 +181,7 @@ class JsonAdaptedPerson {
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
         Person person = new Person(modelName, modelSelfContact, modelNokContact,
-                modelSubjectLevel, modelDayTime, modelHourlyRate, modelAddress, modelTags);
+                modelSubjectLevel, modelDayTime, modelCost, modelAddress, modelTags);
 
         person.getLessonPlanList().addAll(modelLessonPlan);
         person.getLessonProgressList().addAll(modelLessonProgress);

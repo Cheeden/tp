@@ -31,7 +31,7 @@ public class Person {
     // Data fields
     private final SubjectLevel subjectLevel;
     private final DayTime dayTime;
-    private final HourlyRate hourlyRate;
+    private final Cost cost;
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final ObservableList<LessonProgress> lessonProgressList = FXCollections.observableArrayList();
@@ -41,9 +41,9 @@ public class Person {
      * All other fields and at least one of contacts must be present and not null.
      */
     public Person(Name name, Phone selfContact, Phone nokContact,
-                  SubjectLevel subjectLevel, DayTime dayTime, HourlyRate hourlyRate,
+                  SubjectLevel subjectLevel, DayTime dayTime, Cost cost,
                   Address address, Set<Tag> tags) {
-        requireAllNonNull(name, subjectLevel, dayTime, hourlyRate, address, tags);
+        requireAllNonNull(name, subjectLevel, dayTime, cost, address, tags);
 
         if (selfContact == null && nokContact == null) {
             throw new IllegalArgumentException("At least one of the contact should be provided.");
@@ -53,7 +53,7 @@ public class Person {
         this.nokContact = nokContact;
         this.subjectLevel = subjectLevel;
         this.dayTime = dayTime;
-        this.hourlyRate = hourlyRate;
+        this.cost = cost;
         this.address = address;
         this.tags.addAll(tags);
     }
@@ -78,8 +78,8 @@ public class Person {
         return dayTime;
     }
 
-    public HourlyRate getHourlyRate() {
-        return hourlyRate;
+    public Cost getCost() {
+        return cost;
     }
 
     public Address getAddress() {
@@ -231,7 +231,7 @@ public class Person {
                 this.nokContact,
                 this.subjectLevel,
                 this.dayTime,
-                this.hourlyRate,
+                this.cost,
                 this.address,
                 new HashSet<>(this.tags)
         );
@@ -269,7 +269,7 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, selfContact, nokContact, subjectLevel, dayTime, hourlyRate, address, tags);
+        return Objects.hash(name, selfContact, nokContact, subjectLevel, dayTime, cost, address, tags);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class Person {
                 .add("nokContact", nokContact)
                 .add("subjectLevel", subjectLevel)
                 .add("dayTime", dayTime)
-                .add("hourlyRate", hourlyRate)
+                .add("cost", cost)
                 .add("address", address)
                 .add("tags", tags)
                 .add("lesson plan", lessonPlanList)

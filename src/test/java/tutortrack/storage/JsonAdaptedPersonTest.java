@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import tutortrack.commons.exceptions.IllegalValueException;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
-import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Phone;
 import tutortrack.model.person.SubjectLevel;
@@ -34,7 +34,7 @@ public class JsonAdaptedPersonTest {
     private static final String VALID_NOK_CONTACT = BENSON.getNokContact().toString();
     private static final String VALID_SUBJECTLEVEL = BENSON.getSubjectLevel().toString();
     private static final String VALID_DAYTIME = BENSON.getDayTime().toString();
-    private static final String VALID_COST = BENSON.getHourlyRate().toString();
+    private static final String VALID_COST = BENSON.getCost().toString();
     private static final String VALID_ADDRESS = BENSON.getAddress().toString();
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
                                                                    .map(JsonAdaptedTag::new)
@@ -137,7 +137,7 @@ public class JsonAdaptedPersonTest {
                 new JsonAdaptedPerson(VALID_NAME, VALID_SELF_CONTACT, VALID_NOK_CONTACT,
                         VALID_SUBJECTLEVEL, VALID_DAYTIME, INVALID_COST, VALID_ADDRESS, VALID_TAGS,
                         VALID_LESSONPLANS, VALID_LESSONPROGRESSES);
-        String expectedMessage = HourlyRate.MESSAGE_CONSTRAINTS;
+        String expectedMessage = Cost.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
@@ -147,7 +147,7 @@ public class JsonAdaptedPersonTest {
                 new JsonAdaptedPerson(VALID_NAME, VALID_SELF_CONTACT, VALID_NOK_CONTACT,
                         VALID_SUBJECTLEVEL, VALID_DAYTIME, null, VALID_ADDRESS, VALID_TAGS,
                         VALID_LESSONPLANS, VALID_LESSONPROGRESSES);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, HourlyRate.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Cost.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

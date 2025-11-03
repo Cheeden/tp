@@ -165,7 +165,7 @@ public class ParserUtilTest {
     @Test
     public void parseSubjectLevel_invalidChars_throwsParseExceptionWithMessage() {
         assertThrows(ParseException.class, SubjectLevel.MESSAGE_INVALID_CHARS, () ->
-                ParserUtil.parseSubjectLevel("P4-M4th"));
+                ParserUtil.parseSubjectLevel("P4-M th"));
     }
 
     @Test

@@ -151,9 +151,24 @@ public class Person {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        if (otherPerson == null) {
+            return false;
+        }
+
+        // Consider persons the same if they share the same name (case-insensitive, trimmed)
+        // and the same self contact (NOK contact is ignored for duplication checks).
+        String thisName = this.getName() == null ? null : this.getName().toString().trim();
+        String otherName = otherPerson.getName() == null ? null : otherPerson.getName().toString().trim();
+
+        Phone thisSelf = this.getSelfContact();
+        Phone otherSelf = otherPerson.getSelfContact();
+
+        boolean sameName = thisName != null && otherName != null && thisName.equalsIgnoreCase(otherName);
+        boolean sameSelfContact = thisSelf != null && otherSelf != null && thisSelf.equals(otherSelf);
+
+        return sameName && sameSelfContact;
     }
+
 
     /**
      * Removes a lesson plan entry on the specified date if it exists.

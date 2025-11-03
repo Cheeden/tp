@@ -36,27 +36,42 @@ public class PersonTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // same name, all other attributes different -> returns true
+        // same name (case-insensitive, trimmed), same self contact, other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE)
-                                     .withSelfContact(VALID_CONTACT_BOB)
-                                     .withNokContact(VALID_NOK_CONTACT_BOB)
-                                     .withAddress(VALID_ADDRESS_BOB)
-                                     .withTags(VALID_TAG_HUSBAND)
-                                     .build();
+                                    .withSelfContact(ALICE.getSelfContact().toString()) // same self contact
+                                    .withNokContact(VALID_NOK_CONTACT_BOB)
+                                    .withAddress(VALID_ADDRESS_BOB)
+                                    .withTags(VALID_TAG_HUSBAND)
+                                    .build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
-        // different name, all other attributes same -> returns false
-        editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        // same name but different self contact -> returns false
+        editedAlice = new PersonBuilder(ALICE)
+                              .withSelfContact(VALID_CONTACT_BOB)
+                              .build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
-        Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // different name but same self contact -> returns false
+        editedAlice = new PersonBuilder(ALICE)
+                              .withName(VALID_NAME_BOB)
+                              .withSelfContact(ALICE.getSelfContact().toString())
+                              .build();
+        assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // name differs only in case, same self contact -> returns true (case-insensitive)
+        Person editedBob = new PersonBuilder(BOB)
+                                  .withName(VALID_NAME_BOB.toLowerCase())
+                                  .withSelfContact(BOB.getSelfContact().toString())
+                                  .build();
+        assertTrue(BOB.isSamePerson(editedBob));
+
+        // name has trailing spaces, same self contact -> returns true (trimmed before compare)
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new PersonBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        editedBob = new PersonBuilder(BOB)
+                          .withName(nameWithTrailingSpaces)
+                          .withSelfContact(BOB.getSelfContact().toString())
+                          .build();
+        assertTrue(BOB.isSamePerson(editedBob));
     }
 
     @Test

@@ -3,7 +3,15 @@
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* {list of sources of all reused/adapted ideas, code, documentation, and third-party libraries -- including links to the original source}
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+* CS2103T Teaching Team for guidance and the initial codebase
+* Libraries and frameworks used:
+  * [JavaFX](https://openjfx.io/) - For the graphical user interface
+  * [Jackson](https://github.com/FasterXML/jackson) - For JSON data processing and storage
+  * [JUnit5](https://junit.org/junit5/) - For unit testing
+  * [Gradle](https://gradle.org/) and [Shadow Plugin](https://github.com/johnrengelman/shadow) - For build automation and packaging
+* Material UI library for the house.png icon (https://mui.com/material-ui/material-icons/)
 
 --------------------------------------------------------------------------------------------------------------------
 

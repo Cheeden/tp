@@ -166,6 +166,8 @@ If you enter an invalid subject-level, the parser will show an error message exp
   - `Monday 24:00` (invalid time format; must be 4 digits without colon)
   - `Monday 2500` (invalid hour; exceeds 2359)
   - `Funday 1200` (invalid day name)
+  
+</div>
 
 #### Example Usage
 
@@ -483,6 +485,7 @@ Format: `editplan INDEX pl/DATE|NEW_PLAN`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 
@@ -535,6 +538,7 @@ These formatting options are especially useful for:
 - Listing topics covered during the lesson
 - Separating completed tasks from homework or follow-ups
 - Structuring detailed progress notes clearly
+</div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use the `addprogress` command regularly to keep an updated record of each student's learning progress.

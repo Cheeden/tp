@@ -16,7 +16,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 - Comfortable with basic typing with no prior coding knowledge
 
 ### Assumptions & prerequisites
-1) Comfortable with basic typing with no prior coding knowledge
+1) Comfortable with basic typing with no prior coding knowledge<br>
 2) Can run desktop Java apps and launch a `.jar` from a terminal using the instructions in this guide.
 
 
@@ -90,7 +90,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 
 ### Viewing help : `help`
 
-shows a message within a pop up explaining how to access the help page appears.
+Shows a pop-up message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -130,6 +130,10 @@ A person can have any number of tags (including 0)
 
 </div>
 
+Examples of add command:
+* `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01`
+* `add n/Betsy Crowe t/friend s/Primary6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
+
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on SubjectLevel validation:**<br>
@@ -148,7 +152,6 @@ A person can have any number of tags (including 0)
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
 
-<div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on DayTime validation:**<br>
 
@@ -167,6 +170,17 @@ If you enter an invalid subject-level, the parser will show an error message exp
   - `Monday 2500` (invalid hour; exceeds 2359)
   - `Funday 1200` (invalid day name)
 </div>
+
+#### Example Usage
+
+Below is an example showing how to add a contact with all the required fields:
+
+![Add Contact Example](images/AddContact.png)
+
+The command shown: `add n/James Tan sc/98765432 nc/87438807 s/p4-math d/Tuesday 1200 h/$50 a/311, Clementi Ave 2, #02-25 t/Important t/Exams`
+
+This adds a student "James Tan" with both student contact (98765432) and NOK contact (87438807), taking P4-Math on Tuesday at 12:00 PM, with an hourly rate of $50, at the specified address, and with two tags: "Important" and "Exams".
+<div markdown="block" class="alert alert-info">
 
 #### Example Usage
 
@@ -202,15 +216,14 @@ Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the person’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
 *  `edit 1 s/P4-Math ` Edits the subject level of the 1st person to be `P4-Math`.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 #### Expected output
-- A success message appears in command box showing the edited person and its updated data.
+- A success message appears in the result box showing the edited person and its updated data.
 
 #### Common errors
 - No fields provided: "At least one field to edit must be provided."
@@ -309,14 +322,20 @@ Examples:
 Common error:
 * `find s/P4-Math s/Sec1-English` Error: "Duplicate s/ prefix found. Only one subject can be searched at a time."
 
+#### Common errors 
+The following errors apply to all variations of the find command:
+- No matches: "Contact list is unchanged: No students match your search criteria."
+- Multiple prefixes: "Only one search type can be used at a time. Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes."
+  - Example: `find t/friends d/Monday` will trigger this error.
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
 If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box with the text in red so you can easily edit and retry your search.
 </div>
 
-#### Common errors
-- No matches: "Contact list is unchanged: No students match your search criteria."
-- Multiple prefixes: "Only one search type can be used at a time. Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes."
-  - Example: `find t/friends d/Monday` will trigger this error.
+**Example of a failed find command:**
+
+![Failed Find Command](images/FailedFindCommand.png)
+
 
 ### Deleting a person : `delete`
 
@@ -331,7 +350,7 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 #### Expected output
-- "Deleted Person: …" appears in command box and the person is removed from the list.
+- "Deleted Person: …" appears in the result box and the person is removed from the list.
 
 ## Lesson Management Commands
 
@@ -691,14 +710,14 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/22224444 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
- **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECTLEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
+ **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`
- **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
+ **Add plan**        | `addplan INDEX pl/DATE|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
  **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`
  **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
  **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`

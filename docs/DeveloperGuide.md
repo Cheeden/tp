@@ -29,7 +29,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. 
 </div>
 
 ### Architecture
@@ -123,7 +123,7 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
+<img src="images/ModelClassDiagram.png" />
 
 
 The `Model` component,
@@ -132,13 +132,6 @@ The `Model` component,
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
-
 
 ### Storage component
 
@@ -345,11 +338,11 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 
 **Logic Component:**
 
-* AddProgressCommand – Adds a new LessonProgress entry to a specified student.
+* AddProgressCommand – Adds a new `LessonProgress` entry to a specified student.
 * AddProgressCommandParser – Parses the student index and lesson progress details from user input.
-* Expected format: addprogress INDEX pr/DATE|PROGRESS
-* Extracts the DATE and PROGRESS components by splitting the string after the pr/ prefix using the | delimiter.
-* Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
+* Expected format: `addprogress INDEX pr/DATE|PROGRESS`
+* Extracts the DATE and PROGRESS components by splitting the string after the `pr/` prefix using the `|` delimiter.
+* Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 
 **Model Component:**
 

@@ -15,12 +15,12 @@ Class UserPrefs
 Class UniquePersonList
 Class Person
 note right
-{At least one of Contact or
+{At least one of SelfContact or
 NOKContact must be non-null}
 end note
 Class Address
 Class Name
-Class Contact
+Class SelfContact
 Class NOKContact
 Class SubjectLevel
 Class DayTime

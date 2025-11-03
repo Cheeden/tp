@@ -1,8 +1,8 @@
 package tutortrack.testutil;
 
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_HOURLYRATE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
@@ -40,7 +40,7 @@ public class PersonUtil {
         }
         sb.append(PREFIX_SUBJECTLEVEL + person.getSubjectLevel().value + " ");
         sb.append(PREFIX_DAYTIME + person.getDayTime().value + " ");
-        sb.append(PREFIX_HOURLYRATE + person.getHourlyRate().value + " ");
+        sb.append(PREFIX_COST + person.getCost().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
         person.getTags().stream().forEach(
                 s -> sb.append(PREFIX_TAG + s.tagName + " ")
@@ -61,7 +61,7 @@ public class PersonUtil {
         descriptor.getSubjectLevel().ifPresent(subjectLevel ->
                                                        sb.append(PREFIX_SUBJECTLEVEL).append(subjectLevel).append(" "));
         descriptor.getDayTime().ifPresent(dayTime -> sb.append(PREFIX_DAYTIME).append(dayTime).append(" "));
-        descriptor.getHourlyRate().ifPresent(hourlyRate -> sb.append(PREFIX_HOURLYRATE).append(hourlyRate).append(" "));
+        descriptor.getCost().ifPresent(cost -> sb.append(PREFIX_COST).append(cost).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value)
                 .append(" "));
         if (descriptor.getTags().isPresent()) {

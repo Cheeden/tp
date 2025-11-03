@@ -7,8 +7,8 @@ import static tutortrack.logic.commands.CommandTestUtil.DESC_AMY;
 import static tutortrack.logic.commands.CommandTestUtil.DESC_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_CONTACT_BOB;
+import static tutortrack.logic.commands.CommandTestUtil.VALID_COST_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_DAYTIME_BOB;
-import static tutortrack.logic.commands.CommandTestUtil.VALID_HOURLYRATE_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_NOK_CONTACT_BOB;
 import static tutortrack.logic.commands.CommandTestUtil.VALID_SUBJECTLEVEL_BOB;
@@ -62,8 +62,8 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withDayTime(VALID_DAYTIME_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different hourlyRate -> returns true
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withHourlyRate(VALID_HOURLYRATE_BOB).build();
+        // different cost -> returns true
+        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withCost(VALID_COST_BOB).build();
         assertTrue(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
@@ -79,8 +79,8 @@ public class EditPersonDescriptorTest {
                 + editPersonDescriptor.getSelfContact().orElse(null) + ", nokContact="
                 + editPersonDescriptor.getNokContact().orElse(null) + ", subjectLevel="
                 + editPersonDescriptor.getSubjectLevel().orElse(null) + ", dayTime="
-                + editPersonDescriptor.getDayTime().orElse(null) + ", hourlyRate="
-                + editPersonDescriptor.getHourlyRate().orElse(null) + ", address="
+                + editPersonDescriptor.getDayTime().orElse(null) + ", cost="
+                + editPersonDescriptor.getCost().orElse(null) + ", address="
                 + editPersonDescriptor.getAddress().orElse(null) + ", tags="
                 + editPersonDescriptor.getTags().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());

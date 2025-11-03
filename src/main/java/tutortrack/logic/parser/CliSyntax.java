@@ -11,7 +11,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_NOK_CONTACT = new Prefix("nc/");
     public static final Prefix PREFIX_SUBJECTLEVEL = new Prefix("s/");
     public static final Prefix PREFIX_DAYTIME = new Prefix("d/");
-    public static final Prefix PREFIX_HOURLYRATE = new Prefix("h/");
+    public static final Prefix PREFIX_COST = new Prefix("c/");
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_LESSON_PROGRESS = new Prefix("pr/");

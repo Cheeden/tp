@@ -3,8 +3,8 @@ package tutortrack.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_HOURLYRATE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
@@ -39,8 +39,8 @@ public class CommandTestUtil {
     public static final String VALID_SUBJECTLEVEL_AMY = "P5-English";
     public static final String VALID_DAYTIME_BOB = "Monday 1200";
     public static final String VALID_DAYTIME_AMY = "Tuesday 1300";
-    public static final String VALID_HOURLYRATE_BOB = "$50";
-    public static final String VALID_HOURLYRATE_AMY = "$50";
+    public static final String VALID_COST_BOB = "$50";
+    public static final String VALID_COST_AMY = "$50";
     public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
@@ -56,8 +56,8 @@ public class CommandTestUtil {
     public static final String SUBJECTLEVEL_DESC_BOB = " " + PREFIX_SUBJECTLEVEL + VALID_SUBJECTLEVEL_BOB;
     public static final String DAYTIME_DESC_AMY = " " + PREFIX_DAYTIME + VALID_DAYTIME_AMY;
     public static final String DAYTIME_DESC_BOB = " " + PREFIX_DAYTIME + VALID_DAYTIME_BOB;
-    public static final String HOURLYRATE_DESC_AMY = " " + PREFIX_HOURLYRATE + VALID_HOURLYRATE_AMY;
-    public static final String HOURLYRATE_DESC_BOB = " " + PREFIX_HOURLYRATE + VALID_HOURLYRATE_BOB;
+    public static final String COST_DESC_AMY = " " + PREFIX_COST + VALID_COST_AMY;
+    public static final String COST_DESC_BOB = " " + PREFIX_COST + VALID_COST_BOB;
     public static final String ADDRESS_DESC_AMY = " " + PREFIX_ADDRESS + VALID_ADDRESS_AMY;
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
@@ -67,7 +67,7 @@ public class CommandTestUtil {
     public static final String INVALID_PHONE_DESC = " " + PREFIX_SELF_CONTACT + "911a"; // 'a' not allowed in phones
     public static final String INVALID_SUBJECTLEVEL_DESC = " " + PREFIX_SUBJECTLEVEL + "p4 math"; // '-' must be present
     public static final String INVALID_DAYTIME_DESC = " " + PREFIX_DAYTIME + "Monday 2500"; // invalid time
-    public static final String INVALID_HOURLYRATE_DESC = " " + PREFIX_HOURLYRATE + "50"; // '$' must be present
+    public static final String INVALID_COST_DESC = " " + PREFIX_COST + "50"; // '$' must be present
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
@@ -81,12 +81,12 @@ public class CommandTestUtil {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withSelfContact(VALID_CONTACT_AMY)
                 .withNokContact(VALID_NOK_CONTACT_AMY).withSubjectLevel(VALID_SUBJECTLEVEL_AMY)
-                .withDayTime(VALID_DAYTIME_AMY).withHourlyRate(VALID_HOURLYRATE_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withDayTime(VALID_DAYTIME_AMY).withCost(VALID_COST_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withSelfContact(VALID_CONTACT_BOB)
                 .withNokContact(VALID_NOK_CONTACT_BOB).withSubjectLevel(VALID_SUBJECTLEVEL_BOB)
-                .withDayTime(VALID_DAYTIME_BOB).withHourlyRate(VALID_HOURLYRATE_BOB).withAddress(VALID_ADDRESS_BOB)
+                .withDayTime(VALID_DAYTIME_BOB).withCost(VALID_COST_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
 

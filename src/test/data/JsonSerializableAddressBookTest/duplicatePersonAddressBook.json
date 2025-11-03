@@ -6,7 +6,7 @@
       "nokContact": "81234567",
       "subjectLevel": "P4-Math",
       "dayTime": "Monday 1200",
-      "hourlyRate": "$50",
+      "cost": "$50",
       "address": "123, Jurong West Ave 6, #08-111",
       "tags": ["friends"],
       "lessonProgress": "2025-10-16|Covered chapter 1"
@@ -17,7 +17,7 @@
       "nokContact": "81234567",
       "subjectLevel": "P4-Math",
       "dayTime": "Monday 1200",
-      "hourlyRate": "$50",
+      "cost": "$50",
       "address": "4th street",
       "tags": ["friends"],
       "lessonProgress": "2025-10-16|Covered chapter 1"

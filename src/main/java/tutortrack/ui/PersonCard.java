@@ -43,7 +43,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label dayTime;
     @FXML
-    private Label hourlyRate;
+    private Label cost;
     @FXML
     private FlowPane tags;
 
@@ -62,7 +62,7 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         subjectLevel.setText(person.getSubjectLevel().value);
         dayTime.setText(person.getDayTime().value);
-        hourlyRate.setText(person.getHourlyRate().value);
+        cost.setText(person.getCost().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

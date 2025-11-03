@@ -24,7 +24,7 @@ Class Contact
 Class NOKContact
 Class SubjectLevel
 Class DayTime
-Class HourlyRate
+Class Cost
 Class Tag
 Class "<<interface>>\nPredicate<Person>" as Predicate
 note right of Predicate: Used by FindCommand\nto filter persons by\nname, tag, or lesson day
@@ -52,7 +52,7 @@ Person *--> "0..1" NOKContact
 Person *--> Address
 Person *--> SubjectLevel
 Person *--> DayTime
-Person *--> HourlyRate
+Person *--> Cost
 Person *--> "*" Tag
 
 Person -[hidden]up--> I
@@ -63,7 +63,7 @@ Contact -[hidden]right-> NOKContact
 NOKContact -[hidden]right-> Address
 Address -[hidden]right-> SubjectLevel
 SubjectLevel -[hidden]right-> DayTime
-DayTime -[hidden]right-> HourlyRate
+DayTime -[hidden]right-> Cost
 
 ModelManager --> "~* filtered" Person
 @enduml

@@ -2,8 +2,8 @@ package tutortrack.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static tutortrack.logic.parser.CliSyntax.PREFIX_COST;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_DAYTIME;
-import static tutortrack.logic.parser.CliSyntax.PREFIX_HOURLYRATE;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NAME;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_NOK_CONTACT;
 import static tutortrack.logic.parser.CliSyntax.PREFIX_SELF_CONTACT;
@@ -25,8 +25,8 @@ import tutortrack.logic.Messages;
 import tutortrack.logic.commands.exceptions.CommandException;
 import tutortrack.model.Model;
 import tutortrack.model.person.Address;
+import tutortrack.model.person.Cost;
 import tutortrack.model.person.DayTime;
-import tutortrack.model.person.HourlyRate;
 import tutortrack.model.person.Name;
 import tutortrack.model.person.Person;
 import tutortrack.model.person.Phone;
@@ -49,7 +49,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NOK_CONTACT + "NOK_CONTACT] "
             + "[" + PREFIX_SUBJECTLEVEL + "SUBJECT_LEVEL] "
             + "[" + PREFIX_DAYTIME + "DAYTIME] "
-            + "[" + PREFIX_HOURLYRATE + "HOURLYRATE] "
+            + "[" + PREFIX_COST + "COST] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -108,12 +108,12 @@ public class EditCommand extends Command {
         SubjectLevel updatedSubjectLevel = editPersonDescriptor.getSubjectLevel()
                                                    .orElse(personToEdit.getSubjectLevel());
         DayTime updatedDayTime = editPersonDescriptor.getDayTime().orElse(personToEdit.getDayTime());
-        HourlyRate updatedHourlyRate = editPersonDescriptor.getHourlyRate().orElse(personToEdit.getHourlyRate());
+        Cost updatedCost = editPersonDescriptor.getCost().orElse(personToEdit.getCost());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         Person editedPerson = new Person(updatedName, updatedSelfContact, updatedNokContact, updatedSubjectLevel,
-                updatedDayTime, updatedHourlyRate, updatedAddress, updatedTags);
+                updatedDayTime, updatedCost, updatedAddress, updatedTags);
 
         // Preserve lesson progress and lesson plan from the original person.
         editedPerson.getLessonProgressList().addAll(personToEdit.getLessonProgressList());
@@ -156,7 +156,7 @@ public class EditCommand extends Command {
         private Phone nokContact;
         private SubjectLevel subjectLevel;
         private DayTime dayTime;
-        private HourlyRate hourlyRate;
+        private Cost cost;
         private Address address;
         private Set<Tag> tags;
 
@@ -172,7 +172,7 @@ public class EditCommand extends Command {
             setNokContact(toCopy.nokContact);
             setSubjectLevel(toCopy.subjectLevel);
             setDayTime(toCopy.dayTime);
-            setHourlyRate(toCopy.hourlyRate);
+            setCost(toCopy.cost);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
         }
@@ -181,7 +181,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, selfContact, nokContact, subjectLevel, dayTime, hourlyRate,
+            return CollectionUtil.isAnyNonNull(name, selfContact, nokContact, subjectLevel, dayTime, cost,
                     address, tags);
         }
 
@@ -223,12 +223,12 @@ public class EditCommand extends Command {
             return Optional.ofNullable(dayTime);
         }
 
-        public void setHourlyRate(HourlyRate hourlyRate) {
-            this.hourlyRate = hourlyRate;
+        public void setCost(Cost cost) {
+            this.cost = cost;
         }
 
-        public Optional<HourlyRate> getHourlyRate() {
-            return Optional.ofNullable(hourlyRate);
+        public Optional<Cost> getCost() {
+            return Optional.ofNullable(cost);
         }
 
         public void setAddress(Address address) {
@@ -273,7 +273,7 @@ public class EditCommand extends Command {
                     && Objects.equals(nokContact, otherEditPersonDescriptor.nokContact)
                     && Objects.equals(subjectLevel, otherEditPersonDescriptor.subjectLevel)
                     && Objects.equals(dayTime, otherEditPersonDescriptor.dayTime)
-                    && Objects.equals(hourlyRate, otherEditPersonDescriptor.hourlyRate)
+                    && Objects.equals(cost, otherEditPersonDescriptor.cost)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
@@ -286,7 +286,7 @@ public class EditCommand extends Command {
                     .add("nokContact", nokContact)
                     .add("subjectLevel", subjectLevel)
                     .add("dayTime", dayTime)
-                    .add("hourlyRate", hourlyRate)
+                    .add("cost", cost)
                     .add("address", address)
                     .add("tags", tags)
                     .toString();

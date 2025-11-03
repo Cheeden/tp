@@ -244,9 +244,9 @@ public class AddCommandParserTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         // same self and nok contacts
-        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + CONTACT_DESC_BOB
-                                           + INVALID_NOK_CONTACT_BOB + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB
-                                           + HOURLYRATE_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND,
+        assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + INVALID_NOK_CONTACT_BOB
+                                           + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
+                                           + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND,
                 "Two contact numbers cannot be the same.");
     }
 }

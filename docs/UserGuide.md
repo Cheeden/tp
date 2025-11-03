@@ -147,7 +147,9 @@ A person can have any number of tags (including 0)
 
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
+
 <div markdown="block" class="alert alert-info">
+
 **:information_source: Notes on DayTime validation:**<br>
 
 * Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.

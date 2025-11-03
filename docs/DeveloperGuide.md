@@ -1,9 +1,13 @@
+---
+layout: page
+title: Developer Guide
+---
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
-* {list of sources of all reused/adapted ideas, code, documentation, and third-party libraries -- including links to the original source}
+
 * This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 * CS2103T Teaching Team for guidance and the initial codebase
 * Libraries and frameworks used:

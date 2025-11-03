@@ -351,6 +351,8 @@ You can use special characters to format your lesson plans for better readabilit
 * **`\n`** - Creates a new line (line break)
 * **`\t`** - Adds a tab space for indentation
 * **`\\`** - Displays a backslash character
+* **`\\n`** - Displays the literal text "\n" (not a line break)
+* **`\\t`** - Displays the literal text "\t" (not a tab)
 
 These formatting options are especially useful for:
 - helping you organize multi-part lessons
@@ -385,6 +387,13 @@ Adds a lesson plan with tabs for alignment. This will display as:
   ```
   Topic 1:    Linear equations
   Topic 2:    Quadratic equations
+  ```
+
+* `addplan 2 pl/2025-11-12|Reminder: Use \\n for line breaks and \\t for tabs\nChapter 7: Variables`
+Adds a lesson plan with literal escape sequences. This will display as:
+  ```
+  Reminder: Use \n for line breaks and \t for tabs
+  Chapter 7: Variables
   ```
 
 Expected outcome:<br>
@@ -451,6 +460,8 @@ You can use special characters to format your progress entries for better readab
 * **`\n`** - Creates a new line (line break)
 * **`\t`** - Adds a tab space for indentation
 * **`\\`** - Displays a backslash character
+* **`\\n`** - Displays the literal text "\n" (not a line break)
+* **`\\t`** - Displays the literal text "\t" (not a tab)
 
 These formatting options are especially useful for:
 - Listing topics covered during the lesson
@@ -488,6 +499,13 @@ Adds a detailed progress report with indentation. This will display as:
       - Factorization
       - Completing the square
   Quiz score: 85%
+  ```
+
+* `addprogress 1 pr/2025-11-05|Student asked about \\n character\nExplained it creates line breaks`
+Adds a progress entry with literal escape sequences. This will display as:
+  ```
+  Student asked about \n character
+  Explained it creates line breaks
   ```
 
 Expected outcome:<br>
@@ -643,6 +661,9 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
 **Q**: Can I use tabs or special formatting in my entries?<br>
 **A**: Yes! You can use `\t` for tabs (indentation), `\n` for new lines, and `\\` to display a backslash. These help organize your lesson plans and progress notes.
+
+**Q**: How do I type the literal text "\n" or "\t" instead of creating a line break or tab?<br>
+**A**: Use double backslashes: type `\\n` to display the text "\n" and `\\t` to display the text "\t". For example: `addplan 1 pl/2025-10-30|Note: Type \\n for newline` will display as "Note: Type \n for newline".
 
 **Q**: What happens to my formatting when I edit an entry?<br>
 **A**: Your existing formatting is preserved. When you edit an entry, you can keep, modify, or add new formatting using the same special characters (`\n`, `\t`, `\\`).

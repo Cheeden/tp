@@ -108,7 +108,7 @@ Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONT
 
 * At least one of `sc/` or `nc/` must be provided and contain a valid phone number.
 
-* It is not allowed for both fields to be missing.
+* Two contact numbers cannot be the same.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
@@ -195,7 +195,8 @@ This adds a student "James Tan" with both student contact (98765432) and NOK con
 #### Expected output
 - A success message appears in the result box and the new person appears in the list.
 
-> **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
+</div>
 
 ### Listing all persons : `list`
 
@@ -262,7 +263,8 @@ Results are automatically sorted by relevance:
 
 **Important:** First name matches will **always** appear before other name matches, regardless of alphabetical order. 
 
-> **Note:** All non-first name matches (2nd, 3rd, 4th token, etc.) have equal priority.
+<div markdown="span" class="alert alert-warning">:exclamation: **Note:** All non-first name matches (2nd, 3rd, 4th token, etc.) have equal priority.
+</div>
 
 Examples:
 **Ranking Examples for "find Jo":**
@@ -400,9 +402,10 @@ Format: `viewlessons INDEX`
 * Entries are sorted by date in chronological order.
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
-> **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 > 1. Add lesson plan using the `addplan` command before viewing<br>
 > 2. Add lesson progress using the `addprogress` command before viewing.
+</div>
 
 Examples:
 * `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
@@ -442,11 +445,13 @@ These formatting options are especially useful for:
 - Clearly separating different components of your plan
 </div>
 
-> **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+</div>
 
-> **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 > In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
+</div>
 
 Examples:
 
@@ -552,11 +557,13 @@ These formatting options are especially useful for:
 - Structuring detailed progress notes clearly
 </div>
 
-> **Tip:**
+><div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 > Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+</div>
 
-> **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 > If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+</div>
 
 Examples:
 

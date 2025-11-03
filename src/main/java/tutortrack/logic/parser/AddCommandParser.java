@@ -60,9 +60,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone selfContact = selfContactStr.isPresent() ? ParserUtil.parsePhone(selfContactStr.get()) : null;
         Phone nokContact = nokContactStr.isPresent() ? ParserUtil.parsePhone(nokContactStr.get()) : null;
 
-        if (selfContact == null && nokContact == null) {
-            throw new ParseException("At least one of self contact or NOK contact must be provided.");
-        }
         if (selfContact != null && selfContact.equals(nokContact)) {
             throw new ParseException("Two contact numbers cannot be the same.");
         }

@@ -146,6 +146,16 @@ public class EditCommandTest {
     }
 
     @Test
+    public void execute_duplicateSelfContactAndNokContact_failure() {
+        String duplicateContactValue = "98765432";
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withSelfContact(duplicateContactValue)
+                                                  .withNokContact(duplicateContactValue).build();
+
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
+        assertCommandFailure(editCommand, model, "Two contact numbers cannot be the same.");
+    }
+
+    @Test
     public void equals() {
         final EditCommand standardCommand = new EditCommand(INDEX_FIRST_PERSON, DESC_AMY);
 

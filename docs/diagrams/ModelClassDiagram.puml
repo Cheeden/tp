@@ -47,7 +47,7 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
 Person *--> Name
-Person *--> "0..1" Contact
+Person *--> "0..1" SelfContact
 Person *--> "0..1" NOKContact
 Person *--> Address
 Person *--> SubjectLevel
@@ -58,8 +58,8 @@ Person *--> "*" Tag
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
-Name -[hidden]right-> Contact
-Contact -[hidden]right-> NOKContact
+Name -[hidden]right-> SelfContact
+SelfContact -[hidden]right-> NOKContact
 NOKContact -[hidden]right-> Address
 Address -[hidden]right-> SubjectLevel
 SubjectLevel -[hidden]right-> DayTime

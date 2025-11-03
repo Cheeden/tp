@@ -19,7 +19,7 @@ Person *--> "0..1" NOKContact
 Person *--> Address
 Person *--> SubjectLevel
 Person *--> DayTime
-Person *--> Cost
+Person *--> HourlyRate
 
 note right of Person
 {At least one of Contact or

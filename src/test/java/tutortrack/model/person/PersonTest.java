@@ -121,7 +121,7 @@ public class PersonTest {
                                   + ", nokContact=" + ALICE.getNokContact()
                                   + ", subjectLevel=" + ALICE.getSubjectLevel()
                                   + ", dayTime=" + ALICE.getDayTime()
-                                  + ", cost=" + ALICE.getCost()
+                                  + ", hourlyRate=" + ALICE.getHourlyRate()
                                   + ", address=" + ALICE.getAddress()
                                   + ", tags=" + ALICE.getTags()
                                   + ", lesson plan=" + ALICE.getLessonPlanList()

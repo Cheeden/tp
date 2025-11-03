@@ -57,8 +57,8 @@
         <Label fx:id="subjectLevel" styleClass="field_value" />
       </HBox>
       <HBox spacing="0" alignment="CENTER_LEFT">
-        <Label text="Cost:" styleClass="field_label" />
-        <Label fx:id="cost" styleClass="field_value" />
+        <Label text="Hourly Rate:" styleClass="field_label" />
+        <Label fx:id="hourlyRate" styleClass="field_value" />
       </HBox>
       <FlowPane fx:id="tags">
         <padding>

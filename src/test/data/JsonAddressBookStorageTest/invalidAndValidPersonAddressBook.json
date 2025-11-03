@@ -4,7 +4,7 @@
     "phone": "9482424",
     "subjectLevel": "P4-Math",
     "dayTime": "Monday 1200",
-    "cost": "$50",
+    "hourlyRate": "$50",
     "address": "4th street",
     "lessonProgress" : "2025-10-16|Covered chapter 1"
   }, {
@@ -12,7 +12,7 @@
     "phone": "948asdf2424",
     "subjectLevel": "P5-Math",
     "dayTime": "Tuesday 1300",
-    "cost": "$60",
+    "hourlyRate": "$60",
     "address": "4th street",
     "lessonProgress" : "2025-10-16|Covered chapter 1"
   } ]

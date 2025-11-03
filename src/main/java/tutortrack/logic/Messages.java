@@ -59,8 +59,8 @@ public class Messages {
                 .append(person.getSubjectLevel())
                 .append(", DayTime: ")
                 .append(person.getDayTime())
-                .append(", Cost: ")
-                .append(person.getCost())
+                .append(", HourlyRate: ")
+                .append(person.getHourlyRate())
                 .append("; Address: ")
                 .append(person.getAddress())
                 .append("; Tags: ");

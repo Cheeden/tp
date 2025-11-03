@@ -7,7 +7,7 @@
       "nokContact" : "81234567",
       "subjectLevel": "P4-Math",
       "dayTime": "Monday 1200",
-      "cost": "$50",
+      "hourlyRate": "$50",
       "address" : "123, Jurong West Ave 6, #08-111",
       "tags" : [ "friends" ],
       "lessonProgress" : "2025-10-16|Covered chapter 1"
@@ -18,7 +18,7 @@
       "nokContact" : "87654321",
       "subjectLevel": "P5-Math",
       "dayTime": "Monday 1300",
-      "cost": "$60",
+      "hourlyRate": "$60",
       "address" : "311, Clementi Ave 2, #02-25",
       "tags" : [ "owesMoney", "friends" ],
       "lessonProgress" : "2025-10-16|Covered chapter 2"
@@ -29,7 +29,7 @@
       "nokContact" : "90001234",
       "subjectLevel": "P1-Chinese",
       "dayTime": "Tuesday 1200",
-      "cost": "$40",
+      "hourlyRate": "$40",
       "address" : "wall street",
       "tags" : [ ],
       "lessonProgress" : "2025-10-16|Covered chapter 3"
@@ -40,7 +40,7 @@
       "nokContact" : "83334444",
       "subjectLevel": "Sec1-Math",
       "dayTime": "Friday 1400",
-      "cost": "$70",
+      "hourlyRate": "$70",
       "address" : "10th street",
       "tags" : [ "friends" ],
       "lessonProgress" : "2025-10-16|Covered chapter 4"
@@ -51,7 +51,7 @@
       "nokContact" : "81112222",
       "subjectLevel": "P6-English",
       "dayTime": "Thursday 1000",
-      "cost": "$55",
+      "hourlyRate": "$55",
       "address" : "michegan ave",
       "tags" : [ ],
       "lessonProgress" : "2025-10-16|Covered chapter 5"
@@ -62,7 +62,7 @@
       "nokContact" : "82223333",
       "subjectLevel": "P3-Science",
       "dayTime": "Sunday 1200",
-      "cost": "$60",
+      "hourlyRate": "$60",
       "address" : "little tokyo",
       "tags" : [ ],
       "lessonProgress" : "2025-10-16|Covered chapter 6"
@@ -73,7 +73,7 @@
       "nokContact" : "89998888",
       "subjectLevel": "P1-Math",
       "dayTime": "Monday 1800",
-      "cost": "$40",
+      "hourlyRate": "$40",
       "address" : "4th street",
       "tags" : [ ],
       "lessonProgress" : "2025-10-16|Covered chapter 7"

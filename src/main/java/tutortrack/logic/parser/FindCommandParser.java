@@ -57,20 +57,34 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
-        assert args != null : "Arguments cannot be null";
+        String trimmedArgs = validateAndTrimArgs(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
+                PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
+        validatePrefixUsage(argMultimap);
+        return createFindCommand(argMultimap, trimmedArgs);
+    }
 
+    /**
+     * Validates and trims the input arguments.
+     * @throws ParseException if arguments are null or empty
+     */
+    private String validateAndTrimArgs(String args) throws ParseException {
+        assert args != null : "Arguments cannot be null";
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
             logger.warning("Find command received empty arguments");
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+        return trimmedArgs;
+    }
 
-        // Tokenize arguments including tag, day/time and subject-level prefixes
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
-                PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL);
-
-        // Defensively check if multiple prefixes are present to avoid unexpected behavior
+    /**
+     * Validates prefix usage to ensure no multiple or duplicate prefixes, and no invalid preamble.
+     * @throws ParseException if validation fails
+     */
+    private void validatePrefixUsage(ArgumentMultimap argMultimap) throws ParseException {
+        // Check for multiple different prefixes
         long prefixCount = Stream.of(PREFIX_TAG, PREFIX_DAYTIME, PREFIX_SUBJECTLEVEL)
                 .filter(prefix -> argMultimap.getValue(prefix).isPresent())
                 .count();
@@ -79,15 +93,14 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(MESSAGE_FIND_MULTIPLE_PREFIXES);
         }
 
-        // Defensively check for duplicate usage of the same prefix and throw specific error messages
+        // Check for duplicate usage of the same prefix
         for (Map.Entry<Prefix, String> entry : DUPLICATE_PREFIX_ERRORS.entrySet()) {
             if (argMultimap.getAllValues(entry.getKey()).size() > 1) {
                 throw new ParseException(entry.getValue());
             }
         }
 
-        // If a prefix is present, preamble should be empty. Provide more specific
-        // feedback depending on which prefix was used to help the user correct common mistakes
+        // Validate preamble when prefix is present
         if (prefixCount > 0 && !argMultimap.getPreamble().isEmpty()) {
             if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
                 throw new ParseException("Invalid subject search format. The subject-level must be a single token "
@@ -100,8 +113,14 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+    }
 
-        // If day/time prefix is present, search by day and sort by time
+    /**
+     * Creates the appropriate FindCommand based on the prefixes and arguments provided.
+     */
+    private FindCommand createFindCommand(ArgumentMultimap argMultimap, String trimmedArgs)
+            throws ParseException {
+        // Day/time search
         if (argMultimap.getValue(PREFIX_DAYTIME).isPresent()) {
             String dayKeyword = extractNonEmptyValue(argMultimap, PREFIX_DAYTIME);
             String validatedDay = ParserUtil.parseDay(dayKeyword);
@@ -109,27 +128,24 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new FindCommand(predicate, predicate.getComparator());
         }
 
-        // If subject-level prefix is present, search by subject
+        // Subject-level search
         if (argMultimap.getValue(PREFIX_SUBJECTLEVEL).isPresent()) {
             String subject = extractNonEmptyValue(argMultimap, PREFIX_SUBJECTLEVEL);
-            // validate subject-level format and give user a clear error if invalid
             SubjectLevel parsedSubject = ParserUtil.parseSubjectLevel(subject);
             SubjectLevelMatchesPredicate predicate = new SubjectLevelMatchesPredicate(parsedSubject.toString());
             return new FindCommand(predicate);
         }
 
-        // If tag prefix is present and has values, search by tags
+        // Tag search
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             String tagKeywordsString = extractNonEmptyValue(argMultimap, PREFIX_TAG);
             List<String> tagKeywords = Arrays.asList(tagKeywordsString.split("\\s+"));
             return new FindCommand(new TagContainsKeywordsPredicate(tagKeywords));
         }
 
-        // Otherwise, search by name with ranking (default behavior)
+        // Name search (default)
         String[] nameKeywords = trimmedArgs.split("\\s+");
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
-
-        // Use the predicate's comparator for ranked results
         return new FindCommand(predicate, predicate.getComparator());
     }
 

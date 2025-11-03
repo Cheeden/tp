@@ -398,8 +398,8 @@ The implementation of `editplan` is shown in this UML diagram:
 
 * EditPlanCommand – Edits an existing `LessonPlan` entry for a specified student.
 * EditPlanCommandParser – Parses the student index and new lesson plan details from user input.
-* Expected format: `editplan INDEX lp/DATE|NEW_PLAN`
-* The parser extracts the DATE and NEW_PLAN components by splitting the string after the `lp/` prefix using the `|` delimiter.
+* Expected format: `editplan INDEX pl/DATE|NEW_PLAN`
+* The parser extracts the DATE and NEW_PLAN components by splitting the string after the `pl/` prefix using the `|` delimiter.
 * Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 * Constructs an `EditPlanCommand` with the parsed index and updated `LessonPlan`.
 
@@ -425,7 +425,7 @@ Below is an example scenario for the Edit Lesson Plan feature:
 
 **Step 1.**
 The user executes:
-editplan 1 lp/2025-10-15|Cover Chapter 6
+editplan 1 pl/2025-10-15|Cover Chapter 6
 
 **Step 2.**
 `EditPlanCommandParser` parses:
@@ -713,10 +713,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------

@@ -463,25 +463,15 @@ Adds a lesson plan on 22 Oct 2025 for the 2nd student.
 
 * `addplan 1 pl/2025-11-05|Warm-up: Quick quiz on last week's topics\nMain: Introduce quadratic equations\nHomework: Complete worksheet 5`
 Adds a structured, multi-line lesson plan on 5 Nov 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
-  ```
-  Warm-up: Quick quiz on last week's topics
-  Main: Introduce quadratic equations
-  Homework: Complete worksheet 5
-  ```
+![Add Plan Success](images/addplan1.png)
 
-* `addplan 3 pl/2025-11-10|Topic 1:\tLinear equations\nTopic 2:\tQuadratic equations`
+* `addplan 3 pl/2025-11-10|Topics to cover:\n\t- Linear equations\n\t- Quadratic equations`
 Adds a lesson plan with tabs for alignment. This will display as:
-  ```
-  Topic 1:    Linear equations
-  Topic 2:    Quadratic equations
-  ```
+![Add Plan Success](images/addplan2.png)
 
 * `addplan 2 pl/2025-11-12|Reminder: Use \\n for line breaks and \\t for tabs\nChapter 7: Variables`
 Adds a lesson plan with literal escape sequences. This will display as:
-  ```
-  Reminder: Use \n for line breaks and \t for tabs
-  Chapter 7: Variables
-  ```
+![Add Plan Success](images/addplan3.png)
 
 Expected outcome:<br>
 
@@ -575,28 +565,15 @@ Adds a progress entry on 22 Oct 2025 for the 2nd student.
 
 * `addprogress 1 pr/2025-10-30|Completed differentiation\nStarted integration basics\nHomework: Practice questions 1-10`
 Adds a structured, multi-line progress entry on 30 Oct 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
-  ```
-  Completed differentiation
-  Started integration basics
-  Homework: Practice questions 1-10
-  ```
+![Add Progress Success1](images/addprogress1.png)
 
 * `addprogress 3 pr/2025-11-01|Topics covered:\n\t- Quadratic equations\n\t- Factorization\n\t- Completing the square\nQuiz score: 85%`
 Adds a detailed progress report with indentation. This will display as:
-  ```
-  Topics covered:
-      - Quadratic equations
-      - Factorization
-      - Completing the square
-  Quiz score: 85%
-  ```
+![Add Progress Success2](images/addprogress2.png)
 
 * `addprogress 1 pr/2025-11-05|Student asked about \\n character\nExplained it creates line breaks`
 Adds a progress entry with literal escape sequences. This will display as:
-  ```
-  Student asked about \n character
-  Explained it creates line breaks
-  ```
+![Add Progress Success3](images/addprogress3.png)
 
 Expected outcome:<br>
 

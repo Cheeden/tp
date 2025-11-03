@@ -148,6 +148,8 @@ A person can have any number of tags (including 0)
 If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
 </div>
 
+<div markdown="block" class="alert alert-info">
+
 **:information_source: Notes on DayTime validation:**<br>
 
 * Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.
@@ -175,7 +177,6 @@ Below is an example showing how to add a contact with all the required fields:
 The command shown: `add n/James Tan sc/98765432 nc/87438807 s/p4-math d/Tuesday 1200 h/$50 a/311, Clementi Ave 2, #02-25 t/Important t/Exams`
 
 This adds a student "James Tan" with both student contact (98765432) and NOK contact (87438807), taking P4-Math on Tuesday at 12:00 PM, with an hourly rate of $50, at the specified address, and with two tags: "Important" and "Exams".
-<div markdown="block" class="alert alert-info">
 
 #### Expected output
 - A success message appears in the result box and the new person appears in the list.

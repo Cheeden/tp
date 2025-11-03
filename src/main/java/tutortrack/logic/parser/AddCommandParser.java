@@ -42,10 +42,12 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_SUBJECTLEVEL,
                 PREFIX_DAYTIME, PREFIX_HOURLYRATE, PREFIX_ADDRESS)
-                    || (!argMultimap.getValue(PREFIX_SELF_CONTACT).isPresent()
-                                && !argMultimap.getValue(PREFIX_NOK_CONTACT).isPresent())
-                    || !argMultimap.getPreamble().isEmpty()) {
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+        if (!argMultimap.getValue(PREFIX_SELF_CONTACT).isPresent()
+                    && !argMultimap.getValue(PREFIX_NOK_CONTACT).isPresent()) {
+            throw new ParseException("At least one of the contacts must be provided.");
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(

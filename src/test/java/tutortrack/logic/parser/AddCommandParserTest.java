@@ -156,7 +156,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BOB + VALID_CONTACT_BOB + VALID_NOK_CONTACT_BOB
                                            + SUBJECTLEVEL_DESC_BOB + DAYTIME_DESC_BOB + HOURLYRATE_DESC_BOB
                                            + ADDRESS_DESC_BOB,
-                expectedMessage);
+                "At least one of the contacts must be provided.");
 
         // missing subject level prefix
         assertParseFailure(parser, NAME_DESC_BOB + CONTACT_DESC_BOB + NOK_CONTACT_DESC_BOB

@@ -98,9 +98,9 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a student to the address book.
 
-Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
+Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLY_RATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​`
 
 * `sc/SELFCONTACT` is the student's own contact number.
 
@@ -116,13 +116,13 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 c/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 c/$50 a/Newgate sc/12345678`
+* `add n/Betsy Crowe t/friend s/P6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
 
 More examples showing accepted SubjectLevel formats and common variations:
-* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 c/$45 a/Blk 88, Bedok St` — classic short level `P6`.
-* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 c/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
-* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 c/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
-* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 c/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
+* `add n/Alice Tan sc/91234567 s/P6-Math d/Wednesday 0900 h/$45 a/Blk 88, Bedok St` — classic short level `P6`.
+* `add n/Ben Lim sc/98761234 s/Pri6-Math d/Thursday 1000 h/$40 a/Blk 12, Clementi` — alternative short form `Pri6` is allowed.
+* `add n/Chong Wei sc/91230000 s/Primary6-Math d/Friday 1100 h/$50 a/123, Jurong St` — longer level text such as `Primary6` is allowed.
+* `add n/Debra Koh sc/87654321 s/Sec1-English d/Monday 1300 h/$55 a/Blk 2, Queen St` — secondary levels like `Sec1` are allowed.
 
 <div markdown="block" class="alert alert-info">
 
@@ -130,13 +130,12 @@ More examples showing accepted SubjectLevel formats and common variations:
 
 * Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
   - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
-  - The "Subject" part must contain only letters (no digits, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
+  - The "Subject" part may contain letters and digits (alphanumeric, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
 * Examples of valid subject-level tokens:
   - `P4-Math`, `P6-Science`, `Pri6-Math`, `Primary6-Mathematics` (note: `Mathematics` must be a single word without spaces)
   - `Sec1-English`, `Sec2-Physics`
 * Examples of invalid subject-level tokens and why they are rejected:
   - `P4 Math` (missing dash between level and subject)
-  - `P4-M4th` (subject contains digits)
   - `P4-Math-Advanced` (extra dash; only a single dash separator is allowed)
   - `Primary 6-Math` (spaces in the level part are not allowed)
 
@@ -161,7 +160,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`.
 * At least one of the optional fields must be provided.
@@ -329,15 +328,24 @@ Format:
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
-> **Tip:** You can use special characters to format your lesson plans for better readability:
-> - **`\n`** - Creates a new line (line break)
-> - **`\t`** - Adds a tab space for indentation
-> - **`\\`** - Displays a backslash character
->
-> These formatting options help you organize multi-part lessons, create structured plans, or separate different sections clearly.
+<div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
+
+You can use special characters to format your lesson plans for better readability:
+* **`\n`** - Creates a new line (line break)
+* **`\t`** - Adds a tab space for indentation
+* **`\\`** - Displays a backslash character
+
+These formatting options are especially useful for:
+- helping you organize multi-part lessons
+- Highlighting key sections or steps
+- Clearly separating different components of your plan
+</div>
 
 > **Tip:**
 > Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+
+> **Tip:**
+> In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
 
 Examples:
 
@@ -428,13 +436,16 @@ You can use special characters to format your progress entries for better readab
 * **`\\`** - Displays a backslash character
 
 These formatting options are especially useful for:
-- Breaking down what was covered into bullet points
-- Separating completed topics from homework assignments
-- Creating structured progress reports
+- Listing topics covered during the lesson
+- Separating completed tasks from homework or follow-ups
+- Structuring detailed progress notes clearly
 </div>
 
 > **Tip:**
->Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+> Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+
+> **Tip:**
+> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 
 Examples:
 
@@ -602,7 +613,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorTrack home folder.<br>
 
 **Q**: What is the difference between lesson plan and lesson progress?<br>
-**A**: Lesson Plan represents what is intended to be taught in a future lesson.  Lesson Progress represents what was actually covered in a past lesson.
+**A**: Lesson Plan represents what is intended to be taught in a future lesson. Lesson Progress represents what was actually covered in a past lesson.
+
+**Q**: Can I add plans for past dates and progresses for future dates?
+**A**: Yes, You can add plans for past dates (for example, if you forgot to record a previous lesson) and progresses for future dates (to update them in advance). You can always edit them later if there are any changes.
 
 **Q**: Are users allowed to create their own command syntax?
 **A**: No, but it could be an extension for future.
@@ -633,10 +647,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/COST a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME c/HOURLY_RATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/COST] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
+ **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [c/HOURLY_RATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

@@ -3,7 +3,7 @@ participant User
 participant ":EditPlanCommand"
 participant "p:Person"
 
-User ->> ":EditPlanCommand": execute(editplan INDEX lp/DATE|NEW_PLAN)
+User ->> ":EditPlanCommand": execute(editplan INDEX pl/DATE|NEW_PLAN)
 activate ":EditPlanCommand"
 
 ":EditPlanCommand" ->> "p:Person": hasPlanOnDate(date)

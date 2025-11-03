@@ -117,6 +117,10 @@ public class FindCommandParser implements Parser<FindCommand> {
 
     /**
      * Creates the appropriate FindCommand based on the prefixes and arguments provided.
+     *
+     * Dispatcher pattern: While blocks appear similar, abstraction is avoided as each search type
+     * (day, subject, tag, name) has unique validation, predicates, and command construction logic.
+     * Explicit routing enhances readability and maintainability.
      */
     private FindCommand createFindCommand(ArgumentMultimap argMultimap, String trimmedArgs)
             throws ParseException {

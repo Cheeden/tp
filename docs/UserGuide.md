@@ -401,7 +401,7 @@ Format: `viewlessons INDEX`
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
- 1. Add lesson plan using the `addplan` command before viewing<br>
+ 1. Add lesson plan using the `addplan` command before viewing.<br>
  2. Add lesson progress using the `addprogress` command before viewing.
 </div>
 
@@ -428,6 +428,14 @@ Format:
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
+</div>
+
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
 You can use special characters to format your lesson plans for better readability:<br>
 1. **`\n`** - Creates a new line (line break)<br>
@@ -440,14 +448,6 @@ These formatting options are especially useful for:<br>
 - Helping you organize multi-part lessons<br>
 - Highlighting key sections or steps<br>
 - Clearly separating different components of your plan
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
 </div>
 
 Examples:

@@ -131,25 +131,6 @@ A person can have any number of tags (including 0)
 
 </div>
 
-#### Common errors for SubjectLevel and DayTime
-
-<div markdown="block" class="alert alert-info">
-
-**Valid examples:** `P4-Math`, `Primary6-Science`, `Sec2-English`
-
-**DayTime (`d/` prefix):**
-* Must follow `DAY TIME` format (e.g., `Monday 0900`).
-* `DAY` = full day name (`Monday`–`Sunday`, case-insensitive)
-* `TIME` = 4-digit 24-hour format (`0000`–`2359`)
-
-**Common errors:**
-- `Mon 0900` → Abbreviated day not allowed
-- `Monday0900` → Missing space
-- `Monday 2500` → Invalid time
-- `Funday 1200` → Invalid day name
-
-**Valid examples:** `Monday 0900`, `Wednesday 1530`, `sunday 2300`
-
 #### Example Usage
 
 Below is an example showing how to add a contact with all the required fields:
@@ -167,6 +148,21 @@ This adds a student "James Tan" with both student contact (98765432) and NOK con
 </div>
 
 **Related commands:** [edit](#editing-a-person--edit), [delete](#deleting-a-person--delete)
+
+#### Common errors for SubjectLevel and DayTime
+<div markdown="block" class="alert alert-info">
+
+**SubjectLevel:**
+- `P4 Math` → Missing dash
+- `P4-Math-Advanced` → Extra dash
+- `Primary 6-Math` → Space in level part
+
+**DayTime:**
+- `Mon 0900` → Abbreviated day not allowed
+- `Monday0900` → Missing space
+- `Monday 2500` → Invalid time
+- `Funday 1200` → Invalid day name
+</div>
 
 ### Listing all persons : `list`
 

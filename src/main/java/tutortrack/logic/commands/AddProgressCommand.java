@@ -51,5 +51,26 @@ public class AddProgressCommand extends ModifyLessonItemCommand {
         return String.format(MESSAGE_SUCCESS, toAdd);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof AddProgressCommand)) {
+            return false;
+        }
+
+        AddProgressCommand otherCommand = (AddProgressCommand) other;
+        return index.equals(otherCommand.index)
+                && toAdd.equals(otherCommand.toAdd);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(index, toAdd);
+    }
+
+
 }
 

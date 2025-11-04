@@ -937,7 +937,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+3. A user with typing speed of at least 40 words per minute for regular English text (i.e. not code, not system admin commands) should be able to accomplish at least 80% of common operations faster using commands than using the mouse.
 4. Should start up within 3 seconds on a modern computer.
 5. The system should be able to run offline without requiring an internet connection.
 6. The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.

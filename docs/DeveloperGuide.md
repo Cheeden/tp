@@ -319,7 +319,7 @@ How the find operation works:
 - **Day search** (`find d/Monday`): Creates `LessonDayPredicate` with time-based comparator, after validating the day name
 - **Subject search** (`find s/P4-Math`): Creates `SubjectLevelMatchesPredicate` (no comparator), after validating the subject-level format
 
-### Add Lesson Progress feature
+### Lesson feature
 
 The add/edit lesson plan/progress feature allow tutors to keep a record of lessons and edit if needed.
 

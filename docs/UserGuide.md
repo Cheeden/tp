@@ -544,7 +544,7 @@ Use the `addprogress` command regularly to keep an updated record of each studen
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 </div>
 
 Examples:

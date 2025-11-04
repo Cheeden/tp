@@ -115,6 +115,14 @@ public class DeletePlanCommandTest {
         assertFalse(command1.equals(command2));
     }
 
+    // EP: equals() - different date returns false
+    @Test
+    public void equals_differentDate_returnsFalse() {
+        DeletePlanCommand command1 = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate1);
+        DeletePlanCommand command2 = new DeletePlanCommand(INDEX_FIRST_PERSON, testDate2);
+        assertFalse(command1.equals(command2));
+    }
+
     // EP: toString() tests
     @Test
     public void toStringTest() {

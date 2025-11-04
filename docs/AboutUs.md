@@ -46,6 +46,7 @@ We are a team based in the [School of Computing, National University of Singapor
 * Responsibilities:
   * Scheduling and tracking: In charge of assigning and tracking project tasks.
   * Integration: In charge of versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole.
+  * Product Management: Coordinated feature decisions and ensured cohesive integration across all product components.
 
 
 ### He Yati

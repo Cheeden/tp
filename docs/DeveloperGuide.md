@@ -29,7 +29,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. 
 </div>
 
 ### Architecture
@@ -123,7 +123,7 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
+<img src="images/ModelClassDiagram.png" />
 
 
 The `Model` component,
@@ -132,13 +132,6 @@ The `Model` component,
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
-
 
 ### Storage component
 
@@ -345,11 +338,11 @@ The Add Lesson Progress mechanism involves coordination across multiple componen
 
 **Logic Component:**
 
-* AddProgressCommand – Adds a new LessonProgress entry to a specified student.
+* AddProgressCommand – Adds a new `LessonProgress` entry to a specified student.
 * AddProgressCommandParser – Parses the student index and lesson progress details from user input.
-* Expected format: addprogress INDEX pr/DATE|PROGRESS
-* Extracts the DATE and PROGRESS components by splitting the string after the pr/ prefix using the | delimiter.
-* Uses ParserUtil.parseIndex() to parse the student index and LocalDate.parse() to validate the date.
+* Expected format: `addprogress INDEX pr/DATE|PROGRESS`
+* Extracts the DATE and PROGRESS components by splitting the string after the `pr/` prefix using the `|` delimiter.
+* Uses `ParserUtil.parseIndex()` to parse the student index and `LocalDate.parse()` to validate the date.
 
 **Model Component:**
 
@@ -724,6 +717,41 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
+### \[Proposed\] Enhanced Help Command
+
+#### Current Situation
+
+Currently, the help command displays a URL to the user guide in the result display area. This is not optimal as it forces the user to leave the application and open a browser for even the most basic command information. The goal is to provide immediate, in-app help.
+
+#### Proposed Implementation
+
+The proposed enhancement involves creating a new HelpWindow a pop-up window that displays a summary of available commands.
+
+HelpCommand Execution: When the user executes the help command, the HelpCommand will no longer return a CommandResult with the URL text. Instead, it will return a special CommandResult (e.g., with a showHelp flag set to true).
+
+UI Handling: The UiManager (or MainWindow) will observe this CommandResult. Upon detecting the showHelp flag, it will instantiate and display the new HelpWindow.
+
+HelpWindow Content: This new window will contain a concise, formatted list of all primary commands, their syntax, and a brief description (e.g., add, delete, edit, list).
+
+<div markdown="span" class="alert alert-info">:information_source: Note: The HelpWindow will provide a quick reference. For detailed explanations and examples, it will still contain the hyperlink to the full user guide, offering the best of both worlds.
+
+</div>
+
+#### Design considerations:
+
+**Aspect: How help information is displayed:** 
+
+* **Alternative 1:** Use a new pop-up window (HelpWindow).
+ * Pros: Provides immediate, in-app help without cluttering the main UI. Can be formatted clearly (e.g., in a table). Still allows linking to the full user guide for advanced users.
+
+ * Cons: Requires creating a new UI component (FXML file and Controller).
+
+* **Alternative 2:** Display all command details directly in the ResultDisplay component.
+
+ * Pros: No new window needed.
+
+* Cons: The ResultDisplay area is small and not designed for large, formatted blocks of text. A long list of commands would be difficult to read and would quickly push other results out of view.
+
 _{more aspects and alternatives to be added}_
 
 
@@ -812,6 +840,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 3b. One or more mandatory fields are missing/invalid (i.e., name, subject level, daytime, address, at least one contact).
 
     * 3b1. TutorTrack shows error message.
+
     * 3b2. User enters corrected details.
 
       Steps 3a1–3a2 are repeated until all data are valid.
@@ -833,6 +862,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+
   * 2a1. TutorTrack does not display any student.
 
     Use case ends.
@@ -850,7 +880,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case ends.
 
 * 3c. The user provides multiple keywords without prefixes
+
     * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+      
       Use case ends.
 
 **UC03: editplan**
@@ -869,8 +901,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+
     * 2a1. TutorTrack does not display any student.
-    Use case ends.
+    
+      Use case ends.
 
 * 3a. The given `INDEX` is invalid (e.g., not a positive integer or out of range).
 
@@ -883,11 +917,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3b1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
+
 * 3c. The student does not have a lesson plan entry on the specified `DATE`.
 
     * 3c1. TutorTrack rejects the input and shows error message.
 
       Use case ends.
+
 * 3d. The `NEW_PLAN` field is empty or contains only whitespace.
 
     * 3d1. TutorTrack rejects the input and shows error message.
@@ -988,25 +1024,29 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding lesson progress for a student
    1. Prerequisites: List all persons using the list command. Multiple persons in the list.
+
    2. Test case: `addprogress 1 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: A success message is shown in the status message confirming that the lesson progress has been added.
-   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
-   The student’s lesson progress list is updated. Timestamp in the status bar is updated.
+   
    3. Test case: `addprogress 0 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
    "Invalid index. ...". Status bar remains the same.
+
    4. Test case: `addprogress 1 pr/invalid-date|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
-   "Invalid date format. ...". Status bar remains the same
+   "Invalid date format. ...". Status bar remains the same.
+
    5. Test case: `addprogress 1 pr/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
+
    6. Test case: `addprogress x pr/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
    Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same.
+
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 pr/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition
-      1. Prerequisites: Successfully add at least one lesson progress record to a student.
+   1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 

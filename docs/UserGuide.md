@@ -10,20 +10,21 @@ TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines 
 
 TutorTrack is optimised for use through a Command Line Interface (CLI), where users type commands to perform actions. It is also complemented by a Graphical User Interface (GUI), which allows users to interact using buttons and visual elements. Together, these interfaces gives users the speed and precision of typed commands with the clarity of visual displays. This makes student management faster and more intuitive than traditional click-based applications.
 
+## Table of Contents
+* Table of Contents
+{:toc}
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Who this is for
 - Private tutors managing multiple students who are taking different subjects and need a fast way to track lessons progress, plan lessons and manage student, parent contacts in one place.
 - Part-time tutors who prefer keyboard-driven speed over mouse-driven menus
 - Comfortable with basic typing with no prior coding knowledge
 
 ### Assumptions & prerequisites
-1) Comfortable with basic typing with no prior coding knowledge
+1) Comfortable with basic typing with no prior coding knowledge<br>
 2) Can run desktop Java apps and launch a `.jar` from a terminal using the instructions in this guide.
 
-
-* Table of Contents
-{:toc}
-
---------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
@@ -90,7 +91,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 
 ### Viewing help : `help`
 
-shows a message within a pop up explaining how to access the help page appears.
+Shows a pop-up message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -108,7 +109,7 @@ Format: `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONT
 
 * At least one of `sc/` or `nc/` must be provided and contain a valid phone number.
 
-* It is not allowed for both fields to be missing.
+* Two contact numbers cannot be the same.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
@@ -169,7 +170,10 @@ This adds a student "James Tan" with both student contact (98765432) and NOK con
 #### Expected output
 - A success message appears in the result box and the new person appears in the list.
 
-> **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
+</div>
+
+**Related commands:** [edit](#editing-a-person--edit), [delete](#deleting-a-person--delete)
 
 ### Listing all persons : `list`
 
@@ -190,18 +194,19 @@ Format: `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the person’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
 *  `edit 1 s/P4-Math ` Edits the subject level of the 1st person to be `P4-Math`.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 #### Expected output
-- A success message appears in command box showing the edited person and its updated data.
+- A success message appears in the result box showing the edited person and its updated data.
 
 #### Common errors
 - No fields provided: "At least one field to edit must be provided."
+
+**Related commands:** [add](#adding-a-person-add), [delete](#deleting-a-person--delete)
 
 ### Locating persons: `find`
 
@@ -237,7 +242,8 @@ Results are automatically sorted by relevance:
 
 **Important:** First name matches will **always** appear before other name matches, regardless of alphabetical order. 
 
-> **Note:** All non-first name matches (2nd, 3rd, 4th token, etc.) have equal priority.
+<div markdown="span" class="alert alert-warning">:exclamation: **Note:** All non-first name matches (2nd, 3rd, 4th token, etc.) have equal priority.
+</div>
 
 Examples:
 **Ranking Examples for "find Jo":**
@@ -251,9 +257,9 @@ Examples:
   - `Mary Smith Jones` (3rd token match)
 
 
-**Example output for `find alex david`:**
+**Example output for `find alex`:**
 
-![Result for 'find alex david'](images/findAlexDavidResult.png)
+![Result for 'find alex david'](images/FindAlexResult.png)
 
 #### Search by Tag (with `t/` prefix)
 * Only tags are searched.
@@ -297,14 +303,21 @@ Examples:
 Common error:
 * `find s/P4-Math s/Sec1-English` Error: "Duplicate s/ prefix found. Only one subject can be searched at a time."
 
+#### Common errors 
+The following errors apply to all variations of the find command:
+- No matches: "Contact list is unchanged: No students match your search criteria."
+- Multiple prefixes: "Only one search type can be used at a time. Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes."
+  - Example: `find t/friends d/Monday` will trigger this error.
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Note:**
 If no persons match your search criteria, an error message will be displayed and your current list will remain unchanged. The search command will stay in the command box with the text in red so you can easily edit and retry your search.
 </div>
 
-#### Common errors
-- No matches: "Contact list is unchanged: No students match your search criteria."
-- Multiple prefixes: "Only one search type can be used at a time. Please use either t/ (tag), s/ (subject), or d/ (day), but not multiple prefixes."
-  - Example: `find t/friends d/Monday` will trigger this error.
+**Example of a failed find command:**
+
+![Failed Find Command](images/FailedFindCommand.png)
+
+**Related commands:** Use [list](#listing-all-persons--list) to clear the filter and see all students again. 
 
 ### Deleting a person : `delete`
 
@@ -319,7 +332,9 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 #### Expected output
-- "Deleted Person: …" appears in command box and the person is removed from the list.
+- "Deleted Person: …" appears in the result box and the person is removed from the list.
+
+**Related commands:** [add](#adding-a-person-add), [edit](#editing-a-person--edit), [find](#locating-persons-find)
 
 ## Lesson Management Commands
 
@@ -369,9 +384,10 @@ Format: `viewlessons INDEX`
 * Entries are sorted by date in chronological order.
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
-> **Tip:**
-> 1. Add lesson plan using the `addplan` command before viewing<br>
-> 2. Add lesson progress using the `addprogress` command before viewing.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
+ 1. Add lesson plan using the `addplan` command before viewing<br>
+ 2. Add lesson progress using the `addprogress` command before viewing.
+</div>
 
 Examples:
 * `list` followed by `viewlessons 1` opens a window showing the lesson window for the 1st student.
@@ -397,25 +413,26 @@ Format:
 * Entries can later be viewed with the `viewlessons` command.
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
-
-You can use special characters to format your lesson plans for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- helping you organize multi-part lessons
-- Highlighting key sections or steps
+You can use special characters to format your lesson plans for better readability:<br>
+1. **`\n`** - Creates a new line (line break)<br>
+2. **`\t`** - Adds a tab space for indentation<br>
+3. **`\\`** - Displays a backslash character<br>
+4. **`\\n`** - Displays the literal text "\n" (not a line break)<br>
+5. **`\\t`** - Displays the literal text "\t" (not a tab)<br>
+<br>
+These formatting options are especially useful for:<br>
+- Helping you organize multi-part lessons<br>
+- Highlighting key sections or steps<br>
 - Clearly separating different components of your plan
 </div>
 
-> **Tip:**
-> Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+</div>
 
-> **Tip:**
-> In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
+</div>
 
 Examples:
 
@@ -427,31 +444,23 @@ Adds a lesson plan on 22 Oct 2025 for the 2nd student.
 
 * `addplan 1 pl/2025-11-05|Warm-up: Quick quiz on last week's topics\nMain: Introduce quadratic equations\nHomework: Complete worksheet 5`
 Adds a structured, multi-line lesson plan on 5 Nov 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
-  ```
-  Warm-up: Quick quiz on last week's topics
-  Main: Introduce quadratic equations
-  Homework: Complete worksheet 5
-  ```
+![Add Plan Success](images/addplan1.png)
 
-* `addplan 3 pl/2025-11-10|Topic 1:\tLinear equations\nTopic 2:\tQuadratic equations`
+* `addplan 3 pl/2025-11-10|Topics to cover:\n\t- Linear equations\n\t- Quadratic equations`
 Adds a lesson plan with tabs for alignment. This will display as:
-  ```
-  Topic 1:    Linear equations
-  Topic 2:    Quadratic equations
-  ```
+![Add Plan Success](images/addplan2.png)
 
 * `addplan 2 pl/2025-11-12|Reminder: Use \\n for line breaks and \\t for tabs\nChapter 7: Variables`
 Adds a lesson plan with literal escape sequences. This will display as:
-  ```
-  Reminder: Use \n for line breaks and \t for tabs
-  Chapter 7: Variables
-  ```
+![Add Plan Success](images/addplan3.png)
 
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
-* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
+
+**Related commands:** [editplan](#edit-lesson-plan--editplan), [deleteplan](#deleting-lesson-plan--deleteplan)
 
 ### Edit Lesson Plan : `editplan`
 
@@ -465,8 +474,9 @@ Format: `editplan INDEX pl/DATE|NEW_PLAN`
 * `NEW_PLAN` is the new description for the lesson plan, which will overwrite the old entry for that date.
 * You can use formatting characters (`\n`, `\t`, `\\`) in your new plan, just like in `addplan`.
 
-> **Tip:**
-> Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use `editplan` to adjust future lesson plans as a student's needs change. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 
@@ -478,9 +488,9 @@ Examples:
 
 Expected outcome:
 
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* A success message will be displayed in the result box confirming that the lesson plan has been updated:
 * ![Edit Plan Success](images/editPlanSuccess.png)
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 
 ### Deleting lesson plan : `deleteplan`
 
@@ -508,24 +518,21 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
-You can use special characters to format your progress entries for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- Listing topics covered during the lesson
-- Separating completed tasks from homework or follow-ups
+You can use formatting characters (`\n`, `\t`, `\\`) in addprogress, just like in `addplan`. <br>
+<br>
+These formatting options are especially useful for:<br>
+- Listing topics covered during the lesson<br>
+- Separating completed tasks from homework or follow-ups<br>
 - Structuring detailed progress notes clearly
 </div>
 
-> **Tip:**
-> Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+</div>
 
-> **Tip:**
-> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+</div>
 
 Examples:
 
@@ -537,34 +544,23 @@ Adds a progress entry on 22 Oct 2025 for the 2nd student.
 
 * `addprogress 1 pr/2025-10-30|Completed differentiation\nStarted integration basics\nHomework: Practice questions 1-10`
 Adds a structured, multi-line progress entry on 30 Oct 2025 for the 1st student. When you view this in the `viewlessons` window, it will display as:
-  ```
-  Completed differentiation
-  Started integration basics
-  Homework: Practice questions 1-10
-  ```
+![Add Progress Success1](images/addprogress1.png)
 
 * `addprogress 3 pr/2025-11-01|Topics covered:\n\t- Quadratic equations\n\t- Factorization\n\t- Completing the square\nQuiz score: 85%`
 Adds a detailed progress report with indentation. This will display as:
-  ```
-  Topics covered:
-      - Quadratic equations
-      - Factorization
-      - Completing the square
-  Quiz score: 85%
-  ```
+![Add Progress Success2](images/addprogress2.png)
 
 * `addprogress 1 pr/2025-11-05|Student asked about \\n character\nExplained it creates line breaks`
 Adds a progress entry with literal escape sequences. This will display as:
-  ```
-  Student asked about \n character
-  Explained it creates line breaks
-  ```
+![Add Progress Success3](images/addprogress3.png)
 
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
+
+**Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
 ### Edit Lesson Progress : `editprogress`
 
@@ -578,8 +574,9 @@ Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 * `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 * You can use formatting characters (`\n`, `\t`, `\\`) in your new progress, just like in `addprogress`.
 
-> **Tip:**
-> Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 
@@ -592,8 +589,8 @@ Examples:
 Expected outcome:
 
 * A success message will be displayed in the result box confirming that the lesson progress has been updated.
-* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
+* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 ### Deleting lesson progress : `deleteprogress`
 
@@ -679,14 +676,14 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME p/PHONE_NUMBER s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/friend t/colleague`
+ **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee`
- **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECTLEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
+ **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee sc/91234567`
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`
- **Add plan**        | `addplan INDEX pl/Date\|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
+ **Add plan**        | `addplan INDEX pl/DATE|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
  **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`
  **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
  **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`

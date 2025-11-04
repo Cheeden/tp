@@ -51,4 +51,25 @@ public class AddPlanCommand extends ModifyLessonItemCommand {
     protected String getSuccessMessage() {
         return String.format(MESSAGE_SUCCESS, toAdd);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof AddPlanCommand)) {
+            return false;
+        }
+
+        AddPlanCommand otherCommand = (AddPlanCommand) other;
+        return index.equals(otherCommand.index)
+                && toAdd.equals(otherCommand.toAdd);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(index, toAdd);
+    }
+
 }

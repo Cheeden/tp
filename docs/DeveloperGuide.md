@@ -717,6 +717,41 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
+### \[Proposed\] Enhanced Help Command
+
+#### Current Situation
+
+Currently, the help command displays a URL to the user guide in the result display area. This is not optimal as it forces the user to leave the application and open a browser for even the most basic command information. The goal is to provide immediate, in-app help.
+
+#### Proposed Implementation
+
+The proposed enhancement involves creating a new HelpWindow a pop-up window that displays a summary of available commands.
+
+HelpCommand Execution: When the user executes the help command, the HelpCommand will no longer return a CommandResult with the URL text. Instead, it will return a special CommandResult (e.g., with a showHelp flag set to true).
+
+UI Handling: The UiManager (or MainWindow) will observe this CommandResult. Upon detecting the showHelp flag, it will instantiate and display the new HelpWindow.
+
+HelpWindow Content: This new window will contain a concise, formatted list of all primary commands, their syntax, and a brief description (e.g., add, delete, edit, list).
+
+<div markdown="span" class="alert alert-info">:information_source: Note: The HelpWindow will provide a quick reference. For detailed explanations and examples, it will still contain the hyperlink to the full user guide, offering the best of both worlds.
+
+</div>
+
+#### Design considerations:
+
+**Aspect: How help information is displayed:** 
+
+* **Alternative 1:** Use a new pop-up window (HelpWindow).
+ * Pros: Provides immediate, in-app help without cluttering the main UI. Can be formatted clearly (e.g., in a table). Still allows linking to the full user guide for advanced users.
+
+ * Cons: Requires creating a new UI component (FXML file and Controller).
+
+* **Alternative 2:** Display all command details directly in the ResultDisplay component.
+
+ * Pros: No new window needed.
+
+* Cons: The ResultDisplay area is small and not designed for large, formatted blocks of text. A long list of commands would be difficult to read and would quickly push other results out of view.
+
 _{more aspects and alternatives to be added}_
 
 

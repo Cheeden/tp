@@ -585,8 +585,9 @@ Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 * `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 * You can use formatting characters (`\n`, `\t`, `\\`) in your new progress, just like in `addprogress`.
 
-> **Tip:**
-> Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 

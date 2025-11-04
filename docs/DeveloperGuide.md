@@ -330,7 +330,7 @@ How the find operation works:
 - **Day search** (`find d/Monday`): Creates `LessonDayPredicate` with time-based comparator, after validating the day name
 - **Subject search** (`find s/P4-Math`): Creates `SubjectLevelMatchesPredicate` (no comparator), after validating the subject-level format
 
-### Add Lesson Progress feature
+### Lesson feature
 
 The add/edit lesson plan/progress feature allow tutors to keep a record of lessons and edit if needed.
 
@@ -863,10 +863,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons.
-2. TutorTrack displays the full list of persons.
-3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day.
-4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
+1. User requests to list all students.
+2. TutorTrack displays the full list of students.
+3. User enters a find command to locate specific students by name, subject level, tag, or lesson day.
+4. TutorTrack filters the list and displays only the students matching the given keywords or prefix.
 
     Use case ends.
 
@@ -892,7 +892,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3c. The user provides multiple keywords without prefixes
 
-    * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+    * TutorTrack displays all students whose names match any of the given keywords (OR search).
       
       Use case ends.
 
@@ -900,8 +900,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons.
-2. TutorTrack displays the list of persons.
+1. User requests to list all students.
+2. TutorTrack displays the list of students.
 3. User identifies the student to edit and enters the `editplan INDEX pl/DATE|NEW_PLAN` command.
 4. TutorTrack locates the lesson plan entry for the given student and date.
 5. TutorTrack updates the lesson plan entry with the new description provided.
@@ -947,8 +947,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2. Should be able to hold up to 1000 students without a noticeable sluggishness in performance for typical usage.
+3. A user with typing speed of at least 40 words per minute for regular English text (i.e. not code, not system admin commands) should be able to accomplish at least 80% of common operations faster using commands than using the mouse.
 4. Should start up within 3 seconds on a modern computer.
 5. The system should be able to run offline without requiring an internet connection.
 6. The system should support standard keyboard shortcuts (e.g., Ctrl+C, Ctrl+V for copy/paste) to improve usability.
@@ -1035,25 +1035,29 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding lesson progress for a student
    1. Prerequisites: List all persons using the list command. Multiple persons in the list.
+
    2. Test case: `addprogress 1 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: A success message is shown in the status message confirming that the lesson progress has been added.
-   Example: New lesson progress added for Alex Yeoh: [2025-10-21] Introduced new algebra concepts
-   The student’s lesson progress list is updated. Timestamp in the status bar is updated.
+   
    3. Test case: `addprogress 0 pr/2025-10-21|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
    "Invalid index. ...". Status bar remains the same.
+
    4. Test case: `addprogress 1 pr/invalid-date|Introduced new algebra concepts`<br>
    Expected: No lesson progress is added. Error details shown in the status message:
-   "Invalid date format. ...". Status bar remains the same
+   "Invalid date format. ...". Status bar remains the same.
+
    5. Test case: `addprogress 1 pr/2025-10-21|`<br>
    Expected: No lesson progress is added. Error details shown in the status message: progress description missing.
+
    6. Test case: `addprogress x pr/2025-10-21|Introduced new algebra concepts` (where x is larger than the list size)<br>
    Expected: No lesson progress is added. Error message: "The student index provided is invalid." Status bar remains the same.
+
    7. Other incorrect `addprogress` commands to try: `addprogress`, `addprogress 1`, `addprogress -1 pr/2025-10-21|Concepts`, `addprogress abc lp/2025-10-21|Concepts`<br>
    Expected: Similar error messages about invalid command format or index.
 
 2. Viewing after addition
-      1. Prerequisites: Successfully add at least one lesson progress record to a student.
+   1. Prerequisites: Successfully add at least one lesson progress record to a student.
    2. Test case: viewlessons 1<br>
    Expected: Popup window appears showing the newly added lesson progress entry in the table under "Date" and "Remarks" columns.
 
@@ -1213,6 +1217,10 @@ testers are expected to do more *exploratory* testing.
   * Current issue: Tutors may want to export lesson records for reporting to parents.
   * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.
 
+* Improve help command to provide in-app guidance
+  * Current issue: When users type `help`, a pop-up window appears with a link to the user guide. This forces users to leave the app to search for commands or examples.
+  * Planned issue: Integrate the help guide directly within the app. Typing `help` will display a structured list of available commands, their formats, and short descriptions inside the application window.
+
 * Improve find functionality to give better results for multi-keyword searches
   * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
   * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
@@ -1222,6 +1230,10 @@ testers are expected to do more *exploratory* testing.
   * Current issue: When searching `ha`, "AAA AAA Hans" (3rd position) and "AAA Hans AAA" (2nd position) are treated equally and sorted alphabetically, so "AAA AAA Hans" appears first despite the match occurring later in the name.
   * Planned change: Rank by token position: 1st token > 2nd token > 3rd token, then alphabetically. This makes "AAA Hans AAA" appear before "AAA AAA Hans".
   * Trade off considerations: Position-based ranking is more intuitive but adds complexity. Given that tutors typically search by first name and do not typically add middle name, this feature has been postphoned. 
+
+* Enhance find by Subject Level to support partial matches (prefix search)
+  * Current issue: The `find` command currently requires an exact match of the Subject Level (case-insensitive). For example, `find P4-Math` will return all contacts with the Subject Level P4-Math, but `find P4` will return an error.
+  * Planned change: Extend the find functionality to allow prefix-based matching. For instance, `find P4` will return all contacts whose Subject Level starts with P4, such as P4-Math, P4-English, or P4-Science
 
 * Clear command confirmation
   * Current issue: The `clear` command immediately deletes all student data without any confirmation message. For users who type quickly, accidentally typing `clear` and pressing Enter could result in unintended data loss of valuable lesson plans and progress records.

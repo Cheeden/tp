@@ -508,6 +508,8 @@ Expected outcome:
 * The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 * ![Edit Plan Success](images/editPlanSuccess.png)
 
+**Related commands:** [addplan](#adding-lesson-plan--addplan), [deleteplan](#deleting-lesson-plan--deleteplan)
+
 ### Deleting lesson plan : `deleteplan`
 
 Deletes a lesson plan entry for a specific student on a given date.
@@ -521,6 +523,8 @@ Examples:
 
 * `deleteplan 1 2025-10-25` deletes the lesson plan for the 1st student on 25 Oct 2025.
 * `deleteplan 2 2025-02-28` deletes the lesson plan for the 2nd student on 28 Feb 2025.
+
+**Related commands:** [addplan](#adding-lesson-plan--addplan), [editplan](#edit-lesson-plan--editplan)
 
 ### Add Lesson Progress : `addprogress`
 
@@ -608,6 +612,8 @@ Expected outcome:
 * The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
 
+**Related commands:** [addprogress](#add-lesson-progress--addprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
+
 ### Deleting lesson progress : `deleteprogress`
 
 Deletes a lesson progress entry for a specific student on a given date.
@@ -621,6 +627,8 @@ Examples:
 
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
 * `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
+
+**Related commands:** [addprogress](#add-lesson-progress--addprogress), [editprogress](#edit-lesson-progress--editprogress)
 
 ### Clearing all entries : `clear`
 

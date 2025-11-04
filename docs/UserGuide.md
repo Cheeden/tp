@@ -393,8 +393,9 @@ Format: `viewlessons INDEX`
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
- 1. Add lesson plan using the `addplan` command before viewing<br>
- 2. Add lesson progress using the `addprogress` command before viewing.
+ 
+1. Add lesson plan using the `addplan` command before viewing<br>
+2. Add lesson progress using the `addprogress` command before viewing.
 </div>
 
 Examples:
@@ -422,12 +423,12 @@ Format:
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
 
-You can use special characters to format your lesson plans for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
+You can use special characters to format your lesson plans for better readability:<br>
+* **`\n`** - Creates a new line (line break)<br>
+* **`\t`** - Adds a tab space for indentation<br>
+* **`\\`** - Displays a backslash character<br>
+* **`\\n`** - Displays the literal text "\n" (not a line break)<br>
+* **`\\t`** - Displays the literal text "\t" (not a tab)<br>
 
 These formatting options are especially useful for:
 - helping you organize multi-part lessons
@@ -525,11 +526,11 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
-You can use special characters to format your progress entries for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
+You can use special characters to format your progress entries for better readability:<br>
+* **`\n`** - Creates a new line (line break)<br>
+* **`\t`** - Adds a tab space for indentation<br>
+* **`\\`** - Displays a backslash character<br>
+* **`\\n`** - Displays the literal text "\n" (not a line break)<br>
 * **`\\t`** - Displays the literal text "\t" (not a tab)
 
 These formatting options are especially useful for:

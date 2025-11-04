@@ -208,7 +208,20 @@ Each search type has unique validation, predicates, and command construction log
    * Case-insensitive
    * No sorting applied
 
-3. **Day Matching (Lesson Day Search):**
+3. **Subject Level Matching (Subject Search):**
+   * Filters by the `SubjectLevel` field (e.g., "P4-Math", "Sec2-English")
+   * **Validation:** Must be in the format `Level-Subject` (e.g., "P4-Math", "Primary6-English")
+   * Validation is performed by `ParserUtil.parseSubjectLevel()` which checks:
+     * Not blank (empty or whitespace only)
+     * Correct format with single dash separator between level and subject
+     * Only alphanumeric characters (no spaces or special characters except dash)
+     * Matches regex pattern: `^[A-Za-z0-9]+-[A-Za-z0-9]+$`
+   * **Matching logic:** Uses `StringUtil.containsWordIgnoreCase()` for partial word matching OR exact match (case-insensitive)
+     * Example: `find s/P4-Math` matches persons with subject level "P4-Math"
+     * Example: `find s/Math` matches "P4-Math", "Sec2-Math", "P6-Math" (word-based partial matching)
+   * No sorting applied
+
+4. **Day Matching (Lesson Day Search):**
    * Filters by the day component of `DayTime` field (e.g., "Monday 1200" → "Monday")
    * **Validation:** Only accepts full day names (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday). Invalid days trigger a `ParseException` with the message `MESSAGE_INVALID_DAY`
    * Validation is performed by `ParserUtil.parseDay()` which uses regex matching: `(?i)^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$`

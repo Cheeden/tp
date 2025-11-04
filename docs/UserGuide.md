@@ -668,6 +668,10 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
   - If a field (for example, a tag, name, or address) contains an extremely long string, the UI may display an ellipsis or cut off the text when rendering the person card or other compact views.
   - This is a display/UX limitation rather than data loss — the full text remains stored. We intentionally avoid imposing strict length limits on input fields so as not to restrict users' freedom to store detailed information.
   - Workaround: prefer shorter tokens for tags and shorter summaries for fields that will be displayed in compact views. A future release may add optional truncation/tooltip behaviour to improve readability.
+3. **Macbook specific limitation for \t**.
+  - When on MacOS, `\t` does not display correctly on viewlessons window on the first line, and only the first line.
+  - `\n` still works as per normal.
+  - `\t` works as per normal on Windows.
 
 --------------------------------------------------------------------------------------------------------------------
 

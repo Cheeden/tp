@@ -1213,7 +1213,12 @@ testers are expected to do more *exploratory* testing.
 * Improve find functionality to give better results for multi-keyword searches
   * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
   * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
-  * Trade off considerations: Harder for users to understand find implementation if added for a rare edge case. Takes time away from more important tasks.
+  * Trade off considerations: Lower priority as most students do not have first name as their surnames (e.g David) in the Singapore context. It is also unlikely that a single tutor is able to manage enough students with the same first name that this would result in an inconvenience. Therefore, feature has been postphoned.
+
+* Improve search ranking for middle and last name matches
+  * Current issue: When searching `ha`, "AAA AAA Hans" (3rd position) and "AAA Hans AAA" (2nd position) are treated equally and sorted alphabetically, so "AAA AAA Hans" appears first despite the match occurring later in the name.
+  * Planned change: Rank by token position: 1st token > 2nd token > 3rd token, then alphabetically. This makes "AAA Hans AAA" appear before "AAA AAA Hans".
+  * Trade off considerations: Position-based ranking is more intuitive but adds complexity. Given that tutors typically search by first name and do not typically add middle name, this feature has been postphoned. 
 
 * Enhance find by Subject Level to support partial matches (prefix search)
   * Current issue: The `find` command currently requires an exact match of the Subject Level (case-insensitive). For example, `find P4-Math` will return all contacts with the Subject Level P4-Math, but `find P4` will return an error.

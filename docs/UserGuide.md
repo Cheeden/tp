@@ -133,14 +133,7 @@ A person can have any number of tags (including 0)
 
 #### Common errors for SubjectLevel and DayTime
 
-**SubjectLevel (`s/` prefix):**
-* Must follow `Level-Subject` format (e.g., `P4-Math`, `Sec1-English`).
-* Case-insensitive — `p4-math` and `P4-MATH` are accepted.
-
-**Common errors:**
-- `P4 Math` → Missing dash
-- `P4-Math-Advanced` → Extra dash
-- `Primary 6-Math` → Space in level part
+<div markdown="block" class="alert alert-info">
 
 **Valid examples:** `P4-Math`, `Primary6-Science`, `Sec2-English`
 
@@ -492,6 +485,8 @@ Expected outcome:
 * ![Edit Plan Success](images/editPlanSuccess.png)
 * The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 
+**Related commands:** [addplan](#adding-lesson-plan--addplan), [deleteplan](#deleting-lesson-plan--deleteplan)
+
 ### Deleting lesson plan : `deleteplan`
 
 Deletes a lesson plan entry for a specific student on a given date.
@@ -505,6 +500,8 @@ Examples:
 
 * `deleteplan 1 2025-10-25` deletes the lesson plan for the 1st student on 25 Oct 2025.
 * `deleteplan 2 2025-02-28` deletes the lesson plan for the 2nd student on 28 Feb 2025.
+
+**Related commands:** [addplan](#adding-lesson-plan--addplan), [editplan](#edit-lesson-plan--editplan)
 
 ### Add Lesson Progress : `addprogress`
 
@@ -562,6 +559,8 @@ Expected outcome:<br>
 
 **Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
+**Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
+
 ### Edit Lesson Progress : `editprogress`
 
 Updates an existing lesson progress entry for a student.
@@ -592,6 +591,8 @@ Expected outcome:
 * ![Edit Progress Success](images/editProgressSuccess.png)
 * The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
+**Related commands:** [addprogress](#add-lesson-progress--addprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
+
 ### Deleting lesson progress : `deleteprogress`
 
 Deletes a lesson progress entry for a specific student on a given date.
@@ -605,6 +606,8 @@ Examples:
 
 * `deleteprogress 1 2025-10-21` deletes the lesson progress for the 1st student on 21 Oct 2025.
 * `deleteprogress 2 2025-02-28` deletes the lesson progress for the 2nd student on 28 Feb 2025.
+
+**Related commands:** [addprogress](#add-lesson-progress--addprogress), [editprogress](#edit-lesson-progress--editprogress)
 
 ### Clearing all entries : `clear`
 

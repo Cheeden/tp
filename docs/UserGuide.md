@@ -10,6 +10,12 @@ TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines 
 
 TutorTrack is optimised for use through a Command Line Interface (CLI), where users type commands to perform actions. It is also complemented by a Graphical User Interface (GUI), which allows users to interact using buttons and visual elements. Together, these interfaces gives users the speed and precision of typed commands with the clarity of visual displays. This makes student management faster and more intuitive than traditional click-based applications.
 
+## Table of Contents
+* Table of Contents
+{:toc}
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Who this is for
 - Private tutors managing multiple students who are taking different subjects and need a fast way to track lessons progress, plan lessons and manage student, parent contacts in one place.
 - Part-time tutors who prefer keyboard-driven speed over mouse-driven menus
@@ -19,11 +25,6 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 1) Comfortable with basic typing with no prior coding knowledge<br>
 2) Can run desktop Java apps and launch a `.jar` from a terminal using the instructions in this guide.
 
-
-* Table of Contents
-{:toc}
-
---------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
@@ -133,6 +134,9 @@ A person can have any number of tags (including 0)
 Examples of add command:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend s/Primary6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
+
+<div markdown="span" class="alert alert-primary">:link: **Related commands:** After adding a person, you can [edit](UserGuide.html#editing-a-person--edit) their details or [delete](UserGuide.html#deleting-a-person--delete) them if needed.
+</div>
 
 <div markdown="block" class="alert alert-info">
 
@@ -268,9 +272,9 @@ Examples:
   - `Mary Smith Jones` (3rd token match)
 
 
-**Example output for `find alex david`:**
+**Example output for `find alex`:**
 
-![Result for 'find alex david'](images/findAlexDavidResult.png)
+![Result for 'find alex david'](images/FindAlexResult.png)
 
 #### Search by Tag (with `t/` prefix)
 * Only tags are searched.
@@ -328,6 +332,8 @@ If no persons match your search criteria, an error message will be displayed and
 
 ![Failed Find Command](images/FailedFindCommand.png)
 
+<div markdown="span" class="alert alert-primary">:link: To clear the filter and see all students again, use the [list](UserGuide.html#listing-all-persons--list) command.
+</div>
 
 ### Deleting a person : `delete`
 
@@ -393,8 +399,8 @@ Format: `viewlessons INDEX`
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
-  1. Add lesson plan using the `addplan` command before viewing<br>
-  2. Add lesson progress using the `addprogress` command before viewing.
+ 1. Add lesson plan using the `addplan` command before viewing<br>
+ 2. Add lesson progress using the `addprogress` command before viewing.
 </div>
 
 Examples:
@@ -421,17 +427,16 @@ Format:
 * Entries can later be viewed with the `viewlessons` command.
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
-
-You can use special characters to format your lesson plans for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- helping you organize multi-part lessons
-- Highlighting key sections or steps
+You can use special characters to format your lesson plans for better readability:<br>
+1. **`\n`** - Creates a new line (line break)<br>
+2. **`\t`** - Adds a tab space for indentation<br>
+3. **`\\`** - Displays a backslash character<br>
+4. **`\\n`** - Displays the literal text "\n" (not a line break)<br>
+5. **`\\t`** - Displays the literal text "\t" (not a tab)<br>
+<br>
+These formatting options are especially useful for:<br>
+- Helping you organize multi-part lessons<br>
+- Highlighting key sections or steps<br>
 - Clearly separating different components of your plan
 </div>
 
@@ -468,6 +473,7 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+
 
 ### Edit Lesson Plan : `editplan`
 
@@ -525,16 +531,11 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
-You can use special characters to format your progress entries for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- Listing topics covered during the lesson
-- Separating completed tasks from homework or follow-ups
+You can use formatting characters (`\n`, `\t`, `\\`) in addprogress, just like in `addplan`. <br>
+<br>
+These formatting options are especially useful for:<br>
+- Listing topics covered during the lesson<br>
+- Separating completed tasks from homework or follow-ups<br>
 - Structuring detailed progress notes clearly
 </div>
 
@@ -686,7 +687,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/22224444 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
+ **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
  **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`

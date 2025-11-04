@@ -156,20 +156,31 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Find feature
 
-The find feature allows users to search for persons by name (default), tags (with `t/` prefix), or lesson day (with `d/` prefix).
+The find feature allows users to search for persons by name (default), tags (with `t/` prefix), lesson day (with `d/` prefix) or by subject (with `s/` prefix).
 
 #### Implementation
 
 The find mechanism is implemented using predicates and comparators:
 * `NameContainsKeywordsPredicate` - filters persons whose names match the keywords using prefix matching
 * `TagContainsKeywordsPredicate` - filters persons whose tags match the keywords using full-word matching
+* `SubjectLevelMatchesPredicate` - filters persons whose subject level matches the given subject (case-insensitive)
 * `LessonDayPredicate` - filters persons whose lesson day matches the specified day
 
-The `FindCommandParser` detects the presence of prefixes using `ArgumentTokenizer`:
+**Parser Structure (SLAP Design):**
+
+The `FindCommandParser.parse()` method follows the Single Level of Abstraction Principle with a clear high-level flow:
+1. **Validate and trim** arguments using `validateAndTrimArgs()`
+2. **Tokenize** arguments using `ArgumentTokenizer`
+3. **Validate** prefix usage using `validatePrefixUsage()`
+4. **Create** appropriate FindCommand using `createFindCommand()`
+
+The `createFindCommand()` method implements a dispatcher pattern that routes to the appropriate search type based on which prefix is present:
 * If `d/` prefix is present, it validates the day using `ParserUtil.parseDay()`, then creates a `FindCommand` with `LessonDayPredicate` and its time-based comparator
-* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
 * If `s/` prefix is present, it creates a `FindCommand` with `SubjectLevelMatchesPredicate` (no sorting)
-* If no prefix is present, it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+* If `t/` prefix is present, it creates a `FindCommand` with `TagContainsKeywordsPredicate` (no sorting)
+* If no prefix is present (default), it creates a `FindCommand` with `NameContainsKeywordsPredicate` and its relevance-based comparator
+
+Each search type has unique validation, predicates, and command construction logic, so explicit routing is used instead of abstraction to enhance readability and maintainability.
 
 **Prefix Validation:**
 * Only one search type is allowed per command - multiple prefixes (e.g., `find t/tag d/Monday`) are rejected with error message from `Messages.MESSAGE_FIND_MULTIPLE_PREFIXES`

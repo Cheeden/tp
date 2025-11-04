@@ -14,7 +14,7 @@ UniquePersonList -right-> Person
 Person -up-> "*" Tag
 
 Person *--> Name
-Person *--> "0..1" Contact
+Person *--> "0..1" SelfContact
 Person *--> "0..1" NOKContact
 Person *--> Address
 Person *--> SubjectLevel
@@ -22,7 +22,7 @@ Person *--> DayTime
 Person *--> HourlyRate
 
 note right of Person
-{At least one of Contact or
+{At least one of SelfContact or
 NOKContact must be non-null}
 end note
 @enduml

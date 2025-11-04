@@ -131,47 +131,24 @@ A person can have any number of tags (including 0)
 
 </div>
 
-Examples of add command:
-* `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend s/Primary6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
+#### Common errors for SubjectLevel and DayTime
 
 <div markdown="block" class="alert alert-info">
 
-**:information_source: Notes on SubjectLevel validation:**<br>
+**Valid examples:** `P4-Math`, `Primary6-Science`, `Sec2-English`
 
-* Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
-  - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
-  - The "Subject" part may contain letters and digits (alphanumeric, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
-* Examples of valid subject-level tokens:
-  - `P4-Math`, `P6-Science`, `Pri6-Math`, `Primary6-Mathematics` (note: `Mathematics` must be a single word without spaces)
-  - `Sec1-English`, `Sec2-Physics`
-* Examples of invalid subject-level tokens and why they are rejected:
-  - `P4 Math` (missing dash between level and subject)
-  - `P4-Math-Advanced` (extra dash; only a single dash separator is allowed)
-  - `Primary 6-Math` (spaces in the level part are not allowed)
+**DayTime (`d/` prefix):**
+* Must follow `DAY TIME` format (e.g., `Monday 0900`).
+* `DAY` = full day name (`Monday`–`Sunday`, case-insensitive)
+* `TIME` = 4-digit 24-hour format (`0000`–`2359`)
 
-If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
-</div>
+**Common errors:**
+- `Mon 0900` → Abbreviated day not allowed
+- `Monday0900` → Missing space
+- `Monday 2500` → Invalid time
+- `Funday 1200` → Invalid day name
 
-<div markdown="block" class="alert alert-info">
-
-**:information_source: Notes on DayTime validation:**<br>
-
-* Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.
-  - The `DAY` part must be a **full day name** (case-insensitive), and must be one of the following:  
-    `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday`, `Sunday`.  
-    *(e.g., both `Monday` and `monday` are accepted)*
-  - The `TIME` part must be a **4-digit 24-hour format** number (`HHMM`) representing the lesson start time.
-    - Valid range: `0000` (12:00 AM) to `2359` (11:59 PM)
-* Examples of valid DayTime tokens:
-  - `Monday 0900`, `wednesday 1530`, `SUNDAY 2300`
-* Examples of invalid DayTime tokens and why they are rejected:
-  - `Mon 0900` (abbreviated day name not allowed)
-  - `Monday 24:00` (invalid time format; must be 4 digits without colon)
-  - `Monday 2500` (invalid hour; exceeds 2359)
-  - `Funday 1200` (invalid day name)
-  
-</div>
+**Valid examples:** `Monday 0900`, `Wednesday 1530`, `sunday 2300`
 
 #### Example Usage
 
@@ -401,7 +378,7 @@ Format: `viewlessons INDEX`
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
- 1. Add lesson plan using the `addplan` command before viewing<br>
+ 1. Add lesson plan using the `addplan` command before viewing.<br>
  2. Add lesson progress using the `addprogress` command before viewing.
 </div>
 
@@ -428,6 +405,14 @@ Format:
 * Each new entry will be added to the student's lesson plan list.
 * Entries can later be viewed with the `viewlessons` command.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
+</div>
+
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
 You can use special characters to format your lesson plans for better readability:<br>
 1. **`\n`** - Creates a new line (line break)<br>
@@ -440,14 +425,6 @@ These formatting options are especially useful for:<br>
 - Helping you organize multi-part lessons<br>
 - Highlighting key sections or steps<br>
 - Clearly separating different components of your plan
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addplan` command to schedule and keep track of upcoming lessons for each student.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-In the case that you forgot to add plan for a past lesson, TutorTrack allows you to backdate a plan to keep your records complete.
 </div>
 
 Examples:
@@ -473,8 +450,8 @@ Adds a lesson plan with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
-* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 
 **Related commands:** [editplan](#edit-lesson-plan--editplan), [deleteplan](#deleting-lesson-plan--deleteplan)
 
@@ -504,9 +481,9 @@ Examples:
 
 Expected outcome:
 
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* A success message will be displayed in the result box confirming that the lesson plan has been updated:
 * ![Edit Plan Success](images/editPlanSuccess.png)
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 
 **Related commands:** [addplan](#adding-lesson-plan--addplan), [deleteplan](#deleting-lesson-plan--deleteplan)
 
@@ -536,6 +513,14 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 * Each new entry will be added to the student's lesson progress history.
 * Entries can later be viewed with the `viewlessons` command.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+</div>
+
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
 You can use formatting characters (`\n`, `\t`, `\\`) in addprogress, just like in `addplan`. <br>
@@ -544,14 +529,6 @@ These formatting options are especially useful for:<br>
 - Listing topics covered during the lesson<br>
 - Separating completed tasks from homework or follow-ups<br>
 - Structuring detailed progress notes clearly
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 </div>
 
 Examples:
@@ -577,8 +554,10 @@ Adds a progress entry with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
+
+**Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
 **Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
@@ -609,8 +588,8 @@ Examples:
 Expected outcome:
 
 * A success message will be displayed in the result box confirming that the lesson progress has been updated.
-* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
+* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 **Related commands:** [addprogress](#add-lesson-progress--addprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
@@ -703,7 +682,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
  **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`
+ **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee sc/91234567`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

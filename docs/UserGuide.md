@@ -471,8 +471,8 @@ Adds a lesson plan with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
-* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 
 
 ### Edit Lesson Plan : `editplan`
@@ -501,9 +501,9 @@ Examples:
 
 Expected outcome:
 
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* A success message will be displayed in the result box confirming that the lesson plan has been updated:
 * ![Edit Plan Success](images/editPlanSuccess.png)
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 
 ### Deleting lesson plan : `deleteplan`
 
@@ -544,7 +544,7 @@ Use the `addprogress` command regularly to keep an updated record of each studen
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 </div>
 
 Examples:
@@ -570,8 +570,8 @@ Adds a progress entry with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 ### Edit Lesson Progress : `editprogress`
 
@@ -600,8 +600,8 @@ Examples:
 Expected outcome:
 
 * A success message will be displayed in the result box confirming that the lesson progress has been updated.
-* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
+* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 ### Deleting lesson progress : `deleteprogress`
 

@@ -3,14 +3,14 @@ package tutortrack.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 import tutortrack.commons.core.index.Index;
 import tutortrack.logic.commands.AddPlanCommand;
 import tutortrack.logic.parser.exceptions.ParseException;
 import tutortrack.model.lesson.LessonPlan;
-
-import java.time.LocalDate;
 
 public class AddPlanCommandParserTest {
 

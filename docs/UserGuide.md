@@ -10,6 +10,12 @@ TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines 
 
 TutorTrack is optimised for use through a Command Line Interface (CLI), where users type commands to perform actions. It is also complemented by a Graphical User Interface (GUI), which allows users to interact using buttons and visual elements. Together, these interfaces gives users the speed and precision of typed commands with the clarity of visual displays. This makes student management faster and more intuitive than traditional click-based applications.
 
+## Table of Contents
+* Table of Contents
+{:toc}
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Who this is for
 - Private tutors managing multiple students who are taking different subjects and need a fast way to track lessons progress, plan lessons and manage student, parent contacts in one place.
 - Part-time tutors who prefer keyboard-driven speed over mouse-driven menus
@@ -19,11 +25,6 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 1) Comfortable with basic typing with no prior coding knowledge<br>
 2) Can run desktop Java apps and launch a `.jar` from a terminal using the instructions in this guide.
 
-
-* Table of Contents
-{:toc}
-
---------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
@@ -399,7 +400,7 @@ Format: `viewlessons INDEX`
 * Entries are sorted by date in chronological order.
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
  1. Add lesson plan using the `addplan` command before viewing<br>
  2. Add lesson progress using the `addprogress` command before viewing.
 </div>
@@ -428,17 +429,16 @@ Format:
 * Entries can later be viewed with the `viewlessons` command.
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Plan:**
-
-You can use special characters to format your lesson plans for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- helping you organize multi-part lessons
-- Highlighting key sections or steps
+You can use special characters to format your lesson plans for better readability:<br>
+1. **`\n`** - Creates a new line (line break)<br>
+2. **`\t`** - Adds a tab space for indentation<br>
+3. **`\\`** - Displays a backslash character<br>
+4. **`\\n`** - Displays the literal text "\n" (not a line break)<br>
+5. **`\\t`** - Displays the literal text "\t" (not a tab)<br>
+<br>
+These formatting options are especially useful for:<br>
+- Helping you organize multi-part lessons<br>
+- Highlighting key sections or steps<br>
 - Clearly separating different components of your plan
 </div>
 
@@ -534,16 +534,11 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
-You can use special characters to format your progress entries for better readability:
-* **`\n`** - Creates a new line (line break)
-* **`\t`** - Adds a tab space for indentation
-* **`\\`** - Displays a backslash character
-* **`\\n`** - Displays the literal text "\n" (not a line break)
-* **`\\t`** - Displays the literal text "\t" (not a tab)
-
-These formatting options are especially useful for:
-- Listing topics covered during the lesson
-- Separating completed tasks from homework or follow-ups
+You can use formatting characters (`\n`, `\t`, `\\`) in addprogress, just like in `addplan`. <br>
+<br>
+These formatting options are especially useful for:<br>
+- Listing topics covered during the lesson<br>
+- Separating completed tasks from homework or follow-ups<br>
 - Structuring detailed progress notes clearly
 </div>
 
@@ -552,7 +547,7 @@ Use the `addprogress` command regularly to keep an updated record of each studen
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-> If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 </div>
 
 Examples:
@@ -595,8 +590,9 @@ Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 * `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 * You can use formatting characters (`\n`, `\t`, `\\`) in your new progress, just like in `addprogress`.
 
-> **Tip:**
-> Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 

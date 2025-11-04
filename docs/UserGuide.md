@@ -532,6 +532,14 @@ Format: `addprogress INDEX pr/DATE|PROGRESS`
 * Each new entry will be added to the student's lesson progress history.
 * Entries can later be viewed with the `viewlessons` command.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
+</div>
+
 <div markdown="span" class="alert alert-info">:bulb: **Formatting Your Lesson Progress:**
 
 You can use formatting characters (`\n`, `\t`, `\\`) in addprogress, just like in `addplan`. <br>
@@ -540,14 +548,6 @@ These formatting options are especially useful for:<br>
 - Listing topics covered during the lesson<br>
 - Separating completed tasks from homework or follow-ups<br>
 - Structuring detailed progress notes clearly
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use the `addprogress` command regularly to keep an updated record of each student's learning progress.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-If you want to record progress for a planned lesson in advance, TutorTrack allows you to pre-record it to save time. You can always edit it later if there are any changes.
 </div>
 
 Examples:

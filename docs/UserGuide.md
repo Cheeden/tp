@@ -471,8 +471,8 @@ Adds a lesson plan with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
-* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+* The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 
 
 ### Edit Lesson Plan : `editplan`
@@ -501,9 +501,9 @@ Examples:
 
 Expected outcome:
 
-* A success message will be displayed in the result box confirming that the lesson plan has been updated.
-* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
+* A success message will be displayed in the result box confirming that the lesson plan has been updated:
 * ![Edit Plan Success](images/editPlanSuccess.png)
+* The updated entry will appear in the student's lesson plan list, viewable using `viewlessons`.
 
 ### Deleting lesson plan : `deleteplan`
 
@@ -570,8 +570,8 @@ Adds a progress entry with literal escape sequences. This will display as:
 Expected outcome:<br>
 
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
-* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
+* The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 ### Edit Lesson Progress : `editprogress`
 
@@ -600,8 +600,8 @@ Examples:
 Expected outcome:
 
 * A success message will be displayed in the result box confirming that the lesson progress has been updated.
-* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Edit Progress Success](images/editProgressSuccess.png)
+* The updated entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 
 ### Deleting lesson progress : `deleteprogress`
 
@@ -690,7 +690,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
  **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`
+ **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee sc/91234567`
  **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
  **List**            | `list`
  **Help**            | `help`

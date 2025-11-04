@@ -863,10 +863,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons.
-2. TutorTrack displays the full list of persons.
-3. User enters a find command to locate specific persons by name, subject level, tag, or lesson day.
-4. TutorTrack filters the list and displays only the persons matching the given keywords or prefix.
+1. User requests to list all students.
+2. TutorTrack displays the full list of students.
+3. User enters a find command to locate specific students by name, subject level, tag, or lesson day.
+4. TutorTrack filters the list and displays only the students matching the given keywords or prefix.
 
     Use case ends.
 
@@ -892,7 +892,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3c. The user provides multiple keywords without prefixes
 
-    * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+    * TutorTrack displays all students whose names match any of the given keywords (OR search).
       
       Use case ends.
 
@@ -900,8 +900,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list all persons.
-2. TutorTrack displays the list of persons.
+1. User requests to list all students.
+2. TutorTrack displays the list of students.
 3. User identifies the student to edit and enters the `editplan INDEX pl/DATE|NEW_PLAN` command.
 4. TutorTrack locates the lesson plan entry for the given student and date.
 5. TutorTrack updates the lesson plan entry with the new description provided.
@@ -947,7 +947,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 1000 students without a noticeable sluggishness in performance for typical usage.
 3. A user with typing speed of at least 40 words per minute for regular English text (i.e. not code, not system admin commands) should be able to accomplish at least 80% of common operations faster using commands than using the mouse.
 4. Should start up within 3 seconds on a modern computer.
 5. The system should be able to run offline without requiring an internet connection.

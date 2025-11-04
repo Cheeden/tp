@@ -134,6 +134,9 @@ Examples of add command:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend s/Primary6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
 
+<div markdown="span" class="alert alert-primary">:link: **Related commands:** After adding a person, you can [edit](UserGuide.html#editing-a-person--edit) their details or [delete](UserGuide.html#deleting-a-person--delete) them if needed.
+</div>
+
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on SubjectLevel validation:**<br>
@@ -268,9 +271,9 @@ Examples:
   - `Mary Smith Jones` (3rd token match)
 
 
-**Example output for `find alex david`:**
+**Example output for `find alex`:**
 
-![Result for 'find alex david'](images/findAlexDavidResult.png)
+![Result for 'find alex david'](images/FindAlexResult.png)
 
 #### Search by Tag (with `t/` prefix)
 * Only tags are searched.
@@ -328,6 +331,8 @@ If no persons match your search criteria, an error message will be displayed and
 
 ![Failed Find Command](images/FailedFindCommand.png)
 
+<div markdown="span" class="alert alert-primary">:link: To clear the filter and see all students again, use the [list](UserGuide.html#listing-all-persons--list) command.
+</div>
 
 ### Deleting a person : `delete`
 
@@ -468,6 +473,7 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson plan has been added.
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
+
 
 ### Edit Lesson Plan : `editplan`
 
@@ -685,7 +691,7 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
  Action              | Format, Examples
 ---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/22224444 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
+ **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
  **Clear**           | `clear`
  **Delete**          | `delete INDEX`<br> e.g., `delete 3`
  **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee sc/91234567`

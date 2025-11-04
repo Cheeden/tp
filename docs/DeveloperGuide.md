@@ -1166,10 +1166,18 @@ testers are expected to do more *exploratory* testing.
   * Current issue: Tutors may want to export lesson records for reporting to parents.
   * Planned change: Enable CSV export of lesson plans and progress directly from the viewlessons window.
 
+* Improve help command to provide in-app guidance
+  * Current issue: When users type `help`, a pop-up window appears with a link to the user guide. This forces users to leave the app to search for commands or examples.
+  * Planned issue: Integrate the help guide directly within the app. Typing `help` will display a structured list of available commands, their formats, and short descriptions inside the application window.
+
 * Improve find functionality to give better results for multi-keyword searches
   * Current issue: When users type find john david` → "John David" (2 matches), then "David Lee" will appear before "John Smith" as both has 1 match each but in alphabetical order D is before J
   * Planned change: Enable ranking by number of keywords matched, then by token position, then alphabetically.
   * Trade off considerations: Harder for users to understand find implementation if added for a rare edge case. Takes time away from more important tasks.
+
+* Enhance find by Subject Level to support partial matches (prefix search)
+  * Current issue: The `find` command currently requires an exact match of the Subject Level (case-insensitive). For example, `find P4-Math` will return all contacts with the Subject Level P4-Math, but `find P4` will return an error.
+  * Planned change: Extend the find functionality to allow prefix-based matching. For instance, `find P4` will return all contacts whose Subject Level starts with P4, such as P4-Math, P4-English, or P4-Science
 
 * Clear command confirmation
   * Current issue: The `clear` command immediately deletes all student data without any confirmation message. For users who type quickly, accidentally typing `clear` and pressing Enter could result in unintended data loss of valuable lesson plans and progress records.

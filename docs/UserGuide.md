@@ -130,43 +130,31 @@ A person can have any number of tags (including 0)
 
 </div>
 
-<div markdown="block" class="alert alert-info">
+#### Common errors for SubjectLevel and DayTime
 
-**:information_source: Notes on SubjectLevel validation:**<br>
+**SubjectLevel (`s/` prefix):**
+* Must follow `Level-Subject` format (e.g., `P4-Math`, `Sec1-English`).
+* Case-insensitive — `p4-math` and `P4-MATH` are accepted.
 
-* Format: Subject level must be in the form `Level-Subject` where the two parts are separated by a single dash (`-`).
-  - The "Level" part may contain letters and digits (alphanumeric) and must not contain spaces (examples: `P4`, `P6`, `Pri6`, `Primary6`, `Sec1`).
-  - The "Subject" part may contain letters and digits (alphanumeric, no spaces, no punctuation) and represents the subject name (examples: `Math`, `English`, `Science`).
-* Examples of valid subject-level tokens:
-  - `P4-Math`, `P6-Science`, `Pri6-Math`, `Primary6-Mathematics` (note: `Mathematics` must be a single word without spaces)
-  - `Sec1-English`, `Sec2-Physics`
-* Examples of invalid subject-level tokens and why they are rejected:
-  - `P4 Math` (missing dash between level and subject)
-  - `P4-Math-Advanced` (extra dash; only a single dash separator is allowed)
-  - `Primary 6-Math` (spaces in the level part are not allowed)
+**Common errors:**
+- `P4 Math` → Missing dash
+- `P4-Math-Advanced` → Extra dash
+- `Primary 6-Math` → Space in level part
 
-If you enter an invalid subject-level, the parser will show an error message explaining the required format so you can correct it.
-</div>
+**Valid examples:** `P4-Math`, `Primary6-Science`, `Sec2-English`
 
-<div markdown="block" class="alert alert-info">
+**DayTime (`d/` prefix):**
+* Must follow `DAY TIME` format (e.g., `Monday 0900`).
+* `DAY` = full day name (`Monday`–`Sunday`, case-insensitive)
+* `TIME` = 4-digit 24-hour format (`0000`–`2359`)
 
-**:information_source: Notes on DayTime validation:**<br>
+**Common errors:**
+- `Mon 0900` → Abbreviated day not allowed
+- `Monday0900` → Missing space
+- `Monday 2500` → Invalid time
+- `Funday 1200` → Invalid day name
 
-* Format: DayTime must be in the form `DAY TIME`, where `DAY` and `TIME` are separated by a single space.
-  - The `DAY` part must be a **full day name** (case-insensitive), and must be one of the following:  
-    `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday`, `Sunday`.  
-    *(e.g., both `Monday` and `monday` are accepted)*
-  - The `TIME` part must be a **4-digit 24-hour format** number (`HHMM`) representing the lesson start time.
-    - Valid range: `0000` (12:00 AM) to `2359` (11:59 PM)
-* Examples of valid DayTime tokens:
-  - `Monday 0900`, `wednesday 1530`, `SUNDAY 2300`
-* Examples of invalid DayTime tokens and why they are rejected:
-  - `Mon 0900` (abbreviated day name not allowed)
-  - `Monday9am` (missing space and incorrect time format)
-  - `Monday 24:00` (invalid time format; must be 4 digits without colon)
-  - `Monday 2500` (invalid hour; exceeds 2359)
-  - `Funday 1200` (invalid day name)
-</div>
+**Valid examples:** `Monday 0900`, `Wednesday 1530`, `sunday 2300`
 
 #### Example Usage
 

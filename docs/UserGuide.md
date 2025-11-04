@@ -134,9 +134,6 @@ Examples of add command:
 * `add n/John Doe sc/98765432 s/P4-Math d/Monday 1200 h/$60 a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend s/Primary6-Science d/Tuesday 1400 h/$50 a/Newgate sc/12345678`
 
-<div markdown="span" class="alert alert-primary">:link: **Related commands:** After adding a person, you can [edit](UserGuide.html#editing-a-person--edit) their details or [delete](UserGuide.html#deleting-a-person--delete) them if needed.
-</div>
-
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes on SubjectLevel validation:**<br>
@@ -191,6 +188,8 @@ This adds a student "James Tan" with both student contact (98765432) and NOK con
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:** Provide either `sc/` (student contact) or `nc/` (next-of-kin). You can add the other later using `edit`.
 </div>
 
+**Related commands:** [edit](#editing-a-person--edit), [delete](#deleting-a-person--delete)
+
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
@@ -221,6 +220,8 @@ Examples:
 
 #### Common errors
 - No fields provided: "At least one field to edit must be provided."
+
+**Related commands:** [add](#adding-a-person-add), [delete](#deleting-a-person--delete)
 
 ### Locating persons: `find`
 
@@ -331,8 +332,7 @@ If no persons match your search criteria, an error message will be displayed and
 
 ![Failed Find Command](images/FailedFindCommand.png)
 
-<div markdown="span" class="alert alert-primary">:link: To clear the filter and see all students again, use the [list](UserGuide.html#listing-all-persons--list) command.
-</div>
+**Related commands:** Use [list](#listing-all-persons--list) to clear the filter and see all students again. 
 
 ### Deleting a person : `delete`
 
@@ -348,6 +348,8 @@ Examples:
 
 #### Expected output
 - "Deleted Person: …" appears in the result box and the person is removed from the list.
+
+**Related commands:** [add](#adding-a-person-add), [edit](#editing-a-person--edit), [find](#locating-persons-find)
 
 ## Lesson Management Commands
 
@@ -474,6 +476,7 @@ Expected outcome:<br>
 * The new entry will appear in the student’s lesson plan list, viewable using `viewlessons`.
 * ![Add Plan Success](images/addPlanSuccess.png)
 
+**Related commands:** [editplan](#edit-lesson-plan--editplan), [deleteplan](#deleting-lesson-plan--deleteplan)
 
 ### Edit Lesson Plan : `editplan`
 
@@ -577,6 +580,8 @@ Expected outcome:<br>
 * A success message will be displayed in the result box confirming that the lesson progress has been added.
 * The new entry will appear in the student's lesson progress list, viewable using `viewlessons`.
 * ![Add Progress Success](images/addProgressSuccess.png)
+
+**Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
 ### Edit Lesson Progress : `editprogress`
 

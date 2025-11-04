@@ -392,9 +392,9 @@ Format: `viewlessons INDEX`
 * Entries are sorted by date in chronological order.
 * **Text formatting** (line breaks, tabs) added using `\n` and `\t` in `addplan` or `addprogress` will be properly displayed.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
- 1. Add lesson plan using the `addplan` command before viewing<br>
- 2. Add lesson progress using the `addprogress` command before viewing.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**<br>
+  1. Add lesson plan using the `addplan` command before viewing<br>
+  2. Add lesson progress using the `addprogress` command before viewing.
 </div>
 
 Examples:
@@ -584,8 +584,9 @@ Format: `editprogress INDEX pr/DATE|NEW_PROGRESS`
 * `NEW_PROGRESS` is the new description for the lesson progress, which will overwrite the old entry for that date.
 * You can use formatting characters (`\n`, `\t`, `\\`) in your new progress, just like in `addprogress`.
 
-> **Tip:**
-> Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use `editprogress` to correct mistakes or add details to a past lesson's entry. Use `viewlessons` first to see which dates have entries you can edit.
+</div>
 
 Examples:
 

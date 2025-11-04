@@ -6,7 +6,7 @@ title: User Guide
 
 ## Introduction
 
-TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most – marking, giving feedback, and creating targeted resources for students.
+TutorTrack is a centralised tool to manage lesson plans, assignments, deadlines and learning progress based on student contacts in one streamlined system. Built for tutors with many students, TutorTrack helps reduce time spent on administrative tasks and simplifies preparation of progress updates for parents. With that, tutors are empowered to focus on what matters most—marking, giving feedback, and creating targeted resources for students.
 
 TutorTrack is optimised for use through a Command Line Interface (CLI), where users type commands to perform actions. It is also complemented by a Graphical User Interface (GUI), which allows users to interact using buttons and visual elements. Together, these interfaces gives users the speed and precision of typed commands with the clarity of visual displays. This makes student management faster and more intuitive than traditional click-based applications.
 
@@ -19,7 +19,7 @@ TutorTrack is optimised for use through a Command Line Interface (CLI), where us
 ### Who this is for
 - Private tutors managing multiple students who are taking different subjects and need a fast way to track lessons progress, plan lessons and manage student, parent contacts in one place.
 - Part-time tutors who prefer keyboard-driven speed over mouse-driven menus
-- Comfortable with basic typing with no prior coding knowledge
+- Comfortable with basic typing with no prior coding knowledge needed
 
 ### Assumptions & prerequisites
 1) Comfortable with basic typing with no prior coding knowledge<br>

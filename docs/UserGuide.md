@@ -555,8 +555,6 @@ Expected outcome:<br>
 
 **Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
 
-**Related commands:** [editprogress](#edit-lesson-progress--editprogress), [deleteprogress](#deleting-lesson-progress--deleteprogress)
-
 ### Edit Lesson Progress : `editprogress`
 
 Updates an existing lesson progress entry for a student.

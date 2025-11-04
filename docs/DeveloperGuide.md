@@ -840,6 +840,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 3b. One or more mandatory fields are missing/invalid (i.e., name, subject level, daytime, address, at least one contact).
 
     * 3b1. TutorTrack shows error message.
+
     * 3b2. User enters corrected details.
 
       Steps 3a1–3a2 are repeated until all data are valid.
@@ -861,6 +862,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+
   * 2a1. TutorTrack does not display any student.
 
     Use case ends.
@@ -878,7 +880,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case ends.
 
 * 3c. The user provides multiple keywords without prefixes
+
     * TutorTrack displays all persons whose names match any of the given keywords (OR search).
+      
       Use case ends.
 
 **UC03: editplan**
@@ -897,8 +901,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
+
     * 2a1. TutorTrack does not display any student.
-    Use case ends.
+    
+      Use case ends.
 
 * 3a. The given `INDEX` is invalid (e.g., not a positive integer or out of range).
 
@@ -911,11 +917,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3b1. TutorTrack rejects the input and shows error message.
 
       Use case resumes at step 2.
+
 * 3c. The student does not have a lesson plan entry on the specified `DATE`.
 
     * 3c1. TutorTrack rejects the input and shows error message.
 
       Use case ends.
+
 * 3d. The `NEW_PLAN` field is empty or contains only whitespace.
 
     * 3d1. TutorTrack rejects the input and shows error message.

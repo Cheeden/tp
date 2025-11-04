@@ -463,7 +463,7 @@ The user may execute `viewlessons 1` to view the updated list of lesson plans in
 
 The delete lesson plan feature removes a specific lesson plan (by date) for a selected student. The command validates the person index, delegates deletion-and-validation to `Person.withPlanRemovedOnDate(date)`, and updates the model with an immutable `Person` copy. The diagram below shows a user-triggered flow from `User` → `LogicManager` → `DeletePlanCommand` to `Model`/`Person`. Parsing and command creation are intentionally omitted using a `ref` frame to reduce clutter.
 
-![DeletePlanSequenceDiagram](images/DeletePlanSequenceDiagram.png)
+![DeletePlanSequenceDiagram](images/DeletePlanCommandDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** For brevity, the invalid index branch is omitted from the sequence diagram. Index validation happens early in `DeletePlanCommand.execute(...)` and results in a user-facing `CommandException` if the index is invalid.</div>
 

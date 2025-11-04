@@ -677,22 +677,22 @@ Furthermore, certain edits can cause the TutorTrack to behave in unexpected ways
 
 ## Command summary
 
- Action              | Format, Examples
----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`
- **Clear**           | `clear`
- **Delete**          | `delete INDEX`<br> e.g., `delete 3`
- **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee sc/91234567`
- **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECT_LEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday`
- **List**            | `list`
- **Help**            | `help`
- **Add plan**        | `addplan INDEX pl/DATE|PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
- **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`
- **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`
- **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`
- **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`
- **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`
- **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`
+ Action              | Format, Examples                                                                                                                                                                                                                                                                                        
+---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ **Add**             | `add n/NAME s/SUBJECTLEVEL d/DAYTIME h/HOURLYRATE a/ADDRESS [sc/SELFCONTACT] [nc/NOKCONTACT] [t/TAG]…​` <br> e.g., `add n/James Ho sc/84990360 s/P4-Math d/Monday 1200 h/$60 a/123, Clementi Rd, 1234665 t/friend`                                                                                      
+ **Clear**           | `clear`                                                                                                                                                                                                                                                                                                 
+ **Delete**          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                                                     
+ **Edit**            | `edit INDEX [n/NAME] [sc/SELFCONTACT] [nc/NOKCONTACT] [s/SUBJECTLEVEL] [d/DAYTIME] [h/HOURLYRATE] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee sc/91234567`                                                                                                                                     
+ **Find**            | `find KEYWORD [MORE_KEYWORDS]` (by name prefix) <br> `find s/SUBJECTLEVEL` (by subject level) <br> `find t/TAG_KEYWORD [MORE_TAG_KEYWORDS]` (by tag) <br> `find d/DAY` (by lesson day, sorted by time) <br> e.g., `find Jo` (matches John, Joseph), `find s/P4-Math`, `find t/friends`, `find d/Monday` 
+ **List**            | `list`                                                                                                                                                                                                                                                                                                  
+ **Help**            | `help`                                                                                                                                                                                                                                                                                                  
+ **Add plan**        | `addplan INDEX pl/DATE                                                                                                                                                                                                                                                                                  |PLAN`<br> e.g., `addplan 1 pl/2025-10-21\|Introduce essay writing skills`
+ **Edit plan**       | `editplan INDEX pl/DATE\|NEW_PLAN`<br> e.g., `editplan 1 pl/2025-10-21\|Review essay writing and grammar`                                                                                                                                                                                               
+ **Delete plan**     | `deleteplan INDEX DATE`<br> e.g., `deleteplan 1 2025-10-21`                                                                                                                                                                                                                                             
+ **Add progress**    | `addprogress INDEX pr/DATE\|PROGRESS`<br> e.g., `addprogress 1 pr/2025-10-21\|Introduced new algebra concepts`                                                                                                                                                                                          
+ **Edit progress**   | `editprogress INDEX pr/DATE\|NEW_PROGRESS`<br> e.g., `editprogress 1 pr/2025-10-21\|Completed algebra concepts`                                                                                                                                                                                         
+ **Delete progress** | `deleteprogress INDEX DATE`<br> e.g., `deleteprogress 1 2025-10-21`                                                                                                                                                                                                                                     
+ **View Lessons**    | `viewlessons INDEX`<br> e.g., `viewlessons 1`                                                                                                                                                                                                                                                           
 
 --------------------------------------------------------------------------------------------------------------------
 
